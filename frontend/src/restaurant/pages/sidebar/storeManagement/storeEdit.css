@@ -1,0 +1,1097 @@
+/* =========================================================
+   STORE EDIT PAGE
+========================================================= */
+
+.store-edit-page {
+  width: 100%;
+  min-height: 100%;
+  padding: 26px 24px 40px;
+  background: #ffffff;
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   PAGE HEADER
+========================================================= */
+
+.store-edit-page-header {
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 22px;
+}
+
+.store-edit-header-left {
+  min-width: 0;
+}
+
+
+/* =========================================================
+   HEADING
+========================================================= */
+
+.store-edit-heading-row {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+
+.store-edit-heading-icon {
+  width: 38px;
+  height: 38px;
+  min-width: 38px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 85, 85, 0.08);
+  color: #005555;
+  font-size: 18px;
+}
+
+.store-edit-heading-row h1 {
+  margin: 0;
+  color: #111827;
+  font-size: 24px;
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+.store-edit-heading-row p {
+  margin: 5px 0 0;
+  color: #98a2b3;
+  font-size: 12px;
+}
+
+
+/* =========================================================
+   BACK BUTTON
+========================================================= */
+
+.store-edit-back-button {
+  min-height: 38px;
+  padding: 0 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 8px;
+  background: #005555;
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 600;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+}
+
+.store-edit-back-button:hover {
+  background: #066666;
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.store-edit-form {
+  width: 100%;
+}
+
+
+/* =========================================================
+   CARD
+========================================================= */
+
+.store-edit-card {
+  width: 100%;
+  margin-bottom: 18px;
+  background: #ffffff;
+  border: 1px solid #edf0f4;
+  border-radius: 12px;
+  box-shadow: 0 6px 24px rgba(16, 24, 40, 0.055);
+  overflow: hidden;
+  box-sizing: border-box;
+  transition:
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.store-edit-card:hover {
+  border-color: #e3eaec;
+  box-shadow: 0 10px 28px rgba(16, 24, 40, 0.075);
+}
+
+
+/* =========================================================
+   CARD HEADER
+========================================================= */
+
+.store-edit-card-header {
+  min-height: 68px;
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #edf0f4;
+  background: #ffffff;
+  box-sizing: border-box;
+}
+
+.store-edit-card-title {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+
+.store-edit-section-icon {
+  width: 34px;
+  height: 34px;
+  min-width: 34px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 85, 85, 0.08);
+  color: #005555;
+  font-size: 14px;
+}
+
+.store-edit-card-title h2 {
+  margin: 0;
+  color: #252525;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.store-edit-card-title p {
+  margin: 3px 0 0;
+  color: #666e7a;
+  font-size: 11px;
+}
+
+
+/* =========================================================
+   CARD BODY
+========================================================= */
+
+.store-edit-card-body {
+  padding: 20px 18px 22px;
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   GRID
+========================================================= */
+
+.store-edit-grid {
+  display: grid;
+  width: 100%;
+  gap: 18px 22px;
+}
+
+.store-edit-grid-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.store-edit-grid-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+
+/* =========================================================
+   FIELD
+========================================================= */
+
+.store-edit-field {
+  min-width: 0;
+  display: flex;
+  margin-bottom: 24px;
+  flex-direction: column;
+}
+
+.store-edit-label {
+  margin-bottom: 8px;
+  color: #5f6f80;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.store-edit-label > span {
+  margin-left: 3px;
+  color: #ff4d5a;
+  font-weight: 700;
+}
+
+.store-edit-label small {
+  margin-left: 8px;
+  padding: 2px 6px;
+  border-radius: 20px;
+  background: #fff4e9;
+  color: #ff7a00;
+  font-size: 9px;
+  font-weight: 600;
+}
+
+
+/* =========================================================
+   INPUTS
+========================================================= */
+
+.store-edit-field input,
+.store-edit-field select,
+.store-edit-field textarea {
+  width: 100%;
+  border: 1px solid #e1e7ed;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #000;
+  font-weight: 400;
+  font-family: inherit;
+  font-size: 13px;
+  outline: none;
+  box-sizing: border-box;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.store-edit-field input,
+.store-edit-field select {
+  height: 36px;
+  padding: 0 11px;
+}
+
+.store-edit-field textarea {
+  min-height: 96px;
+  padding: 10px 11px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+.store-edit-field input:hover,
+.store-edit-field select:hover,
+.store-edit-field textarea:hover {
+  border-color: #c7d5d8;
+}
+
+.store-edit-field input:focus,
+.store-edit-field select:focus,
+.store-edit-field textarea:focus {
+  border-color: #005555;
+  box-shadow: 0 0 0 3px rgba(0, 85, 85, 0.08);
+  background: #ffffff;
+}
+
+.store-edit-field input::placeholder,
+.store-edit-field textarea::placeholder {
+  color: #a5b1bd;
+}
+
+
+/* =========================================================
+   INPUT WITH ICON
+========================================================= */
+
+.store-edit-input-icon {
+  position: relative;
+}
+
+.store-edit-input-icon > svg {
+  position: absolute;
+  top: 50%;
+  left: 11px;
+  z-index: 1;
+  color: #94a3af;
+  font-size: 11px;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.store-edit-input-icon input {
+  padding-left: 31px;
+}
+
+
+/* =========================================================
+   CHECKBOXES
+========================================================= */
+
+.store-edit-checkbox-group {
+  min-height: 36px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.store-edit-checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #657586;
+  font-size: 12px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.store-edit-checkbox input {
+  width: 14px;
+  height: 14px;
+  margin: 0;
+  accent-color: #005555;
+  cursor: pointer;
+}
+
+
+/* =========================================================
+   DELIVERY TIME
+========================================================= */
+
+.store-edit-delivery-field {
+  margin-top: 18px;
+}
+
+.store-edit-delivery-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 18px;
+}
+
+
+/* =========================================================
+   DESCRIPTION
+========================================================= */
+
+.store-edit-character-hint {
+  margin-top: 8px;
+  color: #9ba7b3;
+  font-size: 11px;
+}
+
+
+/* =========================================================
+   PASSWORD
+========================================================= */
+
+.store-edit-password-wrapper {
+  position: relative;
+}
+
+.store-edit-password-wrapper input {
+  padding-left: 32px;
+  padding-right: 38px;
+}
+
+.store-edit-password-icon {
+  position: absolute;
+  top: 50%;
+  left: 11px;
+  z-index: 1;
+  color: #94a3af;
+  font-size: 13px;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.store-edit-password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 9px;
+  width: 27px;
+  height: 27px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: #7f8d99;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(-50%);
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.store-edit-password-toggle:hover {
+  color: #005555;
+}
+
+
+/* =========================================================
+   DOCUMENTS
+========================================================= */
+
+.store-edit-documents-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+  margin-top: 22px;
+}
+
+.store-edit-document-field {
+  min-width: 0;
+}
+
+.store-edit-file-input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.store-edit-file-input-wrapper input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.store-edit-file-label {
+  width: 100%;
+  min-height: 38px;
+  padding: 0 11px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid #e1e7ed;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #132434;
+  font-size: 14px;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+}
+
+.store-edit-file-label svg {
+  color: #005555;
+  font-size: 14px;
+}
+
+.store-edit-file-label:hover {
+  border-color: #005555;
+  background: rgba(0, 85, 85, 0.025);
+}
+
+.store-edit-help-text {
+  display: block;
+  margin-top: 6px;
+  color: #7e8694;
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.store-edit-existing-preview {
+  margin-top: 15px;
+}
+
+/* ONLY PDF / View File button */
+.store-edit-view-file-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  width: fit-content;
+  padding: 9px 14px;
+
+  background: #ffffff;
+  border: 1px solid #d9dee5;
+  border-radius: 7px;
+
+  color: #374151;
+  font-size: 13px;
+  font-weight: 500;
+
+  text-decoration: none;
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+}
+
+.store-edit-view-file-button svg {
+  font-size: 14px;
+  color: #6b7280;
+  transition: color 0.2s ease;
+}
+
+.store-edit-view-file-button:hover {
+  background: #f5f7fa;
+  border-color: #bfc6cf;
+  color: #111827;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+}
+
+.store-edit-view-file-button:hover svg {
+  color: #374151;
+}
+
+.store-edit-view-file-button:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.store-edit-documents-grid img {
+  width: 174px;
+  height: 84px;
+  object-fit: contain;
+  border: 1px solid #e6ebef;
+  border-radius: 5px;
+  background: #ffffff;
+  padding: 4px;
+  box-sizing: border-box;
+}
+
+.store-edit-selected-file {
+  margin-top: 9px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  max-width: 50%;
+  padding: 7px 9px;
+  border-radius: 6px;
+  background: rgba(0, 85, 85, 0.06);
+  color: #005555;
+  font-size: 10px;
+}
+
+.store-edit-selected-file span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   LOCATION
+========================================================= */
+
+.store-edit-location-card {
+  margin-bottom: 18px;
+}
+
+.store-edit-address-input {
+  min-height: 54px !important;
+  resize: none !important;
+}
+
+.store-edit-info-message {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  margin-top: 7px;
+  color: #717c87;
+  font-size: 10px;
+  line-height: 1.45;
+}
+
+.store-edit-info-message svg {
+  flex-shrink: 0;
+  margin-top: 1px;
+  color: #6e7984;
+  font-size: 12px;
+}
+
+
+/* =========================================================
+   MAP
+========================================================= */
+
+.store-edit-map-wrapper {
+  position: relative;
+  width: 100%;
+  margin-top: 16px;
+  overflow: hidden;
+  border: 1px solid #e1e6ea;
+  border-radius: 8px;
+  background: #eeeeeb;
+  box-shadow: 0 3px 12px rgba(16, 24, 40, 0.04);
+}
+
+.store-edit-map-search {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  right: 12px;
+  z-index: 10;
+  max-width: 420px;
+  display: flex;
+  box-shadow: 0 5px 15px rgba(16, 24, 40, 0.14);
+}
+
+.store-edit-map-search input {
+  flex: 1;
+  min-width: 0;
+  height: 44px;
+  padding: 0 12px;
+  border: 1px solid #dfe5e9;
+  border-right: none;
+  border-radius: 6px 0 0 6px;
+  outline: none;
+  background: #ffffff;
+  color: #344054;
+  font-family: inherit;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.store-edit-map-search button {
+  width: 43px;
+  height: 44px;
+  border: none;
+  border-radius: 0 6px 6px 0;
+  background: #ff7800;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.store-edit-map-search button:hover {
+  background: #e96800;
+}
+
+.store-edit-map {
+  position: relative;
+  width: 100%;
+  height: 468px;
+  overflow: hidden;
+  background:
+    linear-gradient(
+      45deg,
+      rgba(255,255,255,0.55) 25%,
+      transparent 25%
+    ),
+    linear-gradient(
+      -45deg,
+      rgba(255,255,255,0.55) 25%,
+      transparent 25%
+    ),
+    #e6e3dd;
+}
+
+
+/* =========================================================
+   MAP GRID
+========================================================= */
+
+.store-edit-map-grid {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  opacity: 0.65;
+}
+
+.store-edit-map-grid > div {
+  border: 1px solid rgba(145, 145, 145, 0.14);
+}
+
+
+/* =========================================================
+   MAP ROADS
+========================================================= */
+
+.store-edit-map-road {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 0 0 1px rgba(120, 120, 120, 0.12);
+}
+
+.road-one {
+  width: 140%;
+  height: 12px;
+  top: 49%;
+  left: -20%;
+  transform: rotate(-9deg);
+}
+
+.road-two {
+  width: 100%;
+  height: 9px;
+  top: 18%;
+  left: 0;
+  transform: rotate(14deg);
+}
+
+.road-three {
+  width: 120%;
+  height: 8px;
+  top: 73%;
+  left: -10%;
+  transform: rotate(28deg);
+}
+
+.store-edit-map-water {
+  position: absolute;
+  width: 190px;
+  height: 500px;
+  right: -55px;
+  top: -80px;
+  background: rgba(165, 220, 231, 0.42);
+  border-radius: 50%;
+  transform: rotate(23deg);
+}
+
+
+/* =========================================================
+   MAP MARKER
+========================================================= */
+
+.store-edit-map-marker {
+  position: absolute;
+  left: 50%;
+  top: 55%;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ff7800;
+  font-size: 32px;
+  filter: drop-shadow(
+    0 3px 4px rgba(0, 0, 0, 0.22)
+  );
+  transform: translate(-50%, -50%);
+  z-index: 4;
+}
+
+.store-edit-map-label {
+  position: absolute;
+  left: calc(50% + 22px);
+  top: calc(55% - 56px);
+  padding: 8px 12px;
+  border-radius: 7px;
+  background: #ffffff;
+  color: #64748b;
+  font-size: 10px;
+  font-weight: 600;
+  box-shadow: 0 4px 15px rgba(16, 24, 40, 0.16);
+}
+
+.store-edit-map-label::after {
+  content: "";
+  position: absolute;
+  left: 16px;
+  bottom: -6px;
+  width: 11px;
+  height: 11px;
+  background: #ffffff;
+  transform: rotate(45deg);
+}
+
+
+/* =========================================================
+   MAP CONTROLS
+========================================================= */
+
+.store-edit-map-controls {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 7px;
+  overflow: hidden;
+  box-shadow: 0 3px 12px rgba(16, 24, 40, 0.14);
+}
+
+.store-edit-map-controls button {
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-bottom: 1px solid #e5e7eb;
+  background: #ffffff;
+  color: #586674;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.store-edit-map-controls button:last-child {
+  border-bottom: none;
+}
+
+.store-edit-map-controls button:hover {
+  background: #f6f8f9;
+  color: #005555;
+}
+
+.store-edit-map-attribution {
+  position: absolute;
+  left: 8px;
+  bottom: 6px;
+  color: #68747d;
+  font-size: 9px;
+}
+
+
+/* =========================================================
+   LOCATION PREVIEW
+========================================================= */
+
+.store-edit-location-preview {
+  min-height: 44px;
+  margin-top: 20px;
+  margin-bottom: 15px;
+  padding: 0 11px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid #ffd3a5;
+  border-radius: 6px;
+  background: #fffaf4;
+  color: #64748b;
+  font-size: 13px;
+  box-sizing: border-box;
+}
+
+.store-edit-location-preview svg {
+  flex-shrink: 0;
+  color: #ff7800;
+  font-size: 14px;
+}
+
+
+/* =========================================================
+   FORM ACTIONS
+========================================================= */
+
+.store-edit-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 9px;
+  margin-top: 2px;
+}
+
+.store-edit-reset-button,
+.store-edit-submit-button {
+  min-height: 39px;
+  padding: 0 15px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.store-edit-reset-button {
+  border: 1px solid #e0e5e9;
+  background: #7d8790;
+  color: #ffffff;
+}
+
+.store-edit-reset-button:hover {
+  background: #69737c;
+  transform: translateY(-1px);
+}
+
+.store-edit-submit-button {
+  border: 1px solid #005555;
+  background: #005555;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 85, 85, 0.18);
+}
+
+.store-edit-submit-button:hover {
+  background: #004444;
+  box-shadow: 0 7px 18px rgba(0, 85, 85, 0.25);
+  transform: translateY(-1px);
+}
+
+.store-edit-reset-button:active,
+.store-edit-submit-button:active {
+  transform: translateY(0);
+}
+
+
+/* =========================================================
+   BOTTOM SPACE
+========================================================= */
+
+.store-edit-bottom-space {
+  height: 20px;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 991.98px) {
+
+  .store-edit-page {
+    padding: 22px 18px 35px;
+  }
+
+  .store-edit-grid-3 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .store-edit-map {
+    height: 330px;
+  }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 767px) {
+
+  .store-edit-page {
+    padding: 18px 13px 30px;
+  }
+
+  .store-edit-page-header {
+    align-items: flex-start;
+    flex-direction: column;
+    margin-bottom: 18px;
+  }
+
+  .store-edit-heading-row h1 {
+    font-size: 22px;
+  }
+
+  .store-edit-heading-row p {
+    font-size: 11px;
+  }
+
+  .store-edit-back-button {
+    width: 100%;
+  }
+
+  .store-edit-grid-2,
+  .store-edit-grid-3,
+  .store-edit-documents-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .store-edit-card-header {
+    padding: 14px;
+  }
+
+  .store-edit-card-body {
+    padding: 16px 14px 18px;
+  }
+
+  .store-edit-card-title h2 {
+    font-size: 15px;
+  }
+
+  .store-edit-card-title p {
+    display: none;
+  }
+
+  .store-edit-delivery-row {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .store-edit-checkbox-group {
+    gap: 11px;
+  }
+
+  .store-edit-map {
+    height: 280px;
+  }
+
+  .store-edit-map-search {
+    max-width: none;
+  }
+
+  .store-edit-map-label {
+    left: auto;
+    right: 50%;
+  }
+
+  .store-edit-actions {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+
+  .store-edit-reset-button,
+  .store-edit-submit-button {
+    width: 100%;
+  }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+
+  .store-edit-page {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .store-edit-heading-icon {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+  }
+
+  .store-edit-heading-row h1 {
+    font-size: 20px;
+  }
+
+  .store-edit-map {
+    height: 240px;
+  }
+
+  .store-edit-location-preview {
+    align-items: flex-start;
+    padding-top: 9px;
+    padding-bottom: 9px;
+  }
+
+}
+
+.store-edit-select-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.store-edit-select-wrapper select {
+  width: 100%;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding-right: 38px;
+  cursor: pointer;
+}
+
+.store-edit-select-city-icon {
+  position: absolute;
+  right: 14px;
+  top: 38%;
+  align-items: center;
+  transform: translateY(-55%);
+  font-size: 18px;
+  color: #6b7280;
+  pointer-events: none;
+}

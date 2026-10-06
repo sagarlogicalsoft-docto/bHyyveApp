@@ -1,0 +1,257 @@
+/* =========================================================
+   PAGE
+========================================================= */
+
+.bonus-gift-page {
+  width: 100%;
+  min-height: 100%;
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   PAGE HEADER
+========================================================= */
+
+.bonus-gift-header {
+  margin-bottom: 18px;
+}
+
+.bonus-gift-title-heading {
+  margin: 0 0 8px;
+  font-size: 28px;
+  font-weight: 600;
+  color: #073b74;
+}
+
+
+/* =========================================================
+   BREADCRUMB
+========================================================= */
+
+.bonus-gift-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.bonus-gift-breadcrumb a {
+  color: #073b74;
+  text-decoration: none;
+}
+
+.bonus-gift-breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+.bonus-gift-breadcrumb span {
+  display: flex;
+  align-items: center;
+}
+
+.bonus-gift-breadcrumb-active {
+  color: #6b7280;
+}
+
+
+/* =========================================================
+   MAIN CARD
+========================================================= */
+
+.bonus-gift-card {
+  width: 100%;
+  background: #ffffff;
+  border-radius: 5px;
+  padding: 0 25px 25px;
+  box-sizing: border-box;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+}
+
+
+/* =========================================================
+   CARD HEADER
+========================================================= */
+
+.bonus-gift-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 0;
+}
+
+.bonus-gift-card-header h3 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #073b74;
+}
+
+
+/* =========================================================
+   TABLE WRAPPER
+========================================================= */
+
+.bonus-gift-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+
+/* =========================================================
+   BONUS
+========================================================= */
+
+.bonus-gift-bonus {
+  display: inline-block;
+  padding: 5px 9px;
+  border-radius: 4px;
+  background-color: #073b74;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   TITLE
+========================================================= */
+
+.bonus-gift-title {
+  color: #212529;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: normal;
+  word-break: break-word;
+}
+
+
+/* =========================================================
+   DESCRIPTION
+========================================================= */
+
+.bonus-gift-description {
+  color: #495057;
+  font-size: 14px;
+  line-height: 1.5;
+  white-space: normal;
+  word-break: break-word;
+}
+
+
+/* =========================================================
+   DATE
+========================================================= */
+
+.bonus-gift-date {
+  color: #495057;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   ACTION
+========================================================= */
+
+.bonus-gift-actions {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   EDIT BUTTON
+========================================================= */
+
+.bonus-gift-edit-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+
+  border: none;
+  border-radius: 4px;
+
+  padding: 7px 12px;
+
+  background-color: #073b74;
+  color: #ffffff;
+
+  font-size: 12px;
+  font-weight: 500;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.15s ease;
+}
+
+.bonus-gift-edit-btn:hover {
+  background-color: #052d59;
+  transform: translateY(-1px);
+}
+
+.bonus-gift-edit-btn svg {
+  font-size: 12px;
+}
+
+
+/* =========================================================
+   DATATABLE - REDUCE COLUMN SPACE
+   This only affects Bonus Gift page.
+========================================================= */
+
+.bonus-gift-table-wrapper .datatable-table {
+  min-width: 0 !important;
+  width: 100% !important;
+}
+
+.bonus-gift-table-wrapper .datatable-table th,
+.bonus-gift-table-wrapper .datatable-table td {
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 992px) {
+  .bonus-gift-card {
+    padding: 0 20px 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .bonus-gift-title-heading {
+    font-size: 24px;
+  }
+
+  .bonus-gift-card {
+    padding: 0 15px 15px;
+  }
+
+  .bonus-gift-card-header h3 {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .bonus-gift-breadcrumb {
+    font-size: 12px;
+    gap: 5px;
+  }
+
+  .bonus-gift-card {
+    padding: 0 10px 10px;
+  }
+}

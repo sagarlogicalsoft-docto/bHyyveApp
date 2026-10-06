@@ -1,0 +1,331 @@
+/* =========================================================
+   PAGE
+========================================================= */
+
+.add-time-slot-page {
+  width: 100%;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   PAGE HEADER
+========================================================= */
+
+.add-time-slot-page-header {
+  margin-bottom: 20px;
+}
+
+.add-time-slot-page-title {
+  margin: 0 0 8px;
+
+  font-size: 28px;
+  font-weight: 600;
+
+  color: #111827;
+}
+
+
+/* =========================================================
+   BREADCRUMB
+========================================================= */
+
+.add-time-slot-breadcrumb {
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  font-size: 14px;
+
+  color: #6b7280;
+}
+
+.add-time-slot-breadcrumb a {
+  color: #2563eb;
+
+  text-decoration: none;
+}
+
+.add-time-slot-breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+.add-time-slot-breadcrumb span {
+  display: flex;
+
+  align-items: center;
+}
+
+.add-time-slot-breadcrumb-active {
+  color: #6b7280;
+}
+
+
+/* =========================================================
+   MAIN CARD
+========================================================= */
+
+.add-time-slot-card {
+  width: 100%;
+
+  background: #ffffff;
+
+  border-radius: 6px;
+
+  padding: 26px 30px 30px;
+
+  box-sizing: border-box;
+
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+
+/* =========================================================
+   CARD HEADER
+========================================================= */
+
+.add-time-slot-card-header {
+  margin-bottom: 25px;
+}
+
+.add-time-slot-card-header h3 {
+  margin: 0;
+
+  font-size: 24px;
+
+  font-weight: 500;
+
+  color: #111827;
+}
+
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.add-time-slot-form {
+  width: 100%;
+
+  max-width: 700px;
+}
+
+
+/* =========================================================
+   FORM GROUP
+========================================================= */
+
+.add-time-slot-form-group {
+  display: flex;
+
+  flex-direction: column;
+
+  width: 100%;
+
+  margin-bottom: 25px;
+}
+
+.add-time-slot-form-group label {
+  margin-bottom: 8px;
+
+  font-size: 14px;
+
+  font-weight: 500;
+
+  color: #374151;
+}
+
+.add-time-slot-required {
+  margin-left: 3px;
+
+  color: #dc3545;
+}
+
+
+/* =========================================================
+   INPUT
+========================================================= */
+
+.add-time-slot-form-group input {
+  width: 100%;
+
+  height: 40px;
+
+  padding: 8px 12px;
+
+  box-sizing: border-box;
+
+  border: 1px solid #ced4da;
+
+  border-radius: 5px;
+
+  outline: none;
+
+  background: #ffffff;
+
+  color: #333333;
+
+  font-size: 14px;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.add-time-slot-form-group input::placeholder {
+  color: #9ca3af;
+}
+
+.add-time-slot-form-group input:focus {
+  border-color: #073b74;
+
+  box-shadow: 0 0 0 2px rgba(7, 59, 116, 0.08);
+}
+
+
+/* =========================================================
+   FORM ACTIONS
+========================================================= */
+
+.add-time-slot-form-actions {
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+}
+
+
+/* =========================================================
+   CANCEL BUTTON
+========================================================= */
+
+.add-time-slot-cancel-btn {
+  height: 38px;
+
+  padding: 0 18px;
+
+  border: 1px solid #ced4da;
+
+  border-radius: 4px;
+
+  background: #ffffff;
+
+  color: #555555;
+
+  font-size: 13px;
+
+  font-weight: 500;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.add-time-slot-cancel-btn:hover {
+  background: #f3f4f6;
+
+  border-color: #adb5bd;
+}
+
+
+/* =========================================================
+   ADD BUTTON
+========================================================= */
+
+.add-time-slot-submit-btn {
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 7px;
+
+  height: 38px;
+
+  padding: 0 18px;
+
+  border: none;
+
+  border-radius: 4px;
+
+  background: #073b74;
+
+  color: #ffffff;
+
+  font-size: 13px;
+
+  font-weight: 500;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    transform 0.15s ease;
+}
+
+.add-time-slot-submit-btn:hover {
+  background: #052d59;
+
+  transform: translateY(-1px);
+}
+
+.add-time-slot-submit-btn svg {
+  font-size: 11px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 768px) {
+
+  .add-time-slot-card {
+    padding: 20px 15px;
+  }
+
+  .add-time-slot-page-title {
+    font-size: 24px;
+  }
+
+  .add-time-slot-card-header h3 {
+    font-size: 22px;
+  }
+
+  .add-time-slot-form {
+    max-width: 100%;
+  }
+
+}
+
+
+@media (max-width: 480px) {
+
+  .add-time-slot-page-title {
+    font-size: 22px;
+  }
+
+  .add-time-slot-card-header h3 {
+    font-size: 20px;
+  }
+
+  .add-time-slot-form-actions {
+    width: 100%;
+
+    flex-direction: column-reverse;
+
+    align-items: stretch;
+  }
+
+  .add-time-slot-cancel-btn,
+  .add-time-slot-submit-btn {
+    width: 100%;
+  }
+
+}

@@ -1,0 +1,214 @@
+/* =========================================================
+   PAGE
+========================================================= */
+
+.rejected-booking-page {
+  width: 100%;
+  padding: 0;
+}
+
+
+/* =========================================================
+   PAGE HEADER
+========================================================= */
+
+.rejected-booking-page-header {
+  margin-bottom: 20px;
+}
+
+.rejected-booking-page-title {
+  margin: 0 0 8px;
+
+  font-size: 28px;
+  font-weight: 600;
+
+  color: #111827;
+}
+
+.rejected-booking-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.rejected-booking-breadcrumb a {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.rejected-booking-breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+.rejected-booking-breadcrumb span {
+  display: flex;
+  align-items: center;
+}
+
+.rejected-booking-breadcrumb-active {
+  color: #6b7280;
+}
+
+
+/* =========================================================
+   MAIN CARD
+========================================================= */
+
+.rejected-booking-card {
+  width: 100%;
+
+  background: #ffffff;
+
+  border-radius: 6px;
+
+  padding: 26px 30px 30px;
+
+  box-sizing: border-box;
+
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+
+/* =========================================================
+   CARD HEADER
+========================================================= */
+
+.rejected-booking-card-header {
+  margin-bottom: 20px;
+}
+
+.rejected-booking-card-header h3 {
+  margin: 0;
+
+  font-size: 25px;
+  font-weight: 500;
+
+  color: #111827;
+}
+
+
+/* =========================================================
+   TABLE
+========================================================= */
+
+.rejected-booking-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+
+/* =========================================================
+   ADDRESS
+========================================================= */
+
+.rejected-booking-address {
+  width: 100%;
+  max-width: 220px;
+
+  white-space: normal;
+
+  overflow-wrap: anywhere;
+
+  word-break: normal;
+
+  line-height: 1.35;
+}
+
+
+/* =========================================================
+   DATE TIME
+========================================================= */
+
+.rejected-booking-datetime {
+  line-height: 1.35;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+.rejected-booking-status {
+  display: inline-block;
+
+  font-size: 13px;
+  font-weight: 500;
+
+  color: #dc3545;
+}
+
+
+/* =========================================================
+   ACTION
+========================================================= */
+
+.rejected-booking-actions {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+}
+
+
+/* =========================================================
+   VIEW BUTTON
+========================================================= */
+
+.rejected-view-btn {
+  width: 65px;
+
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border: none;
+
+  border-radius: 4px;
+
+  padding: 7px 8px;
+
+  background: #0d6efd;
+
+  color: #ffffff;
+
+  font-size: 12px;
+  font-weight: 500;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    transform 0.15s ease;
+}
+
+.rejected-view-btn:hover {
+  background: #0b5ed7;
+
+  transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 768px) {
+
+  .rejected-booking-card {
+    padding: 20px 15px;
+  }
+
+  .rejected-booking-page-title {
+    font-size: 24px;
+  }
+
+  .rejected-booking-card-header h3 {
+    font-size: 21px;
+  }
+}

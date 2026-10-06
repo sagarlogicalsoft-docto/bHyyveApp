@@ -1,0 +1,40 @@
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  padding: 14px 8px;
+  margin-bottom: 7px;
+  font-size: 13px;
+  line-height: 1;
+}
+
+.breadcrumb-home,
+.breadcrumb-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #6b7280;
+  text-decoration: none !important;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.breadcrumb-home:hover,
+.breadcrumb-link:hover {
+  color: #073b74 !important;
+}
+
+.breadcrumb-home svg {
+  font-size: 12px;
+}
+
+.breadcrumb-separator {
+  font-size: 9px;
+  color: #a0a7b1;
+}
+
+.breadcrumb-current {
+  color: #005555;
+  font-weight: 600;
+}

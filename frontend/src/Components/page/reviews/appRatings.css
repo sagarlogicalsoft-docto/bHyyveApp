@@ -1,0 +1,444 @@
+/* =========================================================
+   APP RATINGS PAGE
+========================================================= */
+
+.app-ratings-page {
+  width: 100%;
+  min-height: 100%;
+
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   BREADCRUMB
+========================================================= */
+
+.app-ratings-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  margin-bottom: 14px;
+
+  font-size: 15px;
+}
+
+
+.app-ratings-breadcrumb a {
+  color: #073b74;
+
+  text-decoration: none;
+
+  transition: color 0.2s ease;
+}
+
+
+.app-ratings-breadcrumb a:hover {
+  color: #052d59;
+}
+
+
+.app-ratings-breadcrumb-icon {
+  color: #6c757d;
+
+  font-size: 17px;
+}
+
+
+.app-ratings-breadcrumb span {
+  color: #073b74;
+
+  font-weight: 500;
+}
+
+/* =========================================================
+   MAIN CARD
+========================================================= */
+
+.app-ratings-card {
+  width: 100%;
+
+  background: #ffffff;
+
+  border-radius: 6px;
+
+  padding: 24px 30px 30px;
+
+  box-sizing: border-box;
+
+  box-shadow:
+    0 2px 10px rgba(0, 0, 0, 0.06);
+
+  overflow: hidden;
+}
+
+
+/* =========================================================
+   PAGE TITLE
+========================================================= */
+
+.app-ratings-title {
+  margin: 0 0 18px;
+
+  font-size: 22px;
+
+  font-weight: 500;
+
+  color: #073b74;
+}
+
+
+/* =========================================================
+   EXPORT BUTTONS
+========================================================= */
+
+.app-ratings-export-buttons {
+  display: flex;
+
+  align-items: center;
+
+  gap: 6px;
+
+  margin-bottom: 28px;
+}
+
+
+.app-ratings-export-btn {
+  border: 1px solid #777777;
+
+  border-radius: 0;
+
+  padding: 3px 6px;
+
+  background: #eeeeee;
+
+  color: #222222;
+
+  font-size: 13px;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+
+.app-ratings-export-btn:hover {
+  background: #dddddd;
+
+  border-color: #555555;
+}
+
+
+/* =========================================================
+   TABLE WRAPPER
+========================================================= */
+
+.app-ratings-table-wrapper {
+  width: 100%;
+}
+
+
+/* =========================================================
+   USERNAME
+========================================================= */
+
+.app-ratings-username {
+  color: #666666;
+
+  font-size: 14px;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   USER PICTURE
+========================================================= */
+
+.app-ratings-picture-wrapper {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+}
+
+
+.app-ratings-user-picture {
+  width: 40px;
+
+  height: 40px;
+
+  object-fit: cover;
+
+  border-radius: 50%;
+
+  border: 2px solid #d9d9d9;
+}
+
+
+/* =========================================================
+   RATING
+========================================================= */
+
+.app-ratings-rating {
+  color: #666666;
+
+  font-size: 14px;
+
+  font-weight: 500;
+}
+
+
+/* =========================================================
+   REVIEW
+========================================================= */
+
+.app-ratings-review {
+  display: inline-block;
+
+  max-width: 300px;
+
+  color: #666666;
+
+  font-size: 14px;
+
+  line-height: 1.5;
+
+  white-space: normal;
+
+  overflow-wrap: anywhere;
+}
+
+
+/* =========================================================
+   DATE
+========================================================= */
+
+.app-ratings-date {
+  color: #666666;
+
+  font-size: 13px;
+
+   white-space: normal;
+
+  overflow-wrap: anywhere;
+}
+
+
+/* =========================================================
+   ACTIONS
+========================================================= */
+
+.app-ratings-actions {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 5px;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   TESTIMONIAL BUTTON
+========================================================= */
+
+.app-ratings-testimonial-btn {
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 5px;
+
+  border: none;
+
+  border-radius: 4px;
+
+  padding: 7px 10px;
+
+  background: #087ff5;
+
+  color: #ffffff;
+
+  font-size: 12px;
+
+  font-weight: 500;
+
+  cursor: pointer;
+
+  white-space: nowrap;
+
+  transition:
+    background-color 0.2s ease;
+}
+
+
+.app-ratings-testimonial-btn:hover {
+  background: #066ed4;
+}
+
+
+.app-ratings-testimonial-btn:disabled {
+  background: #6c757d;
+
+  cursor: not-allowed;
+
+  opacity: 0.8;
+}
+
+
+/* =========================================================
+   DELETE BUTTON
+========================================================= */
+
+.app-ratings-delete-btn {
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 5px;
+
+  border: none;
+
+  border-radius: 4px;
+
+  padding: 7px 10px;
+
+  background: #dc3545;
+
+  color: #ffffff;
+
+  font-size: 12px;
+
+  font-weight: 500;
+
+  cursor: pointer;
+
+  white-space: nowrap;
+
+  transition:
+    background-color 0.2s ease;
+}
+
+
+.app-ratings-delete-btn:hover {
+  background: #bb2d3b;
+}
+
+
+/* =========================================================
+   DATATABLE - ONLY THIS PAGE
+========================================================= */
+
+.app-ratings-table-wrapper .datatable-table {
+  width: 100% !important;
+
+  min-width: 0 !important;
+}
+
+
+.app-ratings-table-wrapper .datatable-table th,
+.app-ratings-table-wrapper .datatable-table td {
+  padding-left: 10px !important;
+
+  padding-right: 10px !important;
+}
+
+
+/* =========================================================
+   ACTION COLUMN
+========================================================= */
+
+.app-ratings-table-wrapper .datatable-table th:last-child,
+.app-ratings-table-wrapper .datatable-table td:last-child {
+  white-space: nowrap !important;
+}
+
+
+/* =========================================================
+   REVIEW COLUMN WRAPPING
+========================================================= */
+
+.app-ratings-table-wrapper .datatable-table td:nth-child(5) {
+  white-space: normal !important;
+
+  word-break: break-word;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1100px) {
+
+  .app-ratings-card {
+    padding: 22px 20px 25px;
+  }
+
+  .app-ratings-actions {
+    flex-wrap: wrap;
+  }
+
+}
+
+
+@media (max-width: 768px) {
+
+  .app-ratings-title {
+    font-size: 24px;
+  }
+
+  .app-ratings-export-buttons {
+    flex-wrap: wrap;
+
+    margin-bottom: 20px;
+  }
+
+  .app-ratings-card {
+    padding: 20px 15px;
+  }
+
+  .app-ratings-username,
+  .app-ratings-rating,
+  .app-ratings-review {
+    font-size: 14px;
+  }
+
+}
+
+
+@media (max-width: 480px) {
+
+  .app-ratings-title {
+    font-size: 21px;
+  }
+
+  .app-ratings-export-buttons {
+    gap: 5px;
+  }
+
+  .app-ratings-export-btn {
+    padding: 6px 9px;
+  }
+
+  .app-ratings-actions {
+    gap: 4px;
+  }
+
+  .app-ratings-testimonial-btn,
+  .app-ratings-delete-btn {
+    padding: 7px 9px;
+
+    font-size: 11px;
+  }
+
+}

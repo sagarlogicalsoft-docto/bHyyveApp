@@ -1,0 +1,509 @@
+/* =========================================================================
+ * ViewRestaurantProduct.css
+ * Design tokens
+ * ====================================================================== */
+
+.vrp-page {
+  --vrp-ink: #16211e;
+  --vrp-ink-soft: #566a64;
+  --vrp-ink-faint: #8ea19b;
+  --vrp-bg: #f4f7f6;
+  --vrp-surface: #ffffff;
+  --vrp-border: #e4e9e7;
+  --vrp-accent: #0f7a68;
+  --vrp-accent-soft: #e4f4f0;
+  --vrp-danger: #c23b3b;
+  --vrp-danger-soft: #fbe9e9;
+  --vrp-warn-soft: #fdeee0;
+  --vrp-warn-ink: #b1591a;
+  --vrp-radius-lg: 14px;
+  --vrp-radius-md: 10px;
+  --vrp-radius-sm: 8px;
+  --vrp-shadow: 0 1px 2px rgba(22, 33, 30, 0.04), 0 8px 24px rgba(22, 33, 30, 0.05);
+
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif;
+  color: var(--vrp-ink);
+  background: var(--vrp-bg);
+  min-height: 100%;
+  padding: 28px clamp(16px, 4vw, 20px) 60px;
+  box-sizing: border-box;
+}
+
+.vrp-page *,
+.vrp-page *::before,
+.vrp-page *::after {
+  box-sizing: border-box;
+}
+
+/* ---------------- Header ---------------- */
+
+.vrp-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.vrp-header__title {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.vrp-header__actions {
+  display: flex;
+  gap: 10px;
+}
+
+.vrp-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid transparent;
+  border-radius: var(--vrp-radius-sm);
+  padding: 9px 16px;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.05s ease;
+  font-family: inherit;
+}
+
+.vrp-btn:active {
+  transform: translateY(1px);
+}
+
+.vrp-btn__icon {
+  font-size: 12px;
+  line-height: 1;
+}
+
+.vrp-btn--ghost {
+  background: var(--vrp-surface);
+  border-color: var(--vrp-border);
+  color: var(--vrp-ink-soft);
+}
+
+.vrp-btn--ghost:hover {
+  border-color: #c9d3d0;
+  color: var(--vrp-ink);
+}
+
+.vrp-btn--primary {
+  background: var(--vrp-accent);
+  color: #ffffff;
+}
+
+.vrp-btn--primary:hover {
+  background: #0c6355;
+}
+
+/* ---------------- Layout ---------------- */
+
+.vrp-layout {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+.vrp-column {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 0;
+}
+
+@media (max-width: 860px) {
+  .vrp-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------------- Cards ---------------- */
+
+.vrp-card {
+  background: var(--vrp-surface);
+  border: 1px solid var(--vrp-border);
+  border-radius: var(--vrp-radius-lg);
+  box-shadow: var(--vrp-shadow);
+  padding: 20px;
+}
+
+.vrp-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.vrp-card__title {
+  margin: 0 0 16px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--vrp-ink);
+}
+
+.vrp-card__header .vrp-card__title {
+  margin-bottom: 0;
+}
+
+.vrp-count-badge {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--vrp-accent);
+  background: var(--vrp-accent-soft);
+  border-radius: 999px;
+  padding: 4px 10px;
+  margin-bottom: 16px;
+}
+
+/* ---------------- Image / Pricing ---------------- */
+
+.vrp-image-frame {
+  border-radius: var(--vrp-radius-md);
+  overflow: hidden;
+  background: #eef1f0;
+  aspect-ratio: 4 / 3;
+}
+
+.vrp-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.vrp-image-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--vrp-ink-faint);
+  font-size: 13px;
+}
+
+.vrp-pricing {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.vrp-pricing__cell {
+  background: var(--vrp-bg);
+  border-radius: var(--vrp-radius-md);
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.vrp-pricing__label {
+  font-size: 13px;
+  color: var(--vrp-ink-soft);
+}
+
+.vrp-pricing__value {
+  font-size: 19px;
+  font-weight: 700;
+}
+
+.vrp-pricing__value--discount {
+  color: var(--vrp-accent);
+}
+
+.vrp-pricing__value--muted {
+  color: var(--vrp-ink-faint);
+  font-weight: 600;
+}
+
+/* ---------------- Fields ---------------- */
+
+.vrp-field {
+  margin-bottom: 16px;
+}
+
+.vrp-field:last-child {
+  margin-bottom: 0;
+}
+
+.vrp-field__label {
+  display: block;
+  font-size: 14px;
+  color: var(--vrp-ink-soft);
+  margin-bottom: 6px;
+}
+
+.vrp-field__value {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--vrp-ink);
+}
+
+.vrp-field__value--strong {
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.vrp-field__empty {
+  color: var(--vrp-ink-faint);
+  font-style: italic;
+  font-size: 13.5px;
+}
+
+.vrp-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+@media (max-width: 620px) {
+  .vrp-meta-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------------- Tags / badges ---------------- */
+
+.vrp-tag {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  font-size: 12.5px;
+  font-weight: 600;
+  padding: 4px 12px;
+  line-height: 1.5;
+}
+
+.vrp-tag--outline {
+  background: var(--vrp-accent-soft);
+  color: var(--vrp-accent);
+  border: 1px solid transparent;
+}
+
+.vrp-tag--solid {
+  color: #ffffff;
+}
+
+.vrp-tag--veg {
+  background: #2f9e5c;
+}
+
+.vrp-tag--nonveg {
+  background: #d1483f;
+}
+
+.vrp-tag--success {
+  background: var(--vrp-accent-soft);
+  color: var(--vrp-accent);
+}
+
+.vrp-tag--neutral {
+  background: #eef1f0;
+  color: var(--vrp-ink-soft);
+}
+
+.vrp-tag--soft {
+  font-size: 11.5px;
+  padding: 3px 10px;
+}
+
+.vrp-tag--required {
+  background: var(--vrp-danger-soft);
+  color: var(--vrp-danger);
+}
+
+.vrp-tag--optional {
+  background: var(--vrp-warn-soft);
+  color: var(--vrp-warn-ink);
+}
+
+/* ---------------- Empty state row (inline, inside a card) ---------------- */
+
+.vrp-empty-row {
+  margin: 0;
+  padding: 22px 0;
+  text-align: center;
+  color: var(--vrp-ink-faint);
+  font-size: 13.5px;
+}
+
+/* ---------------- Addon / topping groups ---------------- */
+
+.vrp-group-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.vrp-group {
+  border: 1px solid var(--vrp-border);
+  border-radius: var(--vrp-radius-md);
+  overflow: hidden;
+}
+
+.vrp-group__header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  background: var(--vrp-bg);
+  border-bottom: 1px solid var(--vrp-border);
+}
+
+.vrp-group__name {
+  font-size: 14px;
+  /* color: #566a66; */
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+.vrp-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+}
+
+.vrp-table th {
+  text-align: left;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--vrp-ink-soft);
+  padding: 10px 14px;
+  background: #fbfcfc;
+  border-bottom: 1px solid var(--vrp-border);
+   text-align: center;
+}
+
+.vrp-table td {
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--vrp-border);
+  color: var(--vrp-ink);
+   text-align: center;
+}
+
+.vrp-table tr:last-child td {
+  border-bottom: none;
+  text-align: center;
+}
+
+.vrp-table__num {
+  width: 100px;
+  color: var(--vrp-ink-faint);
+}
+
+.vrp-table__price {
+  text-align: right;
+  /* width: 100px; */
+}
+
+.vrp-price-pill {
+  display: inline-block;
+  background: var(--vrp-accent-soft);
+  color: var(--vrp-accent);
+  font-weight: 700;
+  font-size: 12.5px;
+  border-radius: 999px;
+  padding: 3px 12px;
+}
+
+/* ---------------- Topping cards ---------------- */
+
+.vrp-topping-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 14px;
+  padding: 16px;
+}
+
+.vrp-topping-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 8px;
+}
+
+.vrp-topping-card__image {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: var(--vrp-radius-sm);
+  overflow: hidden;
+  background: #eef1f0;
+}
+
+.vrp-topping-card__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.vrp-topping-card__placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--vrp-ink-faint);
+  font-size: 11px;
+}
+
+.vrp-topping-card__name {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+/* ---------------- Loading / error / empty page states ---------------- */
+
+.vrp-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 320px;
+  text-align: center;
+  color: var(--vrp-ink-soft);
+}
+
+.vrp-state__title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--vrp-ink);
+  margin: 0;
+}
+
+.vrp-state__body {
+  margin: 0 0 4px;
+  font-size: 13.5px;
+  max-width: 360px;
+}
+
+.vrp-spinner {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 3px solid var(--vrp-border);
+  border-top-color: var(--vrp-accent);
+  animation: vrp-spin 0.8s linear infinite;
+}
+
+@keyframes vrp-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vrp-spinner {
+    animation-duration: 1.6s;
+  }
+}

@@ -1,0 +1,663 @@
+/* =========================================================
+   PAGE
+========================================================= */
+
+.create-estimate-page {
+  width: 100%;
+  padding: 0;
+}
+
+
+/* =========================================================
+   MAIN CARD
+========================================================= */
+
+.create-estimate-card {
+  width: 100%;
+  background: #ffffff;
+
+  border-radius: 6px;
+
+  padding: 20px 30px 22px;
+
+  box-sizing: border-box;
+
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+
+/* =========================================================
+   PAGE HEADER
+========================================================= */
+
+.create-estimate-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 26px;
+}
+
+
+.create-estimate-header h2 {
+  margin: 0;
+
+  font-size: 22px;
+  font-weight: 700;
+
+  color: #111827;
+}
+
+
+/* =========================================================
+   BACK BUTTON
+========================================================= */
+
+.create-estimate-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  border: none;
+  border-radius: 3px;
+
+  padding: 5px 10px;
+
+  background: #6c757d;
+  color: #ffffff;
+
+  font-size: 11px;
+  font-weight: 500;
+
+  cursor: pointer;
+
+  transition: background 0.2s ease;
+}
+
+
+.create-estimate-back-btn:hover {
+  background: #5c636a;
+}
+
+
+/* =========================================================
+   ESTIMATE INFORMATION
+========================================================= */
+
+.estimate-info-grid {
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  column-gap: 30px;
+  row-gap: 15px;
+
+  margin-bottom: 25px;
+}
+
+
+.estimate-form-group {
+  width: 100%;
+}
+
+
+.estimate-form-group label,
+.estimate-bottom-field label {
+  display: block;
+
+  margin-bottom: 10px;
+
+  font-size: 18px;
+  font-weight: 500;
+
+  color: #3e4652;
+}
+
+
+.estimate-form-group label span {
+  color: #374151;
+}
+
+
+.estimate-form-group input,
+.estimate-form-group textarea {
+  width: 100%;
+
+  box-sizing: border-box;
+
+  border: 1px solid #f0f0f0;
+  border-radius: 5px;
+
+  background: #f7f7f7;
+
+  padding: 13px 20px;
+
+  font-size: 14px;
+
+  color: #111827;
+
+  outline: none;
+}
+
+
+.estimate-form-group input {
+  height: 50px;
+}
+
+
+.estimate-form-group textarea {
+  min-height: 50px;
+
+  resize: vertical;
+}
+
+
+.estimate-form-group input:focus,
+.estimate-form-group textarea:focus {
+  border-color: #cfd4da;
+
+  background: #ffffff;
+}
+
+
+/* =========================================================
+   SECTION
+========================================================= */
+
+.estimate-section {
+  width: 100%;
+
+  margin-bottom: 30px;
+}
+
+
+.estimate-section h3 {
+  margin: 0 0 15px;
+
+  font-size: 22px;
+  font-weight: 500;
+
+  color: #111827;
+}
+
+
+.estimate-section-line {
+  width: 100%;
+
+  height: 1px;
+
+  background: #e1e1e1;
+
+  margin-bottom: 20px;
+}
+
+
+/* =========================================================
+   CLIENT INFORMATION
+========================================================= */
+
+.client-info-grid {
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  column-gap: 40px;
+  row-gap: 18px;
+}
+
+
+/* =========================================================
+   SERVICES TABLE
+========================================================= */
+
+.services-section {
+  margin-top: 4px;
+}
+
+
+.estimate-items-wrapper {
+  width: 100%;
+
+  overflow-x: auto;
+}
+
+
+.estimate-items-table {
+  width: 100%;
+
+  border-collapse: collapse;
+
+  table-layout: fixed;
+
+  font-size: 14px;
+}
+
+
+.estimate-items-table th,
+.estimate-items-table td {
+  border: 1px solid #d9dee5;
+
+  padding: 10px;
+
+  vertical-align: middle;
+}
+
+
+.estimate-items-table th {
+  background: #ffffff;
+
+  color: #4b5563;
+
+  font-size: 15px;
+  font-weight: 700;
+
+  text-align: left;
+}
+
+
+.estimate-items-table td {
+  background: #ffffff;
+}
+
+
+/* =========================================================
+   COLUMN WIDTHS
+========================================================= */
+
+.estimate-service-col {
+  width: 25%;
+}
+
+
+.estimate-description-col {
+  width: 30%;
+}
+
+
+.estimate-quantity-col {
+  width: 10%;
+}
+
+
+.estimate-unit-price-col {
+  width: 15%;
+}
+
+
+.estimate-total-col {
+  width: 15%;
+}
+
+
+.estimate-delete-col {
+  width: 50px;
+}
+
+
+/* =========================================================
+   TABLE INPUTS
+========================================================= */
+
+.estimate-items-table select,
+.estimate-items-table input,
+.estimate-items-table textarea {
+  width: 100%;
+
+  box-sizing: border-box;
+
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+
+  background: #ffffff;
+
+  padding: 8px 10px;
+
+  font-size: 12px;
+
+  color: #49647f;
+
+  outline: none;
+}
+
+
+.estimate-items-table select {
+  height: 34px;
+}
+
+
+.estimate-items-table input {
+  height: 34px;
+}
+
+
+.estimate-items-table textarea {
+  min-height: 52px;
+
+  resize: vertical;
+}
+
+
+.estimate-items-table select:focus,
+.estimate-items-table input:focus,
+.estimate-items-table textarea:focus {
+  border-color: #86b7fe;
+}
+
+
+/* =========================================================
+   ITEM TOTAL
+========================================================= */
+
+.estimate-item-total {
+  background: #e9ecef !important;
+
+  color: #49647f !important;
+}
+
+
+/* =========================================================
+   DELETE BUTTON
+========================================================= */
+
+.estimate-delete-btn {
+  width: 28px;
+  height: 28px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border: none;
+  border-radius: 3px;
+
+  background: #dc3545;
+
+  color: #ffffff;
+
+  cursor: pointer;
+
+  margin: 0 auto;
+
+  transition: background 0.2s ease;
+}
+
+
+.estimate-delete-btn:hover {
+  background: #bb2d3b;
+}
+
+
+.estimate-delete-btn:disabled {
+  opacity: 0.6;
+
+  cursor: not-allowed;
+}
+
+
+/* =========================================================
+   ADD ITEM
+========================================================= */
+
+.estimate-add-item-row td {
+  padding: 10px;
+
+  border-top: none;
+}
+
+
+.estimate-add-item-btn {
+  display: inline-flex;
+
+  align-items: center;
+  gap: 5px;
+
+  border: none;
+  border-radius: 3px;
+
+  padding: 6px 9px;
+
+  background: #198754;
+
+  color: #ffffff;
+
+  font-size: 13px;
+  font-weight: 500;
+
+  cursor: pointer;
+}
+
+
+.estimate-add-item-btn:hover {
+  background: #157347;
+}
+
+
+/* =========================================================
+   SUMMARY
+========================================================= */
+
+.estimate-summary-row td {
+  height: 30px;
+
+  padding: 8px 10px;
+}
+
+
+.estimate-summary-label {
+  text-align: right !important;
+
+  font-size: 15px;
+
+  font-weight: 600;
+
+  color: #4b5563 !important;
+}
+
+
+.estimate-summary-input,
+.estimate-tax-input {
+  width: 100%;
+
+  box-sizing: border-box;
+
+  height: 34px;
+
+  border: 1px solid #ced4da;
+
+  border-radius: 4px;
+
+  padding: 7px 10px;
+
+  font-size: 13px;
+
+  color: #49647f;
+}
+
+
+.estimate-summary-input {
+  background: #e9ecef !important;
+}
+
+
+.estimate-tax-input {
+  background: #ffffff;
+}
+
+
+/* =========================================================
+   FINAL TOTAL
+========================================================= */
+
+.estimate-final-row td {
+  border-top: 1px solid #d9dee5;
+}
+
+
+/* =========================================================
+   NOTES / TERMS
+========================================================= */
+
+.estimate-bottom-field {
+  width: 100%;
+
+  margin-bottom: 15px;
+}
+
+
+.estimate-bottom-field label {
+  margin-bottom: 8px;
+
+  font-size: 15px;
+}
+
+
+.estimate-bottom-field textarea {
+  width: 100%;
+
+  min-height: 40px;
+
+  box-sizing: border-box;
+
+  border: 1px solid #f0f0f0;
+
+  border-radius: 5px;
+
+  background: #f7f7f7;
+
+  padding: 5px 10px;
+
+  font-size: 14px;
+
+  color: #111827;
+
+  resize: vertical;
+
+  outline: none;
+}
+
+
+.estimate-bottom-field textarea:focus {
+  border-color: #cfd4da;
+
+  background: #ffffff;
+}
+
+
+/* =========================================================
+   FORM ACTIONS
+========================================================= */
+
+.estimate-form-actions {
+  display: flex;
+
+  justify-content: flex-end;
+  align-items: center;
+
+  gap: 6px;
+
+  margin-top: 13px;
+}
+
+
+.estimate-save-btn,
+.estimate-reset-btn {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 5px;
+
+  border: none;
+  border-radius: 3px;
+
+  padding: 6px 10px;
+
+  color: #ffffff;
+
+  font-size: 12px;
+  font-weight: 500;
+
+  cursor: pointer;
+
+  transition: background 0.2s ease;
+}
+
+
+.estimate-save-btn {
+  background: #0d6efd;
+}
+
+
+.estimate-save-btn:hover {
+  background: #0b5ed7;
+}
+
+
+.estimate-reset-btn {
+  background: #6c757d;
+}
+
+
+.estimate-reset-btn:hover {
+  background: #5c636a;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 992px) {
+  .create-estimate-card {
+    padding: 22px 25px 28px;
+  }
+
+  .estimate-info-grid,
+  .client-info-grid {
+    grid-template-columns: 1fr;
+
+    column-gap: 0;
+  }
+
+  .estimate-items-table {
+    min-width: 900px;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .create-estimate-card {
+    padding: 18px 15px 25px;
+  }
+
+  .create-estimate-header {
+    align-items: flex-start;
+
+    flex-direction: column;
+
+    gap: 15px;
+  }
+
+  .create-estimate-header h2 {
+    font-size: 25px;
+  }
+
+  .create-estimate-back-btn {
+    align-self: flex-end;
+  }
+
+  .estimate-form-group label,
+  .estimate-bottom-field label {
+    font-size: 19px;
+  }
+
+  .estimate-section h3 {
+    font-size: 23px;
+  }
+
+  .estimate-form-actions {
+    justify-content: flex-end;
+  }
+}

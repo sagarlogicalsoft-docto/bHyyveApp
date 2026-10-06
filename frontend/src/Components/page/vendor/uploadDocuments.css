@@ -1,0 +1,289 @@
+/* =========================================
+   PAGE
+========================================= */
+
+.upload-documents-page {
+  width: 100%;
+  min-height: 100vh;
+  padding: 20px 14px;
+  background: #f5f6f8;
+  box-sizing: border-box;
+}
+
+.upload-documents-card {
+  width: 100%;
+  max-width: 1500px;
+  margin: 0 auto;
+  background: #ffffff;
+  border-radius: 6px;
+  padding: 28px 36px 30px;
+  box-sizing: border-box;
+  box-shadow: 0 4px 18px rgba(15, 23, 42, 0.06);
+}
+
+/* =========================================
+   HEADER
+========================================= */
+
+.upload-documents-header {
+  padding-bottom: 18px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.upload-documents-header h2 {
+  margin: 0;
+  color: #334155;
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.upload-documents-header p {
+  margin: 6px 0 0;
+  color: #718096;
+  font-size: 14px;
+}
+
+/* =========================================
+   DOCUMENT GRID
+========================================= */
+
+.documents-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 28px 32px;
+}
+
+/* =========================================
+   DOCUMENT ITEM
+========================================= */
+
+.document-item {
+  min-width: 0;
+}
+
+.document-label {
+  display: block;
+  margin-bottom: 8px;
+  color: #52657a;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.required-star {
+  color: #ef4444;
+  margin-left: 3px;
+}
+
+/* =========================================
+   FILE UPLOAD
+========================================= */
+
+.document-upload-box {
+  position: relative;
+  width: 100%;
+  height: 44px;
+  background: #f1f3f5;
+  border: 1px solid #e4e7eb;
+  border-radius: 5px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.document-upload-box:hover {
+  border-color: #b8c4d0;
+  background: #f8f9fa;
+}
+
+.document-upload-box.has-file {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+.document-file-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.document-file-label {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 0 14px;
+  box-sizing: border-box;
+  cursor: pointer;
+  color: #334155;
+}
+
+.upload-icon {
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+  color: #64748b;
+  transform: translateY(5px);
+}
+
+.upload-text {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 12px;
+}
+
+/* =========================================
+   ACTION BUTTONS
+========================================= */
+
+.document-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 7px;
+}
+
+.document-view-button,
+.document-download-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 28px;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.document-view-button {
+  background: #073b74;
+  border: 1px solid #073b74;
+  color: #ffffff;
+}
+
+.document-view-button:hover {
+  background: #066fd8;
+  border-color: #066fd8;
+}
+
+.document-download-button {
+  background: #ffffff;
+  border: 1px solid #073b74;
+  color: #073b74;
+}
+
+.document-download-button:hover {
+  background: #eef6ff;
+}
+
+/* =========================================
+   NOT SUBMITTED
+========================================= */
+
+.document-not-submitted {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  margin-top: 7px;
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  color: #546070;
+  font-size: 13px;
+  box-sizing: border-box;
+}
+
+/* =========================================
+   FOOTER
+========================================= */
+
+.upload-documents-footer {
+  display: flex;
+  justify-content: center;
+  margin-top: 32px;
+  padding-top: 22px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.document-save-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 130px;
+  height: 44px;
+  padding: 0 22px;
+  background: #073b74;
+  border: 1px solid #073b74;
+  border-radius: 4px;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.document-save-button:hover {
+  background: #0f3f34;
+  border-color: #114e40;
+}
+
+/* =========================================
+   RESPONSIVE - TABLET
+========================================= */
+
+@media (max-width: 992px) {
+  .upload-documents-card {
+    padding: 24px;
+  }
+
+  .documents-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+  }
+}
+
+/* =========================================
+   RESPONSIVE - MOBILE
+========================================= */
+
+@media (max-width: 767px) {
+  .upload-documents-page {
+    padding: 10px;
+  }
+
+  .upload-documents-card {
+    padding: 20px 16px 24px;
+  }
+
+  .upload-documents-header h2 {
+    font-size: 21px;
+  }
+
+  .documents-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .document-label {
+    font-size: 16px;
+  }
+
+  .document-upload-box {
+    height: 50px;
+  }
+
+  .upload-documents-footer {
+    margin-top: 26px;
+  }
+
+  .document-save-button {
+    width: 100%;
+  }
+}

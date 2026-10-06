@@ -1,0 +1,853 @@
+/* =========================================================
+   PAGE
+========================================================= */
+
+.mode-type-page {
+  width: 100%;
+  padding: 20px 0 50px 0;
+
+  background: #f5f7fb;
+
+  min-height: calc(100vh - 70px);
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   PAGE HEADER
+========================================================= */
+
+.mode-type-page-header {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 10px;
+
+  margin-bottom: 22px;
+}
+
+
+.mode-type-page-title {
+  margin: 0;
+
+  color: #172b4d;
+
+  font-size: 22px;
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   BREADCRUMB
+========================================================= */
+
+.mode-type-breadcrumb-wrapper {
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  margin-top: 8px;
+
+  font-size: 14px;
+}
+
+
+.mode-type-breadcrumb-wrapper a {
+  color: #073b74;
+
+  text-decoration: none;
+}
+
+
+.mode-type-breadcrumb-wrapper a:hover {
+  text-decoration: underline;
+}
+
+
+.mode-type-breadcrumb-arrow {
+  display: flex;
+
+  align-items: center;
+
+  color: #8a94a6;
+}
+
+
+.mode-type-breadcrumb-active {
+  color: #1ba784;
+
+  font-weight: 600;
+}
+
+
+/* =========================================================
+   ADD MODE TYPE BUTTON
+========================================================= */
+
+.mode-type-add-btn {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  height: 40px;
+
+  padding: 0 16px;
+
+  border: none;
+
+  border-radius: 5px;
+
+  background: #007bff;
+
+  color: #ffffff;
+
+  font-size: 13px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+}
+
+
+.mode-type-add-btn:hover {
+  background: #0069d9;
+
+  transform: translateY(-1px);
+}
+
+
+.mode-type-add-btn:active {
+  transform: scale(0.98);
+}
+
+
+.mode-type-add-btn svg {
+  font-size: 12px;
+}
+
+
+/* =========================================================
+   CARD
+========================================================= */
+
+.mode-type-card {
+  width: 100%;
+
+  background: #ffffff;
+
+  border: 1px solid #e8edf3;
+
+  border-radius: 6px;
+
+  box-shadow: 0 3px 12px rgba(30, 45, 65, 0.05);
+
+  overflow: hidden;
+}
+
+
+/* =========================================================
+   CARD HEADER
+========================================================= */
+
+.mode-type-card-header {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 20px 22px;
+
+  border-bottom: 1px solid #edf0f4;
+}
+
+
+.mode-type-card-header h3 {
+  margin: 0;
+
+  color: #172b4d;
+
+  font-size: 17px;
+
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   TABLE
+========================================================= */
+
+.mode-type-table-wrapper {
+  width: 100%;
+}
+
+
+/* =========================================================
+   STATUS PILL
+========================================================= */
+
+.mode-status {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 5px;
+
+  min-width: 70px;
+
+  height: 24px;
+
+  padding: 0 10px;
+
+  border-radius: 20px;
+
+  font-size: 11px;
+
+  font-weight: 600;
+
+  white-space: nowrap;
+}
+
+
+.mode-status-active {
+  background: #d9f2df;
+
+  color: #176b3a;
+}
+
+
+.mode-status-inactive {
+  background: #ffe0e0;
+
+  color: #c62828;
+}
+
+
+.mode-status-icon {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  font-size: 9px;
+}
+
+
+/* =========================================================
+   CREATED DATE
+========================================================= */
+
+.mode-created-date {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 2px;
+
+  line-height: 1.3;
+}
+
+
+.mode-created-date span:first-child {
+  color: #536477;
+}
+
+
+.mode-created-date span:last-child {
+  color: #536477;
+}
+
+
+/* =========================================================
+   ACTION BUTTONS
+========================================================= */
+
+.mode-action-buttons {
+  display: flex;
+
+  align-items: center;
+
+  gap: 7px;
+
+  white-space: nowrap;
+}
+
+
+.mode-action-btn {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 5px;
+
+  height: 28px;
+
+  padding: 0 10px;
+
+  border: none;
+
+  border-radius: 4px;
+
+  font-size: 11px;
+
+  font-weight: 500;
+
+  cursor: pointer;
+
+  color: #ffffff;
+
+  transition: all 0.15s ease;
+}
+
+
+.mode-action-btn svg {
+  font-size: 10px;
+}
+
+
+/* STATUS */
+
+.mode-status-btn {
+  background: #ffc107;
+
+  color: #212529;
+}
+
+
+.mode-status-btn:hover {
+  background: #e0a800;
+}
+
+
+/* EDIT */
+
+.mode-edit-btn {
+  background: #17a2b8;
+
+  color: #ffffff;
+}
+
+
+.mode-edit-btn:hover {
+  background: #138496;
+}
+
+
+/* DELETE */
+
+.mode-delete-btn {
+  background: #f44336;
+
+  color: #ffffff;
+}
+
+
+.mode-delete-btn:hover {
+  background: #dc2f23;
+}
+
+
+/* =========================================================
+   MODAL OVERLAY
+========================================================= */
+
+.mode-type-modal-overlay {
+  position: fixed;
+
+  inset: 0;
+
+  background: rgba(0, 0, 0, 0.45);
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+
+  z-index: 99999;
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   ADD / EDIT MODAL
+========================================================= */
+
+.mode-type-modal {
+  width: 320px;
+
+  max-width: 100%;
+
+  background: #ffffff;
+
+  border-radius: 4px;
+
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.25);
+
+  overflow: hidden;
+
+  animation: modeTypeModalOpen 0.18s ease-out;
+}
+
+
+@keyframes modeTypeModalOpen {
+  from {
+    opacity: 0;
+
+    transform: translateY(-8px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+
+    transform: translateY(0) scale(1);
+  }
+}
+
+
+/* =========================================================
+   MODAL HEADER
+========================================================= */
+
+.mode-type-modal-header {
+  padding: 14px 18px 10px;
+
+  text-align: center;
+}
+
+
+.mode-type-modal-header h3 {
+  margin: 0;
+
+  color: #555555;
+
+  font-size: 19px;
+
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.mode-type-form {
+  padding: 0 18px 16px;
+}
+
+
+.mode-type-form-group {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 7px;
+}
+
+
+.mode-type-form-group label {
+  display: flex;
+
+  align-items: center;
+
+  gap: 7px;
+
+  color: #4d5660;
+
+  font-size: 13px;
+
+  font-weight: 600;
+}
+
+
+.mode-type-label-icon {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  color: #20a34a;
+
+  font-size: 13px;
+}
+
+
+/* =========================================================
+   INPUT
+========================================================= */
+
+.mode-type-form-group input {
+  width: 100%;
+
+  height: 38px;
+
+  padding: 0 10px;
+
+  box-sizing: border-box;
+
+  border: 1px solid #ced4da;
+
+  border-radius: 5px;
+
+  outline: none;
+
+  color: #555555;
+
+  background: #ffffff;
+
+  font-size: 13px;
+
+  transition: border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+
+.mode-type-form-group input:focus {
+  border-color: #28a745;
+
+  box-shadow: 0 0 0 1px rgba(40, 167, 69, 0.12);
+}
+
+
+.mode-type-form-group input::placeholder {
+  color: #9ca3af;
+}
+
+
+/* =========================================================
+   FORM ERROR
+========================================================= */
+
+.mode-type-form-error {
+  color: #dc3545;
+
+  font-size: 11px;
+
+  margin-top: 1px;
+}
+
+
+/* =========================================================
+   MODAL BUTTONS
+========================================================= */
+
+.mode-type-modal-actions {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 7px;
+
+  margin-top: 20px;
+}
+
+
+.mode-type-update-btn,
+.mode-type-cancel-btn {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 5px;
+
+  min-width: 67px;
+
+  height: 30px;
+
+  padding: 0 11px;
+
+  border: none;
+
+  border-radius: 3px;
+
+  color: #ffffff;
+
+  font-size: 11px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: background 0.15s ease;
+}
+
+
+.mode-type-update-btn {
+  background: #28a745;
+}
+
+
+.mode-type-update-btn:hover {
+  background: #218838;
+}
+
+
+.mode-type-cancel-btn {
+  background: #ff3b30;
+}
+
+
+.mode-type-cancel-btn:hover {
+  background: #dc2f23;
+}
+
+
+/* =========================================================
+   CONFIRMATION MODAL
+========================================================= */
+
+.mode-type-confirm-modal {
+  width: 380px;
+
+  max-width: 100%;
+
+  padding: 28px 28px 20px;
+
+  box-sizing: border-box;
+
+  background: #ffffff;
+
+  border-radius: 5px;
+
+  text-align: center;
+
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+
+  animation: modeTypeModalOpen 0.18s ease-out;
+}
+
+
+.mode-type-confirm-icon {
+  width: 58px;
+
+  height: 58px;
+
+  margin: 0 auto 18px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border: 3px solid #f7b477;
+
+  border-radius: 50%;
+
+  color: #f7b477;
+
+  font-size: 42px;
+
+  font-weight: 400;
+}
+
+
+.mode-type-confirm-modal h3 {
+  margin: 0 0 12px;
+
+  color: #555555;
+
+  font-size: 21px;
+
+  font-weight: 700;
+}
+
+
+.mode-type-confirm-modal p {
+  margin: 0 0 22px;
+
+  color: #666666;
+
+  font-size: 13px;
+
+  line-height: 1.5;
+}
+
+
+.mode-type-confirm-actions {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+}
+
+
+.mode-type-confirm-btn,
+.mode-type-delete-confirm-btn,
+.mode-type-confirm-cancel-btn {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 5px;
+
+  min-height: 31px;
+
+  padding: 0 13px;
+
+  border: none;
+
+  border-radius: 4px;
+
+  color: #ffffff;
+
+  font-size: 11px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+
+/* STATUS CONFIRM */
+
+.mode-type-confirm-btn {
+  background: #278bd1;
+}
+
+
+.mode-type-confirm-btn:hover {
+  background: #1976b9;
+}
+
+
+/* DELETE CONFIRM */
+
+.mode-type-delete-confirm-btn {
+  background: #f44336;
+}
+
+
+.mode-type-delete-confirm-btn:hover {
+  background: #dc2f23;
+}
+
+
+/* CANCEL */
+
+.mode-type-confirm-cancel-btn {
+  background: #6c757d;
+}
+
+
+.mode-type-confirm-cancel-btn:hover {
+  background: #5c636a;
+}
+
+
+/* =========================================================
+   DELETE ICON
+========================================================= */
+
+.mode-type-delete-icon {
+  width: 58px;
+
+  height: 58px;
+
+  margin: 0 auto 18px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border: 3px solid #ffb3ad;
+
+  border-radius: 50%;
+
+  color: #f44336;
+
+  font-size: 21px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 767px) {
+  .mode-type-page {
+    padding: 15px;
+  }
+
+
+  .mode-type-page-header {
+    flex-direction: column;
+
+    align-items: flex-start;
+  }
+
+
+  .mode-type-page-title {
+    font-size: 20px;
+  }
+
+
+  .mode-type-add-btn {
+    width: 100%;
+  }
+
+
+  .mode-type-card-header {
+    padding: 16px;
+  }
+
+
+  .mode-action-buttons {
+    gap: 5px;
+  }
+
+
+  .mode-action-btn {
+    padding: 0 8px;
+  }
+
+
+  .mode-type-modal {
+    width: 320px;
+  }
+
+
+  .mode-type-confirm-modal {
+    width: 350px;
+  }
+}
+
+
+@media (max-width: 480px) {
+  .mode-type-page {
+    padding: 12px;
+  }
+
+
+  .mode-type-modal {
+    width: 100%;
+  }
+
+
+  .mode-type-confirm-modal {
+    width: 100%;
+  }
+
+
+  .mode-type-confirm-actions {
+    flex-wrap: wrap;
+  }
+}

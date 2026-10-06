@@ -1,0 +1,333 @@
+/* =========================================
+   PAGE
+========================================= */
+
+.vendor-services-page {
+  width: 100%;
+  min-height: 100vh;
+  padding: 18px 14px;
+  background: #f5f6f8;
+  box-sizing: border-box;
+}
+
+/* =========================================
+   MAIN CARD
+========================================= */
+
+.vendor-services-card {
+  width: 100%;
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 28px 42px 32px;
+  background: #ffffff;
+  border-radius: 6px;
+  box-sizing: border-box;
+}
+
+/* =========================================
+   HEADER
+========================================= */
+
+.vendor-services-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 22px;
+}
+
+.vendor-services-title {
+  margin: 0;
+  color: #111827;
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+/* =========================================
+   ADD BUTTON
+========================================= */
+
+.vendor-services-add-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+
+  min-width: 52px;
+  height: 36px;
+
+  padding: 6px 11px;
+
+  background: #087ff5;
+  border: 1px solid #087ff5;
+  border-radius: 4px;
+
+  color: #ffffff;
+  text-decoration: none;
+
+  font-size: 13px;
+  font-weight: 500;
+
+  transition: all 0.2s ease;
+}
+
+.vendor-services-add-btn:hover {
+  background: #066fd8;
+  border-color: #066fd8;
+  color: #ffffff;
+}
+
+.vendor-services-add-btn svg {
+  font-size: 10px;
+}
+
+/* =========================================
+   TABLE WRAPPER
+========================================= */
+
+.vendor-services-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+/* =========================================
+   SERVICE NAME
+========================================= */
+
+.vendor-service-name {
+  color: #626262;
+  font-size: 14px;
+  line-height: 1.7;
+  font-weight: 400;
+}
+
+/* =========================================
+   IMAGE
+========================================= */
+
+.vendor-service-image {
+  width: 75px;
+  height: 42px;
+  object-fit: cover;
+  border-radius: 6px;
+  display: block;
+}
+
+/* =========================================
+   RATE
+========================================= */
+
+.vendor-service-rate {
+  color: #626262;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+/* =========================================
+   CATEGORY
+========================================= */
+
+.vendor-service-category {
+  color: #626262;
+  font-size: 14px;
+  line-height: 1.7;
+  white-space: normal;
+}
+
+/* =========================================
+   VENDOR NAME
+========================================= */
+
+.vendor-service-vendor {
+  color: #626262;
+  font-size: 14px;
+  line-height: 1.7;
+  white-space: normal;
+}
+
+/* =========================================
+   ACTION AREA
+========================================= */
+
+.vendor-service-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 5px;
+  padding: 4px 0;
+}
+
+/* =========================================
+   COMMON ACTION BUTTON
+========================================= */
+
+.vendor-service-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+
+  min-height: 32px;
+
+  padding: 5px 8px;
+
+  border: 1px solid transparent;
+  border-radius: 3px;
+
+  font-size: 11px;
+  font-weight: 500;
+
+  line-height: 1;
+  cursor: pointer;
+
+  white-space: nowrap;
+
+  transition: all 0.2s ease;
+}
+
+.vendor-service-btn svg {
+  font-size: 10px;
+}
+
+/* =========================================
+   EDIT
+========================================= */
+
+.vendor-service-edit {
+  background: #087ff5;
+  border-color: #087ff5;
+  color: #ffffff;
+}
+
+.vendor-service-edit:hover {
+  background: #066fd8;
+  border-color: #066fd8;
+}
+
+/* =========================================
+   VENDOR DETAIL
+========================================= */
+
+.vendor-service-detail {
+  background: #087ff5;
+  border-color: #087ff5;
+  color: #ffffff;
+}
+
+.vendor-service-detail:hover {
+  background: #066fd8;
+  border-color: #066fd8;
+}
+
+/* =========================================
+   DELETE
+========================================= */
+
+.vendor-service-delete {
+  background: #dc3545;
+  border-color: #dc3545;
+  color: #ffffff;
+}
+
+.vendor-service-delete:hover {
+  background: #c82333;
+  border-color: #c82333;
+}
+
+/* =========================================
+   DATATABLE OVERRIDES
+========================================= */
+
+.vendor-services-table-wrapper table {
+  font-size: 14px;
+}
+
+.vendor-services-table-wrapper th {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.vendor-services-table-wrapper td {
+  font-size: 14px;
+}
+
+/*
+   Keep DataTable controls compact.
+*/
+
+.vendor-services-table-wrapper input {
+  font-size: 13px !important;
+}
+
+.vendor-services-table-wrapper select {
+  font-size: 13px !important;
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 1200px) {
+  .vendor-services-card {
+    padding: 24px 28px 30px;
+  }
+
+  .vendor-services-title {
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .vendor-services-page {
+    padding: 10px;
+  }
+
+  .vendor-services-card {
+    padding: 20px 15px 25px;
+  }
+
+  .vendor-services-header {
+    margin-bottom: 18px;
+  }
+
+  .vendor-services-title {
+    font-size: 21px;
+  }
+
+  .vendor-services-add-btn {
+    height: 34px;
+    padding: 5px 10px;
+    font-size: 12px;
+  }
+
+  .vendor-service-btn {
+    min-height: 30px;
+    padding: 5px 7px;
+    font-size: 10px;
+  }
+
+  .vendor-service-image {
+    width: 65px;
+    height: 38px;
+  }
+}
+
+@media (max-width: 480px) {
+  .vendor-services-card {
+    padding: 18px 10px 22px;
+  }
+
+  .vendor-services-title {
+    font-size: 19px;
+  }
+
+  .vendor-services-header {
+    align-items: center;
+  }
+
+  .vendor-services-add-btn {
+    min-width: 48px;
+    height: 32px;
+    font-size: 11px;
+  }
+}

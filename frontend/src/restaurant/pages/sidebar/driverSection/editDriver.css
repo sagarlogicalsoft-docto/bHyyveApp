@@ -1,0 +1,439 @@
+/* ==========================================================================
+   EditDriver — tokens (kept in sync with viewDriver.css)
+   ========================================================================== */
+
+.edit-driver {
+  --ink: #101827;
+  --ink-soft: #4b5566;
+  --ink-faint: #8891a0;
+  --paper: #f5f6f8;
+  --card: #ffffff;
+  --line: #e6e8ec;
+
+  --teal-900: #0b4f4a;
+  --teal-700: #0f6d66;
+  --teal-500: #14a396;
+  --teal-100: #e3f3f1;
+
+  --danger: #c0362c;
+  --danger-bg: #fbeae8;
+
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --shadow-card: 0 1px 2px rgba(16, 24, 39, 0.04), 0 8px 24px -16px rgba(16, 24, 39, 0.18);
+
+  font-family: -apple-system, "Segoe UI", Inter, Roboto, Helvetica, Arial, sans-serif;
+  color: var(--ink);
+  background: var(--paper);
+  min-height: 100vh;
+  padding: 28px 20px 44px;
+  box-sizing: border-box;
+}
+
+.edit-driver *,
+.edit-driver *::before,
+.edit-driver *::after {
+  box-sizing: border-box;
+}
+
+/* ==========================================================================
+   Top bar
+   ========================================================================== */
+
+.edit-driver__topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 22px;
+  flex-wrap: wrap;
+}
+
+.edit-driver__title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.edit-driver__title-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: var(--teal-100);
+  color: var(--teal-700);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.edit-driver__title h1 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
+
+.btn {
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  padding: 10px 18px;
+  font-size: 14px;
+  font-weight: 550;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.05s ease;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.btn:active { transform: translateY(1px); }
+.btn:disabled { opacity: 0.55; cursor: not-allowed; }
+
+.btn--primary { background: var(--teal-700); color: #fff; }
+.btn--primary:hover:not(:disabled) { background: var(--teal-900); }
+
+.btn--ghost {
+  background: var(--card);
+  color: var(--ink-soft);
+  border-color: var(--line);
+}
+.btn--ghost:hover:not(:disabled) { background: #fafbfc; border-color: #d7dae0; }
+
+/* ==========================================================================
+   Cards
+   ========================================================================== */
+
+.ed-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  margin-bottom: 18px;
+  overflow: visible;
+}
+
+.ed-card__head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 22px;
+  border-bottom: 1px solid var(--line);
+  background: #fbfbfc;
+}
+.ed-card__head h2 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 650;
+}
+
+.ed-card__icon {
+  width: 26px;
+  height: 26px;
+  border-radius: 7px;
+  background: var(--teal-100);
+  color: var(--teal-700);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ed-card__body { padding: 22px; }
+
+/* ==========================================================================
+   Form layout
+   ========================================================================== */
+
+.ed-grid {
+  display: grid;
+  grid-template-columns: 1fr 260px;
+  gap: 32px;
+}
+.ed-grid--identity {
+  grid-template-columns: 1fr 1fr;
+  margin-bottom: 20px;
+}
+
+.ed-grid__fields {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.ed-grid__aside {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+.ed-grid__aside-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field--full { margin-top: 4px; }
+.field label {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+.field__required { color: var(--danger); margin-left: 3px; }
+
+.field input,
+.field select {
+  width: 100%;
+  min-height: 42px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  font-size: 14px;
+  color: var(--ink);
+  background: #fff;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.field input:focus,
+.field select:focus {
+  border-color: var(--teal-500);
+  box-shadow: 0 0 0 3px rgba(20, 163, 150, 0.14);
+}
+
+.phone-group {
+  width: 100%;
+  min-width: 0;
+}
+
+.phone-group .iti {
+  width: 100%;
+  display: block;
+}
+
+.phone-group .iti input {
+  width: 100%;
+  height: 42px;
+  min-height: 42px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+
+
+.phone-group .iti__selected-dial-code {
+  display: block;
+}
+
+
+/* ==========================================================================
+   Image dropzone / preview
+   ========================================================================== */
+
+.dropzone-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 270px;
+}
+.dropzone-wrap--center { align-items: center; }
+.dropzone-wrap--left { align-items: flex-start; }
+
+.dropzone-hint {
+  margin: -4px 0 0;
+  font-size: 12px;
+  color: var(--ink-faint);
+  text-align: center;
+}
+
+.dropzone {
+  width: 100%;
+  height: 130px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  color: var(--ink-faint);
+  background: #fbfbfc;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+.dropzone:hover { border-color: var(--teal-500); background: var(--teal-100); }
+
+.dropzone__cta { font-size: 13.5px; font-weight: 650; color: var(--teal-700); }
+.dropzone__sub { font-size: 12.5px; color: var(--ink); }
+
+/* preview shown below the dropzone, at its real display size */
+
+.preview-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.preview {
+  position: relative;
+  border: 1px solid var(--line);
+  overflow: hidden;
+  background: #f3f4f6;
+}
+
+.preview--circle {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+}
+.preview--square {
+  width: 100%;
+  max-width: 270px;
+  aspect-ratio: 2 / 1;
+  border-radius: var(--radius-sm);
+}
+
+.preview img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* "button" removal style — a small red button under the image (profile photo) */
+.preview__remove-btn {
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 7px 22px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+  background: var(--danger);
+  cursor: pointer;
+}
+.preview__remove-btn:hover { background: #a92c24; }
+
+/* "corner" removal style — a small round badge on the image (identity doc) */
+.preview__remove-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: none;
+  background: var(--danger);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.preview__remove-badge:hover { background: #a92c24; }
+
+/* ==========================================================================
+   Actions
+   ========================================================================== */
+
+.ed-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+/* ==========================================================================
+   Inline error banner
+   ========================================================================== */
+
+.inline-error {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--danger-bg);
+  color: var(--danger);
+  border: 1px solid #f0cfcc;
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  font-size: 13.5px;
+  margin-bottom: 16px;
+}
+.inline-error button {
+  background: none;
+  border: none;
+  color: inherit;
+  font-size: 16px;
+  cursor: pointer;
+  line-height: 1;
+}
+
+/* ==========================================================================
+   Skeleton loading
+   ========================================================================== */
+
+.sk {
+  background: linear-gradient(90deg, #ececef 25%, #f5f5f7 37%, #ececef 63%);
+  background-size: 400% 100%;
+  animation: sk-shimmer 1.4s ease infinite;
+  border-radius: var(--radius-md);
+}
+@keyframes sk-shimmer {
+  0% { background-position: 100% 50%; }
+  100% { background-position: 0 50%; }
+}
+.ed-skeleton .sk--header { height: 40px; width: 240px; margin-bottom: 20px; }
+.ed-skeleton .sk--card { height: 220px; margin-bottom: 18px; }
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+
+@media (max-width: 780px) {
+  .edit-driver { padding: 20px 16px 48px; }
+  .ed-grid,
+  .ed-grid--identity { grid-template-columns: 1fr; }
+  .ed-grid__aside { order: -1; }
+  .ed-actions { flex-direction: column-reverse; }
+  .ed-actions .btn { width: 100%; }
+}
+
+/* ==========================================================================
+   Reduced motion
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .sk { animation: none; }
+  .btn { transition: none; }
+}
+
+.phone-group .iti__country-container {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.phone-group .iti__selected-country {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  align-items: center;
+}
+
+.phone-group .iti__selected-dial-code {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.phone-group .iti__flag {
+  display: block !important;
+}
+
+.phone-group .iti__arrow {
+  display: block !important;
+}
+
+.phone-group .iti__search-input {
+  padding-left: 34px;
+}

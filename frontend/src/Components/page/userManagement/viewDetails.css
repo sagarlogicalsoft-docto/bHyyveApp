@@ -1,0 +1,1044 @@
+/* =========================================================
+   PAGE
+========================================================= */
+
+.viewdetail-page {
+  width: 100%;
+  min-height: calc(100vh - 70px);
+  padding: 20px 0 50px;
+  background: #f5f7fb;
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.viewdetail-page-header {
+  margin-bottom: 22px;
+}
+
+.viewdetail-page-title {
+  margin: 0 0 8px;
+  color: #172b4d;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.viewdetail-breadcrumb {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 7px;
+  font-size: 14px;
+}
+
+.viewdetail-breadcrumb a {
+  color: #073b74;
+  text-decoration: none;
+}
+
+.viewdetail-breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+.viewdetail-breadcrumb > span {
+  display: inline-flex;
+  align-items: center;
+  color: #7b8794;
+}
+
+.viewdetail-breadcrumb-active {
+  color: #1ba784 !important;
+  font-weight: 600;
+}
+
+/* =========================================================
+   MAIN CARD
+========================================================= */
+
+.viewdetail-card {
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid #e8edf3;
+  border-radius: 10px;
+  box-shadow: 0 3px 12px rgba(30, 45, 65, 0.05);
+  overflow: hidden;
+}
+
+/* =========================================================
+   CARD HEADER
+========================================================= */
+
+.viewdetail-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 20px 22px;
+  border-bottom: 1px solid #edf0f4;
+}
+
+.viewdetail-card-header h3 {
+  margin: 0;
+  color: #172b4d;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.viewdetail-card-header p {
+  margin: 5px 0 0;
+  color: #8a94a6;
+  font-size: 13px;
+}
+
+/* =========================================================
+   ACCOUNT CONTROL
+========================================================= */
+
+.viewdetail-account-control {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.viewdetail-account-control > span {
+  color: #555f6d;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.viewdetail-account-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 36px;
+  padding: 0 13px;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.viewdetail-account-btn svg {
+  font-size: 18px;
+}
+
+.viewdetail-account-btn.active {
+  background: #fff0f0;
+  color: #dc3545;
+}
+
+.viewdetail-account-btn.active:hover {
+  background: #dc3545;
+  color: #ffffff;
+}
+
+.viewdetail-account-btn.inactive {
+  background: #e8f8ef;
+  color: #16834b;
+}
+
+.viewdetail-account-btn.inactive:hover {
+  background: #16834b;
+  color: #ffffff;
+}
+
+/* =========================================================
+   TABS
+========================================================= */
+
+.viewdetail-tabs {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  padding: 0 22px;
+  border-bottom: 1px solid #e5e9ef;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.viewdetail-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.viewdetail-tab {
+  position: relative;
+  flex: 0 0 auto;
+
+  min-height: 52px;
+  padding: 0 20px;
+
+  border: none;
+  background: transparent;
+
+  color: #6b7280;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+  white-space: nowrap;
+
+  transition: all 0.2s ease;
+}
+
+.viewdetail-tab:hover {
+  color: #073b74;
+  background: #f8fafc;
+}
+
+.viewdetail-tab.active {
+  color: #073b74;
+}
+
+.viewdetail-tab.active::after {
+  content: "";
+  position: absolute;
+  left: 15px;
+  right: 15px;
+  bottom: -1px;
+
+  height: 3px;
+
+  background: #1ba784;
+  border-radius: 3px 3px 0 0;
+}
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.viewdetail-content {
+  width: 100%;
+}
+
+/* =========================================================
+   CUSTOMER
+========================================================= */
+
+.viewdetail-customer {
+  padding: 24px;
+}
+
+/* =========================================================
+   PROFILE
+========================================================= */
+
+.viewdetail-profile-section {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+
+  padding-bottom: 24px;
+  border-bottom: 1px solid #edf0f4;
+}
+
+.viewdetail-profile-avatar {
+  width: 72px;
+  height: 72px;
+
+  flex: 0 0 72px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #eaf2f8;
+  color: #073b74;
+
+  font-size: 28px;
+}
+
+.viewdetail-profile-content h3 {
+  margin: 0 0 5px;
+  color: #172b4d;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.viewdetail-profile-content p {
+  margin: 0 0 8px;
+  color: #7a8494;
+  font-size: 13px;
+}
+
+.viewdetail-profile-content strong {
+  color: #073b74;
+}
+
+.viewdetail-account-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+
+  padding: 5px 10px;
+
+  border-radius: 20px;
+
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.viewdetail-account-badge.active {
+  background: #e8f8ef;
+  color: #16834b;
+}
+
+.viewdetail-account-badge.inactive {
+  background: #fff0f0;
+  color: #dc3545;
+}
+
+/* =========================================================
+   SECTIONS
+========================================================= */
+
+.viewdetail-section {
+  padding: 24px 0;
+  border-bottom: 1px solid #edf0f4;
+}
+
+.viewdetail-section:last-child {
+  border-bottom: none;
+}
+
+.viewdetail-section-title {
+  margin-bottom: 20px;
+}
+
+.viewdetail-section-title h4 {
+  margin: 0;
+  color: #172b4d;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+/* =========================================================
+   DETAILS GRID
+========================================================= */
+
+.viewdetail-details-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.viewdetail-detail-item {
+  min-width: 0;
+}
+
+.viewdetail-detail-item label {
+  display: block;
+  margin-bottom: 7px;
+
+  color: #8a94a6;
+
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.viewdetail-detail-item p {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  min-height: 20px;
+  margin: 0;
+
+  color: #374151;
+
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.viewdetail-detail-item p svg {
+  flex: 0 0 auto;
+  color: #073b74;
+}
+
+.viewdetail-full-width {
+  grid-column: 1 / -1;
+}
+
+/* =========================================================
+   BOOKING SUMMARY
+========================================================= */
+
+.viewdetail-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 15px;
+}
+
+.viewdetail-summary-card {
+  padding: 18px;
+
+  background: #f8fafc;
+
+  border: 1px solid #edf0f4;
+  border-radius: 8px;
+}
+
+.viewdetail-summary-card span {
+  display: block;
+  margin-bottom: 7px;
+
+  color: #8a94a6;
+  font-size: 13px;
+}
+
+.viewdetail-summary-card strong {
+  color: #073b74;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+/* =========================================================
+   TAB CONTENT
+========================================================= */
+
+.viewdetail-tab-content {
+  width: 100%;
+}
+
+.viewdetail-tab-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 20px 22px 5px;
+}
+
+.viewdetail-tab-heading h3 {
+  margin: 0;
+
+  color: #172b4d;
+
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.viewdetail-tab-heading p {
+  margin: 5px 0 0;
+
+  color: #8a94a6;
+
+  font-size: 13px;
+}
+
+/* =========================================================
+   TABLE CELLS
+========================================================= */
+
+.viewdetail-serial {
+  color: #555f6d;
+  font-weight: 500;
+}
+
+.viewdetail-address-cell {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+
+  max-width: 300px;
+
+  white-space: normal;
+  line-height: 1.5;
+}
+
+.viewdetail-address-cell svg {
+  flex: 0 0 auto;
+  margin-top: 3px;
+  color: #073b74;
+}
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+.viewdetail-status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 75px;
+  height: 27px;
+
+  padding: 0 10px;
+
+  border-radius: 20px;
+
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.viewdetail-status.completed {
+  background: #e8f8ef;
+  color: #16834b;
+}
+
+.viewdetail-status.pending {
+  background: #fff4df;
+  color: #b7791f;
+}
+
+/* =========================================================
+   BOOKING ACTION
+========================================================= */
+
+.viewdetail-action-btn {
+  min-width: 65px;
+  height: 32px;
+
+  padding: 0 12px;
+
+  border: 1px solid #073b74;
+  border-radius: 5px;
+
+  background: #ffffff;
+  color: #073b74;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+}
+
+.viewdetail-action-btn:hover {
+  background: #073b74;
+  color: #ffffff;
+}
+
+/* =========================================================
+   ADDRESS ACTIONS
+========================================================= */
+
+.viewdetail-address-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.viewdetail-edit-btn,
+.viewdetail-delete-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+
+  height: 32px;
+
+  border-radius: 5px;
+
+  cursor: pointer;
+
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.viewdetail-edit-btn {
+  padding: 0 10px;
+
+  border: 1px solid #073b74;
+
+  background: #ffffff;
+  color: #073b74;
+}
+
+.viewdetail-edit-btn:hover {
+  background: #073b74;
+  color: #ffffff;
+}
+
+.viewdetail-delete-btn {
+  width: 32px;
+
+  border: 1px solid #dc3545;
+
+  background: #ffffff;
+  color: #dc3545;
+}
+
+.viewdetail-delete-btn:hover {
+  background: #dc3545;
+  color: #ffffff;
+}
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+.viewdetail-modal-overlay {
+  position: fixed;
+  inset: 0;
+
+  z-index: 9999;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.viewdetail-account-modal {
+  width: 400px;
+  max-width: 100%;
+
+  padding: 30px;
+
+  background: #ffffff;
+
+  border-radius: 8px;
+
+  text-align: center;
+
+  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.25);
+}
+
+.viewdetail-modal-icon {
+  width: 60px;
+  height: 60px;
+
+  margin: 0 auto 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #fff4df;
+  color: #e29a36;
+
+  font-size: 30px;
+}
+
+.viewdetail-account-modal h3 {
+  margin: 0 0 10px;
+
+  color: #555;
+
+  font-size: 21px;
+  font-weight: 700;
+}
+
+.viewdetail-account-modal p {
+  margin: 0 0 25px;
+
+  color: #666;
+
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.viewdetail-modal-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.viewdetail-confirm-btn,
+.viewdetail-cancel-btn {
+  min-height: 36px;
+
+  padding: 0 15px;
+
+  border: none;
+  border-radius: 5px;
+
+  color: #ffffff;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.viewdetail-confirm-btn {
+  background: #278bd1;
+}
+
+.viewdetail-confirm-btn:hover {
+  background: #1976b9;
+}
+
+.viewdetail-cancel-btn {
+  background: #6c757d;
+}
+
+.viewdetail-cancel-btn:hover {
+  background: #5c636a;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 991px) {
+  .viewdetail-details-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .viewdetail-summary-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .viewdetail-card-header {
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 767px) {
+  .viewdetail-page {
+    padding: 15px 0 30px;
+  }
+
+  .viewdetail-page-title {
+    font-size: 20px;
+  }
+
+  .viewdetail-card-header {
+    flex-direction: column;
+    padding: 16px;
+  }
+
+  .viewdetail-account-control {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .viewdetail-account-btn {
+    flex: 1;
+  }
+
+  .viewdetail-tabs {
+    padding: 0 10px;
+  }
+
+  .viewdetail-tab {
+    min-height: 48px;
+    padding: 0 14px;
+    font-size: 13px;
+  }
+
+  .viewdetail-tab.active::after {
+    left: 10px;
+    right: 10px;
+  }
+
+  .viewdetail-customer {
+    padding: 18px;
+  }
+
+  .viewdetail-profile-section {
+    align-items: flex-start;
+  }
+
+  .viewdetail-details-grid {
+    grid-template-columns: 1fr;
+    gap: 17px;
+  }
+
+  .viewdetail-full-width {
+    grid-column: auto;
+  }
+
+  .viewdetail-summary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .viewdetail-tab-heading {
+    padding: 18px 15px 5px;
+  }
+
+  .viewdetail-account-modal {
+    padding: 25px 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .viewdetail-profile-avatar {
+    width: 58px;
+    height: 58px;
+    flex-basis: 58px;
+    font-size: 22px;
+  }
+
+  .viewdetail-profile-content h3 {
+    font-size: 17px;
+  }
+
+  .viewdetail-account-control {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .viewdetail-account-btn {
+    width: 100%;
+    flex: none;
+  }
+
+  .viewdetail-modal-actions {
+    flex-direction: column;
+  }
+
+  .viewdetail-confirm-btn,
+  .viewdetail-cancel-btn {
+    width: 100%;
+  }
+}
+
+/* =========================================================
+   EDITABLE FIELDS (Customer tab)
+========================================================= */
+
+.viewdetail-input,
+select.viewdetail-input {
+  width: 100%;
+
+  height: 38px;
+
+  padding: 0 12px;
+
+  border: 1px solid #d7dce3;
+  border-radius: 6px;
+
+  background: #ffffff;
+  color: #374151;
+
+  font-size: 14px;
+  font-weight: 500;
+
+  outline: none;
+
+  box-sizing: border-box;
+
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.viewdetail-input:focus,
+select.viewdetail-input:focus {
+  border-color: #073b74;
+  box-shadow: 0 0 0 2px rgba(7, 59, 116, 0.08);
+}
+
+.viewdetail-input-with-icon {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  width: 100%;
+}
+
+.viewdetail-input-with-icon svg {
+  flex: 0 0 auto;
+  color: #073b74;
+  font-size: 14px;
+}
+
+.viewdetail-input-with-icon .viewdetail-input {
+  flex: 1;
+}
+
+/* =========================================================
+   TAB FOOTER (Customer tab "Update Now" button only —
+   addresses now use per-row buttons instead, see below)
+========================================================= */
+
+.viewdetail-tab-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  margin-top: 20px;
+  padding-top: 20px;
+
+  border-top: 1px solid #edf0f4;
+}
+
+.viewdetail-update-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+
+  min-height: 38px;
+
+  padding: 0 18px;
+
+  border: none;
+  border-radius: 6px;
+
+  background: #087ff5;
+  color: #ffffff;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  box-shadow: 0 2px 6px rgba(8, 127, 245, 0.2);
+
+  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.viewdetail-update-btn:hover {
+  background: #066ed6;
+
+  transform: translateY(-1px);
+
+  box-shadow: 0 4px 10px rgba(8, 127, 245, 0.28);
+}
+
+.viewdetail-update-btn svg {
+  font-size: 13px;
+}
+
+/* =========================================================
+   ADDRESS CELL — WRAPPING FIX
+   (overrides the global nowrap set on all table cells in
+   dataTable.css so long addresses wrap and stay fully
+   visible instead of being cut off)
+========================================================= */
+
+.viewdetail-address-td {
+  white-space: normal !important;
+  vertical-align: top;
+}
+
+.viewdetail-address-cell {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+
+  width: 100%;
+  max-width: 100%;
+
+  white-space: normal;
+  line-height: 1.5;
+}
+
+.viewdetail-address-cell svg {
+  flex: 0 0 auto;
+  margin-top: 8px;
+  color: #073b74;
+}
+
+/* =========================================================
+   ADDRESS TEXTAREA (Booking Addresses tab)
+   Auto-wraps long text onto multiple lines instead of
+   truncating or scrolling horizontally.
+========================================================= */
+
+.viewdetail-address-input {
+  flex: 1;
+
+  width: 100%;
+  min-width: 0;
+
+  min-height: 36px;
+
+  padding: 7px 10px;
+
+  border: 1px solid #d7dce3;
+  border-radius: 5px;
+
+  background: #ffffff;
+  color: #374151;
+
+  font-family: inherit;
+  font-size: 13px;
+  line-height: 1.5;
+
+  white-space: normal;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+
+  resize: vertical;
+
+  outline: none;
+
+  box-sizing: border-box;
+
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.viewdetail-address-input:focus {
+  border-color: #073b74;
+  box-shadow: 0 0 0 2px rgba(7, 59, 116, 0.08);
+}
+
+/* =========================================================
+   PER-ROW ADDRESS ACTIONS — small Update/Delete buttons
+========================================================= */
+
+.viewdetail-address-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 70px;
+  gap: 5px;
+}
+
+.viewdetail-row-update-btn,
+.viewdetail-row-delete-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+
+  height: 24px;
+
+  padding: 0 1px;
+
+  border: none;
+  border-radius: 4px;
+
+  font-size: 11px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.viewdetail-row-update-btn svg,
+.viewdetail-row-delete-btn svg {
+  font-size: 10px;
+}
+
+.viewdetail-row-update-btn {
+  background: #087ff5;
+  color: #ffffff;
+}
+
+.viewdetail-row-update-btn:hover {
+  background: #066ed6;
+  transform: translateY(-1px);
+}
+
+.viewdetail-row-delete-btn {
+  background: #dc3545;
+  color: #ffffff;
+}
+
+.viewdetail-row-delete-btn:hover {
+  background: #c82333;
+  transform: translateY(-1px);
+}

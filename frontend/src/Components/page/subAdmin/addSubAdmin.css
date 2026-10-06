@@ -1,0 +1,467 @@
+/* =========================================
+   PAGE
+========================================= */
+
+.add-subadmin-page {
+  width: 100%;
+  min-height: 100%;
+  padding: 28px 32px 40px;
+  background: #f4f6f8;
+  color: #1f2937;
+}
+
+
+/* =========================================
+   HEADER / BREADCRUMB
+========================================= */
+
+.add-subadmin-page-header {
+  margin-bottom: 28px;
+}
+
+.add-subadmin-page-header h2 {
+  margin: 0 0 10px;
+  font-size: 24px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.breadcrumb-wrapper {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-size: 15px;
+}
+
+.breadcrumb-wrapper a {
+  color: #667085;
+  text-decoration: none;
+}
+
+.breadcrumb-wrapper a:hover {
+  color: #1ba784;
+}
+
+.breadcrumb-active {
+  display: flex;
+  align-items: center;
+  color: #1ba784;
+}
+
+.breadcrumb-current {
+  color: #1ba784;
+}
+
+
+/* =========================================
+   MAIN CARD
+========================================= */
+
+.add-subadmin-card {
+  width: 100%;
+  background: #ffffff;
+  border-radius: 6px;
+  padding: 28px 32px 40px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+}
+
+.add-subadmin-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.add-subadmin-card-header h3 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.add-subadmin-card-header button {
+  border: none;
+  background: #28a745;
+  color: #ffffff;
+  padding: 8px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.add-subadmin-card-header button:hover {
+  background: #218838;
+}
+
+
+/* =========================================
+   FORM
+========================================= */
+
+.form-group {
+  margin-bottom: 26px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 10px;
+  color: #667085;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.form-group label span {
+  color: #ef4444;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  height: 52px;
+  padding: 0 15px;
+
+  border: 1px solid #edf0f2;
+  border-radius: 5px;
+
+  background: #f1f3f5;
+  color: #374151;
+
+  font-size: 14px;
+  outline: none;
+}
+
+.form-group input::placeholder {
+  color: #718096;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #1ba784;
+  box-shadow: 0 0 0 2px rgba(27, 167, 132, 0.08);
+}
+
+.form-group small {
+  display: block;
+  margin-top: 5px;
+  color: #667085;
+  font-size: 13px;
+}
+
+
+/* =========================================
+   PERMISSIONS BOX
+========================================= */
+
+.permissions-box {
+  margin-top: 45px;
+  padding: 22px 20px;
+
+  border: 1px solid #e0e3e7;
+  border-radius: 12px;
+
+  background: #fafbfc;
+}
+
+
+/* TITLE */
+
+.permissions-title {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+  width: fit-content;
+  padding-bottom: 12px;
+
+  border-bottom: 3px solid #fbbf24;
+}
+
+.permissions-title svg {
+  color: #34495e;
+  font-size: 18px;
+}
+
+.permissions-title h3 {
+  margin: 0;
+  color: #34495e;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+
+/* =========================================
+   PERMISSION ACTIONS
+========================================= */
+
+.permission-actions {
+  display: flex;
+  gap: 12px;
+  margin: 20px 0 28px;
+}
+
+.permission-actions button {
+  border: none;
+  border-radius: 6px;
+
+  padding: 10px 18px;
+
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.permission-actions button:first-child {
+  background: #6366d9;
+}
+
+.permission-actions button:last-child {
+  background: #dc3545;
+}
+
+.permission-actions button:hover {
+  opacity: 0.9;
+}
+
+
+/* =========================================
+   PERMISSION GRID
+========================================= */
+
+.permissions-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 30px 14px;
+}
+
+
+/* =========================================
+   PERMISSION GROUP
+========================================= */
+
+.permission-group h4 {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+  margin: 0 0 10px;
+  padding-left: 10px;
+
+  border-left: 3px solid #fbbf24;
+
+  color: #34495e;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.permission-group h4 svg {
+  font-size: 16px;
+}
+
+
+/* =========================================
+   PERMISSION ITEM
+========================================= */
+
+.permission-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  min-height: 48px;
+
+  margin-bottom: 2px;
+  padding: 10px 12px;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 9px;
+
+  background: #ffffff;
+
+  cursor: pointer;
+}
+
+.permission-item:hover {
+  background: #f8fafc;
+}
+
+.permission-item input {
+  width: 19px;
+  height: 19px;
+
+  margin: 0;
+
+  accent-color: #1ba784;
+  cursor: pointer;
+}
+
+.permission-item span {
+  color: #666;
+  font-size: 14px;
+}
+
+
+/* =========================================
+   PERMISSION COUNT
+========================================= */
+
+.permission-count {
+  margin-top: 28px;
+  padding: 13px;
+
+  border-radius: 7px;
+
+  background: #e9edf1;
+
+  color: #667085;
+  text-align: center;
+  font-size: 14px;
+}
+
+.permission-count::first-letter {
+  color: #f0a500;
+}
+
+
+/* =========================================
+   FORM BUTTONS
+========================================= */
+
+.add-subadmin-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+
+  margin-top: 30px;
+}
+
+.save-subadmin-btn,
+.reset-subadmin-btn {
+  min-width: 180px;
+  height: 52px;
+
+  border: none;
+  border-radius: 5px;
+
+  color: #ffffff;
+
+  font-size: 16px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.save-subadmin-btn {
+  background: #1ba784;
+}
+
+.save-subadmin-btn:hover {
+  background: #168e70;
+}
+
+.reset-subadmin-btn {
+  background: #59636e;
+}
+
+.reset-subadmin-btn:hover {
+  background: #454e57;
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 992px) {
+  .add-subadmin-page {
+    padding: 24px 20px 35px;
+  }
+
+  .add-subadmin-card {
+    padding: 24px;
+  }
+
+  .permissions-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 767px) {
+  .add-subadmin-page {
+    padding: 20px 12px 30px;
+  }
+
+  .add-subadmin-card {
+    padding: 20px 15px 30px;
+    border-radius: 5px;
+  }
+
+  .add-subadmin-page-header h2 {
+    font-size: 21px;
+  }
+
+  .breadcrumb-wrapper {
+    gap: 6px;
+    font-size: 14px;
+  }
+
+  .add-subadmin-card-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .add-subadmin-card-header h3 {
+    font-size: 20px;
+  }
+
+  .add-subadmin-card-header button {
+    width: 100%;
+  }
+
+  .form-group {
+    margin-bottom: 22px;
+  }
+
+  .form-group input,
+  .form-group select {
+    height: 50px;
+  }
+
+  .permissions-box {
+    margin-top: 30px;
+    padding: 17px 12px;
+  }
+
+  .permissions-grid {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  .permission-actions {
+    flex-wrap: wrap;
+  }
+
+  .permission-actions button {
+    flex: 1;
+  }
+
+  .add-subadmin-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .save-subadmin-btn,
+  .reset-subadmin-btn {
+    width: 100%;
+  }
+}

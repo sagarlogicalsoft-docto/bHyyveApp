@@ -1,0 +1,576 @@
+.nearby-restaurant-page {
+  width: 100%;
+  min-height: 100vh;
+  padding: 20px 24px 40px;
+  background: #fcfcfc;
+  box-sizing: border-box;
+}
+
+/* ================================
+   Breadcrumb
+================================ */
+
+.nearby-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 18px;
+  font-size: 14px;
+}
+
+.nearby-breadcrumb-link {
+  color: #107980;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.nearby-breadcrumb-link:hover {
+  text-decoration: underline;
+}
+
+.nearby-breadcrumb-separator {
+  color: #a0a0a0;
+}
+
+.nearby-breadcrumb-active {
+  color: #777;
+  font-weight: 500;
+}
+
+/* ================================
+   Page Header
+================================ */
+
+.nearby-page-header {
+  margin-bottom: 12px;
+}
+
+.nearby-title-wrapper {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.nearby-title-icon {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #111827;
+  font-size: 22px;
+  margin-top: 0px;
+}
+
+.nearby-title-wrapper h1 {
+  margin: 0;
+  color: #111827;
+  font-size: 21px;
+  line-height: 1.3;
+  font-weight: 700;
+}
+
+.nearby-title-wrapper p {
+  margin: 8px 0 0;
+  color: #7d8a99;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* ================================
+   Current Radius Card
+================================ */
+
+.nearby-current-card {
+  width: min(584px, 100%);
+  min-height: 174px;
+  margin: 14px auto 36px;
+  padding: 20px 20px;
+  box-sizing: border-box;
+  background: linear-gradient(135deg, #107980, #0a585e);
+  border-radius: 18px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  box-shadow: 0 8px 22px rgba(16, 121, 128, 0.18);
+}
+
+
+.nearby-current-radius {
+  color: #ffffff;
+  font-size: 54px;
+  line-height: 1;
+  font-weight: 900;
+  letter-spacing: -1px;
+}
+
+.nearby-current-label {
+  margin-top: 10px;
+  color: #ffffff;
+  font-size: 17px;
+  font-weight: 500;
+}
+
+.nearby-status-badge {
+  margin-top: 16px;
+  padding: 6px 14px;
+  border-radius: 20px;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.nearby-status-badge.active {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.nearby-status-badge.inactive {
+  color: #ffffff;
+  background: rgba(0, 0, 0, 0.18);
+}
+
+/* ================================
+   Form Card
+================================ */
+
+.nearby-form-card {
+  width: min(584px, 100%);
+  margin: 0 auto;
+
+  padding: 30px 36px 34px;
+
+  background: #ffffff;
+  border-radius: 18px;
+
+  box-sizing: border-box;
+
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+}
+
+/* ================================
+   Form Header
+================================ */
+
+.nearby-form-header {
+  display: flex;
+  align-items: center;
+}
+
+.nearby-form-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  color: #111827;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.nearby-form-title svg {
+  color: #107980;
+  font-size: 16px;
+}
+
+.nearby-form-divider {
+  width: 100%;
+  height: 1px;
+  margin: 18px 0 24px;
+  background: #e5e7eb;
+}
+
+/* ================================
+   Information Box
+================================ */
+
+.nearby-info-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+
+  margin-bottom: 28px;
+  padding: 13px 16px;
+
+  background: #e8f4fd;
+
+  border-left: 4px solid #107980;
+  border-radius: 8px;
+
+  color: #164e63;
+}
+
+.nearby-info-icon {
+  flex-shrink: 0;
+  margin-top: 2px;
+
+  color: #107980;
+  font-size: 16px;
+}
+
+.nearby-info-text {
+  font-size: 13px;
+  line-height: 1.6;
+  font-weight: 500;
+}
+
+/* ================================
+   Form Group
+================================ */
+
+.nearby-form-group {
+  margin-bottom: 28px;
+}
+
+.nearby-form-group label {
+  display: block;
+  margin-bottom: 10px;
+
+  color: #4b5563;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.nearby-form-group label span {
+  color: #dc2626;
+}
+
+.nearby-input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.nearby-input-wrapper input {
+  width: 100%;
+  height: 48px;
+
+  padding: 0 68px 0 18px;
+
+  box-sizing: border-box;
+
+  border: 1px solid #dbe2ea;
+  border-radius: 6px;
+
+  background: #ffffff;
+
+  color: #111827;
+  font-size: 16px;
+  font-weight: 500;
+
+  outline: none;
+
+  transition: all 0.2s ease;
+}
+
+.nearby-input-wrapper input:focus {
+  border-color: #107980;
+  box-shadow: 0 0 0 3px rgba(16, 121, 128, 0.1);
+}
+
+.nearby-input-unit {
+  position: absolute;
+  top: 50%;
+  right: 18px;
+
+  transform: translateY(-50%);
+
+  color: #667eea;
+  font-size: 15px;
+  font-weight: 700;
+
+  pointer-events: none;
+}
+
+.nearby-input-help {
+  margin: 7px 0 0;
+
+  color: #8794a5;
+  font-size: 12px;
+}
+
+/* Remove number input arrows */
+
+.nearby-input-wrapper input::-webkit-inner-spin-button,
+.nearby-input-wrapper input::-webkit-outer-spin-button {
+  margin: 0;
+  -webkit-appearance: none;
+}
+
+.nearby-input-wrapper input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* ================================
+   Status
+================================ */
+
+.nearby-status-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  margin-bottom: 15px;
+}
+
+.nearby-status-label {
+  color: #4b5563;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.nearby-toggle {
+  position: relative;
+
+  width: 40px;
+  height: 20px;
+
+  padding: 0;
+
+  border: none;
+  border-radius: 30px;
+
+  background: #cbd5e1;
+
+  cursor: pointer;
+
+  transition: background 0.25s ease;
+}
+
+.nearby-toggle.active {
+  background: #107980;
+}
+
+.nearby-toggle-circle {
+  position: absolute;
+  top: 2px;
+  left: 1px;
+
+  width: 15px;
+  height: 15px;
+
+  border-radius: 50%;
+  background: #ffffff;
+
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+
+  transition: transform 0.25s ease;
+}
+
+.nearby-toggle.active .nearby-toggle-circle {
+  transform: translateX(21px);
+}
+
+.nearby-status-text {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.nearby-status-text.active {
+  color: #107980;
+}
+
+.nearby-status-text.inactive {
+  color: #9ca3af;
+}
+
+/* ================================
+   Date Information
+================================ */
+
+.nearby-date-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+
+  margin-bottom: 25px;
+}
+
+.nearby-date-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.nearby-date-label {
+  color: #8b98a8;
+  font-size: 12px;
+}
+
+.nearby-date-value {
+  color: #52606d;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* ================================
+   Save Button
+================================ */
+
+.nearby-save-button {
+  width: 100%;
+  height: 44px;
+
+  border: none;
+  border-radius: 6px;
+
+  background: #107980;
+  color: #ffffff;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.nearby-save-button:hover {
+  background: #0d686e;
+  box-shadow: 0 5px 14px rgba(16, 121, 128, 0.22);
+}
+
+.nearby-save-button:active {
+  transform: translateY(1px);
+}
+
+.nearby-save-button svg {
+  font-size: 15px;
+}
+
+/* ================================
+   Responsive
+================================ */
+
+@media (max-width: 768px) {
+  .nearby-restaurant-page {
+    padding: 16px;
+  }
+
+  .nearby-title-wrapper h1 {
+    font-size: 21px;
+  }
+
+  .nearby-title-wrapper p {
+    font-size: 14px;
+  }
+
+  .nearby-current-card {
+    min-height: 190px;
+    margin-bottom: 24px;
+  }
+
+  .nearby-current-radius {
+    font-size: 52px;
+  }
+
+  .nearby-current-label {
+    font-size: 17px;
+  }
+
+  .nearby-form-card {
+    padding: 24px 20px 26px;
+  }
+
+  .nearby-date-row {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .nearby-title-wrapper {
+    gap: 8px;
+  }
+
+  .nearby-title-icon {
+    font-size: 19px;
+  }
+
+  .nearby-title-wrapper h1 {
+    font-size: 19px;
+  }
+
+  .nearby-current-card {
+    min-height: 170px;
+    border-radius: 14px;
+  }
+
+  .nearby-current-radius {
+    font-size: 44px;
+  }
+
+  .nearby-form-card {
+    border-radius: 14px;
+    padding: 22px 16px 24px;
+  }
+
+  .nearby-info-box {
+    padding: 13px 14px;
+  }
+
+  .nearby-info-text {
+    font-size: 14px;
+  }
+}
+
+/* =========================================================
+   LOADING STATE
+   ========================================================= */
+
+.nearby-loading-container {
+  min-height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nearby-loading-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.nearby-loading-spinner {
+  font-size: 32px;
+  animation: nearby-spin 1s linear infinite;
+}
+
+.nearby-loading-text {
+  font-size: 14px;
+  font-weight: 500;
+  color: #6b7280;
+}
+
+@keyframes nearby-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* =========================================================
+   SAVE LOADING
+   ========================================================= */
+
+.nearby-save-spinner {
+  animation: nearby-spin 1s linear infinite;
+}

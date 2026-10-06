@@ -1,0 +1,172 @@
+/* =========================================================
+   COMMON MODAL
+========================================================= */
+
+.common-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 20px;
+}
+
+.common-confirm-modal,
+.common-success-modal {
+  width: 100%;
+  max-width: 360px;
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 24px;
+  text-align: center;
+  box-sizing: border-box;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.18);
+}
+
+/* =========================================================
+   ICON
+========================================================= */
+
+.common-modal-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  margin: 0 auto 14px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 20px;
+}
+
+.common-modal-icon.warning {
+  background: #fff4e5;
+  color: #f59e0b;
+}
+
+.common-modal-icon.success {
+  background: #eaf8ef;
+  color: #22c55e;
+}
+
+/* =========================================================
+   TEXT
+========================================================= */
+
+.common-confirm-modal h3,
+.common-success-modal h3 {
+  margin: 0 0 8px;
+  font-size: 17px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.common-confirm-modal p,
+.common-success-modal p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #6b7280;
+}
+
+/* =========================================================
+   ACTIONS
+========================================================= */
+
+.common-modal-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.common-modal-cancel,
+.common-modal-confirm,
+.common-success-button {
+  border: none;
+  border-radius: 6px;
+  min-width: 90px;
+  height: 36px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.common-modal-cancel {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.common-modal-cancel:hover {
+  background: #e5e7eb;
+}
+
+.common-modal-confirm {
+  background: #ef4444;
+  color: #ffffff;
+}
+
+.common-modal-confirm:hover {
+  background: #dc2626;
+}
+
+.common-modal-confirm:disabled,
+.common-modal-cancel:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* =========================================================
+   SUCCESS BUTTON
+========================================================= */
+
+.common-success-button {
+  margin-top: 20px;
+  background: #22c55e;
+  color: #ffffff;
+}
+
+.common-success-button:hover {
+  background: #16a34a;
+}
+
+.common-modal-overlay {
+  animation: modalOverlayFade 0.2s ease-out;
+}
+
+.common-confirm-modal,
+.common-success-modal {
+  animation: modalPop 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes modalOverlayFade {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes modalPop {
+  from {
+    opacity: 0;
+    transform: scale(0.88);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

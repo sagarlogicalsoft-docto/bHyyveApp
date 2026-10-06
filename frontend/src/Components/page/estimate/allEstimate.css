@@ -1,0 +1,163 @@
+/* =========================================================
+   PAGE
+========================================================= */
+
+.estimate-page {
+  width: 100%;
+  padding: 0;
+}
+
+
+/* =========================================================
+   PAGE HEADER
+========================================================= */
+
+.estimate-page-header {
+  margin-bottom: 20px;
+}
+
+.estimate-page-title {
+  margin: 0 0 8px;
+  font-size: 28px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.estimate-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.estimate-breadcrumb a {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.estimate-breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+.estimate-breadcrumb span {
+  display: flex;
+  align-items: center;
+}
+
+.estimate-breadcrumb-active {
+  color: #6b7280;
+}
+
+
+/* =========================================================
+   MAIN CARD
+========================================================= */
+
+.estimate-card {
+  width: 100%;
+  background: #ffffff;
+  border-radius: 6px;
+  padding: 26px 30px 30px;
+  box-sizing: border-box;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+
+/* =========================================================
+   CARD HEADER
+========================================================= */
+
+.estimate-card-header {
+  margin-bottom: 20px;
+}
+
+.estimate-card-header h3 {
+  margin: 0;
+  font-size: 25px;
+  font-weight: 500;
+  color: #111827;
+}
+
+
+/* =========================================================
+   TABLE
+========================================================= */
+
+.estimate-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+.estimate-status {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.estimate-status-pending {
+  color: #856404;
+}
+
+.estimate-status-approved {
+  color: #198754;
+}
+
+.estimate-status-rejected {
+  color: #dc3545;
+}
+
+
+/* =========================================================
+   ACTION
+========================================================= */
+
+.estimate-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.estimate-view-btn {
+  width: 68px;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 10px;
+
+  background: #0d6efd;
+  color: #ffffff;
+
+  font-size: 13px;
+  font-weight: 500;
+
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.estimate-view-btn:hover {
+  background: #0b5ed7;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 768px) {
+  .estimate-card {
+    padding: 20px 15px;
+  }
+
+  .estimate-page-title {
+    font-size: 24px;
+  }
+
+  .estimate-card-header h3 {
+    font-size: 21px;
+  }
+}

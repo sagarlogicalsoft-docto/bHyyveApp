@@ -1,0 +1,504 @@
+/* =========================================================
+   MANAGE CITIES PAGE
+========================================================= */
+
+.manage-cities-page {
+  width: 100%;
+  min-height: 100%;
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   PAGE HEADER
+========================================================= */
+
+.manage-cities-header {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+
+.manage-cities-title {
+  margin: 0 0 8px;
+
+  font-size: 27px;
+  font-weight: 600;
+
+  color: #111827;
+}
+
+
+/* =========================================================
+   BREADCRUMB
+========================================================= */
+
+.manage-cities-breadcrumb {
+  display: flex;
+  align-items: center;
+
+  gap: 7px;
+
+  font-size: 14px;
+
+  color: #6b7280;
+}
+
+
+.manage-cities-breadcrumb a {
+  color: #073b74;
+
+  text-decoration: none;
+}
+
+
+.manage-cities-breadcrumb a:hover {
+  color: #052d59;
+
+  text-decoration: underline;
+}
+
+
+.manage-cities-breadcrumb span {
+  display: flex;
+  align-items: center;
+}
+
+
+.manage-cities-breadcrumb-active {
+  color: #6b7280;
+}
+
+
+/* =========================================================
+   MAIN CARD
+========================================================= */
+
+.manage-cities-card {
+  width: 100%;
+
+  background: #ffffff;
+
+  border-radius: 6px;
+
+  padding: 28px 30px 30px;
+
+  box-sizing: border-box;
+
+  box-shadow:
+    0 2px 10px rgba(0, 0, 0, 0.06);
+
+  overflow: hidden;
+}
+
+
+/* =========================================================
+   IMPORT SECTION
+========================================================= */
+
+.manage-cities-import-section {
+  width: 100%;
+
+  margin-bottom: 22px;
+}
+
+
+/* =========================================================
+   FILE ROW
+========================================================= */
+
+.manage-cities-file-row {
+  display: flex;
+  align-items: center;
+
+  flex-wrap: wrap;
+
+  gap: 8px;
+
+  margin-bottom: 10px;
+}
+
+
+/* =========================================================
+   FILE BUTTON
+========================================================= */
+
+.manage-cities-file-label {
+  display: inline-flex;
+  align-items: center;
+
+  padding: 9px 14px;
+
+  border-radius: 4px;
+
+  background: #087ff5;
+
+  color: #ffffff;
+
+  font-size: 13px;
+  font-weight: 500;
+
+  cursor: pointer;
+
+  transition: background-color 0.2s ease;
+}
+
+
+.manage-cities-file-label:hover {
+  background: #066ed4;
+}
+
+
+/* =========================================================
+   HIDDEN FILE INPUT
+========================================================= */
+
+.manage-cities-file-input {
+  display: none;
+}
+
+
+/* =========================================================
+   FILE NAME
+========================================================= */
+
+.manage-cities-file-name {
+  max-width: 400px;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+
+  color: #4b5563;
+
+  font-size: 14px;
+}
+
+
+/* =========================================================
+   IMPORT BUTTON
+========================================================= */
+
+.manage-cities-import-btn {
+  border: none;
+
+  border-radius: 4px;
+
+  padding: 8px 16px;
+
+  background: #198754;
+
+  color: #ffffff;
+
+  font-size: 13px;
+  font-weight: 500;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.15s ease;
+}
+
+
+.manage-cities-import-btn:hover {
+  background: #157347;
+
+  transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   TABLE WRAPPER
+========================================================= */
+
+.manage-cities-table-wrapper {
+  width: 100%;
+}
+
+
+/* =========================================================
+   SELECT HEADER
+========================================================= */
+
+.manage-cities-select-header {
+  display: flex;
+
+  align-items: center;
+
+  gap: 7px;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   CHECKBOX
+========================================================= */
+
+.manage-cities-checkbox {
+  width: 16px;
+  height: 16px;
+
+  margin: 0;
+
+  cursor: pointer;
+
+  accent-color: #073b74;
+}
+
+
+/* =========================================================
+   CITY NAME
+========================================================= */
+
+.manage-cities-city-name {
+  display: inline-block;
+
+  color: #666666;
+
+  font-size: 16px;
+
+  line-height: 1.4;
+
+  white-space: normal;
+
+  overflow-wrap: anywhere;
+}
+
+
+/* =========================================================
+   ACTIONS
+========================================================= */
+
+.manage-cities-actions {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 6px;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   EDIT BUTTON
+========================================================= */
+
+.manage-cities-edit-btn {
+  border: none;
+
+  border-radius: 4px;
+
+  padding: 9px 15px;
+
+  background: #087ff5;
+
+  color: #ffffff;
+
+  font-size: 13px;
+  font-weight: 500;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.15s ease;
+}
+
+
+.manage-cities-edit-btn:hover {
+  background: #066ed4;
+
+  transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   DELETE BUTTON
+========================================================= */
+
+.manage-cities-delete-btn {
+  border: none;
+
+  border-radius: 4px;
+
+  padding: 9px 15px;
+
+  background: #dc3545;
+
+  color: #ffffff;
+
+  font-size: 13px;
+  font-weight: 500;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.15s ease;
+}
+
+
+.manage-cities-delete-btn:hover {
+  background: #bb2d3b;
+
+  transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   BOTTOM ACTIONS
+========================================================= */
+
+.manage-cities-bottom-actions {
+  display: flex;
+
+  justify-content: flex-end;
+
+  align-items: center;
+
+  margin-top: 18px;
+
+  padding-top: 15px;
+
+  border-top: 1px solid #eeeeee;
+}
+
+
+/* =========================================================
+   DELETE SELECTED BUTTON
+========================================================= */
+
+.manage-cities-delete-selected-btn {
+  border: none;
+
+  border-radius: 4px;
+
+  padding: 10px 18px;
+
+  background: #dc3545;
+
+  color: #ffffff;
+
+  font-size: 13px;
+  font-weight: 500;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.15s ease;
+}
+
+
+.manage-cities-delete-selected-btn:hover {
+  background: #bb2d3b;
+
+  transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   DATATABLE SPACING
+   Scoped ONLY to Manage Cities
+========================================================= */
+
+.manage-cities-table-wrapper .datatable-table {
+  min-width: 0 !important;
+
+  width: 100% !important;
+}
+
+
+.manage-cities-table-wrapper .datatable-table th,
+.manage-cities-table-wrapper .datatable-table td {
+  padding-left: 10px !important;
+
+  padding-right: 10px !important;
+}
+
+
+/* =========================================================
+   ACTION COLUMN
+========================================================= */
+
+.manage-cities-table-wrapper .datatable-table th:last-child,
+.manage-cities-table-wrapper .datatable-table td:last-child {
+  white-space: nowrap !important;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 992px) {
+
+  .manage-cities-card {
+    padding: 24px;
+  }
+
+}
+
+
+@media (max-width: 768px) {
+
+  .manage-cities-title {
+    font-size: 24px;
+  }
+
+  .manage-cities-card {
+    padding: 20px;
+  }
+
+  .manage-cities-file-row {
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+
+  .manage-cities-file-name {
+    max-width: 100%;
+  }
+
+}
+
+
+@media (max-width: 480px) {
+
+  .manage-cities-title {
+    font-size: 22px;
+  }
+
+  .manage-cities-breadcrumb {
+    font-size: 13px;
+
+    gap: 5px;
+  }
+
+  .manage-cities-card {
+    padding: 16px;
+  }
+
+  .manage-cities-actions {
+    gap: 5px;
+  }
+
+  .manage-cities-edit-btn,
+  .manage-cities-delete-btn {
+    padding: 8px 11px;
+  }
+
+  .manage-cities-bottom-actions {
+    justify-content: stretch;
+  }
+
+  .manage-cities-delete-selected-btn {
+    width: 100%;
+  }
+
+}

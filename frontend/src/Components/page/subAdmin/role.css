@@ -1,0 +1,680 @@
+/* =========================================================
+   ROLE PAGE
+========================================================= */
+
+.role-page {
+  width: 100%;
+  min-height: 100%;
+  margin: -20px;
+  padding: 1px;
+  box-sizing: border-box;
+  background: #f4f6f9;
+}
+
+
+/* =========================================================
+   PAGE HEADER
+========================================================= */
+
+.role-page-header {
+  margin-bottom: 22px;
+}
+
+.role-page-header h1 {
+  margin: 0;
+  color: #172b4d;
+  font-size: 27px;
+  font-weight: 700;
+}
+
+.role-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 8px;
+  color: #7b8794;
+  font-size: 13px;
+}
+
+.role-breadcrumb a {
+  color: #008f9f;
+  text-decoration: none;
+}
+
+.role-breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+
+/* =========================================================
+   ROLE CARD
+========================================================= */
+
+.role-card {
+  width: 100%;
+  padding: 10px;
+  background: #ffffff;
+  border-radius: 7px;
+  box-shadow: 0 5px 22px rgba(16, 24, 40, 0.07);
+  box-sizing: border-box;
+}
+
+.role-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 25px;
+}
+
+.role-card-header h2 {
+  margin: 0;
+  color: #111827;
+  font-size: 28px;
+  font-weight: 600;
+}
+
+
+/* =========================================================
+   ADD ROLE BUTTON
+========================================================= */
+
+.add-role-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 0 17px;
+  color: #ffffff;
+  background: #073b74;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.add-role-button:hover {
+  color: #ffffff;
+  background: #006fe6;
+  transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   TABLE
+========================================================= */
+
+.role-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.role-responsibilities {
+  width: 100%;
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  line-height: 1.45;
+  color: #596b7d;
+}
+
+.role-no-responsibility {
+  color: #526274;
+}
+
+
+/* =========================================================
+   STATUS BADGES
+========================================================= */
+
+.role-status-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-width: 95px;
+  padding: 7px 13px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  box-sizing: border-box;
+}
+
+.role-status-active {
+  color: #087443;
+  background: #d9f3e1;
+  border: 1px solid #bde7ca;
+}
+
+.role-status-inactive {
+  color: #9d2735;
+  background: #fde0e3;
+  border: 1px solid #f5c5cb;
+}
+
+
+/* =========================================================
+   ACTION BUTTONS
+========================================================= */
+
+.role-action-buttons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  white-space: nowrap;
+}
+
+.role-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-width: 75px;
+  height: 34px;
+  padding: 0 11px;
+  border: none;
+  border-radius: 5px;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.role-btn:hover {
+  transform: translateY(-1px);
+}
+
+
+/* STATUS — changed from yellow */
+
+.role-btn-status {
+  background: #6366f1;
+}
+
+.role-btn-status:hover {
+  background: #4f46e5;
+}
+
+
+/* EDIT */
+
+.role-btn-edit {
+  background: #16a5bd;
+}
+
+.role-btn-edit:hover {
+  background: #078da5;
+}
+
+
+/* DELETE */
+
+.role-btn-delete {
+  background: #ff4242;
+}
+
+.role-btn-delete:hover {
+  background: #e93636;
+}
+
+
+/* =========================================================
+   MODAL OVERLAY
+========================================================= */
+
+.role-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.43);
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   STATUS MODAL
+========================================================= */
+
+.role-status-modal {
+  width: 100%;
+  max-width: 380px;
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 5px;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.role-status-modal h2 {
+  margin: 0;
+  color: #555555;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.role-status-modal-icon {
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 28px auto 25px;
+  color: #ffffff;
+  background: #ff4242;
+  border-radius: 50%;
+  font-size: 24px;
+}
+
+.role-status-message {
+  margin: 0;
+  color: #6c6c6c;
+  font-size: 15px;
+}
+
+.role-status-role-name {
+  display: block;
+  margin-top: 10px;
+  color: #333333;
+  font-size: 19px;
+}
+
+
+/* =========================================================
+   STATUS INFORMATION
+========================================================= */
+
+.role-status-information {
+  margin-top: 2px;
+  padding: 12px 18px;
+  background: #f8f9fa;
+  border-radius: 6px;
+}
+
+.role-status-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 38px;
+  color: #666666;
+  font-size: 15px;
+}
+
+.role-status-row > span:first-child {
+  min-width: 125px;
+  text-align: right;
+}
+
+
+/* =========================================================
+   STATUS MODAL BUTTONS
+========================================================= */
+
+.role-modal-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 25px;
+}
+
+.role-modal-actions button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 42px;
+  padding: 0 12px;
+  border: none;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.role-modal-cancel {
+  color: #ffffff;
+  background: #555555;
+}
+
+.role-modal-cancel:hover {
+  background: #414141;
+}
+
+.role-modal-confirm {
+  color: #ffffff;
+  background: #ff4242;
+}
+
+.role-modal-confirm:hover {
+  background: #ed3535;
+}
+
+
+/* =========================================================
+   EDIT MODAL
+========================================================= */
+
+.role-edit-modal {
+  width: 100%;
+  max-width: 380px;
+  padding: 22px;
+  background: #ffffff;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+.role-edit-modal h2 {
+  margin: 0 0 25px;
+  color: #555555;
+  font-size: 20px;
+  font-weight: 700;
+  text-align: center;
+}
+
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.role-form-group {
+  margin-bottom: 20px;
+}
+
+.role-form-group label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  color: #3d3d3d;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.role-form-group label svg {
+  color: #39b54a;
+  font-size: 16px;
+}
+
+.role-form-group:nth-of-type(2) label svg {
+  color: #087ff5;
+}
+
+.role-form-group label span {
+  color: #ff4242;
+}
+
+.role-form-group input,
+.role-form-group textarea {
+  width: 100%;
+  padding: 12px 14px;
+  color: #555555;
+  background: #ffffff;
+  border: 1px solid #d9dfe6;
+  border-radius: 10px;
+  outline: none;
+  font-family: inherit;
+  font-size: 14px;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.role-form-group input {
+  height: 50px;
+}
+
+.role-form-group textarea {
+  min-height: 135px;
+  resize: vertical;
+}
+
+.role-form-group input:focus,
+.role-form-group textarea:focus {
+  border-color: #39b54a;
+  box-shadow: 0 0 0 2px rgba(57, 181, 74, 0.08);
+}
+
+.role-form-group textarea:focus {
+  border-color: #d9dfe6;
+  box-shadow: none;
+}
+
+.role-form-group input::placeholder,
+.role-form-group textarea::placeholder {
+  color: #c5c5c5;
+}
+
+.role-character-count {
+  margin-top: 5px;
+  color: #777777;
+  font-size: 12px;
+  text-align: right;
+}
+
+
+/* =========================================================
+   EDIT ACTIONS
+========================================================= */
+
+.role-edit-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 25px;
+}
+
+.role-edit-actions button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-width: 88px;
+  height: 40px;
+  padding: 0 14px;
+  border: none;
+  border-radius: 4px;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.role-update-button {
+  background: #4caf50;
+}
+
+.role-update-button:hover {
+  background: #3f9d43;
+}
+
+.role-cancel-button {
+  background: #ff4242;
+}
+
+.role-cancel-button:hover {
+  background: #ed3535;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 992px) {
+  .role-page {
+    padding: 22px 18px;
+  }
+
+  .role-card {
+    padding: 22px;
+  }
+
+  .role-card-header {
+    align-items: flex-start;
+  }
+
+  .role-action-buttons {
+    gap: 6px;
+  }
+
+  .role-btn {
+    min-width: auto;
+    padding: 0 9px;
+  }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 767px) {
+  .role-page {
+    padding: 18px 12px 30px;
+  }
+
+  .role-card {
+    padding: 18px 14px;
+  }
+
+  .role-card-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .role-card-header h2 {
+    font-size: 23px;
+  }
+
+  .add-role-button {
+    align-self: flex-start;
+  }
+
+  .role-status-modal,
+  .role-edit-modal {
+    max-width: 100%;
+    padding: 22px 18px;
+  }
+
+  .role-status-row {
+    flex-direction: column;
+    gap: 5px;
+    padding: 7px 0;
+  }
+
+  .role-status-row > span:first-child {
+    min-width: auto;
+    text-align: center;
+  }
+
+  .role-modal-actions {
+    flex-wrap: wrap;
+  }
+
+  .role-edit-actions {
+    flex-wrap: wrap;
+  }
+}
+
+
+.role-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.role-confirm-modal {
+  width: 100%;
+  max-width: 430px;
+  padding: 30px;
+  background: #ffffff;
+  border-radius: 10px;
+  text-align: center;
+  box-sizing: border-box;
+  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.18);
+}
+
+.role-confirm-modal h2 {
+  margin: 0 0 22px;
+  color: #555555;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.role-delete-icon {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: #ffffff;
+  background: #ff4545;
+  font-size: 25px;
+}
+
+.role-confirm-modal p {
+  margin: 0 0 8px;
+  color: #666666;
+  font-size: 15px;
+}
+
+.role-confirm-modal > strong {
+  display: block;
+  color: #333333;
+  font-size: 18px;
+}
+
+.role-modal-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 28px;
+}
+
+.role-cancel-btn,
+.role-delete-confirm-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-width: 120px;
+  padding: 11px 16px;
+  border: none;
+  border-radius: 5px;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.role-cancel-btn {
+  background: #6c6c6c;
+}
+
+.role-delete-confirm-btn {
+  background: #ff4545;
+}
+
+.role-cancel-btn:hover {
+  background: #555555;
+}
+
+.role-delete-confirm-btn:hover {
+  background: #e93636;
+}

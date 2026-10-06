@@ -1,0 +1,389 @@
+/* =========================================================
+   PAGE
+========================================================= */
+
+.manage-package-page {
+  width: 100%;
+  min-height: 100%;
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   PAGE HEADER
+========================================================= */
+
+.manage-package-header {
+  margin-bottom: 18px;
+}
+
+
+.manage-package-title {
+  margin: 0 0 8px;
+  font-size: 28px;
+  font-weight: 600;
+  color: #111827;
+}
+
+
+/* =========================================================
+   BREADCRUMB
+========================================================= */
+
+.manage-package-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+
+.manage-package-breadcrumb a {
+  color: #073b74;
+  text-decoration: none;
+}
+
+
+.manage-package-breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+
+.manage-package-breadcrumb span {
+  display: flex;
+  align-items: center;
+}
+
+
+.manage-package-breadcrumb-active {
+  color: #6b7280;
+}
+
+
+/* =========================================================
+   MAIN CARD
+========================================================= */
+
+.manage-package-card {
+  width: 100%;
+  background: #ffffff;
+  border-radius: 5px;
+  padding: 28px 30px 30px;
+  box-sizing: border-box;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+}
+
+
+/* =========================================================
+   TABLE WRAPPER
+========================================================= */
+
+.manage-package-table-wrapper {
+  width: 100%;
+}
+
+
+/* =========================================================
+   SELECT HEADER
+========================================================= */
+
+.manage-package-select-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 2px;
+  line-height: 1.1;
+}
+
+
+/* =========================================================
+   CHECKBOX
+========================================================= */
+
+.manage-package-checkbox {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  cursor: pointer;
+  accent-color: #073b74;
+}
+
+
+/* =========================================================
+   PACKAGE NAME
+========================================================= */
+
+.manage-package-name {
+  color: #374151;
+  font-size: 15px;
+  line-height: 1.45;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+
+/* =========================================================
+   DESCRIPTION
+========================================================= */
+
+.manage-package-description {
+  color: #4b5563;
+  font-size: 15px;
+  line-height: 1.45;
+
+  white-space: normal;
+  overflow-wrap: anywhere;
+
+  max-width: 100%;
+}
+
+
+/* =========================================================
+   PRICE
+========================================================= */
+
+.manage-package-price {
+  color: #374151;
+  font-size: 15px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+
+.manage-package-price-heading {
+  display: inline-block;
+  line-height: 1.25;
+}
+
+
+/* =========================================================
+   VALIDITY
+========================================================= */
+
+.manage-package-validity {
+  color: #374151;
+  font-size: 15px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+
+.manage-package-validity-heading {
+  display: inline-block;
+  line-height: 1.25;
+}
+
+
+/* =========================================================
+   ACTIONS
+========================================================= */
+
+.manage-package-actions {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   COMMON ACTION BUTTON
+========================================================= */
+
+.manage-package-btn {
+  min-width: 58px;
+
+  border: none;
+  border-radius: 4px;
+
+  padding: 8px 14px;
+
+  color: #ffffff;
+
+  font-size: 13px;
+  font-weight: 500;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.15s ease;
+}
+
+
+.manage-package-btn:hover {
+  transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   EDIT BUTTON
+========================================================= */
+
+.manage-package-edit-btn {
+  background-color: #0d6efd;
+}
+
+
+.manage-package-edit-btn:hover {
+  background-color: #0b5ed7;
+}
+
+
+/* =========================================================
+   DELETE BUTTON
+========================================================= */
+
+.manage-package-delete-btn {
+  background-color: #dc3545;
+}
+
+
+.manage-package-delete-btn:hover {
+  background-color: #bb2d3b;
+}
+
+
+/* =========================================================
+   BOTTOM ACTIONS
+========================================================= */
+
+.manage-package-bottom-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  margin-top: 18px;
+  padding-top: 15px;
+
+  border-top: 1px solid #e5e7eb;
+}
+
+
+/* =========================================================
+   BOTTOM DELETE BUTTON
+========================================================= */
+
+.manage-package-bottom-delete {
+  border: none;
+  border-radius: 4px;
+
+  padding: 9px 16px;
+
+  background-color: #dc3545;
+  color: #ffffff;
+
+  font-size: 13px;
+  font-weight: 500;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.15s ease;
+}
+
+
+.manage-package-bottom-delete:hover {
+  background-color: #bb2d3b;
+  transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   DATATABLE SPACING
+   Scoped ONLY to Manage Package
+========================================================= */
+
+.manage-package-table-wrapper .datatable-table {
+  min-width: 0 !important;
+  width: 100% !important;
+}
+
+
+.manage-package-table-wrapper .datatable-table th,
+.manage-package-table-wrapper .datatable-table td {
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+}
+
+
+/* =========================================================
+   DESCRIPTION COLUMN
+========================================================= */
+
+.manage-package-table-wrapper
+.datatable-table
+th:nth-child(4),
+.manage-package-table-wrapper
+.datatable-table
+td:nth-child(4) {
+  min-width: 300px !important;
+}
+
+
+/* =========================================================
+   ACTION COLUMN
+========================================================= */
+
+.manage-package-table-wrapper
+.datatable-table
+th:last-child,
+.manage-package-table-wrapper
+.datatable-table
+td:last-child {
+  white-space: nowrap !important;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 992px) {
+
+  .manage-package-card {
+    padding: 20px;
+  }
+
+}
+
+
+@media (max-width: 768px) {
+
+  .manage-package-title {
+    font-size: 24px;
+  }
+
+  .manage-package-card {
+    padding: 15px;
+  }
+
+  .manage-package-table-wrapper
+  .datatable-table
+  th:nth-child(4),
+  .manage-package-table-wrapper
+  .datatable-table
+  td:nth-child(4) {
+    min-width: 220px !important;
+  }
+
+}
+
+
+@media (max-width: 480px) {
+
+  .manage-package-breadcrumb {
+    font-size: 12px;
+    gap: 5px;
+  }
+
+  .manage-package-title {
+    font-size: 22px;
+  }
+
+}

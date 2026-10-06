@@ -1,0 +1,275 @@
+/* =========================================================
+   PAGE
+========================================================= */
+
+.delivery-charge-page {
+  width: 100%;
+  min-height: 100%;
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   PAGE HEADER
+========================================================= */
+
+.delivery-charge-header {
+  margin-bottom: 18px;
+}
+
+.delivery-charge-title {
+  margin: 0 0 8px;
+  font-size: 28px;
+  font-weight: 600;
+  color: #111827;
+}
+
+
+/* =========================================================
+   BREADCRUMB
+========================================================= */
+
+.delivery-charge-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.delivery-charge-breadcrumb a {
+  color: #073b74;
+  text-decoration: none;
+}
+
+.delivery-charge-breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+.delivery-charge-breadcrumb span {
+  display: flex;
+  align-items: center;
+}
+
+.delivery-charge-breadcrumb-active {
+  color: #6b7280;
+}
+
+.delivery-charge-breadcrumb-arrow {
+  color: #6b7280;
+}
+
+
+/* =========================================================
+   MAIN CARD
+========================================================= */
+
+.delivery-charge-card {
+  width: 100%;
+  background: #ffffff;
+  border-radius: 5px;
+  padding: 24px 28px 28px;
+  box-sizing: border-box;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+}
+
+
+/* =========================================================
+   CARD HEADER
+========================================================= */
+
+.delivery-charge-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.delivery-charge-card-header h3 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #212529;
+}
+
+
+/* =========================================================
+   ADD BUTTON
+========================================================= */
+
+.delivery-charge-add-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+
+  border: none;
+  border-radius: 4px;
+
+  padding: 8px 15px;
+
+  background-color: #073b74;
+  color: #ffffff;
+
+  font-size: 13px;
+  font-weight: 500;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.15s ease;
+}
+
+.delivery-charge-add-btn:hover {
+  background-color: #052d59;
+  transform: translateY(-1px);
+}
+
+.delivery-charge-add-btn svg {
+  font-size: 12px;
+}
+
+
+/* =========================================================
+   TABLE WRAPPER
+========================================================= */
+
+.delivery-charge-table-wrapper {
+  width: 100%;
+}
+
+
+/* =========================================================
+   TABLE - REDUCE COLUMN SPACE
+========================================================= */
+
+.delivery-charge-table-wrapper .datatable-table {
+  min-width: 0 !important;
+  width: 100% !important;
+}
+
+.delivery-charge-table-wrapper .datatable-table th,
+.delivery-charge-table-wrapper .datatable-table td {
+  padding-left: 12px !important;
+  padding-right: 12px !important;
+}
+
+
+/* =========================================================
+   DELIVERY CHARGE
+========================================================= */
+
+.delivery-charge-value {
+  color: #212529;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   DELIVERY CHARGE / KM
+========================================================= */
+
+.delivery-charge-per-km {
+  color: #495057;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   ACTION
+========================================================= */
+
+.delivery-charge-actions {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 6px !important;
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   EDIT BUTTON
+========================================================= */
+
+.delivery-charge-edit-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+
+  border: none;
+  border-radius: 3px;
+
+  padding: 7px 12px;
+
+  background-color: #0d6efd;
+  color: #ffffff;
+
+  font-size: 12px;
+  font-weight: 500;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.15s ease;
+}
+
+.delivery-charge-edit-btn:hover {
+  background-color: #0b5ed7;
+  transform: translateY(-1px);
+}
+
+.delivery-charge-edit-btn svg {
+  font-size: 11px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 768px) {
+  .delivery-charge-title {
+    font-size: 24px;
+  }
+
+  .delivery-charge-card {
+    padding: 18px;
+  }
+
+  .delivery-charge-card-header {
+    align-items: flex-start;
+  }
+}
+
+
+@media (max-width: 480px) {
+  .delivery-charge-breadcrumb {
+    font-size: 12px;
+    gap: 5px;
+  }
+
+  .delivery-charge-card {
+    padding: 15px;
+  }
+
+  .delivery-charge-card-header h3 {
+    font-size: 18px;
+  }
+
+  .delivery-charge-add-btn {
+    padding: 7px 11px;
+  }
+
+  .delivery-charge-add-btn span {
+    display: none;
+  }
+}

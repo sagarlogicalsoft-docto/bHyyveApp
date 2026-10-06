@@ -1,0 +1,273 @@
+/* =========================================================
+   PAGE
+========================================================= */
+
+.warranty-claims-page {
+  width: 100%;
+  min-height: 100%;
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   PAGE HEADER
+========================================================= */
+
+.warranty-claims-header {
+  margin-bottom: 18px;
+}
+
+
+.warranty-claims-title {
+  margin: 0 0 8px;
+  font-size: 28px;
+  font-weight: 600;
+  color: #111827;
+}
+
+
+/* =========================================================
+   BREADCRUMB
+========================================================= */
+
+.warranty-claims-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+
+.warranty-claims-breadcrumb a {
+  color: #073b74;
+  text-decoration: none;
+}
+
+
+.warranty-claims-breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+
+.warranty-claims-breadcrumb span {
+  display: flex;
+  align-items: center;
+}
+
+
+.warranty-claims-breadcrumb-active {
+  color: #6b7280;
+}
+
+
+/* =========================================================
+   MAIN CARD
+========================================================= */
+
+.warranty-claims-card {
+  width: 100%;
+  background: #ffffff;
+  border-radius: 5px;
+  padding: 0 30px 30px;
+  box-sizing: border-box;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+}
+
+
+/* =========================================================
+   CARD HEADER
+========================================================= */
+
+.warranty-claims-card-header {
+  padding: 22px 0 18px;
+}
+
+
+.warranty-claims-card-header h3 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #073b74;
+}
+
+
+/* =========================================================
+   TABLE WRAPPER
+========================================================= */
+
+.warranty-claims-table-wrapper {
+  width: 100%;
+}
+
+
+/* =========================================================
+   BOOKING
+========================================================= */
+
+.warranty-claims-booking {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 3px;
+  background-color: #073b74;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   COMMON TEXT
+========================================================= */
+
+.warranty-claims-text {
+  color: #374151;
+  line-height: 1.6;
+  white-space: normal;
+  word-break: normal;
+}
+
+
+/* =========================================================
+   PRODUCT
+========================================================= */
+
+.warranty-claims-product {
+  color: #1f2937;
+  line-height: 1.6;
+  white-space: normal;
+  word-break: normal;
+}
+
+
+/* =========================================================
+   REASON
+========================================================= */
+
+.warranty-claims-reason {
+  color: #4b5563;
+  line-height: 1.6;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+.warranty-claims-status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 75px;
+  padding: 5px 9px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   PENDING
+========================================================= */
+
+.warranty-claims-status-pending {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+
+/* =========================================================
+   APPROVED
+========================================================= */
+
+.warranty-claims-status-approved {
+  background-color: #d1e7dd;
+  color: #0f5132;
+}
+
+
+/* =========================================================
+   REJECTED
+========================================================= */
+
+.warranty-claims-status-rejected {
+  background-color: #f8d7da;
+  color: #842029;
+}
+
+
+/* =========================================================
+   CREATED DATE
+========================================================= */
+
+.warranty-claims-date {
+  color: #374151;
+  line-height: 1.6;
+  white-space: normal;
+}
+
+
+/* =========================================================
+   DATATABLE SPACING
+   Scoped only to Warranty Claims
+========================================================= */
+
+.warranty-claims-table-wrapper .datatable-table {
+  min-width: 0 !important;
+  width: 100% !important;
+}
+
+
+.warranty-claims-table-wrapper .datatable-table th,
+.warranty-claims-table-wrapper .datatable-table td {
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 992px) {
+  .warranty-claims-card {
+    padding: 0 20px 20px;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .warranty-claims-title {
+    font-size: 24px;
+  }
+
+  .warranty-claims-card {
+    padding: 0 15px 15px;
+  }
+
+  .warranty-claims-card-header {
+    padding-top: 18px;
+  }
+
+  .warranty-claims-card-header h3 {
+    font-size: 18px;
+  }
+}
+
+
+@media (max-width: 480px) {
+  .warranty-claims-breadcrumb {
+    font-size: 12px;
+    gap: 5px;
+  }
+
+  .warranty-claims-card-header h3 {
+    font-size: 17px;
+  }
+}

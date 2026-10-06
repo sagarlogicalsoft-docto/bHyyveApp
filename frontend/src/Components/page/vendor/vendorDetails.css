@@ -1,0 +1,891 @@
+/* =========================================
+   PAGE
+========================================= */
+
+.vendor-details-page {
+  width: 100%;
+  min-height: 100vh;
+  padding: 18px 14px;
+  background: #f5f6f8;
+  color: #4a5d78;
+  box-sizing: border-box;
+}
+
+.vendor-details-card {
+  width: 100%;
+  max-width: 1500px;
+  margin: 0 auto;
+  background: #ffffff;
+  border-radius: 6px;
+  padding: 0px 38px 35px;
+  box-sizing: border-box;
+}
+
+/* =========================================
+   BREADCRUMB
+========================================= */
+
+.vendor-breadcrumb {
+  width: 100%;
+  max-width: 1500px;
+  margin: 0 auto 14px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 2px;
+  box-sizing: border-box;
+}
+
+.vendor-breadcrumb-link {
+  color: #52657a;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 400;
+  transition: color 0.2s ease;
+}
+
+.vendor-breadcrumb-link:hover {
+  color: #087ff5;
+}
+
+.vendor-breadcrumb-icon {
+  color: #94a3b8;
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
+}
+
+.vendor-breadcrumb-active {
+  color: #087ff5;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+/* =========================================
+   HEADER
+========================================= */
+
+.vendor-top-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 14px;
+}
+
+.vendor-detail-name {
+  color: #52657a;
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.vendor-detail-name strong {
+  color: #4b5f74;
+  font-weight: 500;
+}
+
+.vendor-account-actions {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.vendor-account-label {
+  color: #52657a;
+  font-size: 15px;
+  margin-right: 2px;
+}
+
+/* =========================================
+   ACCOUNT BUTTON
+========================================= */
+
+.vendor-status-button,
+.vendor-upload-button {
+  height: 32px;
+  border-radius: 4px;
+  padding: 5px 9px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.vendor-status-button {
+  color: #ffffff;
+  border: 1px solid #087ff5;
+  background: #087ff5;
+}
+
+.vendor-status-button:hover {
+  background: #066fd8;
+  border-color: #066fd8;
+}
+
+.vendor-status-button.inactive {
+  background: #6c757d;
+  border-color: #6c757d;
+}
+
+.vendor-upload-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  background: #f1f3f5;
+  border: 1px solid #e0e4e8;
+  color: #0068ed;
+}
+
+.vendor-upload-button:hover {
+  background: #e7ebef;
+}
+
+/* =========================================
+   TABS
+========================================= */
+
+.vendor-tabs-wrapper {
+  border-bottom: 1px solid #d7dce1;
+  overflow-x: auto;
+  margin-top: 44px;
+}
+
+.vendor-tabs {
+  display: flex;
+  align-items: stretch;
+  min-width: max-content;
+}
+
+.vendor-tab {
+  display: inline-flex;
+  align-items: center;
+  border: 0;
+  border-bottom: 1px solid transparent;
+  background: transparent;
+ 
+  padding: 11px 13px;
+  margin-bottom: -1px;
+  font-size: 16px;
+  font-weight: 400;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.vendor-tab:hover {
+  color: #0054c7;
+  background: #f8fafc;
+}
+
+.vendor-tab.active {
+  color: #52657a;
+  background: #ffffff;
+  border: 1px solid #d7dce1;
+  border-bottom-color: #ffffff;
+  border-radius: 4px 4px 0 0;
+}
+
+/* =========================================
+   CONTENT
+========================================= */
+
+.vendor-content {
+  width: 100%;
+}
+
+.vendor-tab-content {
+  padding-top: 18px;
+}
+
+/* =========================================
+   LOGO
+========================================= */
+
+.vendor-logo-wrapper {
+  display: flex;
+  justify-content: center;
+  padding: 8px 0 12px;
+}
+
+.vendor-logo-image,
+.vendor-logo-placeholder {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+}
+
+.vendor-logo-image {
+  object-fit: cover;
+  border: 1px solid #eeeeee;
+}
+
+.vendor-logo-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fbf4e9;
+  border: 1px solid #f3e7d5;
+  color: #c46a25;
+  font-size: 42px;
+}
+
+/* =========================================
+   SECTION
+========================================= */
+
+.vendor-section {
+  width: 100%;
+  margin-top: 8px;
+}
+
+.vendor-section-title {
+  margin-bottom: 7px;
+}
+
+.vendor-section-title h3 {
+  margin: 0;
+  color: #52657a;
+  font-size: 17px;
+  font-weight: 400;
+}
+
+.vendor-section-body {
+  width: 100%;
+  padding: 12px 20px 15px;
+  background: #eeeeee;
+  border-radius: 6px;
+  box-sizing: border-box;
+}
+
+/* =========================================
+   LABEL
+========================================= */
+
+.vendor-label {
+  display: block;
+  margin-bottom: 6px;
+  color: #52657a;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.vendor-label span {
+  color: #ef4444;
+}
+
+/* =========================================
+   INPUT
+========================================= */
+
+.vendor-input {
+  min-height: 46px;
+  height: 46px;
+  border: 1px solid #dce3eb !important;
+  border-radius: 5px !important;
+  background: #ffffff !important;
+  color: #111827 !important;
+  font-size: 14px !important;
+  padding: 8px 13px !important;
+  box-shadow: none !important;
+}
+
+.vendor-input:focus {
+  border-color: #9fc3e8 !important;
+  box-shadow: 0 0 0 2px rgba(0, 105, 255, 0.06) !important;
+}
+
+.vendor-textarea {
+  min-height: 80px;
+  height: 80px;
+  resize: vertical;
+}
+
+/* =========================================
+   PASSWORD
+========================================= */
+
+.vendor-password-wrapper {
+  position: relative;
+}
+
+.vendor-password-wrapper .vendor-input {
+  padding-right: 48px !important;
+}
+
+.vendor-password-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 46px;
+  height: 46px;
+  border: 1px solid #d0d7de;
+  border-radius: 0 5px 5px 0;
+  background: #edf0f3;
+  color: #52657a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.vendor-password-button:hover {
+  background: #e2e6ea;
+}
+
+/* =========================================
+   UPDATE BUTTON
+========================================= */
+
+.vendor-update-wrapper,
+.shop-save-wrapper {
+  display: flex;
+  justify-content: center;
+  padding-top: 15px;
+}
+
+.vendor-update-button {
+  min-width: 120px;
+  padding: 8px 15px;
+  background: #073b74;
+  border: 1px solid #073b74;
+  color: #ffffff;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.vendor-update-button:hover {
+  background: #066fd8;
+}
+
+/* =========================================
+   TAB HEADING
+========================================= */
+
+.vendor-content-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 15px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.vendor-content-heading h3 {
+  margin: 0 0 3px;
+  color: #52657a;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.vendor-content-heading p {
+  margin: 0;
+  color: #8190a1;
+  font-size: 13px;
+}
+
+.vendor-content-heading > svg {
+  color: #087ff5;
+  font-size: 21px;
+}
+
+/* =========================================
+   SHOP FORM
+========================================= */
+
+.vendor-form-card {
+  background: #eeeeee;
+  border-radius: 6px;
+  padding: 18px 20px;
+}
+
+.shop-save-wrapper {
+  justify-content: flex-end;
+}
+
+/* =========================================
+   BOOKINGS TABLE
+========================================= */
+
+.vendor-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid #e1e6eb;
+  border-radius: 5px;
+}
+
+.vendor-table {
+  width: 100%;
+  min-width: 1050px;
+  border-collapse: collapse;
+  background: #ffffff;
+}
+
+.vendor-table thead th {
+  padding: 12px 10px;
+  background: #f4f6f8;
+  border-bottom: 1px solid #dfe4e8;
+  color: #52657a;
+  font-size: 13px;
+  font-weight: 500;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.vendor-table tbody td {
+  padding: 12px 10px;
+  border-bottom: 1px solid #edf0f2;
+  color: #52657a;
+  font-size: 13px;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.vendor-table tbody tr:hover {
+  background: #fafbfc;
+}
+
+/* =========================================
+   BOOKING STATUS
+========================================= */
+
+.booking-status {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 8px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.booking-status.confirmed {
+  background: #e8f7ef;
+  color: #198754;
+}
+
+.booking-status.pending {
+  background: #fff5dc;
+  color: #b7791f;
+}
+
+.booking-status.completed {
+  background: #e7f3ff;
+  color: #087ff5;
+}
+
+/* =========================================
+   BOOKING ACTION
+========================================= */
+
+.vendor-action-button {
+  width: 32px;
+  height: 32px;
+  border: 1px solid #087f8a;
+  border-radius: 4px;
+  background: #ffffff;
+  color: #087f8a;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.vendor-action-button:hover {
+  background: #087f8a;
+  color: #ffffff;
+}
+
+/* =========================================
+   DOCUMENTS
+========================================= */
+
+.documents-card {
+  width: 100%;
+  border: 1px solid #e1e6eb;
+  border-radius: 6px;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+.document-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  min-height: 54px;
+  padding: 8px 15px;
+  border-bottom: 1px solid #edf0f2;
+}
+
+.document-row:last-child {
+  border-bottom: 0;
+}
+
+.document-name {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #52657a;
+  font-size: 14px;
+}
+
+.document-name svg {
+  color: #087ff5;
+  font-size: 14px;
+}
+
+.document-status {
+  min-width: 130px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.document-view-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border: 1px solid #087ff5;
+  border-radius: 4px;
+  background: #ffffff;
+  color: #087ff5;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.document-view-button:hover {
+  background: #087ff5;
+  color: #ffffff;
+}
+
+.document-not-submitted {
+  display: inline-block;
+  padding: 5px 9px;
+  border-radius: 4px;
+  background: #f8eaea;
+  color: #c0392b;
+  font-size: 12px;
+}
+
+.documents-bottom-action {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 12px;
+}
+
+/* =========================================
+   SERVICES
+========================================= */
+
+.services-card {
+  min-height: 250px;
+  border: 1px solid #e1e6eb;
+  border-radius: 6px;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 25px;
+}
+
+.services-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #eef6ff;
+  color: #087ff5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.services-icon svg {
+  font-size: 22px;
+}
+
+.services-card h4 {
+  margin: 0 0 5px;
+  color: #52657a;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.services-card p {
+  margin: 0 0 15px;
+  color: #8996a5;
+  font-size: 13px;
+}
+
+.services-page-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border: 1px solid #087ff5;
+  background: #087ff5;
+  color: #ffffff;
+  border-radius: 4px;
+  padding: 8px 13px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.services-page-button:hover {
+  background: #066fd8;
+}
+
+/* =========================================
+   MODAL OVERLAY
+========================================= */
+
+.vendor-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(15, 23, 42, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+}
+
+/* =========================================
+   CONFIRM MODAL
+========================================= */
+
+.vendor-confirm-modal {
+  position: relative;
+  width: 100%;
+  max-width: 390px;
+  background: #ffffff;
+  border-radius: 7px;
+  padding: 25px;
+  text-align: center;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+}
+
+.vendor-modal-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 30px;
+  height: 30px;
+  border: 0;
+  background: transparent;
+  color: #8b98a7;
+  cursor: pointer;
+}
+
+.vendor-modal-close:hover {
+  color: #334155;
+}
+
+.vendor-modal-icon {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 12px;
+  border-radius: 50%;
+  background: #eef5ff;
+  color: #087ff5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vendor-modal-icon svg {
+  font-size: 19px;
+}
+
+.vendor-confirm-modal h3 {
+  margin: 0 0 7px;
+  color: #52657a;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.vendor-confirm-modal p {
+  margin: 0 auto;
+  max-width: 300px;
+  color: #7b8794;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.vendor-modal-actions {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.vendor-cancel-button,
+.vendor-confirm-button {
+  min-width: 105px;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.vendor-cancel-button {
+  border: 1px solid #d7dce1;
+  background: #ffffff;
+  color: #52657a;
+}
+
+.vendor-cancel-button:hover {
+  background: #f5f6f8;
+}
+
+.vendor-confirm-button {
+  color: #ffffff;
+  border: 1px solid transparent;
+}
+
+.vendor-confirm-button.deactivate {
+  background: #dc3545;
+  border-color: #dc3545;
+}
+
+.vendor-confirm-button.deactivate:hover {
+  background: #bb2d3b;
+}
+
+.vendor-confirm-button.activate {
+  background: #198754;
+  border-color: #198754;
+}
+
+.vendor-confirm-button.activate:hover {
+  background: #157347;
+}
+
+/* =========================================
+   EMPTY
+========================================= */
+
+.vendor-empty-row {
+  text-align: center !important;
+  padding: 30px !important;
+  color: #8996a5 !important;
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+/* =========================================
+   BREADCRUMB RESPONSIVE
+========================================= */
+
+@media (max-width: 767px) {
+  .vendor-breadcrumb {
+    margin-bottom: 10px;
+    gap: 5px;
+  }
+
+  .vendor-breadcrumb-link,
+  .vendor-breadcrumb-active {
+    font-size: 13px;
+  }
+
+  .vendor-breadcrumb-icon {
+    width: 11px;
+    height: 11px;
+  }
+}
+
+@media (max-width: 992px) {
+  .vendor-details-card {
+    padding: 20px;
+  }
+
+  .vendor-top-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .vendor-account-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .vendor-logo-image,
+  .vendor-logo-placeholder {
+    width: 125px;
+    height: 125px;
+  }
+}
+
+@media (max-width: 767px) {
+  .vendor-details-page {
+    padding: 10px;
+  }
+
+  .vendor-details-card {
+    padding: 16px 13px 25px;
+  }
+
+  .vendor-detail-name {
+    font-size: 16px;
+  }
+
+  .vendor-account-actions {
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .vendor-status-button,
+  .vendor-upload-button {
+    font-size: 13px;
+  }
+
+  .vendor-section-body,
+  .vendor-form-card {
+    padding: 12px;
+  }
+
+  .vendor-input {
+    min-height: 44px;
+    height: 44px;
+    font-size: 13px !important;
+  }
+
+  .vendor-password-button {
+    height: 44px;
+  }
+
+  .vendor-label {
+    font-size: 14px;
+  }
+
+  .vendor-tab {
+    font-size: 14px;
+    padding: 9px 10px;
+  }
+
+  .document-row {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px;
+  }
+
+  .document-status {
+    justify-content: flex-start;
+  }
+
+  .documents-bottom-action {
+    justify-content: flex-start;
+  }
+
+  .vendor-modal-actions {
+    flex-direction: column;
+  }
+
+  .vendor-cancel-button,
+  .vendor-confirm-button {
+    width: 100%;
+  }
+}

@@ -1,0 +1,492 @@
+/* =========================================================
+   PAGE
+========================================================= */
+
+.add-coupon-page {
+  width: 100%;
+  min-height: 100%;
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.add-coupon-header {
+  margin-bottom: 22px;
+}
+
+.add-coupon-page-title {
+  margin: 0 0 8px;
+  font-size: 26px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.add-coupon-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.add-coupon-breadcrumb a {
+  color: #073b74;
+  text-decoration: none;
+}
+
+.add-coupon-breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+.add-coupon-breadcrumb span {
+  display: flex;
+  align-items: center;
+}
+
+.add-coupon-breadcrumb-active {
+  color: #198f91;
+}
+
+
+/* =========================================================
+   MAIN CARD
+========================================================= */
+
+.add-coupon-card {
+  width: 100%;
+  background: #ffffff;
+  border-radius: 6px;
+  padding: 28px 30px 32px;
+  box-sizing: border-box;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.07);
+}
+
+.add-coupon-card-title {
+  margin: 0 0 18px;
+  font-size: 22px;
+  font-weight: 600;
+  color: #111827;
+}
+
+
+/* =========================================================
+   FORM SECTION
+========================================================= */
+
+.add-coupon-form-section {
+  width: 100%;
+  background: #f1f2f3;
+  border-radius: 5px;
+  padding: 25px 30px 30px;
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   FORM GRID
+========================================================= */
+
+.add-coupon-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 30px;
+  row-gap: 12px;
+}
+
+
+/* =========================================================
+   FIELD
+========================================================= */
+
+.add-coupon-field {
+  min-width: 0;
+}
+
+.add-coupon-field label {
+  display: block;
+  margin-bottom: 8px;
+  color: #5f6368;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.add-coupon-field label span {
+  color: #dc3545;
+}
+
+.add-coupon-field input,
+.add-coupon-field select,
+.add-coupon-field textarea {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #e0e2e5;
+  border-radius: 5px;
+  outline: none;
+  background: #ffffff;
+  color: #374151;
+  font-size: 14px;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.add-coupon-field input,
+.add-coupon-field select {
+  height: 46px;
+  padding: 10px 12px;
+}
+
+.add-coupon-field textarea {
+  min-height: 92px;
+  padding: 10px 12px;
+  resize: vertical;
+}
+
+.add-coupon-field input:focus,
+.add-coupon-field select:focus,
+.add-coupon-field textarea:focus {
+  border-color: #073b74;
+  box-shadow: 0 0 0 2px rgba(7, 59, 116, 0.12);
+}
+
+.add-coupon-field small {
+  display: block;
+  margin-top: 5px;
+  color: #6b7280;
+  font-size: 12px;
+}
+
+
+/* =========================================================
+   DISCOUNT
+========================================================= */
+
+.add-coupon-discount-row {
+  display: grid;
+  grid-template-columns: 1fr 125px;
+  gap: 10px;
+}
+
+
+/* =========================================================
+   SECTION TITLE
+========================================================= */
+
+.add-coupon-section-title {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 43px;
+  margin-top: 18px;
+  padding: 10px 13px;
+  box-sizing: border-box;
+  border-radius: 4px;
+  background: #073b74;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.add-coupon-section-title svg {
+  font-size: 15px;
+}
+
+
+/* =========================================================
+   USER RADIO
+========================================================= */
+
+.add-coupon-radio-row {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  padding: 12px 5px 4px;
+}
+
+.add-coupon-radio-option {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: #5f6368;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.add-coupon-radio-option input {
+  width: 15px;
+  height: 15px;
+  margin: 0;
+  cursor: pointer;
+  accent-color: #073b74;
+}
+
+.add-coupon-radio-option svg {
+  color: #6b7280;
+  font-size: 14px;
+}
+
+
+/* =========================================================
+   SELECTION LIST
+========================================================= */
+
+.add-coupon-selection-list {
+  margin-top: 10px;
+  padding: 10px;
+  background: #ffffff;
+  border: 1px solid #dedede;
+  border-radius: 4px;
+  box-sizing: border-box;
+  max-height: 310px;
+  overflow-y: auto;
+}
+
+
+/* =========================================================
+   SELECTION ACTIONS
+========================================================= */
+
+.add-coupon-selection-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.add-coupon-selection-actions button {
+  border: none;
+  border-radius: 3px;
+  padding: 7px 10px;
+  background: #0d9db5;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.add-coupon-selection-actions button:hover {
+  background: #087f93;
+}
+
+.add-coupon-selection-actions .add-coupon-deselect-btn {
+  background: #6c757d;
+}
+
+.add-coupon-selection-actions .add-coupon-deselect-btn:hover {
+  background: #565e64;
+}
+
+
+/* =========================================================
+   CHECKBOX ROW
+========================================================= */
+
+.add-coupon-checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 36px;
+  padding: 3px 5px;
+  color: #5f6368;
+  font-size: 15px;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+.add-coupon-checkbox-row:hover {
+  background: #f5f7f9;
+}
+
+.add-coupon-checkbox-row input {
+  width: 15px;
+  height: 15px;
+  margin: 0;
+  cursor: pointer;
+  accent-color: #0d8fe9;
+}
+
+.add-coupon-checkbox-row svg {
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.add-coupon-checkbox-row small {
+  color: #7b8188;
+  font-size: 12px;
+}
+
+
+/* =========================================================
+   PRODUCT GROUP
+========================================================= */
+
+.add-coupon-product-group {
+  margin-top: 8px;
+}
+
+.add-coupon-product-vendor {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 39px;
+  padding: 8px 10px;
+  box-sizing: border-box;
+  background: #eeeeee;
+  color: #59616a;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.add-coupon-product-vendor svg {
+  font-size: 14px;
+}
+
+
+/* =========================================================
+   PRODUCT ROW
+========================================================= */
+
+.add-coupon-product-row {
+  padding-left: 18px;
+}
+
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.add-coupon-empty {
+  padding: 15px 8px;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+
+/* =========================================================
+   FORM ACTIONS
+========================================================= */
+
+.add-coupon-form-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 7px;
+  margin-top: 25px;
+}
+
+.add-coupon-save-btn,
+.add-coupon-reset-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: none;
+  border-radius: 4px;
+  padding: 9px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    transform 0.15s ease;
+}
+
+.add-coupon-save-btn:hover,
+.add-coupon-reset-btn:hover {
+  transform: translateY(-1px);
+}
+
+.add-coupon-save-btn {
+  background: #0d8fe9;
+  color: #ffffff;
+}
+
+.add-coupon-save-btn:hover {
+  background: #0878c5;
+}
+
+.add-coupon-reset-btn {
+  background: #6c757d;
+  color: #ffffff;
+}
+
+.add-coupon-reset-btn:hover {
+  background: #565e64;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 992px) {
+  .add-coupon-card {
+    padding: 22px;
+  }
+
+  .add-coupon-form-section {
+    padding: 20px;
+  }
+
+  .add-coupon-form-grid {
+    column-gap: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .add-coupon-page-title {
+    font-size: 23px;
+  }
+
+  .add-coupon-card {
+    padding: 16px;
+  }
+
+  .add-coupon-form-section {
+    padding: 16px;
+  }
+
+  .add-coupon-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .add-coupon-discount-row {
+    grid-template-columns: 1fr;
+  }
+
+  .add-coupon-radio-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .add-coupon-breadcrumb {
+    font-size: 12px;
+    gap: 5px;
+  }
+
+  .add-coupon-card-title {
+    font-size: 19px;
+  }
+
+  .add-coupon-form-section {
+    padding: 12px;
+  }
+
+  .add-coupon-section-title {
+    font-size: 13px;
+  }
+
+  .add-coupon-selection-actions {
+    flex-wrap: wrap;
+  }
+
+  .add-coupon-form-actions {
+    flex-wrap: wrap;
+  }
+}

@@ -1,0 +1,316 @@
+/* =========================================================
+   PAGE
+========================================================= */
+
+.add-new-slider-page {
+  width: 100%;
+  min-height: 100%;
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   PAGE HEADER
+========================================================= */
+
+.add-new-slider-header {
+  margin-bottom: 20px;
+}
+
+
+.add-new-slider-title {
+  margin: 0 0 8px;
+
+  font-size: 28px;
+  font-weight: 600;
+
+  color: #111827;
+}
+
+
+/* =========================================================
+   BREADCRUMB
+========================================================= */
+
+.add-new-slider-breadcrumb {
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  font-size: 14px;
+
+  color: #6b7280;
+}
+
+
+.add-new-slider-breadcrumb a {
+  color: #2563eb;
+
+  text-decoration: none;
+}
+
+
+.add-new-slider-breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+
+.add-new-slider-breadcrumb span {
+  display: flex;
+
+  align-items: center;
+}
+
+
+.add-new-slider-breadcrumb-active {
+  color: #6b7280;
+}
+
+
+/* =========================================================
+   MAIN CARD
+========================================================= */
+
+.add-new-slider-card {
+  width: 100%;
+
+  background: #ffffff;
+
+  border-radius: 5px;
+
+  padding: 28px 30px 30px;
+
+  box-sizing: border-box;
+
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+
+/* =========================================================
+   CARD HEADER
+========================================================= */
+
+.add-new-slider-card-header {
+  margin-bottom: 25px;
+}
+
+
+.add-new-slider-card-header h3 {
+  margin: 0;
+
+  font-size: 24px;
+  font-weight: 500;
+
+  color: #111827;
+}
+
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.add-new-slider-form {
+  width: 100%;
+}
+
+
+/* =========================================================
+   FORM GROUP
+========================================================= */
+
+.add-new-slider-form-group {
+  width: 100%;
+
+  max-width: 600px;
+
+  margin-bottom: 18px;
+}
+
+
+.add-new-slider-form-group label {
+  display: block;
+
+  margin-bottom: 8px;
+
+  font-size: 14px;
+  font-weight: 500;
+
+  color: #212529;
+}
+
+
+/* =========================================================
+   FILE INPUT
+========================================================= */
+
+.add-new-slider-form-group input[type="file"] {
+  width: 100%;
+
+  min-height: 40px;
+
+  padding: 7px 10px;
+
+  box-sizing: border-box;
+
+  border: 1px solid #ced4da;
+
+  border-radius: 4px;
+
+  background: #ffffff;
+
+  color: #495057;
+
+  font-size: 14px;
+
+  cursor: pointer;
+}
+
+
+.add-new-slider-form-group input[type="file"]:focus {
+  outline: none;
+
+  border-color: #198754;
+
+  box-shadow:
+    0 0 0 2px rgba(25, 135, 84, 0.12);
+}
+
+
+/* =========================================================
+   SELECTED FILE
+========================================================= */
+
+.add-new-slider-selected-file {
+  margin-top: 5px;
+  margin-bottom: 18px;
+
+  font-size: 13px;
+
+  color: #198754;
+
+  word-break: break-word;
+}
+
+
+/* =========================================================
+   FORM FOOTER
+========================================================= */
+
+.add-new-slider-form-footer {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: flex-start;
+
+  margin-top: 10px;
+}
+
+
+/* =========================================================
+   ADD BUTTON
+========================================================= */
+
+.add-new-slider-add-btn {
+  border: none;
+
+  border-radius: 4px;
+
+  padding: 8px 18px;
+
+  background-color: #198754;
+
+  color: #ffffff;
+
+  font-size: 13px;
+  font-weight: 500;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.15s ease;
+}
+
+
+.add-new-slider-add-btn:hover {
+  background-color: #157347;
+
+  transform: translateY(-1px);
+}
+
+
+.add-new-slider-add-btn:active {
+  transform: translateY(0);
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 992px) {
+
+  .add-new-slider-card {
+    padding: 22px 20px 25px;
+  }
+
+}
+
+
+@media (max-width: 768px) {
+
+  .add-new-slider-title {
+    font-size: 24px;
+  }
+
+
+  .add-new-slider-card {
+    padding: 20px 15px 22px;
+  }
+
+
+  .add-new-slider-card-header h3 {
+    font-size: 22px;
+  }
+
+
+  .add-new-slider-breadcrumb {
+    font-size: 13px;
+
+    gap: 6px;
+  }
+
+}
+
+
+@media (max-width: 480px) {
+
+  .add-new-slider-title {
+    font-size: 22px;
+  }
+
+
+  .add-new-slider-breadcrumb {
+    font-size: 12px;
+
+    gap: 5px;
+
+    flex-wrap: wrap;
+  }
+
+
+  .add-new-slider-card-header h3 {
+    font-size: 20px;
+  }
+
+
+  .add-new-slider-add-btn {
+    padding: 7px 15px;
+
+    font-size: 12px;
+  }
+
+}

@@ -1,0 +1,241 @@
+/* =========================================================
+   PAGE
+========================================================= */
+
+.completed-booking-page {
+  width: 100%;
+  padding: 0;
+}
+
+
+/* =========================================================
+   PAGE HEADER
+========================================================= */
+
+.completed-booking-page-header {
+  margin-bottom: 20px;
+}
+
+.completed-booking-page-title {
+  margin: 0 0 8px;
+  font-size: 28px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.completed-booking-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.completed-booking-breadcrumb a {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.completed-booking-breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+.completed-booking-breadcrumb span {
+  display: flex;
+  align-items: center;
+}
+
+.completed-booking-breadcrumb-active {
+  color: #6b7280;
+}
+
+
+/* =========================================================
+   MAIN CARD
+========================================================= */
+
+.completed-booking-card {
+  width: 100%;
+  background: #ffffff;
+  border-radius: 6px;
+  padding: 26px 30px 30px;
+  box-sizing: border-box;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+
+/* =========================================================
+   CARD HEADER
+========================================================= */
+
+.completed-booking-card-header {
+  margin-bottom: 20px;
+}
+
+.completed-booking-card-header h3 {
+  margin: 0;
+  font-size: 25px;
+  font-weight: 500;
+  color: #111827;
+}
+
+
+/* =========================================================
+   TABLE
+========================================================= */
+
+.completed-booking-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+
+/* =========================================================
+   ADDRESS
+========================================================= */
+
+.completed-booking-address {
+  width: 100%;
+  max-width: 220px;
+
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: normal;
+
+  line-height: 1.35;
+}
+
+
+/* =========================================================
+   DATE TIME
+========================================================= */
+
+.completed-booking-datetime {
+  line-height: 1.35;
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+.completed-booking-status {
+  display: inline-block;
+
+  font-size: 13px;
+  font-weight: 500;
+
+  color: #198754;
+}
+
+
+/* =========================================================
+   ACTION COLUMN
+========================================================= */
+
+.completed-booking-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+
+/* =========================================================
+   PDF DOWNLOAD BUTTON
+========================================================= */
+
+.completed-booking-pdf-btn {
+  width: 70px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+
+  border: none;
+  border-radius: 4px;
+
+  padding: 7px 8px;
+
+  background: #dc3545;
+  color: #ffffff;
+
+  font-size: 12px;
+  font-weight: 500;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    transform 0.15s ease;
+}
+
+.completed-booking-pdf-btn:hover {
+  background: #bb2d3b;
+  transform: translateY(-1px);
+}
+
+.completed-booking-pdf-btn svg {
+  font-size: 12px;
+}
+
+
+/* =========================================================
+   VIEW BUTTON
+========================================================= */
+
+.completed-booking-view-btn {
+  width: 65px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border: none;
+  border-radius: 4px;
+
+  padding: 7px 8px;
+
+  background: #0d6efd;
+  color: #ffffff;
+
+  font-size: 12px;
+  font-weight: 500;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    transform 0.15s ease;
+}
+
+.completed-booking-view-btn:hover {
+  background: #0b5ed7;
+  transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 768px) {
+  .completed-booking-card {
+    padding: 20px 15px;
+  }
+
+  .completed-booking-page-title {
+    font-size: 24px;
+  }
+
+  .completed-booking-card-header h3 {
+    font-size: 21px;
+  }
+
+  .completed-booking-actions {
+    flex-direction: column;
+    gap: 5px;
+  }
+}

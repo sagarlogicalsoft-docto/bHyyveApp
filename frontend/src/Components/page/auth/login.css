@@ -1,0 +1,197 @@
+/* ==========================================================
+   AUTH PAGES
+   ========================================================== */
+
+body {
+  background-color: #f8f9fa;
+}
+
+/* ==========================================================
+   AUTH LAYOUT
+   ========================================================== */
+
+.bg-img-hero {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.card-lg {
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.card-body {
+  padding: 2rem;
+}
+
+.auth-card {
+  transition:
+    transform 0.5s ease,
+    box-shadow 0.5s ease;
+}
+
+.auth-card:hover {
+  transform: translateY(-1px);
+  border-radius: 10px;
+
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* ==========================================================
+   LOGO
+   ========================================================== */
+
+.auth-logo img {
+  max-width: 150px;
+  height: auto;
+}
+
+/* ==========================================================
+   LOGIN CARD LOGO
+   ========================================================== */
+
+.login-card-logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin-bottom: 15px;
+}
+
+.login-card-logo img {
+  width: 100px;
+  height: auto;
+
+  display: block;
+
+  object-fit: contain;
+}
+
+/* ==========================================================
+   ADMIN LOGIN PARAGRAPH
+   ========================================================== */
+.admin-login-title {
+  margin: 0 0 25px;
+  text-align: center;
+  color: #073b74;
+  /* font-size: 20px; */
+  font-weight: 400;
+}
+
+/* ==========================================================
+   FORM
+   ========================================================== */
+
+.form-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #073b74;
+  margin-bottom: 0.5rem;
+}
+
+.form-control {
+  border-radius: 8px;
+  min-height: 48px;
+
+  border: 1px solid #dee2e6;
+
+  box-shadow: none !important;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.form-control:focus {
+  border-color: #073b74;
+
+  box-shadow: 0 0 0 0.2rem rgba(219, 65, 17, 0.15) !important;
+}
+
+/* ==========================================================
+   PASSWORD
+   ========================================================== */
+
+.iconinput {
+  position: relative;
+}
+
+.eyeicon {
+  position: absolute;
+
+  top: 50%;
+  right: 16px;
+
+  transform: translateY(-50%);
+
+  cursor: pointer;
+
+  font-size: 18px;
+
+  color: #6c757d;
+
+  transition: color 0.2s ease;
+}
+
+.eyeicon:hover {
+  color: #073b74;
+}
+
+/* ==========================================================
+   REMEMBER ME CHECKBOX
+   ========================================================== */
+
+.remember-checkbox {
+  accent-color: #0b692e;
+
+  cursor: pointer;
+}
+
+.remember-checkbox:focus {
+  border-color: #0a4a21;
+
+  box-shadow: 0 0 0 0.25rem rgba(34, 197, 94, 0.25);
+}
+
+/* ==========================================================
+   BUTTON
+   ========================================================== */
+
+.login-btn {
+ background: linear-gradient(to top, #0b5fa5, #073b74);
+
+  transition: background 0.2s ease;
+
+  border: none;
+}
+
+.login-btn:hover:not(:disabled) {
+  background: linear-gradient(to bottom, #0b5fa5, #073b74);
+}
+
+.login-btn:disabled {
+  opacity: 0.6;
+}
+
+/* ==========================================================
+   RESPONSIVE
+   ========================================================== */
+
+@media (max-width: 767px) {
+  .card-body {
+    padding: 1.5rem;
+  }
+
+  .auth-logo img {
+    width: 120px;
+  }
+
+  .login-card-logo {
+    margin-bottom: 20px;
+  }
+
+  .login-card-logo img {
+    width: 90px;
+  }
+}

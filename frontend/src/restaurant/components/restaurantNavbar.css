@@ -1,0 +1,868 @@
+/* =========================================
+   RESTAURANT NAVBAR
+========================================= */
+
+.restaurant-navbar {
+  position: fixed;
+  top: 0;
+
+  width: 100%;
+  height: 68px;
+
+  background: #f2f9f9;
+
+  border-bottom: 1px solid #f5f6f7;
+
+  z-index: 1100;
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================
+   NAVBAR INNER
+========================================= */
+
+.restaurant-navbar-inner {
+  width: 100%;
+  height: 100%;
+
+  padding: 0 24px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================
+   LEFT SIDE
+========================================= */
+
+.restaurant-navbar-left {
+  display: flex;
+  align-items: center;
+
+  gap: 14px;
+}
+
+
+/* =========================================
+   MENU BUTTON
+========================================= */
+
+.restaurant-navbar-menu-btn {
+  width: 40px;
+  height: 40px;
+
+  border: none;
+  border-radius: 8px;
+
+  background: transparent;
+
+  color: #52636d;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 18px;
+
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+}
+
+.restaurant-navbar-menu-btn:hover {
+  background: rgba(0, 151, 167, 0.08);
+
+  color: #008f9f;
+}
+
+
+/* =========================================
+   BRAND
+========================================= */
+
+.restaurant-navbar-brand {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+}
+
+.restaurant-navbar-brand-icon {
+  width: 40px;
+  height: 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(0, 143, 159, 0.08);
+
+  border-radius: 10px;
+
+  font-size: 20px;
+}
+
+.restaurant-navbar-brand strong {
+  display: block;
+
+  color: #172b4d;
+
+  font-size: 15px;
+  font-weight: 700;
+
+  line-height: 1.2;
+}
+
+.restaurant-navbar-brand small {
+  display: block;
+
+  margin-top: 2px;
+
+  color: #98a2b3;
+
+  font-size: 10px;
+}
+
+
+/* =========================================
+   RIGHT SIDE
+========================================= */
+
+.restaurant-navbar-right {
+  display: flex;
+  align-items: center;
+
+  gap: 16px;
+  margin-right: 24px;
+}
+
+
+/* =========================================
+   ICON BUTTON
+========================================= */
+
+.restaurant-navbar-icon-btn {
+  position: relative;
+
+  width: 42px;
+  height: 42px;
+
+  border: none;
+  border-radius: 9px;
+
+  background: transparent;
+
+  color: #52636d;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 17px;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.restaurant-navbar-icon-btn:hover {
+  background: rgba(0, 143, 159, 0.08);
+
+  color: #008f9f;
+
+  transform: translateY(-1px);
+}
+
+.restaurant-navbar-icon-btn.notification-active {
+  background: rgba(0, 143, 159, 0.1);
+
+  color: #008f9f;
+}
+
+
+/* =========================================
+   BADGES
+========================================= */
+
+.restaurant-navbar-badge {
+  position: absolute;
+
+  top: 2px;
+  right: 1px;
+
+  min-width: 17px;
+  height: 17px;
+
+  padding: 0 4px;
+
+  border: 2px solid #ffffff;
+
+  border-radius: 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #ffffff;
+
+  font-size: 9px;
+  font-weight: 700;
+
+  line-height: 1;
+
+  box-sizing: border-box;
+}
+
+.notification-badge {
+  background: #e85d75;
+}
+
+.message-badge {
+  background: #008f9f;
+}
+
+
+/* =========================================
+   PROFILE
+========================================= */
+
+.restaurant-navbar-profile {
+  min-height: 46px;
+
+  margin-left: 6px;
+
+  padding: 5px 10px;
+
+  border: 1px solid #e5eaee;
+
+  border-radius: 11px;
+
+  background: #ffffff;
+
+  display: flex;
+  align-items: center;
+
+  gap: 9px;
+
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+}
+
+.restaurant-navbar-profile:hover {
+  border-color: rgba(0, 143, 159, 0.35);
+
+  box-shadow:
+    0 5px 15px rgba(0, 143, 159, 0.08);
+}
+
+
+/* =========================================
+   PROFILE ICON
+========================================= */
+
+.restaurant-profile-icon {
+  color: #52636d;
+
+  font-size: 30px;
+
+  flex-shrink: 0;
+}
+
+
+/* =========================================
+   PROFILE INFO
+========================================= */
+
+.restaurant-profile-info {
+  min-width: 105px;
+
+  text-align: left;
+
+  line-height: 1.2;
+}
+
+.restaurant-profile-info strong {
+  display: block;
+
+  color: #344054;
+
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.restaurant-profile-info small {
+  display: block;
+
+  margin-top: 3px;
+
+  color: #98a2b3;
+
+  font-size: 10px;
+}
+
+
+/* =========================================
+   PROFILE ARROW
+========================================= */
+
+.restaurant-profile-arrow {
+  color: #98a2b3;
+
+  font-size: 10px;
+
+  transition: transform 0.2s ease;
+}
+
+.restaurant-profile-arrow.is-open {
+  transform: rotate(180deg);
+}
+
+
+/* =========================================
+   ADMIN PANEL BACK BUTTON
+========================================= */
+
+.restaurant-navbar-back-btn {
+  height: 38px;
+  padding: 0 12px;
+
+  border: 1px solid rgba(0, 143, 159, 0.25);
+  border-radius: 9px;
+
+  background: #ffffff;
+  color: #005555;
+
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.restaurant-navbar-back-btn:hover {
+  background: rgba(0, 143, 159, 0.08);
+  border-color: #008f9f;
+  color: #008f9f;
+  transform: translateY(-1px);
+}
+
+
+/* =========================================
+   PROFILE DROPDOWN
+========================================= */
+
+.restaurant-navbar-profile-wrap {
+  position: relative;
+}
+
+.restaurant-profile-dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+
+  min-width: 200px;
+
+  background: #ffffff;
+  border: 1px solid #e5eaee;
+  border-radius: 11px;
+
+  box-shadow: 0 12px 28px rgba(16, 24, 40, 0.12);
+
+  padding: 6px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+
+  z-index: 1200;
+
+  animation: restaurant-dropdown-in 0.14s ease;
+}
+
+@keyframes restaurant-dropdown-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.restaurant-profile-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  width: 100%;
+  padding: 10px 12px;
+
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+
+  color: #344054;
+  font-size: 13px;
+  font-weight: 600;
+  text-align: left;
+
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.restaurant-profile-dropdown-item svg {
+  font-size: 14px;
+  color: #98a2b3;
+  flex-shrink: 0;
+  transition: color 0.15s ease;
+}
+
+.restaurant-profile-dropdown-item:hover {
+  background: rgba(0, 143, 159, 0.08);
+  color: #008f9f;
+}
+
+.restaurant-profile-dropdown-item:hover svg {
+  color: #008f9f;
+}
+
+
+/* =========================================
+   NOTIFICATION DROPDOWN
+========================================= */
+
+.restaurant-notification-wrap {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+}
+
+.restaurant-notification-dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: -35px;
+
+  width: 340px;
+  max-width: 50vw;
+
+  background: #ffffff;
+  border: 1px solid #e5eaee;
+  border-radius: 11px;
+
+  box-shadow: 0 12px 28px rgba(16, 24, 40, 0.12);
+
+  overflow: hidden;
+  z-index: 1200;
+
+  animation: restaurant-dropdown-in 0.14s ease;
+}
+
+
+/* HEADER */
+
+.restaurant-notification-header {
+  min-height: 50px;
+  padding: 9px 12px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  border-bottom: 1px solid #edf0f2;
+}
+
+.restaurant-notification-header h3 {
+  margin: 0;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  color: #202b33;
+}
+
+.restaurant-notification-header p {
+  margin: 2px 0 0;
+
+  font-size: 11px;
+
+  color: #3c433f;
+}
+
+.notification-mark-read-btn {
+  border: none;
+  background: transparent;
+
+  padding: 4px 6px;
+
+  font-size: 10px;
+  font-weight: 600;
+
+  color: #087f70;
+
+  cursor: pointer;
+}
+
+.notification-mark-read-btn:hover:not(:disabled) {
+  text-decoration: underline;
+}
+
+.notification-mark-read-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+
+/* LIST */
+
+.restaurant-notification-list {
+  max-height: 300px;
+
+  overflow-y: auto;
+}
+
+.restaurant-notification-item {
+  width: 100%;
+  min-height: 58px;
+
+  padding: 8px 10px;
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  border: none;
+  border-bottom: 1px solid #f0f2f4;
+
+  background: #ffffff;
+
+  text-align: left;
+  cursor: pointer;
+
+  transition: background 0.15s ease;
+}
+
+.restaurant-notification-item:hover {
+  background: #eef7f5;
+}
+
+.restaurant-notification-item.is-unread {
+  background: #f1f8f7;
+}
+
+.restaurant-notification-item.is-unread:hover {
+  background: #dfeeea;
+}
+
+.notification-item-icon {
+  width: 35px;
+  height: 35px;
+  min-width: 35px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 7px;
+
+  background: #e8f3f1;
+  color: #087f70;
+
+  font-size: 13px;
+}
+
+.restaurant-notification-item.is-unread .notification-item-icon {
+  background: #dcefeb;
+}
+
+.notification-item-content {
+  min-width: 0;
+  flex: 1;
+}
+
+.notification-item-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.notification-item-title {
+  min-width: 0;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  color: #27323a;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.notification-item-message {
+  display: block;
+
+  width: 100%;
+
+  margin: 2px 0 0;
+
+  font-size: 11px;
+  line-height: 12px;
+
+  color: #737d84;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.notification-item-time {
+  display: block;
+
+  font-size: 10px;
+
+  color: #9aa2a8;
+}
+
+.notification-unread-dot {
+  width: 6px;
+  height: 6px;
+  min-width: 6px;
+
+  border-radius: 50%;
+
+  background: #1ba784;
+}
+
+
+/* FOOTER */
+
+.restaurant-notification-footer {
+  padding: 8px 10px;
+
+  border-top: 1px solid #edf0f2;
+
+  background: #fafcfc;
+}
+
+.restaurant-notification-footer button {
+  width: 100%;
+
+  border: none;
+  background: transparent;
+
+  padding: 5px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  color: #087f70;
+
+  cursor: pointer;
+}
+
+.restaurant-notification-footer button:hover {
+  color: #005f55;
+}
+
+
+/* EMPTY / LOADING */
+
+.notification-dropdown-empty,
+.notification-dropdown-loading {
+  padding: 28px 15px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+
+  text-align: center;
+
+  font-size: 11px;
+  color: #899197;
+}
+
+.notification-empty-icon {
+  margin-bottom: 6px;
+
+  font-size: 22px;
+  color: #b7c0c5;
+}
+
+.notification-loader {
+  width: 18px;
+  height: 18px;
+
+  margin-bottom: 7px;
+
+  border: 2px solid #e5eeee;
+  border-top-color: #087f70;
+
+  border-radius: 50%;
+
+  animation: notificationSpin 0.7s linear infinite;
+}
+
+@keyframes notificationSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 991.98px) {
+
+  .restaurant-navbar-inner {
+    padding: 0 16px;
+  }
+
+  .restaurant-profile-info {
+    display: none;
+  }
+
+  .restaurant-navbar-profile {
+    padding: 5px 8px;
+  }
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 767px) {
+
+  .restaurant-navbar {
+    height: 60px;
+  }
+
+  .restaurant-navbar-inner {
+    padding: 0 10px;
+  }
+
+  .restaurant-navbar-left {
+    gap: 5px;
+  }
+
+  .restaurant-navbar-brand-icon {
+    width: 36px;
+    height: 36px;
+
+    font-size: 18px;
+  }
+
+  .restaurant-navbar-brand strong {
+    font-size: 13px;
+  }
+
+  .restaurant-navbar-brand small {
+    font-size: 9px;
+  }
+
+  .restaurant-navbar-right {
+    gap: 2px;
+    margin-right: 0;
+  }
+
+  .restaurant-navbar-icon-btn {
+    width: 38px;
+    height: 38px;
+
+    font-size: 16px;
+  }
+
+  .restaurant-navbar-profile {
+    min-height: 40px;
+
+    margin-left: 2px;
+
+    padding: 4px 7px;
+  }
+
+  .restaurant-profile-icon {
+    font-size: 28px;
+  }
+
+  .restaurant-profile-arrow {
+    display: none;
+  }
+
+  .restaurant-navbar-back-btn {
+    width: 38px;
+    padding: 0;
+    justify-content: center;
+  }
+
+  .restaurant-navbar-back-btn span {
+    display: none;
+  }
+
+  .restaurant-profile-dropdown {
+    min-width: 180px;
+    right: -6px;
+  }
+
+  /* Notification dropdown spans the screen on mobile */
+
+  .restaurant-notification-dropdown {
+    position: fixed;
+
+    top: 68px;
+    left: 10px;
+    right: 10px;
+
+    width: auto;
+    max-width: none;
+  }
+
+  .restaurant-notification-list {
+    max-height: calc(100vh - 190px);
+  }
+}
+
+
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
+@media (max-width: 400px) {
+
+  .restaurant-navbar-brand div {
+    display: none;
+  }
+
+  .restaurant-navbar-brand-icon {
+    display: flex;
+  }
+
+  .restaurant-notification-dropdown {
+    left: 7px;
+    right: 7px;
+  }
+}

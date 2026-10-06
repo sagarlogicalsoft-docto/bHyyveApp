@@ -1,0 +1,578 @@
+/* ==========================================================================
+   ViewDriver — tokens
+   ========================================================================== */
+
+.driver-view {
+  --ink: #101827;
+  --ink-soft: #4b5566;
+  --ink-faint: #8891a0;
+  --paper: #f5f6f8;
+  --card: #ffffff;
+  --line: #e6e8ec;
+
+  --teal-900: #0b4f4a;
+  --teal-700: #0f6d66;
+  --teal-500: #14a396;
+  --teal-100: #e3f3f1;
+
+  --amber-600: #b7791f;
+
+  --positive: #1a8a5f;
+  --positive-bg: #e6f6ef;
+  --danger: #c0362c;
+  --danger-bg: #fbeae8;
+  --neutral-bg: #eef0f3;
+
+  --live: #4338ca;
+  --live-bg: #eef1fd;
+  --live-dot: #6366f1;
+
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --shadow-card: 0 1px 2px rgba(16, 24, 39, 0.04), 0 8px 24px -16px rgba(16, 24, 39, 0.18);
+
+  font-family: -apple-system, "Segoe UI", Inter, Roboto, Helvetica, Arial, sans-serif;
+  color: var(--ink);
+  background: var(--paper);
+  min-height: 100vh;
+  padding: 28px 32px 44px;
+  box-sizing: border-box;
+}
+
+.driver-view *,
+.driver-view *::before,
+.driver-view *::after {
+  box-sizing: border-box;
+}
+
+/* ==========================================================================
+   Top bar
+   ========================================================================== */
+
+.driver-view__topbar {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.eyebrow-link {
+  margin: 0 0 6px;
+  font-size: 13px;
+  color: var(--teal-700);
+  cursor: pointer;
+  width: fit-content;
+}
+.eyebrow-link:hover { text-decoration: underline; }
+
+.driver-view__topbar h1 {
+  margin: 0;
+  font-size: 26px;
+  letter-spacing: -0.01em;
+  font-weight: 650;
+}
+
+.driver-view__topbar-actions {
+  display: flex;
+  gap: 10px;
+}
+
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
+
+.btn {
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  padding: 9px 16px;
+  font-size: 14px;
+  font-weight: 550;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.05s ease;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.btn:active { transform: translateY(1px); }
+.btn:disabled { opacity: 0.55; cursor: not-allowed; }
+
+.btn--primary {
+  background: var(--teal-700);
+  color: #fff;
+}
+.btn--primary:hover:not(:disabled) { background: var(--teal-900); }
+
+.btn--ghost {
+  background: var(--card);
+  color: var(--ink-soft);
+  border-color: var(--line);
+  text-decoration: none;
+}
+.btn--ghost:hover:not(:disabled) { background: #fafbfc; border-color: #d7dae0; }
+
+.btn--activate {
+  background: #ffffff;
+  color: var(--teal-700);
+  border-color: var(--teal-700);
+}
+.btn--activate:hover:not(:disabled) {
+  background: var(--teal-700);
+  color: #ffffff;
+  border-color: var(--teal-700);
+}
+
+.btn--deactivate {
+  background: #ffffff;
+  color: var(--amber-600);
+  border-color: #e8c992;
+}
+.btn--deactivate:hover:not(:disabled) {
+  background: #fdf3e2;
+  border-color: var(--amber-600);
+}
+
+.link-btn {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--teal-700);
+  text-decoration: none;
+}
+.link-btn:hover { text-decoration: underline; }
+
+.pill--inactive {
+  background: #fdecea;
+  color: #c0392b;
+  border: 1px solid rgba(192, 57, 43, 0.15);
+}
+.pill--inactive .pill__dot { background: #c0392b; }
+.pill--inactive .pill__icon { color: #c0392b; }
+
+/* ==========================================================================
+   Layout
+   ========================================================================== */
+
+.driver-view__grid {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+.driver-view__main {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ==========================================================================
+   Profile card
+   ========================================================================== */
+
+.profile-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  padding: 28px 22px;
+  text-align: center;
+  position: sticky;
+  top: 20px;
+}
+
+.profile-card__avatar {
+  width: 96px;
+  height: 96px;
+  margin: 0 auto 14px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--teal-100);
+  color: var(--teal-900);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  font-weight: 650;
+  border: 3px solid var(--teal-500);
+  cursor: pointer;
+}
+.profile-card__avatar img { width: 100%; height: 100%; object-fit: cover; }
+
+.profile-card__name {
+  margin: 0 0 10px;
+  font-size: 19px;
+  font-weight: 650;
+}
+
+.profile-card__pills {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.profile-card__contact {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13.5px;
+  margin-bottom: 20px;
+}
+.profile-card__contact a { color: var(--ink-soft); text-decoration: none; }
+.profile-card__contact a:hover { color: var(--teal-700); }
+
+.contact-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.contact-link svg { flex-shrink: 0; opacity: 0.8; }
+
+.profile-card__stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding: 16px 0;
+  margin-bottom: 14px;
+}
+.profile-card__stats div { display: flex; flex-direction: column; gap: 2px; }
+.profile-card__stats strong { font-size: 19px; font-weight: 650; }
+.profile-card__stats span { font-size: 12px; color: var(--ink-faint); }
+
+.profile-card__joined {
+  margin: 0;
+  font-size: 12.5px;
+  color: var(--ink-faint);
+}
+
+.text-positive { color: var(--positive); }
+.text-danger { color: var(--danger); }
+
+/* ==========================================================================
+   Status pills
+   ========================================================================== */
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 11px;
+  border-radius: 100px;
+  font-size: 12.5px;
+  font-weight: 600;
+}
+.pill__dot { width: 6px; height: 6px; border-radius: 50%; }
+.pill__icon { display: inline-flex; align-items: center; }
+
+.pill--positive { background: var(--positive-bg); color: var(--positive); }
+.pill--positive .pill__dot { background: var(--positive); }
+
+/* Online status uses a distinct indigo/blue treatment so it never reads
+   the same as the green Active pill */
+.pill--live {
+  background: var(--live-bg);
+  color: var(--live);
+  border: 1px solid rgba(67, 56, 202, 0.18);
+}
+.pill--live .pill__dot { background: var(--live-dot); box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.18); }
+.pill--live .pill__icon { animation: pill-pulse 1.8s ease-in-out infinite; }
+
+.pill--neutral { background: var(--neutral-bg); color: var(--ink-soft); }
+.pill--neutral .pill__dot { background: var(--ink-faint); }
+
+@keyframes pill-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.55; }
+}
+
+.chip {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 100px;
+  font-size: 12.5px;
+  font-weight: 650;
+}
+.chip--positive { background: var(--positive-bg); color: var(--positive); }
+
+/* ==========================================================================
+   Section cards
+   ========================================================================== */
+
+.section-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.section-card__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--line);
+  background: #fbfbfc;
+}
+.section-card__head h2 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 650;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.section-card__icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 7px;
+  background: var(--teal-100);
+  color: var(--teal-700);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.section-card__body { padding: 6px 10px 10px; }
+
+.info-row {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 12px;
+  padding: 11px 0;
+  border-bottom: 1px solid #f0f1f3;
+  font-size: 14px;
+}
+.info-row:last-child { border-bottom: none; }
+.info-row__label { color: var(--ink-faint); }
+.info-row__value { color: var(--ink); word-break: break-word; }
+.info-row__value a { color: var(--teal-700); }
+
+.muted { color: var(--ink-faint); font-size: 13.5px; margin: 10px 0; }
+
+/* thumbnails */
+
+.thumb-btn {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 0;
+  overflow: hidden;
+  width: 64px;
+  height: 44px;
+  background: none;
+  cursor: pointer;
+}
+.thumb-btn img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+.thumb-btn--cv {
+  width: 120px;
+  height: 90px;
+  margin: 10px 0;
+}
+
+.cv-preview {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 1px dashed var(--line);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  background: #fbfbfc;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  margin: 10px 0;
+}
+.cv-preview img {
+  width: 52px;
+  height: 52px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid var(--line);
+}
+.cv-preview__name { font-size: 13.5px; color: var(--ink-soft); }
+
+/* address / map */
+
+.address-block__label {
+  display: block;
+  font-size: 11.5px;
+  font-weight: 650;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin: 10px 0 6px;
+}
+
+.address-line {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 0 0 12px;
+  font-size: 14px;
+  color: var(--ink);
+}
+.address-line svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: var(--teal-700);
+}
+.map-embed iframe { width: 100%; height: 100%; border: 0; }
+
+.address-card--full {
+  margin-top: 16px;
+  width: 100%;
+}
+.map-embed--full { height: 380px; }
+
+/* ==========================================================================
+   Inline error banner
+   ========================================================================== */
+
+.inline-error {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--danger-bg);
+  color: var(--danger);
+  border: 1px solid #f0cfcc;
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  font-size: 13.5px;
+  margin-bottom: 16px;
+}
+.inline-error button {
+  background: none;
+  border: none;
+  color: inherit;
+  font-size: 16px;
+  cursor: pointer;
+  line-height: 1;
+}
+
+/* ==========================================================================
+   Empty / error state panel
+   ========================================================================== */
+
+.state-panel {
+  max-width: 420px;
+  margin: 60px auto;
+  text-align: center;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 40px 28px;
+}
+.state-panel h2 { margin: 0 0 8px; font-size: 18px; }
+.state-panel p { margin: 0 0 18px; color: var(--ink-soft); font-size: 14px; }
+.state-panel__actions { display: flex; gap: 10px; justify-content: center; }
+
+.state-panel--error .state-panel__icon {
+  width: 40px;
+  height: 40px;
+  margin: 0 auto 14px;
+  border-radius: 50%;
+  background: var(--danger-bg);
+  color: var(--danger);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+
+/* ==========================================================================
+   Lightbox
+   ========================================================================== */
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(16, 24, 39, 0.82);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 40px;
+}
+.lightbox img {
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 10px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+}
+.lightbox__close {
+  position: absolute;
+  top: 20px;
+  right: 28px;
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  font-size: 20px;
+  cursor: pointer;
+}
+.lightbox__close:hover { background: rgba(255, 255, 255, 0.22); }
+
+/* ==========================================================================
+   Skeleton loading
+   ========================================================================== */
+
+.sk {
+  background: linear-gradient(90deg, #ececef 25%, #f5f5f7 37%, #ececef 63%);
+  background-size: 400% 100%;
+  animation: sk-shimmer 1.4s ease infinite;
+  border-radius: var(--radius-md);
+}
+@keyframes sk-shimmer {
+  0% { background-position: 100% 50%; }
+  100% { background-position: 0 50%; }
+}
+.sk--header { height: 44px; width: 260px; margin-bottom: 24px; }
+.sk--card { height: 140px; }
+.sk--tall { height: 420px; }
+.driver-view__skeleton .driver-view__grid {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 20px;
+}
+.driver-view__skeleton .driver-view__main {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+
+@media (max-width: 860px) {
+  .driver-view { padding: 20px 16px 48px; }
+  .driver-view__grid,
+  .driver-view__skeleton .driver-view__grid {
+    grid-template-columns: 1fr;
+  }
+  .profile-card { position: static; }
+  .info-row { grid-template-columns: 1fr; gap: 4px; }
+  .driver-view__topbar-actions { width: 100%; }
+  .btn { flex: 1; }
+  .map-embed--full { height: 260px; }
+}
+
+/* ==========================================================================
+   Reduced motion
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .sk { animation: none; }
+  .btn { transition: none; }
+  .pill--live .pill__icon { animation: none; }
+}
