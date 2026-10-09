@@ -1,0 +1,447 @@
+/* =========================================================
+   PAGE
+========================================================= */
+
+.time-slot-page {
+  width: 100%;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   PAGE HEADER
+========================================================= */
+
+.time-slot-page-header {
+  margin-bottom: 20px;
+}
+
+.time-slot-page-title {
+  margin: 0 0 8px;
+
+  font-size: 28px;
+  font-weight: 600;
+
+  color: #111827;
+}
+
+
+/* =========================================================
+   BREADCRUMB
+========================================================= */
+
+.time-slot-breadcrumb {
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+  font-size: 14px;
+
+  color: #6b7280;
+}
+
+.time-slot-breadcrumb a {
+  color: #2563eb;
+
+  text-decoration: none;
+}
+
+.time-slot-breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+.time-slot-breadcrumb span {
+  display: flex;
+  align-items: center;
+}
+
+.time-slot-breadcrumb-active {
+  color: #6b7280;
+}
+
+
+/* =========================================================
+   MAIN CARD
+========================================================= */
+
+.time-slot-card {
+  width: 100%;
+
+  background: #ffffff;
+
+  border-radius: 6px;
+
+  padding: 10px 15px 15px;
+
+  box-sizing: border-box;
+
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+
+/* =========================================================
+   CARD HEADER
+========================================================= */
+
+.time-slot-card-header {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 20px;
+
+  margin-bottom: 22px;
+}
+
+.time-slot-card-header h3 {
+  margin: 0;
+
+  font-size: 28px;
+  font-weight: 500;
+
+  color: #111827;
+}
+
+
+/* =========================================================
+   ADD BUTTON
+========================================================= */
+
+.time-slot-add-btn {
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 7px;
+
+  border: none;
+
+  border-radius: 4px;
+
+  padding: 9px 16px;
+
+  background: #073b74;
+
+  color: #ffffff;
+
+  font-size: 13px;
+
+  font-weight: 500;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    transform 0.15s ease;
+}
+
+.time-slot-add-btn:hover {
+  background: #052d59;
+
+  transform: translateY(-1px);
+}
+
+.time-slot-add-btn svg {
+  font-size: 12px;
+}
+
+
+/* =========================================================
+   TABLE
+========================================================= */
+
+.time-slot-table-wrapper {
+  width: 100%;
+
+  overflow-x: auto;
+}
+
+
+/* =========================================================
+   SELECT HEADER
+========================================================= */
+
+.time-slot-select-header {
+  display: flex;
+
+  align-items: center;
+
+  gap: 2px;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   CHECKBOX
+========================================================= */
+
+.time-slot-checkbox {
+  width: 16px;
+  height: 16px;
+
+  cursor: pointer;
+
+  accent-color: #198754;
+}
+
+
+/* =========================================================
+   ACTIONS
+========================================================= */
+
+.time-slot-actions {
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   EDIT BUTTON
+========================================================= */
+
+.time-slot-edit-btn {
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 5px;
+
+  border: none;
+
+  border-radius: 4px;
+
+  padding: 8px 12px;
+
+  background: #073b74;
+
+  color: #ffffff;
+
+  font-size: 12px;
+
+  font-weight: 500;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    transform 0.15s ease;
+}
+
+.time-slot-edit-btn:hover {
+  background: #052d59;
+
+  transform: translateY(-1px);
+}
+
+.time-slot-edit-btn svg {
+  font-size: 11px;
+}
+
+
+/* =========================================================
+   DELETE BUTTON
+========================================================= */
+
+.time-slot-delete-btn {
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 5px;
+
+  border: none;
+
+  border-radius: 4px;
+
+  padding: 8px 12px;
+
+  background: #dc3545;
+
+  color: #ffffff;
+
+  font-size: 12px;
+
+  font-weight: 500;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    transform 0.15s ease;
+}
+
+.time-slot-delete-btn:hover {
+  background: #bb2d3b;
+
+  transform: translateY(-1px);
+}
+
+.time-slot-delete-btn svg {
+  font-size: 11px;
+}
+
+
+/* =========================================================
+   DELETE SELECTED FOOTER
+========================================================= */
+
+.time-slot-selected-footer {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: flex-end;
+
+  margin-top: 18px;
+}
+
+
+/* =========================================================
+   DELETE ALL BUTTON
+========================================================= */
+
+.time-slot-delete-selected-btn {
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 7px;
+
+  border: none;
+
+  border-radius: 4px;
+
+  padding: 8px 14px;
+
+  background: #dc3545;
+
+  color: #ffffff;
+
+  font-size: 13px;
+
+  font-weight: 500;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    transform 0.15s ease;
+}
+
+.time-slot-delete-selected-btn:hover {
+  background: #bb2d3b;
+
+  transform: translateY(-1px);
+}
+
+.time-slot-delete-selected-btn svg {
+  font-size: 12px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 768px) {
+
+  .time-slot-card {
+    padding: 20px 15px;
+  }
+
+  .time-slot-card-header {
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+
+  .time-slot-page-title {
+    font-size: 24px;
+  }
+
+  .time-slot-card-header h3 {
+    font-size: 22px;
+  }
+
+  .time-slot-add-btn {
+    padding: 8px 13px;
+  }
+
+  .time-slot-actions {
+    gap: 5px;
+  }
+
+  .time-slot-edit-btn,
+  .time-slot-delete-btn {
+    padding: 7px 10px;
+  }
+}
+
+
+@media (max-width: 480px) {
+
+  .time-slot-page-title {
+    font-size: 22px;
+  }
+
+  .time-slot-card-header h3 {
+    font-size: 20px;
+  }
+
+  .time-slot-add-btn {
+    width: 100%;
+  }
+
+  .time-slot-delete-selected-btn {
+    padding: 7px 11px;
+
+    font-size: 12px;
+  }
+
+  .time-slot-edit-btn,
+  .time-slot-delete-btn {
+    padding: 6px 9px;
+
+    font-size: 11px;
+  }
+}
+/* =========================================================
+   TIME SLOT TABLE - REDUCE COLUMN SPACE
+========================================================= */
+
+.time-slot-table-wrapper .datatable-table {
+  min-width: 0 !important;
+  width: 100% !important;
+}
+
+.time-slot-table-wrapper .datatable-table th,
+.time-slot-table-wrapper .datatable-table td {
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+}
+
+/* Keep Action buttons close together */
+.time-slot-actions {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}

@@ -1,0 +1,438 @@
+/* =========================================================
+   PAGE
+========================================================= */
+
+.add-image-page {
+  width: 100%;
+  padding: 0;
+}
+
+
+/* =========================================================
+   PAGE HEADER
+========================================================= */
+
+.add-image-page-header {
+  margin-bottom: 20px;
+}
+
+.add-image-page-title {
+  margin: 0 0 8px;
+
+  font-size: 28px;
+  font-weight: 600;
+
+  color: #111827;
+}
+
+.add-image-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.add-image-breadcrumb a {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.add-image-breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+.add-image-breadcrumb span {
+  display: flex;
+  align-items: center;
+}
+
+.add-image-breadcrumb-active {
+  color: #6b7280;
+}
+
+
+/* =========================================================
+   MAIN CARD
+========================================================= */
+
+.add-image-card {
+  width: 100%;
+
+  background: #ffffff;
+
+  border-radius: 6px;
+
+  padding: 26px 30px 30px;
+
+  box-sizing: border-box;
+
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+
+/* =========================================================
+   CARD HEADER
+========================================================= */
+
+.add-image-card-header {
+  margin-bottom: 25px;
+}
+
+.add-image-card-header h3 {
+  margin: 0;
+
+  font-size: 25px;
+  font-weight: 500;
+
+  color: #111827;
+}
+
+
+/* =========================================================
+   FORM GRID
+========================================================= */
+
+.add-image-form-grid {
+  display: grid;
+
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  column-gap: 25px;
+  row-gap: 20px;
+}
+
+
+/* =========================================================
+   FORM GROUP
+========================================================= */
+
+.add-image-form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.add-image-form-group label {
+  margin-bottom: 8px;
+
+  font-size: 14px;
+  font-weight: 500;
+
+  color: #374151;
+}
+
+.add-image-form-group label span {
+  color: #dc3545;
+}
+
+
+/* =========================================================
+   INPUT / SELECT / TEXTAREA
+========================================================= */
+
+.add-image-form-group input,
+.add-image-form-group select,
+.add-image-form-group textarea {
+  width: 100%;
+
+  box-sizing: border-box;
+
+  border: 1px solid #d1d5db;
+
+  border-radius: 4px;
+
+  background: #ffffff;
+
+  color: #374151;
+
+  font-size: 14px;
+
+  outline: none;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+
+/* TEXT INPUT */
+
+.add-image-form-group input[type="text"] {
+  height: 42px;
+
+  padding: 0 12px;
+}
+
+
+/* SELECT */
+
+.add-image-form-group select {
+  height: 42px;
+
+  padding: 0 12px;
+
+  cursor: pointer;
+}
+
+
+/* FILE INPUT */
+
+.add-image-form-group input[type="file"] {
+  min-height: 42px;
+
+  padding: 8px 10px;
+
+  cursor: pointer;
+
+  background: #ffffff;
+}
+
+
+/* TEXTAREA */
+
+.add-image-form-group textarea {
+  min-height: 120px;
+
+  padding: 10px 12px;
+
+  resize: vertical;
+
+  line-height: 1.5;
+}
+
+
+/* =========================================================
+   FOCUS
+========================================================= */
+
+.add-image-form-group input:focus,
+.add-image-form-group select:focus,
+.add-image-form-group textarea:focus {
+  border-color: #db4111;
+
+  box-shadow: 0 0 0 2px rgba(219, 65, 17, 0.08);
+}
+
+
+/* =========================================================
+   DESCRIPTION
+========================================================= */
+
+.add-image-description-group {
+  grid-column: 1 / -1;
+}
+
+
+/* =========================================================
+   SUBMIT BUTTON
+========================================================= */
+
+.add-image-submit-wrapper {
+  display: flex;
+
+  justify-content: center;
+
+  margin-top: 30px;
+}
+
+.add-image-submit-btn {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  min-width: 125px;
+
+  border: none;
+
+  border-radius: 4px;
+
+  padding: 10px 20px;
+
+  background: #db4111;
+
+  color: #ffffff;
+
+  font-size: 14px;
+  font-weight: 500;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    transform 0.15s ease;
+}
+
+.add-image-submit-btn:hover {
+  background: #bd350d;
+
+  transform: translateY(-1px);
+}
+
+.add-image-submit-btn svg {
+  font-size: 13px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 768px) {
+  .add-image-card {
+    padding: 20px 15px 25px;
+  }
+
+  .add-image-form-grid {
+    grid-template-columns: 1fr;
+
+    row-gap: 18px;
+  }
+
+  .add-image-description-group {
+    grid-column: auto;
+  }
+
+  .add-image-page-title {
+    font-size: 24px;
+  }
+
+  .add-image-card-header h3 {
+    font-size: 21px;
+  }
+}
+
+/* =========================================================
+   IMAGE FILE + PREVIEW
+========================================================= */
+
+.add-image-file-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+}
+
+.add-image-file-row input[type="file"] {
+  flex: 1;
+  min-width: 0;
+}
+
+.add-image-preview {
+  width: 82px;
+  height: 82px;
+  flex-shrink: 0;
+  border: 1px solid #dcdcdc;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #f8f8f8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.add-image-preview-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+
+/* =========================================================
+   SUBMIT + CANCEL BUTTONS
+========================================================= */
+
+.add-image-submit-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.add-image-submit-btn,
+.add-image-cancel-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  height: 38px;
+  padding: 0 16px;
+  border: none;
+  border-radius: 5px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.add-image-submit-btn {
+  background: #0d6efd;
+  color: #fff;
+}
+
+.add-image-submit-btn:hover {
+  opacity: 0.9;
+}
+
+.add-image-cancel-btn {
+  background: #6c757d;
+  color: #fff;
+}
+
+.add-image-cancel-btn:hover {
+  background: #5c636a;
+}
+
+
+/* =========================================================
+   MOBILE VIEW
+========================================================= */
+
+@media (max-width: 768px) {
+
+  .add-image-file-row {
+    gap: 10px;
+  }
+
+  .add-image-preview {
+    width: 70px;
+    height: 70px;
+  }
+
+  .add-image-submit-wrapper {
+    flex-wrap: wrap;
+  }
+
+  .add-image-submit-btn,
+  .add-image-cancel-btn {
+    height: 36px;
+    padding: 0 14px;
+    font-size: 12px;
+  }
+}
+
+
+@media (max-width: 480px) {
+
+  .add-image-file-row {
+    align-items: flex-start;
+  }
+
+  .add-image-preview {
+    width: 65px;
+    height: 65px;
+  }
+
+  .add-image-submit-wrapper {
+    width: 100%;
+  }
+
+  .add-image-submit-btn,
+  .add-image-cancel-btn {
+    flex: 1;
+  }
+}

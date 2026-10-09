@@ -1,0 +1,592 @@
+/* =========================================================
+   PAGE
+========================================================= */
+
+.notification-view-page {
+  width: 100%;
+  min-height: 100%;
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   PAGE HEADER
+========================================================= */
+
+.notification-view-header {
+  margin-bottom: 18px;
+}
+
+.notification-view-title {
+  margin: 0 0 8px;
+  font-size: 28px;
+  font-weight: 600;
+  color: #111827;
+}
+
+/* =========================================================
+   BREADCRUMB
+========================================================= */
+
+.notification-view-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.notification-view-breadcrumb a {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.notification-view-breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+.notification-view-breadcrumb span {
+  display: flex;
+  align-items: center;
+}
+
+.notification-view-breadcrumb-active {
+  color: #6b7280;
+}
+
+
+/* =========================================================
+   MAIN CARD
+========================================================= */
+
+.notification-view-card {
+  width: 100%;
+  background: #ffffff;
+  border-radius: 5px;
+  padding: 28px 30px 30px;
+  box-sizing: border-box;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+}
+
+/* =========================================================
+   DATATABLE WRAPPER
+========================================================= */
+
+.notification-view-card .data-table-wrapper {
+  width: 100%;
+}
+
+
+/* =========================================================
+   CHECKBOX
+========================================================= */
+
+.notification-view-select-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 2px;
+  line-height: 1.1;
+}
+
+.notification-view-checkbox {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  cursor: pointer;
+  accent-color: #198754;
+}
+
+
+/* =========================================================
+   BOOKING DATE
+========================================================= */
+
+.notification-view-booking-date {
+  line-height: 1.8;
+  white-space: pre-line;
+}
+
+
+/* =========================================================
+   BOOKING ID
+========================================================= */
+
+.notification-view-booking-id {
+  display: inline-block;
+  padding: 3px 7px;
+  border-radius: 3px;
+  background-color: #198754;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   AMOUNT
+========================================================= */
+
+.notification-view-amount {
+  color: #1f2937;
+  font-size: 15px;
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   VENDOR
+========================================================= */
+
+.notification-view-vendor {
+  line-height: 1.7;
+  white-space: normal;
+  word-break: normal;
+}
+
+
+/* =========================================================
+   STATUS WRAPPER
+========================================================= */
+
+.notification-view-status-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 7px;
+}
+
+
+/* =========================================================
+   COMPLETED STATUS
+========================================================= */
+
+.notification-view-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 7px;
+  border-radius: 3px;
+  background-color: #198754;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.notification-view-status svg {
+  font-size: 10px;
+}
+
+
+/* =========================================================
+   PENALTY STATUS
+========================================================= */
+
+.notification-view-penalty-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 9px;
+  border-radius: 15px;
+  background-color: #6c757d;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.notification-view-penalty-status svg {
+  font-size: 9px;
+}
+
+
+/* =========================================================
+   ACTIONS
+========================================================= */
+
+.notification-view-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+
+/* =========================================================
+   COMMON ACTION BUTTON
+========================================================= */
+
+.notification-view-btn {
+  border: none;
+  border-radius: 3px;
+  padding: 7px 12px;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    transform 0.15s ease;
+}
+
+.notification-view-btn:hover {
+  transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   VIEW
+========================================================= */
+
+.notification-view-view-btn {
+  background-color: #0d6efd;
+}
+.notification-view-view-btn:hover {
+  background-color: #0b5ed7;
+}
+
+
+/* =========================================================
+   DELETE
+========================================================= */
+
+.notification-view-delete-btn {
+  background-color: #dc3545;
+}
+
+.notification-view-delete-btn:hover {
+  background-color: #bb2d3b;
+}
+
+
+/* =========================================================
+   ADD PENALTY
+========================================================= */
+
+.notification-view-penalty-btn {
+  background-color: #ffc107;
+
+  color: #212529;
+}
+
+.notification-view-penalty-btn:hover {
+  background-color: #e0a800;
+}
+
+
+/* =========================================================
+   MODAL OVERLAY
+========================================================= */
+
+.notification-view-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.45);
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   PENALTY MODAL
+========================================================= */
+
+.notification-view-penalty-modal {
+  width: 100%;
+  max-width: 400px;
+  background: #ffffff;
+  border-radius: 5px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  animation: notificationViewModalOpen 0.2s ease;
+}
+
+@keyframes notificationViewModalOpen {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+
+/* =========================================================
+   MODAL HEADER
+========================================================= */
+
+.notification-view-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 18px;
+  background: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.notification-view-modal-header h3 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #212529;
+}
+
+
+/* =========================================================
+   MODAL CLOSE
+========================================================= */
+
+.notification-view-modal-close {
+  width: 30px;
+  height: 30px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border: none;
+
+  background: transparent;
+
+  color: #6c757d;
+
+  font-size: 16px;
+
+  cursor: pointer;
+
+  border-radius: 4px;
+}
+
+.notification-view-modal-close:hover {
+  background-color: #e9ecef;
+
+  color: #212529;
+}
+
+
+/* =========================================================
+   MODAL BODY
+========================================================= */
+
+.notification-view-modal-body {
+  padding: 20px;
+}
+
+
+/* =========================================================
+   DETAIL ROW
+========================================================= */
+
+.notification-view-detail-row {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 15px;
+
+  padding: 8px 0;
+
+  font-size: 14px;
+
+  border-bottom: 1px solid #f1f1f1;
+}
+
+.notification-view-detail-row:last-of-type {
+  border-bottom: none;
+}
+
+.notification-view-detail-row strong {
+  color: #212529;
+}
+
+.notification-view-detail-row span {
+  color: #495057;
+
+  text-align: right;
+}
+
+
+/* =========================================================
+   INPUT GROUP
+========================================================= */
+
+.notification-view-input-group {
+  margin-top: 18px;
+}
+
+.notification-view-input-group label {
+  display: block;
+
+  margin-bottom: 7px;
+
+  color: #212529;
+
+  font-size: 14px;
+
+  font-weight: 600;
+}
+
+.notification-view-input-group input {
+  width: 100%;
+
+  height: 40px;
+
+  padding: 8px 11px;
+
+  box-sizing: border-box;
+
+  border: 1px solid #ced4da;
+
+  border-radius: 4px;
+
+  outline: none;
+
+  background: #ffffff;
+
+  color: #212529;
+
+  font-size: 14px;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.notification-view-input-group input:focus {
+  border-color: #198754;
+
+  box-shadow:
+    0 0 0 2px rgba(25, 135, 84, 0.12);
+}
+
+
+/* =========================================================
+   MODAL FOOTER
+========================================================= */
+
+.notification-view-modal-footer {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: flex-end;
+
+  gap: 8px;
+
+  padding: 13px 18px;
+
+  background: #f8f9fa;
+
+  border-top: 1px solid #dee2e6;
+}
+
+
+/* =========================================================
+   ADD BUTTON
+========================================================= */
+
+.notification-view-add-btn {
+  border: none;
+
+  border-radius: 4px;
+
+  padding: 8px 17px;
+
+  background-color: #198754;
+
+  color: #ffffff;
+
+  font-size: 13px;
+
+  font-weight: 500;
+
+  cursor: pointer;
+}
+
+.notification-view-add-btn:hover {
+  background-color: #157347;
+}
+
+
+/* =========================================================
+   CANCEL BUTTON
+========================================================= */
+
+.notification-view-cancel-btn {
+  border: none;
+  border-radius: 4px;
+  padding: 8px 17px;
+  background-color: #dc3545;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.notification-view-cancel-btn:hover {
+  background-color: #bb2d3b;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 992px) {
+  .notification-view-card {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .notification-view-title {
+    font-size: 24px;
+  }
+
+  .notification-view-card {
+    padding: 15px;
+  }
+
+  .notification-view-modal-overlay {
+    padding: 15px;
+  }
+
+  .notification-view-penalty-modal {
+    max-width: 360px;
+  }
+}
+
+@media (max-width: 480px) {
+  .notification-view-breadcrumb {
+    font-size: 12px;
+    gap: 5px;
+  }
+
+  .notification-view-modal-header h3 {
+    font-size: 18px;
+  }
+
+  .notification-view-detail-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 3px;
+  }
+
+  .notification-view-detail-row span {
+    text-align: left;
+  }
+}

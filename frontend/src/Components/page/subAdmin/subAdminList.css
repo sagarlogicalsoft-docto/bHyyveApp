@@ -1,0 +1,846 @@
+/* =========================================
+   TOKENS
+   One spacing rhythm (4 / 8 / 12 / 16 / 20 / 24),
+   one border colour, two radii (control / card).
+========================================= */
+
+.subadmin-page {
+  --sa-navy: #073b74;
+  --sa-navy-dark: #052d59;
+  --sa-green: #1ba784;
+  --sa-text: #172b4d;
+  --sa-heading: #111827;
+  --sa-text-soft: #5b6678;
+  --sa-text-muted: #8a94a6;
+  --sa-border: #e3e8ef;
+  --sa-surface: #ffffff;
+  --sa-surface-alt: #f8fafc;
+  --sa-bg: #f5f7fb;
+  --sa-danger: #d63c3c;
+  --sa-radius: 8px;
+  --sa-radius-card: 12px;
+
+  width: 100%;
+  min-height: calc(100vh - 70px);
+  padding: 24px 0 48px;
+  background: var(--sa-bg);
+  color: var(--sa-text);
+  box-sizing: border-box;
+}
+
+.subadmin-page *,
+.subadmin-page *::before,
+.subadmin-page *::after {
+  box-sizing: border-box;
+}
+
+.subadmin-page button:focus-visible,
+.subadmin-page a:focus-visible {
+  outline: 2px solid var(--sa-navy);
+  outline-offset: 2px;
+}
+
+.subadmin-page button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+/* =========================================
+   PAGE HEADER
+========================================= */
+
+.subadmin-page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.subadmin-page-title {
+  margin: 0 0 8px;
+  color: var(--sa-heading);
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.breadcrumb-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.breadcrumb-wrapper a {
+  color: var(--sa-navy);
+  text-decoration: none;
+}
+
+.breadcrumb-wrapper a:hover {
+  text-decoration: underline;
+}
+
+.breadcrumb-sep {
+  color: var(--sa-text-muted);
+  font-size: 12px;
+}
+
+.breadcrumb-active {
+  color: var(--sa-green);
+  font-weight: 600;
+}
+
+/* =========================================
+   ADD BUTTON
+========================================= */
+
+.subadmin-add-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  height: 38px;
+  padding: 0 18px;
+
+  border: none;
+  border-radius: var(--sa-radius);
+
+  background: var(--sa-navy);
+  color: #ffffff;
+
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.subadmin-add-btn:hover {
+  background: var(--sa-navy-dark);
+}
+
+.subadmin-add-btn svg {
+  font-size: 12px;
+}
+
+/* =========================================
+   CARD
+========================================= */
+
+.subadmin-card {
+  width: 100%;
+  background: var(--sa-surface);
+  border: 1px solid var(--sa-border);
+  border-radius: var(--sa-radius-card);
+  box-shadow: 0 1px 3px rgba(23, 43, 77, 0.06);
+  overflow: hidden;
+}
+
+.subadmin-card-header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 16px 24px;
+
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--sa-border);
+}
+
+.subadmin-card-title {
+  grid-column: 1;
+  margin: 0;
+  color: var(--sa-heading);
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.subadmin-card-header .subadmin-add-btn {
+  grid-column: 2;
+  justify-self: end;
+}
+
+/* ---------- counts ---------- */
+
+.subadmin-stats {
+  grid-column: 1;
+  min-height: 24px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.subadmin-stat {
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: #eef2f7;
+  color: var(--sa-text-soft);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.subadmin-stat-active {
+  background: #e8f8ef;
+  color: #16834b;
+}
+
+.subadmin-stat-inactive {
+  background: #fff0f0;
+  color: var(--sa-danger);
+}
+
+/* ---------- export group ---------- */
+
+.subadmin-export-buttons {
+  grid-column: 2;
+  justify-self: end;
+  display: inline-flex;
+  border: 1px solid var(--sa-border);
+  border-radius: var(--sa-radius);
+  background: var(--sa-surface);
+  overflow: hidden;
+}
+
+.subadmin-export-buttons button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+
+  height: 36px;
+  padding: 0 14px;
+
+  border: none;
+  border-right: 1px solid var(--sa-border);
+  background: transparent;
+  color: var(--sa-text-soft);
+
+  font-size: 13px;
+  font-weight: 500;
+
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.subadmin-export-buttons button:last-child {
+  border-right: none;
+}
+
+.subadmin-export-buttons button svg {
+  font-size: 13px;
+}
+
+.subadmin-export-buttons button:hover:not(:disabled) {
+  background: var(--sa-navy);
+  color: #ffffff;
+}
+
+/* =========================================
+   TABLE WRAPPER
+   Gives the DataTable its own breathing room
+   and a consistent set of borders.
+========================================= */
+
+.subadmin-table-wrapper {
+  width: 100%;
+  padding: 20px 24px 24px;
+  overflow-x: auto;
+}
+
+.subadmin-table-wrapper table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid var(--sa-border);
+  border-radius: var(--sa-radius);
+  overflow: hidden;
+}
+
+.subadmin-table-wrapper thead th {
+  padding: 12px 16px;
+  background: var(--sa-surface-alt);
+  border-bottom: 1px solid var(--sa-border);
+  color: var(--sa-text-soft);
+  font-size: 13px;
+  font-weight: 600;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.subadmin-table-wrapper tbody td {
+  padding: 14px 16px;
+  border-bottom: 1px solid #eef1f6;
+  color: var(--sa-text);
+  font-size: 14px;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.subadmin-table-wrapper tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.subadmin-table-wrapper tbody tr:hover td {
+  background: #fafbfd;
+}
+
+/* =========================================
+   CELLS
+========================================= */
+
+.subadmin-name-cell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.subadmin-avatar {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 32px;
+  height: 32px;
+
+  border-radius: 50%;
+  background: #e6eefa;
+  color: var(--sa-navy);
+
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.subadmin-name-text {
+  font-weight: 600;
+}
+
+.subadmin-email {
+  color: var(--sa-text-soft);
+  overflow-wrap: anywhere;
+}
+
+.subadmin-role {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 6px;
+  background: #eef2f7;
+  color: var(--sa-text);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.subadmin-muted {
+  color: var(--sa-text-muted);
+}
+
+/* ---------- status ---------- */
+
+.subadmin-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  height: 28px;
+  padding: 0 12px;
+
+  border: 1px solid transparent;
+  border-radius: 999px;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  cursor: pointer;
+  transition: filter 0.2s ease;
+}
+
+.subadmin-status:hover {
+  filter: brightness(0.96);
+}
+
+.subadmin-status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.subadmin-status-active {
+  background: #e8f8ef;
+  border-color: #c9efd9;
+  color: #16834b;
+}
+
+.subadmin-status-inactive {
+  background: #fff0f0;
+  border-color: #fbd5d5;
+  color: var(--sa-danger);
+}
+
+/* ---------- permissions ---------- */
+
+.permissions-cell {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.permission-chip {
+  padding: 2px 8px;
+  border: 1px solid var(--sa-border);
+  border-radius: 6px;
+  background: var(--sa-surface-alt);
+  color: var(--sa-text-soft);
+  font-size: 12px;
+  line-height: 1.6;
+  white-space: nowrap;
+}
+
+.permission-chip-more {
+  background: #e6eefa;
+  border-color: #d3e0f5;
+  color: var(--sa-navy);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.permission-chip-more:hover {
+  background: var(--sa-navy);
+  border-color: var(--sa-navy);
+  color: #ffffff;
+}
+
+/* ---------- password ---------- */
+
+.password-cell {
+  display: flex;
+  align-items: center;
+  gap: 0px;
+  white-space: nowrap;
+}
+
+.password-text {
+  min-width: 72px;
+  color: var(--sa-text);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+}
+
+.password-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 28px;
+  height: 28px;
+
+  border: 1px solid var(--sa-border);
+  border-radius: 6px;
+  background: var(--sa-surface);
+  color: var(--sa-text-soft);
+  font-size: 12px;
+
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.password-toggle-btn:hover {
+  background: var(--sa-navy);
+  border-color: var(--sa-navy);
+  color: #ffffff;
+}
+
+/* ---------- row actions ---------- */
+
+.subadmin-row-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.row-action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 32px;
+  height: 32px;
+
+  border: 1px solid var(--sa-border);
+  border-radius: 6px;
+  background: var(--sa-surface);
+  color: var(--sa-text-soft);
+  font-size: 13px;
+
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.row-action-btn:hover {
+  background: var(--sa-navy);
+  border-color: var(--sa-navy);
+  color: #ffffff;
+}
+
+.row-action-danger:hover {
+  background: var(--sa-danger);
+  border-color: var(--sa-danger);
+}
+
+/* =========================================
+   LOADING / ERROR STATES
+========================================= */
+
+.subadmin-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+
+  padding: 64px 24px;
+  text-align: center;
+}
+
+.subadmin-state p {
+  margin: 0;
+  color: var(--sa-text-soft);
+  font-size: 14px;
+}
+
+.subadmin-state-error p {
+  color: var(--sa-danger);
+}
+
+.subadmin-state-icon {
+  color: var(--sa-danger);
+  font-size: 28px;
+}
+
+.subadmin-spinner {
+  width: 28px;
+  height: 28px;
+  border: 3px solid #e3e8ef;
+  border-top-color: var(--sa-navy);
+  border-radius: 50%;
+  animation: subadmin-spin 0.8s linear infinite;
+}
+
+@keyframes subadmin-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.subadmin-retry-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  height: 36px;
+  padding: 0 16px;
+
+  border: 1px solid var(--sa-border);
+  border-radius: var(--sa-radius);
+  background: var(--sa-surface);
+  color: var(--sa-text);
+
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.subadmin-retry-btn:hover {
+  background: var(--sa-navy);
+  border-color: var(--sa-navy);
+  color: #ffffff;
+}
+
+/* =========================================
+   CONFIRM DIALOG
+========================================= */
+
+.status-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+
+  background: rgba(15, 23, 42, 0.5);
+  animation: subadmin-fade 0.15s ease;
+}
+
+.status-modal {
+  width: 400px;
+  max-width: 100%;
+
+  padding: 32px 24px 24px;
+
+  background: var(--sa-surface, #ffffff);
+  border-radius: var(--sa-radius-card, 12px);
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.25);
+
+  text-align: center;
+  animation: subadmin-pop 0.18s ease;
+}
+
+.status-modal-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 20px;
+
+  border-radius: 50%;
+  font-size: 22px;
+}
+
+.status-modal-icon-danger {
+  background: #fff0f0;
+  color: #d63c3c;
+}
+
+.status-modal-icon-warning {
+  background: #fff4e5;
+  color: #e08a1e;
+}
+
+.status-modal-icon-success {
+  background: #e8f8ef;
+  color: #16834b;
+}
+
+.status-modal h3 {
+  margin: 0 0 8px;
+  color: #111827;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.status-modal p {
+  margin: 0 0 24px;
+  color: #5b6678;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.status-modal-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+.status-confirm-btn,
+.status-cancel-btn {
+  min-width: 112px;
+  height: 40px;
+  padding: 0 16px;
+
+  border-radius: 8px;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.status-confirm-btn {
+  border: none;
+  color: #ffffff;
+}
+
+.status-confirm-danger {
+  background: #d63c3c;
+}
+
+.status-confirm-danger:hover:not(:disabled) {
+  background: #b92f2f;
+}
+
+.status-confirm-warning {
+  background: #e08a1e;
+}
+
+.status-confirm-warning:hover:not(:disabled) {
+  background: #c97712;
+}
+
+.status-confirm-success {
+  background: #16834b;
+}
+
+.status-confirm-success:hover:not(:disabled) {
+  background: #106a3c;
+}
+
+.status-cancel-btn {
+  border: 1px solid #e3e8ef;
+  background: #ffffff;
+  color: #374151;
+}
+
+.status-cancel-btn:hover:not(:disabled) {
+  background: #f5f7fa;
+}
+
+.status-modal button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.status-modal button:focus-visible {
+  outline: 2px solid #073b74;
+  outline-offset: 2px;
+}
+
+/* =========================================
+   TOAST
+========================================= */
+
+.subadmin-toast {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 10000;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  max-width: calc(100% - 48px);
+  padding: 12px 18px;
+
+  border-radius: 8px;
+  background: #172b4d;
+  color: #ffffff;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.25);
+
+  font-size: 14px;
+  font-weight: 500;
+
+  animation: subadmin-pop 0.2s ease;
+}
+
+.subadmin-toast svg {
+  flex: 0 0 auto;
+  font-size: 16px;
+}
+
+.subadmin-toast-success svg {
+  color: #4ade80;
+}
+
+.subadmin-toast-error svg {
+  color: #f87171;
+}
+
+@keyframes subadmin-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes subadmin-pop {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 767px) {
+  .subadmin-page {
+    padding: 16px 0 32px;
+  }
+
+  .subadmin-page-header {
+    flex-direction: column;
+    align-items: stretch;
+    margin-bottom: 16px;
+  }
+
+  .subadmin-page-title {
+    font-size: 20px;
+  }
+
+  .subadmin-card-header {
+    grid-template-columns: 1fr;
+    padding: 16px;
+  }
+
+  .subadmin-card-title,
+  .subadmin-stats,
+  .subadmin-card-header .subadmin-add-btn,
+  .subadmin-export-buttons {
+    grid-column: 1;
+  }
+
+  .subadmin-card-header .subadmin-add-btn {
+    justify-self: stretch;
+  }
+
+  .subadmin-export-buttons {
+    justify-self: stretch;
+  }
+
+  .subadmin-export-buttons button {
+    flex: 1;
+    padding: 0 8px;
+  }
+
+  .subadmin-table-wrapper {
+    padding: 16px;
+  }
+
+  .status-modal-actions {
+    flex-direction: column-reverse;
+  }
+
+  .status-confirm-btn,
+  .status-cancel-btn {
+    width: 100%;
+  }
+
+  .subadmin-toast {
+    right: 16px;
+    bottom: 16px;
+    max-width: calc(100% - 32px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .subadmin-spinner {
+    animation-duration: 2s;
+  }
+
+  .status-modal-overlay,
+  .status-modal,
+  .subadmin-toast {
+    animation: none;
+  }
+}

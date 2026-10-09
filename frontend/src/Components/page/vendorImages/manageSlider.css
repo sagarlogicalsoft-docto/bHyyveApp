@@ -1,0 +1,294 @@
+/* =========================================================
+   PAGE
+========================================================= */
+
+.slider-page {
+  width: 100%;
+  padding: 0;
+}
+
+
+/* =========================================================
+   PAGE HEADER
+========================================================= */
+
+.slider-page-header {
+  margin-bottom: 20px;
+}
+
+.slider-page-title {
+  margin: 0 0 8px;
+  font-size: 28px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.slider-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.slider-breadcrumb a {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.slider-breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+.slider-breadcrumb span {
+  display: flex;
+  align-items: center;
+}
+
+.slider-breadcrumb-active {
+  color: #6b7280;
+}
+
+
+/* =========================================================
+   MAIN CARD
+========================================================= */
+
+.slider-card {
+  width: 100%;
+
+  background: #ffffff;
+
+  border-radius: 6px;
+
+  padding: 26px 30px 30px;
+
+  box-sizing: border-box;
+
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+
+/* =========================================================
+   CARD HEADER
+========================================================= */
+
+.slider-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 22px;
+}
+
+.slider-card-header h3 {
+  margin: 0;
+
+  font-size: 28px;
+  font-weight: 500;
+
+  color: #111827;
+}
+
+
+/* =========================================================
+   TABLE
+========================================================= */
+
+.slider-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+
+/* =========================================================
+   CHECKBOX
+========================================================= */
+
+.slider-select-header {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.slider-checkbox {
+  width: 16px;
+  height: 16px;
+
+  cursor: pointer;
+
+  accent-color: #198754;
+}
+
+
+/* =========================================================
+   IMAGE
+========================================================= */
+
+.slider-image-wrapper {
+  width: 100px;
+  height: 68px;
+
+  overflow: hidden;
+  background: #f3f4f6;
+  border: 1px solid #d1d5db;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slider-image {
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  object-fit: cover;
+}
+
+
+/* =========================================================
+   IMAGE ERROR
+========================================================= */
+
+.slider-image-error::before {
+  content: "Image unavailable";
+
+  font-size: 11px;
+  color: #9ca3af;
+
+  text-align: center;
+}
+
+
+/* =========================================================
+   DELETE BUTTON
+========================================================= */
+
+.slider-delete-btn {
+  border: none;
+
+  border-radius: 4px;
+
+  padding: 6px 10px;
+
+  background: #dc3545;
+  color: #ffffff;
+
+  font-size: 12px;
+  font-weight: 500;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    transform 0.15s ease;
+}
+
+.slider-delete-btn:hover {
+  background: #bb2d3b;
+
+  transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   DELETE SELECTED FOOTER
+========================================================= */
+
+.slider-selected-footer {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: flex-end;
+
+  margin-top: 18px;
+}
+
+.slider-delete-selected-btn {
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 7px;
+
+  border: none;
+
+  border-radius: 4px;
+
+  padding: 8px 14px;
+
+  background: #dc3545;
+
+  color: #ffffff;
+
+  font-size: 13px;
+
+  font-weight: 500;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    transform 0.15s ease;
+}
+
+.slider-delete-selected-btn:hover {
+  background: #bb2d3b;
+
+  transform: translateY(-1px);
+}
+
+.slider-delete-selected-btn svg {
+  font-size: 12px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 768px) {
+  .slider-card {
+    padding: 20px 15px;
+  }
+
+  .slider-card-header {
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+
+  .slider-page-title {
+    font-size: 24px;
+  }
+
+  .slider-card-header h3 {
+    font-size: 22px;
+  }
+
+  .slider-image-wrapper {
+    width: 110px;
+    height: 75px;
+  }
+}
+
+
+@media (max-width: 480px) {
+  .slider-delete-selected-btn {
+    padding: 7px 11px;
+
+    font-size: 12px;
+  }
+
+  .slider-delete-btn {
+    padding: 7px 12px;
+
+    font-size: 12px;
+  }
+}

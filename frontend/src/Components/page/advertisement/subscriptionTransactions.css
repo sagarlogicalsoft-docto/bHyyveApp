@@ -1,0 +1,476 @@
+/* =========================================================
+   SUBSCRIPTION TRANSACTIONS PAGE
+========================================================= */
+
+.subscription-transactions-page {
+  width: 100%;
+  min-height: 100%;
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   PAGE HEADER
+========================================================= */
+
+.subscription-transactions-header {
+  margin-bottom: 18px;
+}
+
+
+.subscription-transactions-title {
+  margin: 0 0 8px;
+
+  font-size: 28px;
+  font-weight: 600;
+
+  color: #111827;
+}
+
+
+/* =========================================================
+   BREADCRUMB
+========================================================= */
+
+.subscription-transactions-breadcrumb {
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+  font-size: 14px;
+  color: #6b7280;
+}
+
+
+.subscription-transactions-breadcrumb a {
+  color: #073b74;
+  text-decoration: none;
+}
+
+
+.subscription-transactions-breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+
+.subscription-transactions-breadcrumb span {
+  display: flex;
+  align-items: center;
+}
+
+
+.subscription-transactions-breadcrumb-active {
+  color: #6b7280;
+}
+
+
+/* =========================================================
+   MAIN CARD
+========================================================= */
+
+.subscription-transactions-card {
+  width: 100%;
+
+  background: #ffffff;
+
+  border-radius: 5px;
+
+  padding: 28px 30px 30px;
+
+  box-sizing: border-box;
+
+  box-shadow:
+    0 1px 4px rgba(0, 0, 0, 0.06);
+
+  overflow: hidden;
+}
+
+
+/* =========================================================
+   TABLE WRAPPER
+========================================================= */
+
+.subscription-transactions-table-wrapper {
+  width: 100%;
+}
+
+
+/* =========================================================
+   SELECT HEADER
+========================================================= */
+
+.subscription-transactions-select-header {
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: flex-start;
+
+  justify-content: center;
+
+  gap: 2px;
+
+  line-height: 1.1;
+}
+
+
+/* =========================================================
+   CHECKBOX
+========================================================= */
+
+.subscription-transactions-checkbox {
+  width: 16px;
+  height: 16px;
+
+  margin: 0;
+
+  cursor: pointer;
+
+  accent-color: #073b74;
+}
+
+
+/* =========================================================
+   VENDOR
+========================================================= */
+
+.subscription-transactions-vendor {
+  color: #374151;
+
+  font-size: 15px;
+
+  line-height: 1.45;
+
+  white-space: normal;
+
+  overflow-wrap: anywhere;
+}
+
+
+/* =========================================================
+   PRICE
+========================================================= */
+
+.subscription-transactions-price {
+  color: #374151;
+
+  font-size: 15px;
+
+  font-weight: 600;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   PACKAGE
+========================================================= */
+
+.subscription-transactions-package {
+  color: #374151;
+
+  font-size: 15px;
+
+  line-height: 1.45;
+
+  white-space: normal;
+
+  overflow-wrap: anywhere;
+}
+
+
+/* =========================================================
+   DATE
+========================================================= */
+
+.subscription-transactions-date {
+  color: #4b5563;
+
+  font-size: 14px;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   REMAINING DAYS - ACTIVE
+========================================================= */
+
+.subscription-transactions-days-active {
+  display: inline-block;
+
+  color: #198754;
+
+  font-size: 14px;
+
+  font-weight: 600;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   REMAINING DAYS - EXPIRED
+========================================================= */
+
+.subscription-transactions-days-expired {
+  display: inline-block;
+
+  color: #dc3545;
+
+  font-size: 14px;
+
+  font-weight: 600;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   ACTIVE STATUS
+========================================================= */
+
+.subscription-transactions-status-active {
+  display: inline-block;
+
+  padding: 7px 12px;
+
+  border-radius: 4px;
+
+  background: #198754;
+
+  color: #ffffff;
+
+  font-size: 13px;
+
+  font-weight: 500;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   EXPIRED STATUS
+========================================================= */
+
+.subscription-transactions-status-expired {
+  display: inline-block;
+
+  padding: 7px 12px;
+
+  border-radius: 4px;
+
+  background: #ffc107;
+
+  color: #212529;
+
+  font-size: 13px;
+
+  font-weight: 500;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   ACTION
+========================================================= */
+
+.subscription-transactions-actions {
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   DELETE BUTTON
+========================================================= */
+
+.subscription-transactions-delete-btn {
+  border: none;
+
+  border-radius: 4px;
+
+  padding: 8px 14px;
+
+  background: #dc3545;
+
+  color: #ffffff;
+
+  font-size: 13px;
+
+  font-weight: 500;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.15s ease;
+}
+
+
+.subscription-transactions-delete-btn:hover {
+  background: #bb2d3b;
+
+  transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   BOTTOM ACTIONS
+========================================================= */
+
+.subscription-transactions-bottom-actions {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: flex-end;
+
+  margin-top: 18px;
+
+  padding-top: 15px;
+
+  border-top: 1px solid #e5e7eb;
+}
+
+
+/* =========================================================
+   DELETE SELECTED BUTTON
+========================================================= */
+
+.subscription-transactions-delete-selected-btn {
+  border: none;
+
+  border-radius: 4px;
+
+  padding: 9px 17px;
+
+  background: #dc3545;
+
+  color: #ffffff;
+
+  font-size: 13px;
+
+  font-weight: 500;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.15s ease;
+}
+
+
+.subscription-transactions-delete-selected-btn:hover {
+  background: #bb2d3b;
+
+  transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   DATATABLE SPACING
+   Scoped ONLY to Subscription Transactions
+========================================================= */
+
+.subscription-transactions-table-wrapper
+.datatable-table {
+  min-width: 0 !important;
+
+  width: 100% !important;
+}
+
+
+.subscription-transactions-table-wrapper
+.datatable-table
+th,
+.subscription-transactions-table-wrapper
+.datatable-table
+td {
+  padding-left: 10px !important;
+
+  padding-right: 10px !important;
+}
+
+
+/* =========================================================
+   KEEP ACTION BUTTON CLOSE
+========================================================= */
+
+.subscription-transactions-table-wrapper
+.datatable-table
+th:last-child,
+.subscription-transactions-table-wrapper
+.datatable-table
+td:last-child {
+  white-space: nowrap !important;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1200px) {
+
+  .subscription-transactions-card {
+    padding: 22px;
+  }
+
+}
+
+
+@media (max-width: 992px) {
+
+  .subscription-transactions-title {
+    font-size: 25px;
+  }
+
+  .subscription-transactions-card {
+    padding: 18px;
+  }
+
+}
+
+
+@media (max-width: 768px) {
+
+  .subscription-transactions-title {
+    font-size: 23px;
+  }
+
+  .subscription-transactions-card {
+    padding: 15px;
+  }
+
+  .subscription-transactions-breadcrumb {
+    font-size: 13px;
+  }
+
+}
+
+
+@media (max-width: 480px) {
+
+  .subscription-transactions-title {
+    font-size: 21px;
+  }
+
+  .subscription-transactions-breadcrumb {
+    font-size: 12px;
+
+    gap: 5px;
+  }
+
+  .subscription-transactions-card {
+    padding: 12px;
+  }
+
+}

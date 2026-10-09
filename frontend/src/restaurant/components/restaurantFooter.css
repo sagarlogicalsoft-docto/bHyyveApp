@@ -1,0 +1,222 @@
+
+/* =========================================================
+   RESTAURANT FOOTER
+========================================================= */
+
+.restaurant-footer {
+  width: 100%;
+  margin-top: auto;
+  padding: 18px 24px;
+  background: #ffffff;
+  border-top: 1px solid #e8eef0;
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   FOOTER INNER
+========================================================= */
+
+.restaurant-footer-inner {
+  width: 100%;
+  min-height: 46px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 20px;
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   LEFT / COPYRIGHT
+========================================================= */
+
+.restaurant-footer-left {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+
+  gap: 8px;
+
+  color: #7b8794;
+
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.restaurant-footer-left strong {
+  color: #005555;
+  font-weight: 600;
+}
+
+.restaurant-footer-divider {
+  color: #d5dde0;
+}
+
+
+/* =========================================================
+   FOOTER LINKS
+========================================================= */
+
+.restaurant-footer-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 22px;
+}
+
+.restaurant-footer-links button {
+  padding: 0;
+
+  border: none;
+  background: transparent;
+
+  color: #71818a;
+
+  font-size: 12px;
+  font-weight: 500;
+
+  cursor: pointer;
+
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.restaurant-footer-links button:hover {
+  color: #005555;
+  transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   SOCIAL ICONS
+========================================================= */
+
+.restaurant-footer-social {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.restaurant-footer-social button {
+  width: 32px;
+  height: 32px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid #e3eaec;
+  border-radius: 8px;
+
+  background: #ffffff;
+
+  color: #71818a;
+
+  font-size: 12px;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.restaurant-footer-social button:hover {
+  background: rgba(0, 85, 85, 0.07);
+  border-color: rgba(0, 85, 85, 0.25);
+  color: #005555;
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 5px 12px rgba(0, 85, 85, 0.10);
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 991.98px) {
+  .restaurant-footer {
+    padding: 16px 18px;
+  }
+
+  .restaurant-footer-inner {
+    gap: 15px;
+  }
+
+  .restaurant-footer-links {
+    gap: 14px;
+  }
+
+  .restaurant-footer-links button {
+    font-size: 11px;
+  }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 767px) {
+  .restaurant-footer {
+    padding: 18px 15px;
+  }
+
+  .restaurant-footer-inner {
+    flex-direction: column;
+    justify-content: center;
+
+    gap: 14px;
+
+    text-align: center;
+  }
+
+  .restaurant-footer-left {
+    justify-content: center;
+  }
+
+  .restaurant-footer-links {
+    flex-wrap: wrap;
+    justify-content: center;
+
+    gap: 12px 18px;
+  }
+
+  .restaurant-footer-social {
+    justify-content: center;
+  }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+  .restaurant-footer-left {
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .restaurant-footer-divider {
+    display: none;
+  }
+
+  .restaurant-footer-links {
+    gap: 10px 15px;
+  }
+}
+

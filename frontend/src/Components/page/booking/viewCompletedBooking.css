@@ -1,0 +1,448 @@
+/* =========================================================
+   PAGE
+========================================================= */
+
+.view-completed-booking-page {
+  width: 100%;
+  padding: 0;
+}
+
+
+/* =========================================================
+   PAGE HEADER
+========================================================= */
+
+.view-completed-booking-page-header {
+  margin-bottom: 18px;
+}
+
+.view-completed-booking-page-title {
+  margin: 0 0 7px;
+
+  font-size: 28px;
+  font-weight: 600;
+
+  color: #111827;
+}
+
+.view-completed-booking-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.view-completed-booking-breadcrumb a {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.view-completed-booking-breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+.view-completed-booking-breadcrumb span {
+  display: flex;
+  align-items: center;
+}
+
+.view-completed-booking-breadcrumb-active {
+  color: #6b7280;
+}
+
+
+/* =========================================================
+   MAIN CARD
+========================================================= */
+
+.view-completed-booking-card {
+  width: 100%;
+
+  background: #ffffff;
+
+  border-radius: 6px;
+
+  padding: 16px 30px 30px;
+
+  box-sizing: border-box;
+
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+
+  overflow-x: auto;
+}
+
+
+/* =========================================================
+   BOOKING SUMMARY
+========================================================= */
+
+.completed-booking-summary-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.completed-booking-summary-table {
+  width: 100%;
+
+  border-collapse: collapse;
+
+  table-layout: fixed;
+
+  font-size: 14px;
+}
+
+.completed-booking-summary-table th,
+.completed-booking-summary-table td {
+  padding: 9px 8px;
+
+  border-bottom: 1px solid #d9dee5;
+
+  text-align: left;
+
+  vertical-align: middle;
+}
+
+.completed-booking-summary-table th {
+  font-weight: 600;
+
+  color: #4b5563;
+
+  white-space: nowrap;
+}
+
+.completed-booking-summary-table td {
+  color: #4b5563;
+}
+
+
+/* =========================================================
+   SUMMARY COLUMN WIDTHS
+========================================================= */
+
+.completed-booking-summary-table th:nth-child(1) {
+  width: 35px;
+}
+
+.completed-booking-summary-table th:nth-child(2) {
+  width: 105px;
+}
+
+.completed-booking-summary-table th:nth-child(3) {
+  width: 150px;
+}
+
+.completed-booking-summary-table th:nth-child(4) {
+  width: 300px;
+}
+
+.completed-booking-summary-table th:nth-child(5) {
+  width: 125px;
+}
+
+.completed-booking-summary-table th:nth-child(6) {
+  width: 115px;
+}
+
+.completed-booking-summary-table th:nth-child(7) {
+  width: 170px;
+}
+
+.completed-booking-summary-table th:nth-child(8) {
+  width: 90px;
+}
+
+
+/* =========================================================
+   ADDRESS
+========================================================= */
+
+.completed-booking-address {
+  white-space: normal !important;
+
+  overflow-wrap: anywhere;
+
+  word-break: normal;
+
+  line-height: 1.4;
+}
+
+
+/* =========================================================
+   DATE TIME
+========================================================= */
+
+.completed-booking-datetime {
+  line-height: 1.35;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+.view-completed-booking-status {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  color: #198754;
+
+  font-size: 13px;
+  font-weight: 500;
+}
+
+
+/* =========================================================
+   ORDER SERVICES TITLE
+========================================================= */
+
+.completed-order-services-title {
+  margin-top: 13px;
+  margin-bottom: 8px;
+
+  font-size: 14px;
+
+  color: #4b5563;
+}
+
+
+/* =========================================================
+   ORDER SERVICES TABLE
+========================================================= */
+
+.completed-order-services-wrapper {
+  width: 100%;
+
+  overflow-x: auto;
+}
+
+.completed-order-services-table {
+  width: 100%;
+
+  border-collapse: collapse;
+
+  table-layout: fixed;
+
+  font-size: 14px;
+}
+
+.completed-order-services-table th,
+.completed-order-services-table td {
+  border: 1px solid #d9dee5;
+
+  padding: 8px;
+
+  vertical-align: middle;
+}
+
+.completed-order-services-table th {
+  color: #4b5563;
+
+  font-weight: 600;
+
+  text-align: left;
+
+  background: #ffffff;
+}
+
+.completed-order-services-table td {
+  color: #4b5563;
+}
+
+
+/* =========================================================
+   SERVICE COLUMN WIDTHS
+========================================================= */
+
+.completed-service-image-column {
+  width: 60px;
+}
+
+.completed-service-name-column {
+  width: 105px;
+}
+
+.completed-service-description-column {
+  width: auto;
+}
+
+.completed-service-rate-column {
+  width: 67px;
+}
+
+.completed-service-qty-column {
+  width: 40px;
+}
+
+.completed-service-amount-column {
+  width: 90px;
+}
+
+.completed-service-total-column {
+  width: 68px;
+}
+
+
+/* =========================================================
+   SERVICE IMAGE
+========================================================= */
+
+.completed-service-image-wrapper {
+  width: 52px;
+  height: 32px;
+
+  overflow: hidden;
+
+  margin: 0 auto;
+}
+
+.completed-service-image-wrapper img {
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  object-fit: cover;
+}
+
+
+/* =========================================================
+   SERVICE NAME
+========================================================= */
+
+.completed-service-name {
+  text-align: center !important;
+
+  line-height: 1.55;
+
+  word-break: break-word;
+}
+
+
+/* =========================================================
+   DESCRIPTION
+========================================================= */
+
+.completed-service-description {
+  text-align: center !important;
+
+  line-height: 1.6;
+
+  padding: 10px 12px !important;
+
+  word-break: break-word;
+}
+
+
+/* =========================================================
+   RATE / QTY / AMOUNT / TOTAL
+========================================================= */
+
+.completed-service-rate,
+.completed-service-qty,
+.completed-service-amount,
+.completed-service-total {
+  text-align: center !important;
+
+  line-height: 1.5;
+}
+
+
+/* =========================================================
+   SUMMARY ROWS
+========================================================= */
+
+.completed-summary-row td {
+  height: 42px;
+
+  padding: 7px 8px;
+}
+
+.completed-summary-empty {
+  background: #ffffff;
+}
+
+.completed-summary-label {
+  text-align: center !important;
+
+  font-weight: 500;
+
+  color: #4b5563;
+}
+
+.completed-summary-value {
+  text-align: center !important;
+}
+
+.completed-summary-value-content {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 12px;
+}
+
+
+/* =========================================================
+   FINAL AMOUNT
+========================================================= */
+
+.completed-final-amount-row td {
+  height: 42px;
+
+  padding: 8px;
+}
+
+.completed-final-amount-label {
+  text-align: center !important;
+
+  font-weight: 700;
+
+  color: #111827;
+}
+
+.completed-final-amount-value {
+  text-align: center !important;
+
+  font-size: 16px;
+
+  font-weight: 700;
+
+  white-space: nowrap;
+
+  color: #111827;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 992px) {
+  .view-completed-booking-card {
+    padding: 15px;
+  }
+
+  .completed-booking-summary-table,
+  .completed-order-services-table {
+    min-width: 950px;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .view-completed-booking-page-title {
+    font-size: 24px;
+  }
+
+  .view-completed-booking-card {
+    padding: 12px;
+  }
+}

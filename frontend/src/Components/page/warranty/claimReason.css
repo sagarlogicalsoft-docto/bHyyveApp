@@ -1,0 +1,603 @@
+/* =========================================================
+   PAGE
+========================================================= */
+
+.claim-reason-page {
+  width: 100%;
+  min-height: 100%;
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   PAGE HEADER
+========================================================= */
+
+.claim-reason-header {
+  margin-bottom: 18px;
+}
+
+.claim-reason-breadcrumb {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.claim-reason-breadcrumb-active {
+  color: #6b7280;
+}
+
+
+/* =========================================================
+   MAIN CARD
+========================================================= */
+
+.claim-reason-card {
+  width: 100%;
+  background: #ffffff;
+  border-radius: 5px;
+  padding: 24px 25px 30px;
+  box-sizing: border-box;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+}
+
+
+/* =========================================================
+   CARD HEADER
+========================================================= */
+
+.claim-reason-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.claim-reason-card-header h2 {
+  margin: 0;
+  color: #073b74;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+
+/* =========================================================
+   ADD BUTTON
+========================================================= */
+
+.claim-reason-add-btn {
+  border: none;
+  border-radius: 4px;
+  padding: 9px 16px;
+  background-color: #073b74;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    transform 0.15s ease;
+}
+
+.claim-reason-add-btn:hover {
+  background-color: #052c58;
+  transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   TABLE WRAPPER
+========================================================= */
+
+.claim-reason-table-wrapper {
+  width: 100%;
+}
+
+
+/* =========================================================
+   REASON TEXT
+========================================================= */
+
+.claim-reason-text {
+  line-height: 1.6;
+  white-space: normal;
+  word-break: break-word;
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+.claim-reason-status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 70px;
+  padding: 5px 9px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.claim-reason-status-active {
+  background-color: #198754;
+  color: #ffffff;
+}
+
+.claim-reason-status-inactive {
+  background-color: #6c757d;
+  color: #ffffff;
+}
+
+
+/* =========================================================
+   ACTIONS
+========================================================= */
+
+.claim-reason-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   COMMON ACTION BUTTON
+========================================================= */
+
+.claim-reason-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+
+  border: none;
+  border-radius: 3px;
+
+  padding: 7px 9px;
+
+  font-size: 11px;
+  font-weight: 500;
+
+  cursor: pointer;
+
+  color: #ffffff;
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.15s ease;
+}
+
+.claim-reason-btn:hover {
+  transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   STATUS BUTTON
+========================================================= */
+
+.claim-reason-status-btn {
+  background-color: #6c757d;
+}
+
+.claim-reason-status-btn:hover {
+  background-color: #5c636a;
+}
+
+
+/* =========================================================
+   EDIT BUTTON
+========================================================= */
+
+.claim-reason-edit-btn {
+  background-color: #0d6efd;
+}
+
+.claim-reason-edit-btn:hover {
+  background-color: #0b5ed7;
+}
+
+
+/* =========================================================
+   DELETE BUTTON
+========================================================= */
+
+.claim-reason-delete-btn {
+  background-color: #dc3545;
+}
+
+.claim-reason-delete-btn:hover {
+  background-color: #bb2d3b;
+}
+
+
+/* =========================================================
+   MODAL OVERLAY
+========================================================= */
+
+.claim-reason-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+
+  background-color: rgba(0, 0, 0, 0.45);
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+.claim-reason-modal {
+  width: 100%;
+  max-width: 450px;
+
+  background-color: #ffffff;
+
+  border-radius: 5px;
+
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+
+  overflow: hidden;
+
+  animation: claimReasonModalOpen 0.2s ease;
+}
+
+@keyframes claimReasonModalOpen {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+
+/* =========================================================
+   MODAL HEADER
+========================================================= */
+
+.claim-reason-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 15px 18px;
+
+  background-color: #f8f9fa;
+
+  border-bottom: 1px solid #dee2e6;
+}
+
+.claim-reason-modal-header h3 {
+  margin: 0;
+
+  color: #073b74;
+
+  font-size: 19px;
+  font-weight: 600;
+}
+
+
+/* =========================================================
+   MODAL CLOSE
+========================================================= */
+
+.claim-reason-modal-close {
+  width: 30px;
+  height: 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: none;
+  border-radius: 4px;
+
+  background-color: transparent;
+
+  color: #6c757d;
+
+  font-size: 22px;
+  line-height: 1;
+
+  cursor: pointer;
+}
+
+.claim-reason-modal-close:hover {
+  background-color: #e9ecef;
+  color: #212529;
+}
+
+
+/* =========================================================
+   MODAL BODY
+========================================================= */
+
+.claim-reason-modal-body {
+  padding: 20px;
+}
+
+
+/* =========================================================
+   DETAIL ROW
+========================================================= */
+
+.claim-reason-detail-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 15px;
+
+  padding: 9px 0;
+
+  font-size: 14px;
+
+  border-bottom: 1px solid #f1f1f1;
+}
+
+.claim-reason-detail-row strong {
+  color: #212529;
+}
+
+.claim-reason-detail-row span {
+  color: #495057;
+  text-align: right;
+}
+
+
+/* =========================================================
+   INPUT GROUP
+========================================================= */
+
+.claim-reason-input-group {
+  margin-top: 18px;
+}
+
+.claim-reason-input-group label {
+  display: block;
+
+  margin-bottom: 7px;
+
+  color: #212529;
+
+  font-size: 14px;
+  font-weight: 600;
+}
+
+
+/* =========================================================
+   TEXTAREA
+========================================================= */
+
+.claim-reason-input-group textarea {
+  width: 100%;
+
+  min-height: 100px;
+
+  padding: 9px 11px;
+
+  box-sizing: border-box;
+
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+
+  outline: none;
+
+  background-color: #ffffff;
+  color: #212529;
+
+  font-family: inherit;
+  font-size: 14px;
+
+  resize: vertical;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.claim-reason-input-group textarea:focus {
+  border-color: #073b74;
+
+  box-shadow:
+    0 0 0 2px rgba(7, 59, 116, 0.12);
+}
+
+
+/* =========================================================
+   SELECT
+========================================================= */
+
+.claim-reason-input-group select {
+  width: 100%;
+
+  height: 40px;
+
+  padding: 7px 10px;
+
+  box-sizing: border-box;
+
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+
+  outline: none;
+
+  background-color: #ffffff;
+  color: #212529;
+
+  font-size: 14px;
+
+  cursor: pointer;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.claim-reason-input-group select:focus {
+  border-color: #073b74;
+
+  box-shadow:
+    0 0 0 2px rgba(7, 59, 116, 0.12);
+}
+
+
+/* =========================================================
+   MODAL FOOTER
+========================================================= */
+
+.claim-reason-modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  gap: 8px;
+
+  padding: 13px 18px;
+
+  background-color: #f8f9fa;
+
+  border-top: 1px solid #dee2e6;
+}
+
+
+/* =========================================================
+   CANCEL BUTTON
+========================================================= */
+
+.claim-reason-cancel-btn {
+  border: none;
+  border-radius: 4px;
+
+  padding: 8px 17px;
+
+  background-color: #dc3545;
+  color: #ffffff;
+
+  font-size: 13px;
+  font-weight: 500;
+
+  cursor: pointer;
+}
+
+.claim-reason-cancel-btn:hover {
+  background-color: #bb2d3b;
+}
+
+
+/* =========================================================
+   SAVE BUTTON
+========================================================= */
+
+.claim-reason-save-btn {
+  border: none;
+  border-radius: 4px;
+
+  padding: 8px 17px;
+
+  background-color: #073b74;
+  color: #ffffff;
+
+  font-size: 13px;
+  font-weight: 500;
+
+  cursor: pointer;
+}
+
+.claim-reason-save-btn:hover {
+  background-color: #052c58;
+}
+
+
+/* =========================================================
+   DATATABLE - REDUCE COLUMN SPACE
+   ONLY AFFECTS CLAIM REASON PAGE
+========================================================= */
+
+.claim-reason-table-wrapper .datatable-table {
+  min-width: 0 !important;
+  width: 100% !important;
+}
+
+.claim-reason-table-wrapper .datatable-table th,
+.claim-reason-table-wrapper .datatable-table td {
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 768px) {
+  .claim-reason-card {
+    padding: 18px;
+  }
+
+  .claim-reason-card-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .claim-reason-add-btn {
+    width: 100%;
+  }
+
+  .claim-reason-modal {
+    max-width: 400px;
+  }
+}
+
+
+@media (max-width: 480px) {
+  .claim-reason-modal-overlay {
+    padding: 12px;
+  }
+
+  .claim-reason-modal-header h3 {
+    font-size: 17px;
+  }
+
+  .claim-reason-detail-row {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .claim-reason-detail-row span {
+    text-align: left;
+  }
+
+  .claim-reason-actions {
+    gap: 4px;
+  }
+
+  .claim-reason-btn {
+    padding: 6px 7px;
+    font-size: 10px;
+  }
+
+  .claim-reason-btn span {
+    display: none;
+  }
+}

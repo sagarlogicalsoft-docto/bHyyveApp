@@ -1,0 +1,303 @@
+/* =========================================
+   PAGE
+========================================= */
+
+.add-category-page {
+  width: 100%;
+  padding: 20px;
+}
+
+
+/* =========================================
+   PAGE HEADER
+========================================= */
+
+.add-category-page-header {
+  margin-bottom: 20px;
+}
+
+.add-category-page-title {
+  margin: 0 0 8px;
+  font-size: 24px;
+  font-weight: 600;
+  color: #081b3f;
+}
+
+.add-category-breadcrumb {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 7px;
+  font-size: 13px;
+  color: #6c757d;
+  margin-bottom: 20px;
+}
+
+.add-category-breadcrumb a {
+  color: #081b3f;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.add-category-breadcrumb a:hover {
+  color: #db4111;
+}
+
+.add-category-breadcrumb svg {
+  font-size: 13px;
+}
+
+.add-category-breadcrumb-active {
+  color: #db4111;
+  font-weight: 500;
+}
+
+
+/* =========================================
+   CARD
+========================================= */
+
+.add-category-card {
+  width: 100%;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+}
+
+.add-category-card-header {
+  padding: 18px 22px;
+  border-bottom: 1px solid #eeeeee;
+}
+
+.add-category-card-header h3 {
+  margin: 0;
+  color: #081b3f;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+
+/* =========================================
+   FORM
+========================================= */
+
+.add-category-form {
+  padding: 25px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px 25px;
+}
+
+.add-category-form-group {
+  width: 100%;
+}
+
+.add-category-form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #343a40;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.add-category-form-group label span {
+  color: #dc3545;
+}
+
+
+/* =========================================
+   INPUT + SELECT
+========================================= */
+
+.add-category-form-group input[type="text"],
+.add-category-form-group select {
+  width: 100%;
+  height: 44px;
+  padding: 0 13px;
+  border: 1px solid #d9dee5;
+  border-radius: 5px;
+  background: #ffffff;
+  color: #343a40;
+  font-size: 14px;
+  outline: none;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.add-category-form-group input[type="text"]:focus,
+.add-category-form-group select:focus {
+  border-color: #db4111;
+  box-shadow: 0 0 0 3px rgba(219, 65, 17, 0.08);
+}
+
+.add-category-form-group input::placeholder {
+  color: #adb5bd;
+}
+
+
+/* =========================================
+   FILE UPLOAD
+========================================= */
+
+.add-category-file-wrapper {
+  position: relative;
+  width: 100%;
+  min-height: 44px;
+}
+
+.add-category-file-wrapper input[type="file"] {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.add-category-file-info {
+  width: 100%;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 10px 13px;
+  border: 1px solid #d9dee5;
+  border-radius: 5px;
+  background: #ffffff;
+  color: #6c757d;
+  font-size: 14px;
+}
+
+.add-category-file-info svg {
+  color: #db4111;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+
+/* =========================================
+   IMAGE PREVIEW
+========================================= */
+
+.add-category-image-preview {
+  margin-top: 12px;
+  width: 90px;
+  height: 90px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #f8f9fa;
+}
+
+.add-category-image-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+
+/* =========================================
+   SUBMIT BUTTON
+========================================= */
+
+.add-category-submit-wrapper {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.add-category-submit-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  min-width: 150px;
+  min-height: 42px;
+
+  padding: 9px 20px;
+
+  border: none;
+  border-radius: 5px;
+
+  background: #db4111;
+  color: #ffffff;
+
+  font-size: 14px;
+  font-weight: 500;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    transform 0.15s ease,
+    box-shadow 0.2s ease;
+}
+
+.add-category-submit-btn:hover {
+  background: #bd350b;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(219, 65, 17, 0.2);
+}
+
+.add-category-submit-btn:active {
+  transform: translateY(0);
+}
+
+.add-category-submit-btn svg {
+  font-size: 13px;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 768px) {
+  .add-category-page {
+    padding: 15px;
+  }
+
+  .add-category-form {
+    grid-template-columns: 1fr;
+    padding: 20px;
+    gap: 18px;
+  }
+
+  .add-category-submit-wrapper {
+    grid-column: auto;
+    margin-top: 5px;
+  }
+
+  .add-category-submit-btn {
+    width: 100%;
+    max-width: 220px;
+  }
+}
+
+@media (max-width: 480px) {
+  .add-category-page {
+    padding: 10px;
+  }
+
+  .add-category-page-title {
+    font-size: 20px;
+  }
+
+  .add-category-card-header {
+    padding: 15px;
+  }
+
+  .add-category-form {
+    padding: 15px;
+  }
+
+  .add-category-submit-btn {
+    max-width: none;
+  }
+}

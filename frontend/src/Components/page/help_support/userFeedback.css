@@ -1,0 +1,262 @@
+/* =========================================================
+   PAGE
+========================================================= */
+
+.user-feedback-page {
+  width: 100%;
+  min-height: 100%;
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   PAGE HEADER
+========================================================= */
+
+.user-feedback-header {
+  margin-bottom: 18px;
+}
+
+
+.user-feedback-title {
+  margin: 0 0 8px;
+  font-size: 28px;
+  font-weight: 600;
+  color: #111827;
+}
+
+
+/* =========================================================
+   BREADCRUMB
+========================================================= */
+
+.user-feedback-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  font-size: 14px;
+  color: #6b7280;
+}
+
+
+.user-feedback-breadcrumb a {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+
+.user-feedback-breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+
+.user-feedback-breadcrumb span {
+  display: flex;
+  align-items: center;
+}
+
+
+.user-feedback-breadcrumb-arrow {
+  color: #6b7280;
+}
+
+
+.user-feedback-breadcrumb-active {
+  color: #6b7280;
+}
+
+
+/* =========================================================
+   MAIN CARD
+========================================================= */
+
+.user-feedback-card {
+  width: 100%;
+
+  background: #ffffff;
+
+  border-radius: 5px;
+
+  padding: 0 30px 30px;
+
+  box-sizing: border-box;
+
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+
+  overflow: hidden;
+}
+
+
+/* =========================================================
+   CARD HEADER
+========================================================= */
+
+.user-feedback-card-header {
+  display: flex;
+  align-items: center;
+
+  padding: 22px 0 18px;
+}
+
+
+.user-feedback-card-header h3 {
+  margin: 0;
+
+  font-size: 20px;
+  font-weight: 600;
+
+  color: #212529;
+}
+
+
+/* =========================================================
+   TABLE WRAPPER
+========================================================= */
+
+.user-feedback-table-wrapper {
+  width: 100%;
+}
+
+
+/* =========================================================
+   USER NAME
+========================================================= */
+
+.user-feedback-user-name {
+  color: #212529;
+
+  font-size: 14px;
+  font-weight: 500;
+
+  white-space: normal;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+.user-feedback-mobile {
+  color: #495057;
+
+  font-size: 14px;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   EMAIL
+========================================================= */
+
+.user-feedback-email {
+  color: #495057;
+
+  font-size: 14px;
+
+  white-space: normal;
+
+  overflow-wrap: anywhere;
+}
+
+
+/* =========================================================
+   FEEDBACK
+========================================================= */
+
+.user-feedback-message {
+  color: #495057;
+
+  font-size: 14px;
+
+  line-height: 1.5;
+
+  white-space: normal;
+
+  word-break: normal;
+
+  overflow-wrap: anywhere;
+}
+
+
+/* =========================================================
+   DATE TIME
+========================================================= */
+
+.user-feedback-date-time {
+  color: #495057;
+
+  font-size: 14px;
+
+  line-height: 1.5;
+
+  white-space: normal;
+}
+
+
+/* =========================================================
+   TABLE SPACING
+   Prevent DataTable from creating unnecessary large gaps
+========================================================= */
+
+.user-feedback-table-wrapper .datatable-table {
+  min-width: 0 !important;
+  width: 100% !important;
+}
+
+
+.user-feedback-table-wrapper .datatable-table th,
+.user-feedback-table-wrapper .datatable-table td {
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 992px) {
+  .user-feedback-card {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .user-feedback-title {
+    font-size: 25px;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .user-feedback-card {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  .user-feedback-title {
+    font-size: 23px;
+  }
+
+  .user-feedback-breadcrumb {
+    font-size: 13px;
+    gap: 6px;
+  }
+}
+
+
+@media (max-width: 480px) {
+  .user-feedback-title {
+    font-size: 21px;
+  }
+
+  .user-feedback-breadcrumb {
+    font-size: 12px;
+    gap: 5px;
+  }
+
+  .user-feedback-card-header h3 {
+    font-size: 18px;
+  }
+}

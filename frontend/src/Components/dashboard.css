@@ -1,0 +1,151 @@
+/* =========================================
+   DASHBOARD APP
+========================================= */
+
+.dashboard-app {
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+}
+
+
+/* =========================================
+   MAIN AREA - DESKTOP
+========================================= */
+
+.dashboard-main {
+  width: calc(100% - 280px);
+  margin-left: 280px;
+  min-height: 100vh;
+
+  transition:
+    margin-left 0.3s ease,
+    width 0.3s ease;
+}
+
+
+/* =========================================
+   DASHBOARD CONTENT
+========================================= */
+
+.dashboard-content {
+  width: 100%;
+  min-height: calc(100vh - 60px);
+
+  padding: 10px 30px 10px 30px;
+
+  box-sizing: border-box;
+  margin: 0;
+  background: #f8fafc;
+  transition: none;
+}
+
+
+/* =========================================
+   HOME PAGE
+========================================= */
+
+.dashboard-home {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.dashboard-home-inner {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+/* =========================================
+   REMOVE BOOTSTRAP CONTAINER EFFECT
+========================================= */
+
+.dashboard-home .container {
+  max-width: none !important;
+  width: 100% !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+
+/* =========================================
+   COLLAPSED SIDEBAR - DESKTOP
+========================================= */
+
+.dashboard-app.sidebar-is-collapsed .dashboard-main {
+  width: calc(100% - 64px);
+  margin-left: 64px;
+}
+
+
+/* =========================================
+   CARDS
+========================================= */
+
+.dashboard-content .card {
+  box-sizing: border-box;
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media screen and (max-width: 767px) {
+
+  /* Content ALWAYS uses full screen */
+  .dashboard-main {
+    width: 100% !important;
+    margin-left: 0 !important;
+
+    min-height: 100vh;
+  }
+
+  /* Content does NOT move when sidebar opens */
+  .dashboard-content {
+    width: 100% !important;
+    margin-left: 0 !important;
+
+    padding: 60px 15px 15px 15px !important;
+
+    transition: none !important;
+  }
+
+  /* Collapsed sidebar also does NOT move content */
+  .dashboard-app.sidebar-is-collapsed .dashboard-main {
+    width: 100% !important;
+    margin-left: 0 !important;
+  }
+
+  /* Home */
+  .dashboard-home {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .dashboard-home-inner {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Remove Bootstrap spacing */
+  .dashboard-home .container,
+  .dashboard-home .container-fluid {
+    width: 100% !important;
+    max-width: 100% !important;
+
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+}

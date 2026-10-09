@@ -1,0 +1,330 @@
+/* =========================================================
+   PAGE
+========================================================= */
+
+.faq-page {
+  width: 100%;
+  min-height: 100%;
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   PAGE HEADER
+========================================================= */
+
+.faq-page-header {
+  margin-bottom: 18px;
+}
+
+.faq-page-title {
+  margin: 0 0 8px;
+  font-size: 28px;
+  font-weight: 600;
+  color: #073b74;
+}
+
+
+/* =========================================================
+   BREADCRUMB
+========================================================= */
+
+.faq-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.faq-breadcrumb a {
+  color: #073b74;
+  text-decoration: none;
+}
+
+.faq-breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+.faq-breadcrumb-arrow {
+  display: flex;
+  align-items: center;
+  color: #6b7280;
+}
+
+.faq-breadcrumb-active {
+  color: #6b7280;
+}
+
+
+/* =========================================================
+   MAIN CARD
+========================================================= */
+
+.faq-card {
+  width: 100%;
+  background: #ffffff;
+  border-radius: 5px;
+  padding: 0 25px 25px;
+  box-sizing: border-box;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+}
+
+
+/* =========================================================
+   CARD HEADER
+========================================================= */
+
+.faq-card-header {
+  min-height: 70px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 15px;
+
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.faq-card-header h3 {
+  margin: 0;
+
+  font-size: 20px;
+  font-weight: 600;
+
+  color: #073b74;
+}
+
+
+/* =========================================================
+   ADD FAQ BUTTON
+========================================================= */
+
+.faq-add-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 7px;
+
+  border: none;
+  border-radius: 4px;
+
+  padding: 9px 15px;
+
+  background-color: #073b74;
+  color: #ffffff;
+
+  font-size: 13px;
+  font-weight: 500;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.15s ease;
+}
+
+.faq-add-btn:hover {
+  background-color: #052e5b;
+  transform: translateY(-1px);
+}
+
+.faq-add-btn svg {
+  font-size: 12px;
+}
+
+
+/* =========================================================
+   TABLE WRAPPER
+========================================================= */
+
+.faq-table-wrapper {
+  width: 100%;
+  margin-top: 20px;
+}
+
+
+/* =========================================================
+   FAQ TYPE
+========================================================= */
+
+.faq-type {
+  color: #073b74;
+  font-size: 13px;
+  font-weight: 600;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   QUESTION
+========================================================= */
+
+.faq-question {
+  color: #212529;
+
+  font-size: 13px;
+  font-weight: 500;
+
+  line-height: 1.5;
+
+  white-space: normal;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+
+/* =========================================================
+   ANSWER
+========================================================= */
+
+.faq-answer {
+  color: #495057;
+
+  font-size: 13px;
+
+  line-height: 1.6;
+
+  white-space: normal;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+
+/* =========================================================
+   ACTION
+========================================================= */
+
+.faq-actions {
+  display: inline-flex !important;
+
+  align-items: center;
+  justify-content: flex-start;
+
+  gap: 5px;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   EDIT BUTTON
+========================================================= */
+
+.faq-edit-btn {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 5px;
+
+  border: none;
+  border-radius: 3px;
+
+  padding: 7px 11px;
+
+  background-color: #073b74;
+  color: #ffffff;
+
+  font-size: 12px;
+  font-weight: 500;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.15s ease;
+}
+
+.faq-edit-btn:hover {
+  background-color: #052e5b;
+  transform: translateY(-1px);
+}
+
+.faq-edit-btn svg {
+  font-size: 11px;
+}
+
+
+/* =========================================================
+   DATATABLE - FAQ ONLY
+   Prevent large gaps between columns
+========================================================= */
+
+.faq-table-wrapper .datatable-table {
+  min-width: 0 !important;
+  width: 100% !important;
+}
+
+.faq-table-wrapper .datatable-table th,
+.faq-table-wrapper .datatable-table td {
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+}
+
+.faq-table-wrapper .datatable-table th {
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 992px) {
+  .faq-card {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .faq-card-header {
+    min-height: 65px;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .faq-page-title {
+    font-size: 24px;
+  }
+
+  .faq-card {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  .faq-card-header {
+    flex-wrap: wrap;
+    padding: 12px 0;
+  }
+
+  .faq-card-header h3 {
+    font-size: 18px;
+  }
+
+  .faq-add-btn {
+    padding: 8px 12px;
+  }
+}
+
+
+@media (max-width: 480px) {
+  .faq-breadcrumb {
+    font-size: 12px;
+    gap: 5px;
+  }
+
+  .faq-card-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .faq-add-btn {
+    width: 100%;
+  }
+}

@@ -1,0 +1,573 @@
+/* =========================================================
+   PAGE
+========================================================= */
+
+.ai-text-page {
+  width: 100%;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   PAGE HEADER
+========================================================= */
+
+.ai-text-page-header {
+  margin-bottom: 20px;
+}
+
+.ai-text-page-title {
+  margin: 0 0 8px;
+
+  font-size: 28px;
+  font-weight: 600;
+
+  color: #111827;
+}
+
+
+/* =========================================================
+   BREADCRUMB
+========================================================= */
+
+.ai-text-breadcrumb {
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+  font-size: 14px;
+
+  color: #6b7280;
+}
+
+.ai-text-breadcrumb a {
+  color: #2563eb;
+
+  text-decoration: none;
+}
+
+.ai-text-breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+.ai-text-breadcrumb span {
+  display: flex;
+  align-items: center;
+}
+
+.ai-text-breadcrumb-active {
+  color: #6b7280;
+}
+
+/* =========================================================
+   MAIN CARD
+========================================================= */
+
+.ai-text-card {
+  width: 100%;
+  background: #ffffff;
+  border-radius: 6px;
+  padding: 24px 44px 35px;
+  box-sizing: border-box;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.08);
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.ai-text-header {
+  width: 100%;
+  min-height: 76px;
+
+  padding: 0 32px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  background: linear-gradient(
+    105deg,
+    #119f91,
+    #1ccf82,
+    #30e978
+  );
+
+  border-radius: 18px 18px 0 0;
+
+  box-sizing: border-box;
+}
+
+
+/* HEADER TITLE */
+
+.ai-text-header-title {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+
+.ai-text-header-icon {
+  font-size: 28px;
+  color: #063b3a;
+}
+
+
+.ai-text-header-title h2 {
+  margin: 0;
+
+  font-size: 28px;
+  font-weight: 700;
+
+  color: #050505;
+}
+
+
+/* =========================================================
+   COUNT
+========================================================= */
+
+.ai-text-count {
+  min-width: 140px;
+
+  padding: 14px 20px;
+
+  border-radius: 30px;
+
+  background: rgba(255, 255, 255, 0.22);
+
+  color: #ffffff;
+
+  text-align: center;
+
+  font-size: 16px;
+  font-weight: 600;
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.ai-text-content {
+  width: 100%;
+
+  padding: 20px 20px 0;
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   GRID
+========================================================= */
+
+.ai-text-grid {
+  width: 100%;
+
+  display: grid;
+
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+
+  gap: 15px;
+
+  align-items: start;
+}
+
+
+/* =========================================================
+   AI TEXT CARD
+========================================================= */
+
+.ai-text-item {
+  width: 100%;
+
+  background: #f7f8ff;
+
+  border: 1px solid #e3e6f4;
+
+  border-radius: 17px;
+
+  overflow: hidden;
+
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.04);
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+}
+
+
+/* =========================================================
+   CARD HOVER
+========================================================= */
+
+.ai-text-item:hover {
+  transform: translateY(-8px);
+
+  border-color: #c7cff8;
+
+  box-shadow:
+    0 12px 28px rgba(0, 0, 0, 0.12);
+}
+
+
+/* =========================================================
+   IMAGE
+========================================================= */
+
+.ai-text-image-wrapper {
+  width: 100%;
+  height: 190px;
+
+  overflow: hidden;
+
+  background: #f0f1ff;
+}
+
+
+.ai-text-image {
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  object-fit: cover;
+
+  transition: transform 0.45s ease;
+}
+
+
+/* IMAGE HOVER */
+
+.ai-text-item:hover .ai-text-image {
+  transform: scale(1.05);
+}
+
+
+/* =========================================================
+   BODY
+========================================================= */
+
+.ai-text-body {
+  padding: 15px 20px 15px;
+}
+
+
+/* =========================================================
+   TITLE
+========================================================= */
+
+.ai-text-title {
+  min-height: 50px;
+
+  margin-bottom: 5px;
+
+  color: #111827;
+
+  font-size: 14px;
+  font-weight: 900;
+
+  line-height: 1.4;
+
+  display: flex;
+  align-items: center;
+}
+
+
+/* =========================================================
+   ACTIONS
+========================================================= */
+
+.ai-text-actions {
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 12px;
+}
+
+
+/* =========================================================
+   COMMON BUTTON
+========================================================= */
+
+.ai-text-edit-btn,
+.ai-text-delete-btn {
+  height: 35px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  border-radius: 10px;
+
+  font-size: 17px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    transform 0.2s ease;
+}
+
+
+.ai-text-edit-btn svg,
+.ai-text-delete-btn svg {
+  font-size: 14px;
+}
+
+
+/* =========================================================
+   EDIT BUTTON
+========================================================= */
+
+.ai-text-edit-btn {
+  border: 1px solid #657de5;
+  font-size:small;
+
+  background: #657de5;
+
+  color: #ffffff;
+}
+
+
+.ai-text-edit-btn:hover {
+  background: #536bd4;
+
+  transform: translateY(-2px);
+}
+
+
+/* =========================================================
+   DELETE BUTTON
+========================================================= */
+
+.ai-text-delete-btn {
+  border: 1px solid #ffcaca;
+  font-size:small;
+
+  background: #fff1f1;
+
+  color: #ef4444;
+}
+
+
+.ai-text-delete-btn:hover {
+  background: #ffe0e0;
+
+  color: #dc2626;
+
+  transform: translateY(-2px);
+}
+
+
+/* =========================================================
+   ADD CARD
+========================================================= */
+
+.ai-text-add-card {
+  width: 100%;
+  min-height: 300px;
+
+  border: 3px dashed #c5cdf8;
+
+  border-radius: 17px;
+
+  background: #fafbff;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  cursor: pointer;
+
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease,
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+
+  padding: 20px;
+
+  box-sizing: border-box;
+}
+
+
+/* ADD HOVER */
+
+.ai-text-add-card:hover {
+  background: #f4f6ff;
+
+  border-color: #657de5;
+
+  transform: translateY(-5px);
+
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+
+/* =========================================================
+   ADD ICON
+========================================================= */
+
+.ai-text-add-icon {
+  width: 40px;
+  height: 40px;
+
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #119f91;
+
+  color: #ffffff;
+
+  font-size: 24px;
+
+  margin-bottom: 17px;
+
+  transition:
+    transform 0.3s ease,
+    background 0.3s ease;
+}
+
+
+.ai-text-add-card:hover .ai-text-add-icon {
+  background: #0d8f82;
+
+  transform: rotate(90deg) scale(1.08);
+}
+
+
+/* =========================================================
+   ADD TEXT
+========================================================= */
+
+.ai-text-add-text {
+  color: #119f91;
+
+  font-size: 19px;
+
+  font-weight: 600;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1200px) {
+
+  .ai-text-card {
+    padding-left: 25px;
+    padding-right: 25px;
+  }
+
+  .ai-text-content {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .ai-text-grid {
+    gap: 20px;
+  }
+
+  .ai-text-image-wrapper {
+  width: 100%;
+  height: 190px;
+  overflow: hidden;
+  background: #f0f1ff;
+}
+
+}
+
+
+@media (max-width: 992px) {
+
+  .ai-text-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .ai-text-header-title h2 {
+    font-size: 24px;
+  }
+
+}
+
+
+@media (max-width: 768px) {
+
+  .ai-text-card {
+    padding: 15px;
+  }
+
+  .ai-text-header {
+    padding: 15px 20px;
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 15px;
+  }
+
+  .ai-text-count {
+    align-self: flex-end;
+  }
+
+  .ai-text-content {
+    padding: 25px 5px 0;
+  }
+
+  .ai-text-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ai-text-image-wrapper {
+    height: 190px;
+  }
+
+}
+
+
+@media (max-width: 480px) {
+
+  .ai-text-header-title {
+    gap: 12px;
+  }
+
+  .ai-text-header-title h2 {
+    font-size: 20px;
+  }
+
+  .ai-text-header-icon {
+    font-size: 22px;
+  }
+
+  .ai-text-title {
+    font-size: 18px;
+  }
+
+  .ai-text-actions {
+    grid-template-columns: 1fr;
+  }
+
+}

@@ -1,0 +1,1039 @@
+/* =========================================
+   DASHBOARD NAVBAR
+========================================= */
+
+.dashboard-navbar {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  min-height: 64px;
+  background: #ffffff;
+  z-index: 1020;
+
+  border-bottom: 1px solid #e8ecf2;
+}
+
+
+/* =========================================
+   NAVBAR WRAPPER
+========================================= */
+
+.dashboard-navbar .navbar-nav-wrap {
+  width: 100%;
+  min-height: 64px;
+
+  display: flex;
+  align-items: center;
+
+  padding: 0 24px;
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================
+   LOGO
+========================================= */
+
+.dashboard-navbar .navbar-brand-wrapper {
+  display: flex;
+  align-items: center;
+  margin-left: -28px;
+}
+
+.dashboard-navbar .navbar-brand {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.dashboard-navbar .navbar-brand-logo-mini {
+  width: 38px;
+  height: auto;
+  object-fit: contain;
+  margin-right: 24px;
+}
+
+
+/* =========================================
+   RIGHT SIDE
+========================================= */
+
+.dashboard-navbar
+.navbar-nav-wrap-content-right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+}
+
+
+/* =========================================
+   NAVBAR UL
+========================================= */
+
+.dashboard-navbar .navbar-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+
+/* =========================================
+   NAVBAR ICONS
+========================================= */
+
+.navbar-icon {
+  position: relative;
+  color: #556587;
+  font-size: 1.25rem;
+  padding: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.navbar-icon:hover {
+  color: #db4111;
+}
+
+
+/* =========================================
+   NOTIFICATION / MESSAGE BADGE
+========================================= */
+
+.navbar-badge-icon {
+  position: absolute;
+
+  /* Position badge on top-right of icon */
+  top: -4px;
+  right: -5px;
+
+  /* Badge size */
+  min-width: 20px;
+  height: 20px;
+
+  padding: 0 5px;
+
+  /* Center number */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* Text */
+  color: #ffffff !important;
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1;
+
+  /* Shape */
+  border-radius: 50px;
+
+  /* Notification red */
+  background-color: #dc3545 !important;
+
+  /* Small border */
+  border: 2px solid #ffffff;
+
+  box-sizing: border-box;
+}
+
+
+/* Larger badge for numbers like 225 */
+
+.navbar-badge-icon.large {
+  min-width: 24px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 50px;
+}
+
+
+/* =========================================
+   NAVBAR ICON SPACING
+========================================= */
+
+.dashboard-navbar .navbar-nav {
+  gap: 8px;
+}
+
+.dashboard-navbar .nav-item {
+  display: flex;
+  align-items: center;
+}
+
+
+/* =========================================
+   PROFILE
+========================================= */
+
+.profile-dropdown-wrapper {
+  position: relative;
+}
+
+
+/* Profile button */
+
+.profile-pill {
+  border: 1px solid #e5e7eb;
+
+  background: #ffffff;
+
+  min-height: 48px;
+
+  padding: 5px 10px;
+
+  border-radius: 12px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 9px;
+
+  cursor: pointer;
+
+  transition: all 0.25s ease;
+}
+
+.profile-pill:hover {
+  border-color: #db4111;
+
+  box-shadow:
+    0 4px 14px rgba(219, 65, 17, 0.12);
+}
+
+
+/* Profile icon */
+
+.profile-user-icon {
+  color: #344054;
+  flex-shrink: 0;
+}
+
+
+/* Profile information */
+
+.profile-info {
+  min-width: 100px;
+  text-align: left;
+  line-height: 1.2;
+}
+
+.profile-name {
+  color: #344054;
+  font-size: 13px;
+  font-weight: 600;
+
+  max-width: 150px;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.profile-info small {
+  color: #98a2b3;
+  font-size: 11px;
+}
+
+
+/* Arrow */
+
+.profile-arrow {
+  color: #667085;
+  font-size: 11px;
+
+  transition: transform 0.25s ease;
+}
+
+.profile-arrow.rotate {
+  transform: rotate(180deg);
+}
+
+
+/* =========================================
+   PROFILE DROPDOWN
+========================================= */
+
+.profile-dropdown {
+  position: absolute;
+
+  top: calc(100% + 8px);
+  right: 0;
+
+  z-index: 2000;
+
+  min-width: 240px;
+
+  margin: 0;
+  padding: 8px;
+
+  list-style: none;
+
+  background: #ffffff;
+
+  border: 1px solid #eaecf0;
+
+  border-radius: 12px;
+
+  box-shadow:
+    0 12px 30px rgba(16, 24, 40, 0.14);
+
+  animation: profileDropdownOpen 0.18s ease-out;
+}
+
+
+@keyframes profileDropdownOpen {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/* =========================================
+   DROPDOWN HEADER
+========================================= */
+
+.profile-dropdown .dropdown-header {
+  padding: 9px 12px;
+}
+
+.profile-dropdown .dropdown-header strong {
+  display: block;
+
+  color: #344054;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  max-width: 210px;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.profile-dropdown .dropdown-header small {
+  display: block;
+
+  margin-top: 3px;
+
+  color: #98a2b3;
+
+  font-size: 11px;
+}
+
+
+/* =========================================
+   DIVIDER
+========================================= */
+
+.profile-dropdown .dropdown-divider {
+  margin: 7px 0;
+
+  border: 0;
+
+  border-top: 1px solid #eaecf0;
+}
+
+
+/* =========================================
+   DROPDOWN ITEM
+========================================= */
+
+.profile-dropdown .dropdown-item {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  padding: 10px 12px;
+
+  border: 0;
+
+  border-radius: 8px;
+
+  background: transparent;
+
+  color: #344054;
+
+  font-size: 13px;
+
+  text-align: left;
+
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+}
+
+
+/* Icons */
+
+.profile-dropdown .dropdown-item svg {
+  width: 15px;
+  min-width: 15px;
+
+  color: #667085;
+
+  transition: color 0.2s ease;
+}
+
+
+/* Hover */
+
+.profile-dropdown .dropdown-item:hover {
+  background: rgba(219, 65, 17, 0.08);
+
+  color: #db4111;
+}
+
+.profile-dropdown .dropdown-item:hover svg {
+  color: #db4111;
+}
+
+
+/* =========================================
+   LOGOUT
+========================================= */
+
+.profile-dropdown .logout-item {
+  color: #db4111;
+}
+
+.profile-dropdown .logout-item svg {
+  color: #db4111;
+}
+
+.profile-dropdown .logout-item:hover {
+  background: rgba(219, 65, 17, 0.10);
+}
+
+
+/* =========================================
+   MOBILE SIDEBAR BUTTON
+========================================= */
+
+.mobile-sidebar-toggle {
+  width: 40px;
+  height: 40px;
+
+  margin-right: 8px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: rgb(7, 59, 116);
+
+  font-size: 25px;
+
+  cursor: pointer;
+
+  border-radius: 8px;
+
+  transition: all 0.2s ease;
+}
+
+.mobile-sidebar-toggle:hover {
+  background: rgba(7, 59, 116, 0.08);
+}
+
+
+/* =========================================
+   MOBILE PROFILE
+========================================= */
+
+.mobile-profile-pill {
+  min-height: 42px;
+
+  padding: 5px 8px;
+
+  border-radius: 10px;
+}
+
+
+/* =========================================
+   MOBILE DROPDOWN
+========================================= */
+
+.profile-dropdown-mobile {
+  right: 0;
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 991.98px) {
+
+  .dashboard-navbar .navbar-nav-wrap {
+    padding: 0 16px;
+  }
+
+  .profile-info {
+    display: none;
+  }
+
+  .profile-pill {
+    padding: 5px 8px;
+  }
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 767px) {
+
+  .dashboard-navbar {
+    min-height: 58px;
+  }
+
+  .dashboard-navbar .navbar-nav-wrap {
+    min-height: 58px;
+
+    padding: 0 10px;
+  }
+
+  .dashboard-navbar .navbar-nav {
+    gap: 4px;
+  }
+
+  .navbar-icon {
+    font-size: 1.1rem;
+    padding: 7px;
+  }
+
+  .navbar-badge-icon {
+    top: -3px;
+    right: -4px;
+    min-width: 19px;
+    height: 19px;
+    font-size: 10px;
+  }
+
+  .dashboard-navbar .navbar-brand-logo-mini {
+    height: 34px;
+  }
+
+  .profile-dropdown {
+    min-width: 220px;
+  }
+}
+
+ /* =========================================
+   NOTIFICATION DROPDOWN
+========================================= */
+
+.notification-dropdown-wrapper {
+  position: relative;
+}
+
+.notification-button {
+  border: none;
+  background: transparent;
+}
+
+/* Dropdown */
+
+.notification-dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: -10px;
+
+  width: 360px;
+
+  background: #ffffff;
+
+  border: 1px solid #eaecf0;
+  border-radius: 14px;
+
+  box-shadow: 0 15px 35px rgba(16, 24, 40, 0.15);
+
+  overflow: hidden;
+
+  z-index: 3000;
+
+  animation: notificationDropdownOpen 0.2s ease-out;
+}
+
+@keyframes notificationDropdownOpen {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Header */
+
+.notification-dropdown-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 15px 16px;
+
+  border-bottom: 1px solid #eaecf0;
+}
+
+.notification-dropdown-header strong {
+  color: #344054;
+  font-size: 15px;
+}
+
+.notification-dropdown-header span {
+  color: #db4111;
+  background: rgba(219, 65, 17, 0.08);
+
+  padding: 4px 8px;
+
+  border-radius: 20px;
+
+  font-size: 11px;
+  font-weight: 600;
+}
+
+/* Scrollable notification area */
+
+.notification-list {
+  max-height: 330px;
+  overflow-y: auto;
+}
+
+/* Scrollbar */
+
+.notification-list::-webkit-scrollbar {
+  width: 5px;
+}
+
+.notification-list::-webkit-scrollbar-thumb {
+  background: #d0d5dd;
+  border-radius: 10px;
+}
+
+/* Notification item */
+
+.notification-item {
+  width: 100%;
+
+  display: flex;
+  align-items: flex-start;
+
+  gap: 12px;
+
+  padding: 14px 16px;
+
+  border: none;
+  border-bottom: 1px solid #f2f4f7;
+
+  background: #ffffff;
+
+  text-align: left;
+
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+}
+
+.notification-item:hover {
+  background: rgba(219, 65, 17, 0.05);
+}
+
+/* Notification icon */
+
+.notification-icon {
+  width: 34px;
+  height: 34px;
+
+  min-width: 34px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: rgba(219, 65, 17, 0.1);
+
+  color: #db4111;
+
+  font-size: 14px;
+}
+
+/* Content */
+
+.notification-content {
+  min-width: 0;
+}
+
+.notification-content strong {
+  display: block;
+
+  color: #344054;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  margin-bottom: 3px;
+}
+
+.notification-content p {
+  margin: 0;
+
+  color: #667085;
+
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.notification-content small {
+  display: block;
+
+  margin-top: 5px;
+
+  color: #98a2b3;
+
+  font-size: 10px;
+}
+
+/* Footer */
+
+.notification-dropdown-footer {
+  padding: 10px 12px;
+
+  border-top: 1px solid #eaecf0;
+
+  background: #ffffff;
+
+  text-align: center;
+}
+
+.notification-dropdown-footer button {
+  width: 100%;
+
+  border: none;
+  background: transparent;
+
+  color: #db4111;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  padding: 8px;
+
+  border-radius: 7px;
+
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+}
+
+.notification-dropdown-footer button:hover {
+  background: rgba(219, 65, 17, 0.08);
+}
+
+
+/* =========================================
+   MOBILE NOTIFICATION DROPDOWN
+========================================= */
+
+.notification-dropdown-mobile {
+  right: -45px;
+  width: 320px;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 767px) {
+  .notification-dropdown {
+    width: 320px;
+    right: -45px;
+  }
+
+  .notification-list {
+    max-height: 300px;
+  }
+}
+
+@media (max-width: 400px) {
+  .notification-dropdown {
+    width: calc(100vw - 30px);
+    right: -55px;
+  }
+}
+
+
+ 
+/* =========================================
+   MESSAGE DROPDOWN
+========================================= */
+
+.message-dropdown-wrapper {
+  position: relative;
+}
+
+.message-button {
+  border: none;
+  background: transparent;
+}
+
+/* Dropdown */
+
+.message-dropdown {
+  position: absolute;
+
+  top: calc(100% + 10px);
+  right: -10px;
+
+  width: 360px;
+
+  background: #ffffff;
+
+  border: 1px solid #eaecf0;
+  border-radius: 14px;
+
+  box-shadow: 0 15px 35px rgba(16, 24, 40, 0.15);
+
+  overflow: hidden;
+
+  z-index: 3000;
+
+  animation: messageDropdownOpen 0.2s ease-out;
+}
+
+@keyframes messageDropdownOpen {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Header */
+
+.message-dropdown-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 15px 16px;
+
+  border-bottom: 1px solid #eaecf0;
+}
+
+.message-dropdown-header strong {
+  color: #344054;
+  font-size: 15px;
+}
+
+.message-dropdown-header span {
+  color: #db4111;
+
+  background: rgba(219, 65, 17, 0.08);
+
+  padding: 4px 8px;
+
+  border-radius: 20px;
+
+  font-size: 11px;
+  font-weight: 600;
+}
+
+/* Scrollable message area */
+
+.message-list {
+  max-height: 330px;
+  overflow-y: auto;
+}
+
+/* Scrollbar */
+
+.message-list::-webkit-scrollbar {
+  width: 5px;
+}
+
+.message-list::-webkit-scrollbar-thumb {
+  background: #d0d5dd;
+  border-radius: 10px;
+}
+
+/* Message item */
+
+.message-item {
+  width: 100%;
+
+  display: flex;
+  align-items: flex-start;
+
+  gap: 12px;
+
+  padding: 14px 16px;
+
+  border: none;
+  border-bottom: 1px solid #f2f4f7;
+
+  background: #ffffff;
+
+  text-align: left;
+
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+}
+
+.message-item:hover {
+  background: rgba(219, 65, 17, 0.05);
+}
+
+/* Message icon */
+
+.message-icon {
+  width: 34px;
+  height: 34px;
+
+  min-width: 34px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: rgba(219, 65, 17, 0.1);
+
+  color: #db4111;
+
+  font-size: 14px;
+}
+
+/* Content */
+
+.message-content {
+  min-width: 0;
+}
+
+.message-content strong {
+  display: block;
+
+  color: #344054;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  margin-bottom: 3px;
+}
+
+.message-content p {
+  margin: 0;
+
+  color: #667085;
+
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.message-content small {
+  display: block;
+
+  margin-top: 5px;
+
+  color: #98a2b3;
+
+  font-size: 10px;
+}
+
+/* Footer */
+
+.message-dropdown-footer {
+  padding: 10px 12px;
+
+  border-top: 1px solid #eaecf0;
+
+  background: #ffffff;
+
+  text-align: center;
+}
+
+.message-dropdown-footer button {
+  width: 100%;
+
+  border: none;
+  background: transparent;
+
+  color: #db4111;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  padding: 8px;
+
+  border-radius: 7px;
+
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+}
+
+.message-dropdown-footer button:hover {
+  background: rgba(219, 65, 17, 0.08);
+}
+
+
+/* =========================================
+   MOBILE MESSAGE DROPDOWN
+========================================= */
+
+.message-dropdown-mobile {
+  right: -45px;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 767px) {
+
+  .message-dropdown {
+    width: 320px;
+    right: -45px;
+  }
+
+  .message-list {
+    max-height: 300px;
+  }
+}
+
+@media (max-width: 400px) {
+
+  .message-dropdown {
+    width: calc(100vw - 30px);
+    right: -55px;
+  }
+}

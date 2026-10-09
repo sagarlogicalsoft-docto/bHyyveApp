@@ -1,0 +1,437 @@
+/* =========================================================
+   PAGE
+========================================================= */
+
+.estimate-receipt-page {
+  width: 100%;
+
+  padding: 20px 0 50px 0;
+
+  background: #f5f7fb;
+
+  min-height: calc(100vh - 70px);
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   PAGE HEADER
+========================================================= */
+
+.estimate-receipt-page-header {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 20px;
+
+  margin-bottom: 22px;
+}
+
+
+.estimate-receipt-page-title {
+  margin: 0;
+
+  color: #172b4d;
+
+  font-size: 24px;
+
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   BREADCRUMB
+========================================================= */
+
+.estimate-receipt-breadcrumb {
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  margin-top: 8px;
+
+  font-size: 14px;
+}
+
+
+.estimate-receipt-breadcrumb a {
+  color: #073b74;
+
+  text-decoration: none;
+}
+
+
+.estimate-receipt-breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+
+.estimate-receipt-breadcrumb-arrow {
+  display: flex;
+
+  align-items: center;
+
+  color: #8a94a6;
+}
+
+
+.estimate-receipt-breadcrumb-active {
+  color: #1ba784;
+
+  font-weight: 600;
+}
+
+
+/* =========================================================
+   CARD
+========================================================= */
+
+.estimate-receipt-card {
+  width: 100%;
+
+  background: #ffffff;
+
+  border: 1px solid #e8edf3;
+
+  border-radius: 6px;
+
+  box-shadow: 0 3px 12px rgba(30, 45, 65, 0.05);
+
+  overflow: hidden;
+}
+
+
+/* =========================================================
+   CARD HEADER
+========================================================= */
+
+.estimate-receipt-card-header {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 20px 22px;
+
+  border-bottom: 1px solid #edf0f4;
+}
+
+
+.estimate-receipt-card-header h3 {
+  margin: 0;
+
+  color: #172b4d;
+
+  font-size: 17px;
+
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   TABLE WRAPPER
+========================================================= */
+
+.estimate-receipt-table-wrapper {
+  width: 100%;
+}
+
+
+/* =========================================================
+   ESTIMATE NUMBER
+========================================================= */
+
+.estimate-number {
+  display: inline-block;
+
+  max-width: 150px;
+
+  white-space: normal;
+
+  word-break: break-word;
+
+  line-height: 1.35;
+
+  color: #536477;
+}
+
+
+/* =========================================================
+   CLIENT NAME
+========================================================= */
+
+.estimate-client-name {
+  max-width: 95px;
+
+  white-space: normal;
+
+  word-break: break-word;
+
+  line-height: 1.35;
+
+  color: #536477;
+}
+
+
+/* =========================================================
+   DATE
+========================================================= */
+
+.estimate-date {
+  display: flex;
+
+  flex-direction: column;
+
+  line-height: 1.35;
+
+  white-space: nowrap;
+
+  color: #536477;
+}
+
+
+/* =========================================================
+   TOTAL
+========================================================= */
+
+.estimate-total {
+  display: flex;
+
+  flex-direction: column;
+
+  line-height: 1.35;
+
+  white-space: nowrap;
+
+  color: #536477;
+}
+
+
+/* =========================================================
+   PAYMENT BADGE
+========================================================= */
+
+.estimate-payment-badge {
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 4px;
+
+  min-height: 22px;
+
+  padding: 2px 7px;
+
+  border-radius: 3px;
+
+  color: #ffffff;
+
+  font-size: 10px;
+
+  font-weight: 600;
+
+  line-height: 1;
+
+  white-space: nowrap;
+}
+
+
+.estimate-payment-badge svg {
+  font-size: 9px;
+}
+
+
+/* UPI */
+
+.estimate-payment-upi {
+  background: #13a4bb;
+}
+
+
+/* CREDIT CARD */
+
+.estimate-payment-card {
+  background: #13a4bb;
+}
+
+
+/* =========================================================
+   NOTES
+========================================================= */
+
+.estimate-notes {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 5px;
+
+  max-width: 110px;
+
+  min-height: 31px;
+
+  padding: 0 8px;
+
+  background: #fff8e7;
+
+  border-left: 3px solid #ffc107;
+
+  border-radius: 5px;
+
+  color: #536477;
+
+  font-size: 11px;
+
+  white-space: nowrap;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+
+  box-sizing: border-box;
+}
+
+
+.estimate-notes-icon {
+  flex-shrink: 0;
+
+  color: #536477;
+
+  font-size: 10px;
+}
+
+
+.estimate-notes-empty {
+  color: #536477;
+
+  font-size: 13px;
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+.estimate-status {
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 5px;
+
+  min-width: 83px;
+
+  min-height: 35px;
+
+  padding: 0 10px;
+
+  border-radius: 20px;
+
+  font-size: 11px;
+
+  font-weight: 600;
+
+  white-space: nowrap;
+
+  box-sizing: border-box;
+}
+
+
+.estimate-status svg {
+  font-size: 11px;
+}
+
+
+/* COMPLETED */
+
+.estimate-status-completed {
+  background: #d8f1de;
+
+  color: #176b3a;
+}
+
+
+/* OTHER STATUS */
+
+.estimate-status-other {
+  background: #fff0f0;
+
+  color: #c62828;
+}
+
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+.estimate-receipt-loading {
+  min-height: 200px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  color: #6b7280;
+
+  font-size: 14px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 767px) {
+  .estimate-receipt-page {
+    padding: 15px;
+  }
+
+
+  .estimate-receipt-page-header {
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+
+
+  .estimate-receipt-page-title {
+    font-size: 20px;
+  }
+
+
+  .estimate-receipt-card-header {
+    padding: 16px;
+  }
+
+
+  .estimate-number {
+    max-width: 140px;
+  }
+
+
+  .estimate-client-name {
+    max-width: 90px;
+  }
+}
+
+
+@media (max-width: 480px) {
+  .estimate-receipt-page {
+    padding: 12px;
+  }
+
+
+  .estimate-receipt-page-title {
+    font-size: 19px;
+  }
+}

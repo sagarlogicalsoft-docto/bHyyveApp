@@ -1,0 +1,401 @@
+/* =========================================================
+   PAGE
+========================================================= */
+
+.view-booking-page {
+  width: 100%;
+  padding: 0;
+}
+
+
+/* =========================================================
+   PAGE HEADER
+========================================================= */
+
+.view-booking-page-header {
+  margin-bottom: 18px;
+}
+
+.view-booking-page-title {
+  margin: 0 0 7px;
+
+  font-size: 28px;
+  font-weight: 600;
+
+  color: #111827;
+}
+
+.view-booking-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.view-booking-breadcrumb a {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.view-booking-breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+.view-booking-breadcrumb span {
+  display: flex;
+  align-items: center;
+}
+
+.view-booking-breadcrumb-active {
+  color: #6b7280;
+}
+
+
+/* =========================================================
+   MAIN CARD
+========================================================= */
+
+.view-booking-card {
+  width: 100%;
+
+  background: #ffffff;
+
+  border-radius: 6px;
+
+  padding: 16px 30px 30px;
+
+  box-sizing: border-box;
+
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+
+  overflow-x: auto;
+}
+
+
+/* =========================================================
+   BOOKING SUMMARY
+========================================================= */
+
+.booking-summary-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.booking-summary-table {
+  width: 100%;
+
+  border-collapse: collapse;
+
+  table-layout: fixed;
+
+  font-size: 14px;
+}
+
+.booking-summary-table th,
+.booking-summary-table td {
+  padding: 9px 8px;
+
+  border-bottom: 1px solid #d9dee5;
+
+  text-align: left;
+
+  vertical-align: middle;
+}
+
+.booking-summary-table th {
+  font-weight: 600;
+
+  color: #4b5563;
+
+  white-space: nowrap;
+}
+
+.booking-summary-table td {
+  color: #4b5563;
+}
+
+
+/* SUMMARY COLUMN WIDTHS */
+
+.booking-summary-table th:nth-child(1) {
+  width: 35px;
+}
+
+.booking-summary-table th:nth-child(2) {
+  width: 105px;
+}
+
+.booking-summary-table th:nth-child(3) {
+  width: 150px;
+}
+
+.booking-summary-table th:nth-child(4) {
+  width: 300px;
+}
+
+.booking-summary-table th:nth-child(5) {
+  width: 125px;
+}
+
+.booking-summary-table th:nth-child(6) {
+  width: 115px;
+}
+
+.booking-summary-table th:nth-child(7) {
+  width: 170px;
+}
+
+.booking-summary-table th:nth-child(8) {
+  width: 90px;
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+.view-booking-status {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  color: #856404;
+
+  font-size: 13px;
+}
+
+
+/* =========================================================
+   ORDER SERVICES TITLE
+========================================================= */
+
+.order-services-title {
+  margin-top: 13px;
+  margin-bottom: 8px;
+
+  font-size: 14px;
+
+  color: #4b5563;
+}
+
+
+/* =========================================================
+   ORDER SERVICES TABLE
+========================================================= */
+
+.order-services-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.order-services-table {
+  width: 100%;
+
+  border-collapse: collapse;
+
+  table-layout: fixed;
+
+  font-size: 14px;
+}
+
+.order-services-table th,
+.order-services-table td {
+  border: 1px solid #d9dee5;
+
+  padding: 8px;
+
+  vertical-align: middle;
+}
+
+.order-services-table th {
+  color: #4b5563;
+
+  font-weight: 600;
+
+  text-align: left;
+
+  background: #ffffff;
+}
+
+.order-services-table td {
+  color: #4b5563;
+}
+
+
+/* =========================================================
+   SERVICE COLUMN WIDTHS
+========================================================= */
+
+.service-image-column {
+  width: 60px;
+}
+
+.service-name-column {
+  width: 105px;
+}
+
+.service-description-column {
+  width: auto;
+}
+
+.service-rate-column {
+  width: 67px;
+}
+
+.service-qty-column {
+  width: 40px;
+}
+
+.service-amount-column {
+  width: 90px;
+}
+
+.service-total-column {
+  width: 68px;
+}
+
+
+/* =========================================================
+   SERVICE IMAGE
+========================================================= */
+
+.service-image-wrapper {
+  width: 52px;
+  height: 32px;
+
+  overflow: hidden;
+
+  margin: 0 auto;
+}
+
+.service-image-wrapper img {
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  object-fit: cover;
+}
+
+
+/* =========================================================
+   SERVICE NAME
+========================================================= */
+
+.service-name {
+  text-align: center !important;
+
+  line-height: 1.55;
+
+  word-break: break-word;
+}
+
+
+/* =========================================================
+   DESCRIPTION
+========================================================= */
+
+.service-description {
+  text-align: center !important;
+
+  line-height: 1.6;
+
+  padding: 10px 12px !important;
+}
+
+
+/* =========================================================
+   RATE / QTY / AMOUNT / TOTAL
+========================================================= */
+
+.service-rate,
+.service-qty,
+.service-amount,
+.service-total {
+  text-align: center !important;
+
+  line-height: 1.5;
+}
+
+
+/* =========================================================
+   SUMMARY ROWS
+========================================================= */
+
+.summary-row td {
+  height: 42px;
+
+  padding: 7px 8px;
+}
+
+.summary-label {
+  text-align: right !important;
+
+  font-weight: 500;
+}
+
+.summary-value {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 12px;
+}
+
+
+/* =========================================================
+   FINAL AMOUNT
+========================================================= */
+
+.final-amount-row td {
+  height: 42px;
+
+  padding: 8px;
+}
+
+.final-amount-label {
+  text-align: right !important;
+
+  font-weight: 900;
+}
+
+.final-amount-value {
+  text-align: center !important;
+
+  font-size: 16px;
+
+  font-weight: 700;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 992px) {
+  .view-booking-card {
+    padding: 15px;
+  }
+
+  .booking-summary-table,
+  .order-services-table {
+    min-width: 950px;
+  }
+}
+
+@media (max-width: 768px) {
+  .view-booking-page-title {
+    font-size: 24px;
+  }
+
+  .view-booking-card {
+    padding: 12px;
+  }
+}

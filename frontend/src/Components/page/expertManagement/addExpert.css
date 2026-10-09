@@ -1,0 +1,455 @@
+/* =========================================================
+   PAGE
+========================================================= */
+
+.add-expert-page {
+  width: 100%;
+  min-height: calc(100vh - 70px);
+  padding: 20px 0 50px;
+  background: #f5f7fb;
+}
+
+
+/* =========================================================
+   PAGE HEADER
+========================================================= */
+
+.add-expert-page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 22px;
+}
+
+.add-expert-page-title {
+  margin: 0;
+  color: #172b4d;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.add-expert-breadcrumb {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+  font-size: 14px;
+}
+
+.add-expert-breadcrumb a {
+  color: #073b74;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.add-expert-breadcrumb a:hover {
+  color: #db4111;
+}
+
+.add-expert-breadcrumb span {
+  display: inline-flex;
+  align-items: center;
+  color: #9aa4b2;
+}
+
+.add-expert-breadcrumb .add-expert-breadcrumb-active {
+  color: #1ba784;
+  font-weight: 600;
+}
+
+
+/* =========================================================
+   CARD
+========================================================= */
+
+.add-expert-card {
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid #e8edf3;
+  border-radius: 10px;
+  box-shadow: 0 3px 12px rgba(30, 45, 65, 0.05);
+  overflow: hidden;
+}
+
+
+/* =========================================================
+   CARD HEADER
+========================================================= */
+
+.add-expert-card-header {
+  padding: 20px 22px;
+  border-bottom: 1px solid #edf0f4;
+}
+
+.add-expert-card-header h3 {
+  margin: 0;
+  color: #172b4d;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.add-expert-card-header p {
+  margin: 6px 0 0;
+  color: #8a94a6;
+  font-size: 13px;
+}
+
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.add-expert-form {
+  padding: 24px 22px 28px;
+}
+
+.add-expert-form-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+  margin-bottom: 22px;
+}
+
+.add-expert-form-group {
+  min-width: 0;
+}
+
+.add-expert-form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #344054;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.add-expert-form-group .required {
+  margin-left: 3px;
+  color: #dc3545;
+}
+
+
+/* =========================================================
+   INPUT / SELECT
+========================================================= */
+
+.add-expert-form-group input,
+.add-expert-form-group select {
+  width: 100%;
+  height: 44px;
+  padding: 0 13px;
+
+  border: 1px solid #d9dee5;
+  border-radius: 6px;
+
+  background: #ffffff;
+  color: #344054;
+
+  outline: none;
+
+  font-size: 14px;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.add-expert-form-group input::placeholder {
+  color: #a0a8b5;
+}
+
+.add-expert-form-group select {
+  cursor: pointer;
+}
+
+.add-expert-form-group input:focus,
+.add-expert-form-group select:focus {
+  border-color: #073b74;
+  box-shadow: 0 0 0 3px rgba(7, 59, 116, 0.08);
+}
+
+
+/* =========================================================
+   EXPERIENCE
+========================================================= */
+
+.add-expert-experience-wrapper {
+  position: relative;
+}
+
+.add-expert-experience-wrapper input {
+  padding-right: 65px;
+}
+
+.add-expert-experience-wrapper span {
+  position: absolute;
+  top: 50%;
+  right: 13px;
+  transform: translateY(-50%);
+
+  color: #7a8493;
+  font-size: 13px;
+  font-weight: 500;
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   IMAGE UPLOAD
+========================================================= */
+
+.add-expert-upload-area {
+  position: relative;
+  width: 100%;
+  min-height: 44px;
+}
+
+.add-expert-upload-area input[type="file"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.add-expert-upload-label {
+  width: 100%;
+  min-height: 44px;
+  margin: 0 !important;
+
+  padding: 10px 13px;
+
+  border: 1px dashed #c9d1dc;
+  border-radius: 6px;
+
+  background: #fafbfd;
+
+  display: flex !important;
+  align-items: center;
+  gap: 9px;
+
+  color: #596579 !important;
+
+  cursor: pointer;
+
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+
+.add-expert-upload-label:hover {
+  border-color: #073b74;
+  background: #f5f8fc;
+}
+
+.add-expert-upload-label svg {
+  color: #073b74;
+  font-size: 19px;
+}
+
+.add-expert-upload-label span {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.add-expert-upload-label small {
+  margin-left: auto;
+  color: #9aa4b2;
+  font-size: 11px;
+  font-weight: 400;
+}
+
+
+/* =========================================================
+   IMAGE PREVIEW
+========================================================= */
+
+.add-expert-image-preview {
+  position: relative;
+
+  width: 100%;
+  height: 110px;
+
+  border: 1px solid #d9dee5;
+  border-radius: 6px;
+
+  background: #fafbfd;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden;
+}
+
+.add-expert-image-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.add-expert-remove-image {
+  position: absolute;
+  top: 7px;
+  right: 7px;
+
+  width: 28px;
+  height: 28px;
+
+  border: none;
+  border-radius: 50%;
+
+  background: #dc3545;
+  color: #ffffff;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+
+  transition: background 0.2s ease;
+}
+
+.add-expert-remove-image:hover {
+  background: #bb2d3b;
+}
+
+
+/* =========================================================
+   FORM ACTIONS
+========================================================= */
+
+.add-expert-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+
+  padding-top: 8px;
+
+  border-top: 1px solid #edf0f4;
+}
+
+.add-expert-reset-btn,
+.add-expert-save-btn {
+  min-height: 42px;
+  padding: 0 18px;
+
+  border-radius: 6px;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.add-expert-reset-btn {
+  border: 1px solid #d9dee5;
+  background: #ffffff;
+  color: #596579;
+}
+
+.add-expert-reset-btn:hover {
+  background: #f5f7fa;
+}
+
+.add-expert-save-btn {
+  border: 1px solid #073b74;
+  background: #073b74;
+  color: #ffffff;
+}
+
+.add-expert-save-btn:hover {
+  background: #052d59;
+  border-color: #052d59;
+  transform: translateY(-1px);
+}
+
+.add-expert-save-btn svg {
+  font-size: 13px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 767px) {
+
+  .add-expert-page {
+    padding: 15px 0 35px;
+  }
+
+  .add-expert-page-title {
+    font-size: 20px;
+  }
+
+  .add-expert-card-header {
+    padding: 16px;
+  }
+
+  .add-expert-form {
+    padding: 20px 16px 22px;
+  }
+
+  .add-expert-form-row {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    margin-bottom: 18px;
+  }
+
+  .add-expert-form-actions {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+
+  .add-expert-reset-btn,
+  .add-expert-save-btn {
+    width: 100%;
+  }
+
+  .add-expert-upload-label {
+    flex-wrap: wrap;
+  }
+
+  .add-expert-upload-label small {
+    width: 100%;
+    margin-left: 28px;
+  }
+}
+
+
+@media (max-width: 480px) {
+
+  .add-expert-breadcrumb {
+    font-size: 13px;
+    gap: 5px;
+  }
+
+  .add-expert-card-header h3 {
+    font-size: 16px;
+  }
+
+  .add-expert-form-group input,
+  .add-expert-form-group select {
+    height: 42px;
+    font-size: 13px;
+  }
+
+  .add-expert-form-group label {
+    font-size: 13px;
+  }
+}

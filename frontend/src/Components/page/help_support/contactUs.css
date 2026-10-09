@@ -1,0 +1,476 @@
+/* =========================================================
+   PAGE
+========================================================= */
+
+.contact-us-page {
+  width: 100%;
+  min-height: 100%;
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   PAGE HEADER
+========================================================= */
+
+.contact-us-page-header {
+  margin-bottom: 18px;
+}
+
+.contact-us-page-title {
+  margin: 0 0 8px;
+
+  font-size: 28px;
+  font-weight: 600;
+
+  color: #073b74;
+}
+
+
+/* =========================================================
+   BREADCRUMB
+========================================================= */
+
+.contact-us-breadcrumb {
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.contact-us-breadcrumb a {
+  color: #073b74;
+  text-decoration: none;
+}
+
+.contact-us-breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+.contact-us-breadcrumb-arrow {
+  display: flex;
+  align-items: center;
+
+  color: #6b7280;
+}
+
+.contact-us-breadcrumb-active {
+  color: #6b7280;
+}
+
+
+/* =========================================================
+   MAIN CARD
+========================================================= */
+
+.contact-us-card {
+  width: 100%;
+
+  background: #ffffff;
+
+  border-radius: 5px;
+
+  padding: 0 25px 25px;
+
+  box-sizing: border-box;
+
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+
+  overflow: hidden;
+}
+
+
+/* =========================================================
+   CARD HEADER
+========================================================= */
+
+.contact-us-card-header {
+  min-height: 70px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.contact-us-card-header h3 {
+  margin: 0;
+
+  font-size: 20px;
+  font-weight: 600;
+
+  color: #073b74;
+}
+
+
+/* =========================================================
+   TABLE WRAPPER
+========================================================= */
+
+.contact-us-table-wrapper {
+  width: 100%;
+  margin-top: 20px;
+}
+
+
+/* =========================================================
+   SELECT HEADER
+========================================================= */
+
+.contact-us-select-header {
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: flex-start;
+  justify-content: center;
+
+  gap: 3px;
+
+  line-height: 1.1;
+}
+
+.contact-us-checkbox {
+  width: 16px;
+  height: 16px;
+
+  margin: 0;
+
+  cursor: pointer;
+
+  accent-color: #073b74;
+}
+
+
+/* =========================================================
+   USER NAME
+========================================================= */
+
+.contact-us-user-name {
+  color: #212529;
+
+  font-size: 13px;
+  font-weight: 500;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   EMAIL
+========================================================= */
+
+.contact-us-email {
+  color: #495057;
+
+  font-size: 13px;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+.contact-us-mobile {
+  color: #495057;
+
+  font-size: 13px;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   TITLE
+========================================================= */
+
+.contact-us-title-cell {
+  color: #073b74;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  line-height: 1.5;
+
+  white-space: normal;
+
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+
+/* =========================================================
+   DESCRIPTION
+========================================================= */
+
+.contact-us-description {
+  color: #495057;
+
+  font-size: 13px;
+
+  line-height: 1.6;
+
+  white-space: normal;
+
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+.contact-us-status {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 5px 9px;
+
+  border-radius: 4px;
+
+  font-size: 11px;
+  font-weight: 600;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   PENDING
+========================================================= */
+
+.contact-us-status-pending {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+
+/* =========================================================
+   RESOLVED
+========================================================= */
+
+.contact-us-status-resolved {
+  background-color: #d1e7dd;
+  color: #0f5132;
+}
+
+
+/* =========================================================
+   ACTION
+========================================================= */
+
+.contact-us-actions {
+  display: inline-flex !important;
+
+  align-items: center;
+  justify-content: flex-start;
+
+  gap: 5px;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   DELETE BUTTON
+========================================================= */
+
+.contact-us-delete-btn {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 5px;
+
+  border: none;
+
+  border-radius: 3px;
+
+  padding: 7px 10px;
+
+  background-color: #dc3545;
+  color: #ffffff;
+
+  font-size: 12px;
+  font-weight: 500;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.15s ease;
+}
+
+.contact-us-delete-btn:hover {
+  background-color: #bb2d3b;
+
+  transform: translateY(-1px);
+}
+
+.contact-us-delete-btn svg {
+  font-size: 11px;
+}
+
+
+/* =========================================================
+   SELECTED FOOTER
+========================================================= */
+
+.contact-us-selected-footer {
+  display: flex;
+
+  align-items: center;
+
+  margin-top: 15px;
+}
+
+
+/* =========================================================
+   DELETE ALL BUTTON
+========================================================= */
+
+.contact-us-delete-all-btn {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 7px;
+
+  border: none;
+
+  border-radius: 4px;
+
+  padding: 8px 14px;
+
+  background-color: #dc3545;
+  color: #ffffff;
+
+  font-size: 13px;
+  font-weight: 500;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.15s ease;
+}
+
+.contact-us-delete-all-btn:hover {
+  background-color: #bb2d3b;
+
+  transform: translateY(-1px);
+}
+
+.contact-us-delete-all-btn svg {
+  font-size: 12px;
+}
+
+
+/* =========================================================
+   DATATABLE - CONTACT US ONLY
+   Prevent excessive column spacing
+========================================================= */
+
+.contact-us-table-wrapper .datatable-table {
+  min-width: 0 !important;
+
+  width: 100% !important;
+}
+
+.contact-us-table-wrapper .datatable-table th,
+.contact-us-table-wrapper .datatable-table td {
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+}
+
+.contact-us-table-wrapper .datatable-table th {
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 992px) {
+  .contact-us-card {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .contact-us-page-title {
+    font-size: 24px;
+  }
+
+  .contact-us-card {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  .contact-us-card-header {
+    min-height: 65px;
+  }
+
+  .contact-us-card-header h3 {
+    font-size: 18px;
+  }
+}
+
+
+@media (max-width: 480px) {
+  .contact-us-breadcrumb {
+    font-size: 12px;
+    gap: 5px;
+  }
+
+  .contact-us-card-header {
+    align-items: flex-start;
+  }
+
+  .contact-us-delete-all-btn {
+    font-size: 12px;
+    padding: 7px 11px;
+  }
+}
+
+/* =========================================================
+   CONTACT US TABLE - COLUMN SPACING
+   ========================================================= */
+
+.contact-us-table-wrapper .datatable-table {
+  min-width: 0 !important;
+  width: 100% !important;
+}
+
+.contact-us-table-wrapper .datatable-table th,
+.contact-us-table-wrapper .datatable-table td {
+  padding-left: 15px !important;
+  padding-right: 15px !important;
+}
+
+/* Keep Action button close to the column content */
+.contact-us-actions {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 6px !important;
+  white-space: nowrap;
+}
+
+/* Keep status compact */
+.contact-us-status {
+  white-space: nowrap;
+}

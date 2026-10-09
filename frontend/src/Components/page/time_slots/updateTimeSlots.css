@@ -1,0 +1,315 @@
+/* =========================================================
+   PAGE
+========================================================= */
+
+.update-time-slot-page {
+  width: 100%;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   PAGE HEADER
+========================================================= */
+
+.update-time-slot-page-header {
+  margin-bottom: 20px;
+}
+
+
+.update-time-slot-page-title {
+  margin: 0 0 8px;
+
+  font-size: 28px;
+  font-weight: 600;
+
+  color: #111827;
+}
+
+
+/* =========================================================
+   BREADCRUMB
+========================================================= */
+
+.update-time-slot-breadcrumb {
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+  font-size: 14px;
+
+  color: #6b7280;
+}
+
+
+.update-time-slot-breadcrumb a {
+  color: #2563eb;
+
+  text-decoration: none;
+}
+
+
+.update-time-slot-breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+
+.update-time-slot-breadcrumb span {
+  display: flex;
+
+  align-items: center;
+}
+
+
+.update-time-slot-breadcrumb-active {
+  color: #6b7280;
+}
+
+
+/* =========================================================
+   CARD
+========================================================= */
+
+.update-time-slot-card {
+  width: 100%;
+
+  background: #ffffff;
+
+  border-radius: 6px;
+
+  padding: 26px 30px 30px;
+
+  box-sizing: border-box;
+
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+
+/* =========================================================
+   CARD HEADER
+========================================================= */
+
+.update-time-slot-card-header {
+  margin-bottom: 24px;
+}
+
+
+.update-time-slot-card-header h3 {
+  margin: 0;
+
+  font-size: 24px;
+  font-weight: 500;
+
+  color: #111827;
+}
+
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.update-time-slot-form {
+  width: 100%;
+}
+
+
+/* =========================================================
+   FORM GROUP
+========================================================= */
+
+.update-time-slot-form-group {
+  width: 100%;
+
+  max-width: 600px;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 8px;
+}
+
+
+.update-time-slot-form-group label {
+  font-size: 14px;
+
+  font-weight: 500;
+
+  color: #374151;
+}
+
+
+.update-time-slot-form-group input {
+  width: 100%;
+
+  height: 42px;
+
+  padding: 8px 12px;
+
+  box-sizing: border-box;
+
+  border: 1px solid #ced4da;
+
+  border-radius: 5px;
+
+  background: #ffffff;
+
+  color: #333333;
+
+  font-size: 14px;
+
+  outline: none;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+
+.update-time-slot-form-group input:focus {
+  border-color: #073b74;
+
+  box-shadow:
+    0 0 0 2px rgba(7, 59, 116, 0.08);
+}
+
+
+.update-time-slot-form-group input::placeholder {
+  color: #9ca3af;
+}
+
+
+/* =========================================================
+   FORM ACTIONS
+========================================================= */
+
+.update-time-slot-form-actions {
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  margin-top: 24px;
+}
+
+
+/* =========================================================
+   UPDATE BUTTON
+========================================================= */
+
+.update-time-slot-btn {
+  height: 40px;
+
+  padding: 0 18px;
+
+  border: none;
+
+  border-radius: 5px;
+
+  background: #073b74;
+
+  color: #ffffff;
+
+  font-size: 14px;
+
+  font-weight: 500;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    transform 0.15s ease;
+}
+
+
+.update-time-slot-btn:hover:not(:disabled) {
+  background: #062f5c;
+
+  transform: translateY(-1px);
+}
+
+
+.update-time-slot-btn:disabled {
+  opacity: 0.65;
+
+  cursor: not-allowed;
+}
+
+
+/* =========================================================
+   CANCEL BUTTON
+========================================================= */
+
+.update-time-slot-cancel-btn {
+  height: 40px;
+
+  padding: 0 18px;
+
+  border: 1px solid #ced4da;
+
+  border-radius: 5px;
+
+  background: #ffffff;
+
+  color: #374151;
+
+  font-size: 14px;
+
+  font-weight: 500;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+
+.update-time-slot-cancel-btn:hover {
+  background: #f3f4f6;
+
+  border-color: #adb5bd;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 768px) {
+
+  .update-time-slot-card {
+    padding: 20px 15px;
+  }
+
+  .update-time-slot-page-title {
+    font-size: 24px;
+  }
+
+  .update-time-slot-card-header h3 {
+    font-size: 22px;
+  }
+
+  .update-time-slot-form-group {
+    max-width: 100%;
+  }
+
+}
+
+
+@media (max-width: 480px) {
+
+  .update-time-slot-form-actions {
+    flex-direction: column;
+
+    align-items: stretch;
+  }
+
+  .update-time-slot-btn,
+  .update-time-slot-cancel-btn {
+    width: 100%;
+  }
+
+}

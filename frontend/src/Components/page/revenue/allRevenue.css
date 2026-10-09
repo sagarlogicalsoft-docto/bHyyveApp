@@ -1,0 +1,754 @@
+/* =========================================================
+   PAGE
+========================================================= */
+
+.all-revenue-page {
+  width: 100%;
+  min-height: 100%;
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   PAGE HEADER
+========================================================= */
+
+.all-revenue-header {
+  margin-bottom: 18px;
+}
+
+.all-revenue-title {
+  margin: 0 0 8px;
+
+  font-size: 28px;
+  font-weight: 600;
+
+  color: #111827;
+}
+
+
+/* =========================================================
+   BREADCRUMB
+========================================================= */
+
+.all-revenue-breadcrumb {
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  font-size: 14px;
+
+  color: #6b7280;
+}
+
+.all-revenue-breadcrumb a {
+  color: #2563eb;
+
+  text-decoration: none;
+}
+
+.all-revenue-breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+.all-revenue-breadcrumb span {
+  display: flex;
+
+  align-items: center;
+}
+
+.all-revenue-breadcrumb-active {
+  color: #6b7280;
+}
+
+
+/* =========================================================
+   MAIN CARD
+========================================================= */
+
+.all-revenue-card {
+  width: 100%;
+
+  background: #ffffff;
+
+  border-radius: 5px;
+
+  padding: 28px 30px 30px;
+
+  box-sizing: border-box;
+
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+
+  overflow: hidden;
+}
+
+
+/* =========================================================
+   DATATABLE
+========================================================= */
+
+.all-revenue-card .data-table-wrapper {
+  width: 100%;
+}
+
+
+/* =========================================================
+   CHECKBOX
+========================================================= */
+
+.all-revenue-select-header {
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: flex-start;
+
+  justify-content: center;
+
+  gap: 2px;
+
+  line-height: 1.1;
+}
+
+.all-revenue-checkbox {
+  width: 16px;
+
+  height: 16px;
+
+  margin: 0;
+
+  cursor: pointer;
+
+  accent-color: #198754;
+}
+
+
+/* =========================================================
+   BOOKING DATE
+========================================================= */
+
+.all-revenue-booking-date {
+  line-height: 1.8;
+
+  white-space: pre-line;
+}
+
+
+/* =========================================================
+   BOOKING ID
+========================================================= */
+
+.all-revenue-booking-id {
+  display: inline-block;
+
+  padding: 3px 7px;
+
+  border-radius: 3px;
+
+  background-color: #198754;
+
+  color: #ffffff;
+
+  font-size: 12px;
+
+  font-weight: 700;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   AMOUNT
+========================================================= */
+
+.all-revenue-amount {
+  color: #1f2937;
+
+  font-size: 15px;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   VENDOR
+========================================================= */
+
+.all-revenue-vendor {
+  line-height: 1.7;
+
+  white-space: normal;
+
+  word-break: normal;
+}
+
+
+/* =========================================================
+   CURRENT STATUS
+========================================================= */
+
+.all-revenue-status-wrapper {
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: flex-start;
+
+  gap: 7px;
+}
+
+
+/* =========================================================
+   COMPLETED STATUS
+========================================================= */
+
+.all-revenue-status {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 4px;
+
+  padding: 5px 7px;
+
+  border-radius: 3px;
+
+  background-color: #198754;
+
+  color: #ffffff;
+
+  font-size: 12px;
+
+  font-weight: 600;
+
+  white-space: nowrap;
+}
+
+.all-revenue-status svg {
+  font-size: 10px;
+}
+
+
+/* =========================================================
+   PENALTY STATUS
+========================================================= */
+
+.all-revenue-penalty-status {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 4px;
+
+  padding: 5px 9px;
+
+  border-radius: 15px;
+
+  background-color: #6c757d;
+
+  color: #ffffff;
+
+  font-size: 11px;
+
+  font-weight: 600;
+
+  white-space: nowrap;
+}
+
+.all-revenue-penalty-status svg {
+  font-size: 9px;
+}
+
+
+/* =========================================================
+   ACTIONS
+========================================================= */
+
+.all-revenue-actions {
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: flex-start;
+
+  gap: 4px;
+}
+
+
+/* =========================================================
+   COMMON ACTION BUTTON
+========================================================= */
+
+.all-revenue-btn {
+  border: none;
+
+  border-radius: 3px;
+
+  padding: 7px 12px;
+
+  color: #ffffff;
+
+  font-size: 12px;
+
+  font-weight: 500;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.15s ease;
+}
+
+.all-revenue-btn:hover {
+  transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   VIEW
+========================================================= */
+
+.all-revenue-view-btn {
+  background-color: #0d6efd;
+}
+
+.all-revenue-view-btn:hover {
+  background-color: #0b5ed7;
+}
+
+
+/* =========================================================
+   DELETE
+========================================================= */
+
+.all-revenue-delete-btn {
+  background-color: #dc3545;
+}
+
+.all-revenue-delete-btn:hover {
+  background-color: #bb2d3b;
+}
+
+
+/* =========================================================
+   ADD PENALTY
+========================================================= */
+
+.all-revenue-penalty-btn {
+  background-color: #ffc107;
+
+  color: #212529;
+}
+
+.all-revenue-penalty-btn:hover {
+  background-color: #e0a800;
+}
+
+
+/* =========================================================
+   DELETE SELECTED FOOTER
+========================================================= */
+
+.all-revenue-selected-footer {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: flex-end;
+
+  margin-top: 18px;
+}
+
+.all-revenue-delete-selected-btn {
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 7px;
+
+  border: none;
+
+  border-radius: 4px;
+
+  padding: 8px 14px;
+
+  background-color: #dc3545;
+
+  color: #ffffff;
+
+  font-size: 13px;
+
+  font-weight: 500;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.15s ease;
+}
+
+.all-revenue-delete-selected-btn:hover {
+  background-color: #bb2d3b;
+
+  transform: translateY(-1px);
+}
+
+.all-revenue-delete-selected-btn svg {
+  font-size: 12px;
+}
+
+
+/* =========================================================
+   MODAL OVERLAY
+========================================================= */
+
+.all-revenue-modal-overlay {
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 9999;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding: 20px;
+
+  background-color: rgba(0, 0, 0, 0.45);
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   PENALTY MODAL
+========================================================= */
+
+.all-revenue-penalty-modal {
+  width: 100%;
+
+  max-width: 400px;
+
+  background: #ffffff;
+
+  border-radius: 5px;
+
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+
+  overflow: hidden;
+
+  animation: allRevenueModalOpen 0.2s ease;
+}
+
+@keyframes allRevenueModalOpen {
+  from {
+    opacity: 0;
+
+    transform: scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+
+    transform: scale(1);
+  }
+}
+
+
+/* =========================================================
+   MODAL HEADER
+========================================================= */
+
+.all-revenue-modal-header {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  padding: 15px 18px;
+
+  background: #f8f9fa;
+
+  border-bottom: 1px solid #dee2e6;
+}
+
+.all-revenue-modal-header h3 {
+  margin: 0;
+
+  font-size: 20px;
+
+  font-weight: 600;
+
+  color: #212529;
+}
+
+
+/* =========================================================
+   MODAL CLOSE
+========================================================= */
+
+.all-revenue-modal-close {
+  width: 30px;
+
+  height: 30px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border: none;
+
+  background: transparent;
+
+  color: #6c757d;
+
+  font-size: 16px;
+
+  cursor: pointer;
+
+  border-radius: 4px;
+}
+
+.all-revenue-modal-close:hover {
+  background-color: #e9ecef;
+
+  color: #212529;
+}
+
+
+/* =========================================================
+   MODAL BODY
+========================================================= */
+
+.all-revenue-modal-body {
+  padding: 20px;
+}
+
+
+/* =========================================================
+   DETAIL ROW
+========================================================= */
+
+.all-revenue-detail-row {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 15px;
+
+  padding: 8px 0;
+
+  font-size: 14px;
+
+  border-bottom: 1px solid #f1f1f1;
+}
+
+.all-revenue-detail-row:last-of-type {
+  border-bottom: none;
+}
+
+.all-revenue-detail-row strong {
+  color: #212529;
+}
+
+.all-revenue-detail-row span {
+  color: #495057;
+
+  text-align: right;
+}
+
+
+/* =========================================================
+   INPUT GROUP
+========================================================= */
+
+.all-revenue-input-group {
+  margin-top: 18px;
+}
+
+.all-revenue-input-group label {
+  display: block;
+
+  margin-bottom: 7px;
+
+  color: #212529;
+
+  font-size: 14px;
+
+  font-weight: 600;
+}
+
+.all-revenue-input-group input {
+  width: 100%;
+
+  height: 40px;
+
+  padding: 8px 11px;
+
+  box-sizing: border-box;
+
+  border: 1px solid #ced4da;
+
+  border-radius: 4px;
+
+  outline: none;
+
+  background: #ffffff;
+
+  color: #212529;
+
+  font-size: 14px;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.all-revenue-input-group input:focus {
+  border-color: #198754;
+
+  box-shadow:
+    0 0 0 2px rgba(25, 135, 84, 0.12);
+}
+
+
+/* =========================================================
+   MODAL FOOTER
+========================================================= */
+
+.all-revenue-modal-footer {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: flex-end;
+
+  gap: 8px;
+
+  padding: 13px 18px;
+
+  background: #f8f9fa;
+
+  border-top: 1px solid #dee2e6;
+}
+
+
+/* =========================================================
+   ADD BUTTON
+========================================================= */
+
+.all-revenue-add-btn {
+  border: none;
+
+  border-radius: 4px;
+
+  padding: 8px 17px;
+
+  background-color: #198754;
+
+  color: #ffffff;
+
+  font-size: 13px;
+
+  font-weight: 500;
+
+  cursor: pointer;
+}
+
+.all-revenue-add-btn:hover {
+  background-color: #157347;
+}
+
+
+/* =========================================================
+   CANCEL BUTTON
+========================================================= */
+
+.all-revenue-cancel-btn {
+  border: none;
+
+  border-radius: 4px;
+
+  padding: 8px 17px;
+
+  background-color: #dc3545;
+
+  color: #ffffff;
+
+  font-size: 13px;
+
+  font-weight: 500;
+
+  cursor: pointer;
+}
+
+.all-revenue-cancel-btn:hover {
+  background-color: #bb2d3b;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 992px) {
+  .all-revenue-card {
+    padding: 20px;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .all-revenue-title {
+    font-size: 24px;
+  }
+
+  .all-revenue-card {
+    padding: 15px;
+  }
+
+  .all-revenue-modal-overlay {
+    padding: 15px;
+  }
+
+  .all-revenue-penalty-modal {
+    max-width: 360px;
+  }
+}
+
+
+@media (max-width: 480px) {
+  .all-revenue-breadcrumb {
+    font-size: 12px;
+
+    gap: 5px;
+  }
+
+  .all-revenue-modal-header h3 {
+    font-size: 18px;
+  }
+
+  .all-revenue-detail-row {
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 3px;
+  }
+
+  .all-revenue-detail-row span {
+    text-align: left;
+  }
+}

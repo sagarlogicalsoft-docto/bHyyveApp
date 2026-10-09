@@ -1,0 +1,494 @@
+/* =========================================================
+   PAGE
+========================================================= */
+
+.notification-page {
+  width: 100%;
+
+  padding: 0;
+}
+
+
+/* =========================================================
+   PAGE HEADER
+========================================================= */
+
+.notification-page-header {
+  width: 100%;
+
+  margin-bottom: 18px;
+}
+
+
+/* =========================================================
+   BREADCRUMB
+========================================================= */
+
+.notification-breadcrumb {
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  font-size: 14px;
+
+  color: #6b7280;
+}
+
+
+.notification-breadcrumb a {
+  color: #2563eb;
+
+  text-decoration: none;
+}
+
+
+.notification-breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+
+.notification-breadcrumb-arrow {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  color: #9ca3af;
+}
+
+
+.notification-breadcrumb-arrow svg {
+  font-size: 14px;
+}
+
+
+.notification-breadcrumb-active {
+  color: #6b7280;
+}
+
+
+/* =========================================================
+   MAIN CARD
+========================================================= */
+
+.notification-card {
+  width: 100%;
+
+  background: #ffffff;
+
+  border-radius: 6px;
+
+  padding: 22px 26px 28px;
+
+  box-sizing: border-box;
+
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.06);
+}
+
+
+/* =========================================================
+   CARD HEADER
+========================================================= */
+
+.notification-card-header {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  margin-bottom: 20px;
+}
+
+
+.notification-card-header h2 {
+  margin: 0;
+
+  font-size: 28px;
+
+  line-height: 1.2;
+
+  font-weight: 500;
+
+  color: #111111;
+}
+
+
+/* =========================================================
+   TABLE WRAPPER
+========================================================= */
+
+.notification-table-wrapper {
+  width: 100%;
+
+  overflow-x: auto;
+}
+
+
+/* =========================================================
+   SELECT HEADER
+========================================================= */
+
+.notification-select-header {
+  display: flex;
+
+  align-items: center;
+
+  gap: 6px;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   CHECKBOX
+========================================================= */
+
+.notification-checkbox {
+  width: 17px;
+
+  height: 17px;
+
+  margin: 0;
+
+  cursor: pointer;
+
+  accent-color: #198754;
+}
+
+
+/* =========================================================
+   TITLE
+========================================================= */
+
+.notification-title {
+  width: 100%;
+
+  color: #496985;
+
+  font-size: 15px;
+
+  font-weight: 400;
+
+  line-height: 1.35;
+
+  word-break: break-word;
+}
+
+
+/* =========================================================
+   MESSAGE
+========================================================= */
+
+.notification-message {
+  width: 100%;
+
+  color: #496985;
+
+  font-size: 15px;
+
+  font-weight: 400;
+
+  line-height: 1.35;
+
+  white-space: normal !important;
+
+  overflow-wrap: break-word;
+
+  word-break: normal;
+
+  display: block;
+}
+
+
+/* =========================================================
+   NORMAL TEXT
+========================================================= */
+
+.notification-text {
+  color: #496985;
+
+  font-size: 15px;
+
+  font-weight: 400;
+
+  line-height: 1.35;
+
+  word-break: break-word;
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+.notification-status {
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  min-width: 62px;
+
+  padding: 4px 4px;
+
+  border-radius: 4px;
+
+  font-size: 11px;
+
+  font-weight: 600;
+
+  line-height: 1.2;
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   UNSEEN
+========================================================= */
+
+.notification-status-unseen {
+  background-color: #dc3545;
+
+  color: #ffffff;
+}
+
+
+/* =========================================================
+   SEEN
+========================================================= */
+
+.notification-status-seen {
+  background-color: #198754;
+
+  color: #ffffff;
+}
+
+
+/* =========================================================
+   OPEN BUTTON
+========================================================= */
+
+.notification-open-btn {
+  border: none;
+
+  border-radius: 4px;
+
+  padding: 4px 8px;
+
+  background-color: #0d6efd;
+
+  color: #ffffff;
+
+  font-size: 11px;
+
+  font-weight: 500;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.15s ease;
+}
+
+
+.notification-open-btn:hover {
+  background-color: #0b5ed7;
+
+  transform: translateY(-1px);
+}
+
+
+.notification-open-btn:active {
+  transform: translateY(0);
+}
+
+
+/* =========================================================
+   DELETE SELECTED FOOTER
+========================================gfghh================ */
+
+.notification-selected-footer {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: flex-end;
+
+  margin-top: 18px;
+}
+
+
+/* =========================================================
+   DELETE ALL BUTTON
+========================================================= */
+
+.notification-delete-selected-btn {
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 7px;
+
+  border: none;
+
+  border-radius: 4px;
+
+  padding: 8px 14px;
+
+  background-color: #dc3545;
+
+  color: #ffffff;
+
+  font-size: 13px;
+
+  font-weight: 500;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.15s ease;
+}
+
+
+.notification-delete-selected-btn:hover {
+  background-color: #bb2d3b;
+
+  transform: translateY(-1px);
+}
+
+
+.notification-delete-selected-btn:active {
+  transform: translateY(0);
+}
+
+
+.notification-delete-selected-btn svg {
+  font-size: 12px;
+}
+
+
+/* =========================================================
+   DATA TABLE GENERAL OVERRIDES
+========================================================= */
+
+/*
+   These rules keep the notification table close to
+   the screenshot while still allowing the reusable
+   DataTable component to control pagination/search.
+*/
+
+.notification-table-wrapper table {
+  width: 100%;
+}
+
+
+/* =========================================================
+   TABLE HEADER
+========================================================= */
+
+.notification-table-wrapper thead th {
+  vertical-align: middle;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   TABLE BODY
+========================================================= */
+
+.notification-table-wrapper tbody td {
+  vertical-align: middle;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1200px) {
+
+  .notification-card {
+    padding: 20px 20px 26px;
+  }
+
+  .notification-card-header h2 {
+    font-size: 26px;
+  }
+
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 768px) {
+
+  .notification-card {
+    padding: 18px 15px 24px;
+  }
+
+  .notification-card-header {
+    margin-bottom: 16px;
+  }
+
+  .notification-card-header h2 {
+    font-size: 23px;
+  }
+
+  .notification-breadcrumb {
+    font-size: 13px;
+  }
+
+  .notification-title,
+  .notification-message,
+  .notification-text {
+    font-size: 14px;
+  }
+
+  .notification-open-btn {
+    padding: 6px 10px;
+
+    font-size: 12px;
+  }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+
+  .notification-card {
+    padding: 16px 10px 20px;
+
+    border-radius: 4px;
+  }
+
+  .notification-card-header h2 {
+    font-size: 21px;
+  }
+
+  .notification-selected-footer {
+    justify-content: flex-start;
+  }
+
+  .notification-delete-selected-btn {
+    padding: 7px 11px;
+
+    font-size: 12px;
+  }
+
+}

@@ -1,0 +1,79 @@
+/* =========================================================
+   RESTAURANT LAYOUT
+========================================================= */
+
+.restaurant-layout {
+  width: 100%;
+  min-height: 100vh;
+  background: #f8f9fa;
+}
+
+
+/* =========================================================
+   MAIN CONTENT
+========================================================= */
+
+.restaurant-main-content {
+  min-height: 100vh;
+  margin-left: 250px;
+  padding-top: 64px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  transition: margin-left 0.25s ease;
+  background: #f8f9fa;
+}
+
+
+/* =========================================================
+   CONTENT WRAPPER
+========================================================= */
+
+.restaurant-content-wrapper {
+  flex: 1;
+  width: 100%;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   SIDEBAR EXPANDED
+========================================================= */
+
+.restaurant-layout.sidebar-expanded .restaurant-main-content {
+  margin-left: 250px;
+}
+
+/* =========================================================
+   SIDEBAR COLLAPSED
+========================================================= */
+
+.restaurant-layout.sidebar-collapsed .restaurant-main-content {
+  margin-left: 80px;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 991.98px) {
+  .restaurant-main-content {
+    margin-left: 0 !important;
+    padding-top: 64px;
+  }
+
+  .restaurant-content-wrapper {
+    padding: 20px;
+  }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 767px) {
+  .restaurant-content-wrapper {
+    padding: 15px;
+  }
+}

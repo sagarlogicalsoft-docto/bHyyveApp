@@ -1,0 +1,501 @@
+/* ===================================================================
+   PendingOrder.css
+   Assumes Bootstrap 5's base CSS is already loaded globally.
+   Uses the same design tokens as AddCoupon.css so both pages feel
+   like one product — teal for badges/emphasis, blue for links and
+   primary actions (matches the screenshot).
+   =================================================================== */
+
+.orders-page {
+  --color-primary: #0f4c3a;       /* teal — badges, counts */
+  --color-primary-light: #e6f4f1;
+  --color-accent: #2563eb;        /* blue — links, active tab, search button */
+  --color-accent-light: #eaf1fe;
+
+  --color-heading: #111827;
+  --color-body: #374151;
+  --color-muted: #6b7280;
+  --color-border: #e5e7eb;
+  --color-border-soft: #eef0f2;
+  --color-surface: #ffffff;
+  --color-surface-alt: #f9fafb;
+  --color-danger: #dc2626;
+  --color-danger-bg: #fef2f2;
+
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --shadow-card: 0 1px 2px rgba(16, 24, 40, 0.04), 0 1px 3px rgba(16, 24, 40, 0.06);
+
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 24px 20px 64px;
+  color: var(--color-body);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.orders-page * {
+  box-sizing: border-box;
+}
+
+/* ---------------- Page header ---------------- */
+
+.orders-page-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.orders-page-header__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background-color: var(--color-accent-light);
+  color: var(--color-accent);
+}
+
+.orders-page-header h1 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--color-heading);
+  margin: 0;
+}
+
+/* ---------------- Status tabs ---------------- */
+
+.status-tabs {
+  display: flex;
+  align-items: stretch;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border-soft);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  overflow-x: auto;
+  margin-bottom: 20px;
+}
+
+.status-tab {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1 1 0;
+  min-width: max-content;
+  padding: 13px 18px;
+  background: none;
+  border: none;
+  border-right: 1px solid var(--color-border-soft);
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+}
+
+.status-tab:last-child {
+  border-right: none;
+}
+
+.status-tab:hover {
+  background-color: var(--color-surface-alt);
+}
+
+.status-tab.is-active {
+  background-color: var(--color-accent-light);
+  border-bottom-color: var(--color-accent);
+}
+
+.status-tab__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  flex-shrink: 0;
+  background-color: #eef2f6;
+  color: #64748b;
+  transition: transform 0.15s ease;
+}
+
+.status-tab:hover .status-tab__icon {
+  transform: translateY(-1px);
+}
+
+.status-tab__icon--all {
+  background-color: var(--color-accent-light);
+  color: var(--color-accent);
+}
+.status-tab__icon--scheduled {
+  background-color: #fdf2d9;
+  color: #b8860b;
+}
+.status-tab__icon--pending {
+  background-color: #dbeefe;
+  color: #2b7fd6;
+}
+.status-tab__icon--accepted {
+  background-color: #e4e7ec;
+  color: #475467;
+}
+.status-tab__icon--processing {
+  background-color: #fde6d2;
+  color: #c2650a;
+}
+.status-tab__icon--onTheWay {
+  background-color: #dbeafe;
+  color: #2563eb;
+}
+
+.status-tab__text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.status-tab__label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: var(--color-muted);
+  white-space: nowrap;
+}
+
+.status-tab.is-active .status-tab__label {
+  color: var(--color-accent);
+}
+
+.status-tab__count {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--color-heading);
+  line-height: 1.1;
+}
+
+.status-tab.is-active .status-tab__count {
+  color: var(--color-accent);
+}
+
+/* ---------------- Orders card ---------------- */
+
+.orders-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border-soft);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  padding: 22px 24px 26px;
+}
+
+.orders-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+.orders-card__title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.orders-card__title h2 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--color-heading);
+  margin: 0;
+}
+
+.badge-soft {
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+  font-weight: 600;
+  font-size: 0.78rem;
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+/* ---------------- Search box ---------------- */
+
+.orders-search {
+  display: flex;
+  align-items: stretch;
+  width: 360px;
+  max-width: 100%;
+}
+
+.orders-search input {
+  flex: 1;
+  border: 1px solid var(--color-border);
+  border-right: none;
+  border-radius: var(--radius-md) 0 0 var(--radius-md);
+  padding: 0 14px;
+  height: 42px;
+  font-size: 0.88rem;
+  color: var(--color-heading);
+  outline: none;
+}
+
+.orders-search input::placeholder {
+  color: #9ca3af;
+}
+
+.orders-search input:focus {
+  border-color: var(--color-accent);
+}
+
+.orders-search__btn {
+  width: 46px;
+  border: none;
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  background-color: var(--color-accent);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.orders-search__btn:hover {
+  background-color: #1d4ed8;
+}
+
+/* ---------------- Table cell content ---------------- */
+
+.order-link {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--color-accent);
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.order-link:hover {
+  text-decoration: underline;
+}
+
+.date-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.date-cell__day {
+  font-weight: 600;
+  color: var(--color-heading);
+  white-space: nowrap;
+}
+
+.date-cell__time {
+  font-size: 0.78rem;
+  color: var(--color-muted);
+}
+
+.customer-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  white-space: normal;
+}
+
+.customer-cell__name {
+  font-weight: 700;
+  color: var(--color-heading);
+  font-size: 0.88rem;
+}
+
+.customer-cell__line {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  color: var(--color-muted);
+}
+
+.total-cell {
+  font-weight: 700;
+  color: var(--color-heading);
+}
+
+/* Keep Customer column compact */
+ /* .orders-page .datatable-table th:nth-child(4),
+.orders-page .datatable-table td:nth-child(4) {
+  width: 230px;
+  min-width: 230px;
+  max-width: 230px;
+} */
+
+/* Keep Payment close to Customer */
+/* .orders-page .datatable-table th:nth-child(5),
+.orders-page .datatable-table td:nth-child(5) {
+  width: 100px;
+  min-width: 100px;
+  max-width: 100px;
+}  */
+
+
+/* Payment badges */
+
+.badge-payment {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.badge-payment--paid {
+  background-color: #dcfce7;
+  color: #15803d;
+}
+
+.badge-payment--unpaid {
+  background-color: #fee2e2;
+  color: #b91c1c;
+}
+
+/* Status badges */
+
+.badge-status {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 14px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.badge-status--pending {
+  background-color: #dbeefe;
+  color: #2b7fd6;
+}
+.badge-status--scheduled {
+  background-color: #fdf2d9;
+  color: #b8860b;
+}
+.badge-status--accepted {
+  background-color: #e4e7ec;
+  color: #475467;
+}
+.badge-status--processing {
+  background-color: #fde6d2;
+  color: #c2650a;
+}
+.badge-status--on-the-way {
+  background-color: #dbeafe;
+  color: #2563eb;
+}
+.badge-status--delivered {
+  background-color: #dcfce7;
+  color: #15803d;
+}
+.badge-status--cancelled {
+  background-color: #fee2e2;
+  color: #b91c1c;
+}
+
+/* Action button */
+
+.action-view-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border: none;
+  border-radius: 8px;
+  background-color: #fdead4;
+  color: #c2650a;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.action-view-btn:hover {
+  background-color: #fbd8ac;
+}
+
+/* ---------------- States ---------------- */
+
+.error-banner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--color-danger-bg);
+  color: var(--color-danger);
+  border: 1px solid #fecaca;
+  border-radius: var(--radius-md);
+  padding: 10px 14px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-bottom: 14px;
+}
+
+.orders-loading {
+  text-align: center;
+  color: var(--color-muted);
+  font-size: 0.85rem;
+  padding: 14px 0 0;
+}
+
+/* ---------------- Responsive ---------------- */
+
+@media (max-width: 900px) {
+  .orders-search {
+    width: 100%;
+  }
+  .orders-card__header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+@media (max-width: 560px) {
+  .orders-page {
+    padding: 16px 12px 48px;
+  }
+  .orders-card {
+    padding: 18px;
+  }
+  .status-tab {
+    padding: 12px 14px;
+  }
+}
+
+.order-action-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.action-invoice-btn {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid #ffe69c;
+  border-radius: 5px;
+  background: #fff3cd;
+  color: #e69500;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.action-invoice-btn:hover {
+  background: #ffedb5;
+  color: #c77d00;
+}

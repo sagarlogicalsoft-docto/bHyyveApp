@@ -1,0 +1,344 @@
+/* =========================================
+   OUTER
+========================================= */
+
+.edit-category-container {
+  width: 100%;
+  max-width: 100%;
+
+  background: #eef0f2;
+
+  padding: 16px;
+
+  box-sizing: border-box;
+}
+
+.edit-category-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+
+.edit-category-breadcrumb a {
+  color: #555;
+  text-decoration: none;
+}
+
+.edit-category-breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+.edit-category-breadcrumb span {
+  color: #888;
+}
+
+.edit-category-breadcrumb svg {
+  font-size: 12px;
+  color: #888;
+}
+
+/* =========================================
+   CARD
+========================================= */
+
+.edit-category-card {
+  width: 100%;
+  background: #ffffff;
+
+  border: 1px solid #e1e5e9;
+  border-radius: 10px;
+
+  box-sizing: border-box;
+
+  overflow: hidden;
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+.edit-category-header {
+  padding: 20px 24px 14px;
+}
+
+.edit-category-header h2 {
+  margin: 0;
+
+  font-size: 22px;
+  font-weight: 700;
+
+  color: #111827;
+}
+
+
+/* =========================================
+   BODY
+========================================= */
+
+.edit-category-body {
+  padding: 20px 24px 8px;
+
+  border-top: 1px solid #edf0f4;
+}
+
+
+/* =========================================
+   ERROR
+========================================= */
+
+.edit-category-error {
+  margin-bottom: 16px;
+  padding: 10px 14px;
+
+  background: #fdecea;
+  border: 1px solid #f5c2c0;
+  border-radius: 6px;
+
+  color: #b3261e;
+
+  font-size: 13px;
+}
+
+
+/* =========================================
+   ROW / FIELD
+========================================= */
+
+.edit-category-row {
+  display: flex;
+
+  gap: 24px;
+
+  margin-bottom: 20px;
+}
+
+.edit-category-field {
+  flex: 1;
+
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.edit-category-field-full {
+  width: 100%;
+
+  margin-bottom: 20px;
+}
+
+.edit-category-field label {
+  margin-bottom: 8px;
+
+  font-size: 14px;
+  color: #6b7280;
+}
+
+
+/* =========================================
+   INPUTS
+========================================= */
+
+.edit-category-field input[type="text"],
+.edit-category-field textarea {
+  width: 100%;
+
+  padding: 12px 14px;
+
+  background: #f5f6f8;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+
+  font-size: 13px;
+  color: #111827;
+
+  outline: none;
+
+  box-sizing: border-box;
+
+  font-family: inherit;
+}
+
+.edit-category-field input[type="text"]::placeholder,
+.edit-category-field textarea::placeholder {
+  color: #50565f;
+}
+
+.edit-category-field input[type="text"]:focus,
+.edit-category-field textarea:focus {
+  border-color: #073b74;
+  box-shadow: 0 0 0 2px rgba(7, 59, 116, 0.08);
+}
+
+.edit-category-field input[type="text"]:disabled,
+.edit-category-field textarea:disabled {
+  opacity: 0.7;
+
+  cursor: not-allowed;
+}
+
+.edit-category-field textarea {
+  resize: vertical;
+
+  min-height: 60px;
+}
+
+
+/* =========================================
+   CHECK ROW (checkbox + detail input)
+========================================= */
+
+.edit-category-check-row {
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+}
+
+.edit-category-check-row input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+
+  flex-shrink: 0;
+
+  accent-color: #073b74;
+
+  cursor: pointer;
+}
+
+.edit-category-detail-input {
+  flex: 1;
+
+  min-width: 0;
+}
+
+
+/* =========================================
+   FILE ROW
+========================================= */
+
+.edit-category-file-row {
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  padding: 8px;
+
+  background: #f5f6f8;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+}
+
+.edit-category-choose-btn {
+  padding: 8px 16px;
+
+  background: #f0f1f3;
+
+  border: 1px solid #d0d4d9;
+  border-radius: 5px;
+
+  font-size: 14px;
+  color: #111827;
+
+  cursor: pointer;
+
+  transition: background 0.15s ease;
+}
+
+.edit-category-choose-btn:hover:not(:disabled) {
+  background: #e5e7eb;
+}
+
+.edit-category-choose-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.edit-category-file-name {
+  font-size: 14.5px;
+  color: #374151;
+}
+
+
+/* =========================================
+   IMAGE PREVIEW
+========================================= */
+
+.edit-category-image-preview {
+  margin-top: 14px;
+}
+
+.edit-category-image-preview img {
+  width: 150px;
+  height: 100px;
+
+  object-fit: cover;
+
+  border-radius: 6px;
+
+  border: 1px solid #e5e7eb;
+}
+
+
+/* =========================================
+   FOOTER
+========================================= */
+
+.edit-category-footer {
+  display: flex;
+
+  justify-content: flex-end;
+
+  padding: 16px 24px;
+
+  border-top: 1px solid #edf0f4;
+}
+
+.edit-category-update-btn {
+  padding: 10px 24px;
+
+  background: #073b74;
+
+  border: none;
+  border-radius: 6px;
+
+  color: #ffffff;
+
+  font-size: 15px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: background 0.15s ease;
+}
+
+.edit-category-update-btn:hover:not(:disabled) {
+  background: #062f5c;
+}
+
+.edit-category-update-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 767px) {
+
+  .edit-category-row {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+}

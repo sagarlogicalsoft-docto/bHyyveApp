@@ -1,0 +1,335 @@
+/* =========================================
+   PAGE
+========================================= */
+
+.view-coupon-page {
+  padding: 24px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* =========================================
+   BREADCRUMB
+========================================= */
+
+.view-coupon-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #64748b;
+  margin-bottom: 18px;
+}
+
+.view-coupon-breadcrumb a {
+  color: #0f5c56;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.view-coupon-breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+/* =========================================
+   CARD SHELL
+========================================= */
+
+.view-coupon-card {
+  background: #ffffff;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.08);
+  border: 1px solid #e2e8f0;
+}
+
+/* =========================================
+   HEADER
+========================================= */
+
+.view-coupon-header {
+  background: #0f5c56;
+  color: #ffffff;
+  padding: 18px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.view-coupon-header-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.view-coupon-close-icon {
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  font-size: 16px;
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s ease;
+}
+
+.view-coupon-close-icon:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* =========================================
+   BODY
+========================================= */
+
+.view-coupon-body {
+  padding: 22px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.view-coupon-state {
+  text-align: center;
+  padding: 60px 0;
+  color: #64748b;
+  font-size: 14px;
+}
+
+.view-coupon-state-error {
+  color: #dc2626;
+}
+
+/* =========================================
+   SECTION
+========================================= */
+
+.view-coupon-section {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 18px 20px;
+}
+
+.view-coupon-section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #0f172a;
+  padding-bottom: 10px;
+  margin-bottom: 14px;
+  border-bottom: 2px solid #0f5c56;
+  width: fit-content;
+}
+
+.view-coupon-section-title svg {
+  color: #0f5c56;
+}
+
+/* =========================================
+   INFO LIST
+========================================= */
+
+.view-coupon-info-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.view-coupon-info-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+}
+
+.view-coupon-label {
+  color: #475569;
+  font-weight: 600;
+  min-width: 130px;
+  flex-shrink: 0;
+}
+
+.view-coupon-value {
+  color: #0f172a;
+  line-height: 1.5;
+}
+
+.view-coupon-code {
+  color: #db2777;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+
+/* =========================================
+   BADGES
+========================================= */
+
+.view-coupon-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #ffffff;
+  white-space: nowrap;
+}
+
+.view-coupon-badge-blue {
+  background: #06b6d4;
+}
+
+.view-coupon-badge-teal {
+  background: #0891b2;
+}
+
+.view-coupon-badge-green {
+  background: #10b981;
+}
+
+.view-coupon-badge-orange {
+  background: #f59e0b;
+  color: #78350f;
+}
+
+.view-coupon-badge-gray {
+  background: #94a3b8;
+}
+
+.view-coupon-inline-badge {
+  margin-left: 4px;
+}
+
+/* =========================================
+   PROGRESS BAR
+========================================= */
+
+.view-coupon-progress {
+  width: 100%;
+  height: 8px;
+  background: #e2e8f0;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.view-coupon-progress-bar {
+  height: 100%;
+  background: #0f5c56;
+  border-radius: 999px;
+  transition: width 0.3s ease;
+}
+
+/* =========================================
+   PILL GROUPS
+========================================= */
+
+.view-coupon-pill-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.view-coupon-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #1e293b;
+}
+
+.view-coupon-pill svg {
+  color: #0f5c56;
+  font-size: 12px;
+}
+
+.view-coupon-empty {
+  font-size: 13px;
+  color: #94a3b8;
+  font-style: italic;
+}
+
+/* =========================================
+   FOOTER
+========================================= */
+
+.view-coupon-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 16px 24px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.view-coupon-btn-close,
+.view-coupon-btn-edit {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.15s ease, transform 0.1s ease;
+}
+
+.view-coupon-btn-close {
+  background: #94a3b8;
+  color: #ffffff;
+}
+
+.view-coupon-btn-close:hover {
+  opacity: 0.9;
+}
+
+.view-coupon-btn-edit {
+  background: #0f5c56;
+  color: #ffffff;
+}
+
+.view-coupon-btn-edit:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+.view-coupon-btn-edit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.view-coupon-btn-close:active,
+.view-coupon-btn-edit:active {
+  transform: scale(0.97);
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 640px) {
+  .view-coupon-page {
+    padding: 16px;
+  }
+
+  .view-coupon-info-row {
+    flex-wrap: wrap;
+  }
+
+  .view-coupon-label {
+    min-width: 100%;
+  }
+}
