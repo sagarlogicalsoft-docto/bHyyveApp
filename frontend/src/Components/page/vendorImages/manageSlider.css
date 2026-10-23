@@ -1,99 +1,170 @@
 /* =========================================================
-   PAGE
+   THEME
 ========================================================= */
 
 .slider-page {
-  width: 100%;
-  padding: 0;
-}
+  --slider-navy: #062f5c;
+  --slider-navy-dark: #041f3d;
+  --slider-navy-soft: #e8eff8;
+  --slider-border: #dbe3ee;
+  --slider-text: #111827;
+  --slider-muted: #64748b;
+  --slider-danger: #e5384a;
+  --slider-danger-dark: #cf2a3c;
+  --slider-success: #16a34a;
 
+  width: 100%;
+  padding: 14px 5px 48px;
+  box-sizing: border-box;
+  color: var(--slider-text);
+}
 
 /* =========================================================
    PAGE HEADER
 ========================================================= */
 
 .slider-page-header {
-  margin-bottom: 20px;
+  margin-bottom: 14px;
 }
 
 .slider-page-title {
-  margin: 0 0 8px;
-  font-size: 28px;
+  margin: 0 0 6px;
+  font-size: 22px;
   font-weight: 600;
   color: #111827;
 }
 
-.slider-breadcrumb {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-
-  font-size: 14px;
-  color: #6b7280;
-}
-
-.slider-breadcrumb a {
-  color: #2563eb;
-  text-decoration: none;
-}
-
-.slider-breadcrumb a:hover {
-  text-decoration: underline;
-}
-
-.slider-breadcrumb span {
-  display: flex;
-  align-items: center;
-}
-
-.slider-breadcrumb-active {
-  color: #6b7280;
-}
-
-
 /* =========================================================
-   MAIN CARD
+   MAIN CARD (blue line on top)
 ========================================================= */
 
 .slider-card {
+  position: relative;
   width: 100%;
-
-  background: #ffffff;
-
-  border-radius: 6px;
-
-  padding: 26px 30px 30px;
-
   box-sizing: border-box;
-
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  padding: 20px 14px 22px;
+  background: #ffffff;
+  border-radius: 8px;
+  border-top: 3px solid var(--slider-navy);
+  box-shadow: 0 2px 10px rgba(6, 47, 92, 0.08);
 }
-
-
-/* =========================================================
-   CARD HEADER
-========================================================= */
 
 .slider-card-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
 
-  margin-bottom: 22px;
+.slider-card-title {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  min-width: 0;
+}
+
+.slider-count-pill {
+  display: inline-flex;
+  align-items: center;
+  height: 24px;
+  padding: 0 11px;
+  border-radius: 999px;
+  background: var(--slider-navy-soft);
+  border: 1px solid #c7d6ea;
+  color: var(--slider-navy);
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
 }
 
 .slider-card-header h3 {
   margin: 0;
-
-  font-size: 28px;
-  font-weight: 500;
-
-  color: #111827;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--slider-navy);
 }
 
+.slider-add-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 36px;
+  padding: 0 16px;
+  border-radius: 8px;
+  background: var(--slider-navy);
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.slider-add-btn:hover {
+  background: var(--slider-navy-dark);
+  transform: translateY(-1px);
+}
+
+.slider-add-btn svg {
+  font-size: 11px;
+}
 
 /* =========================================================
-   TABLE
+   ERROR / LOADING
+========================================================= */
+
+.slider-error {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+  padding: 10px 14px;
+  border: 1px solid #f5c2c7;
+  border-radius: 8px;
+  background: #fdecee;
+  color: #a1212f;
+  font-size: 13.5px;
+}
+
+.slider-error button {
+  border: none;
+  background: transparent;
+  color: #a1212f;
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.slider-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 50px 0;
+  color: var(--slider-muted);
+  font-size: 14px;
+}
+
+.slider-spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--slider-navy-soft);
+  border-top-color: var(--slider-navy);
+  border-radius: 50%;
+  animation: slider-spin 0.7s linear infinite;
+}
+
+@keyframes slider-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* =========================================================
+   TABLE (tight columns)
 ========================================================= */
 
 .slider-table-wrapper {
@@ -101,6 +172,34 @@
   overflow-x: auto;
 }
 
+.slider-table-wrapper table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.slider-table-wrapper th,
+.slider-table-wrapper td {
+  padding: 8px 6px;
+  vertical-align: middle;
+  font-size: 13.5px;
+  color: #000000 !important;
+}
+
+.slider-table-wrapper thead th {
+  background: var(--slider-navy-soft);
+  color: var(--slider-navy);
+  font-weight: 600;
+  white-space: nowrap;
+  border-bottom: 2px solid var(--slider-navy);
+}
+
+.slider-table-wrapper tbody tr {
+  border-bottom: 1px solid var(--slider-border);
+}
+
+.slider-table-wrapper tbody tr:hover {
+  background: #f5f8fc;
+}
 
 /* =========================================================
    CHECKBOX
@@ -109,186 +208,397 @@
 .slider-select-header {
   display: flex;
   align-items: center;
-  gap: 7px;
+  gap: 6px;
+  white-space: nowrap;
 }
 
 .slider-checkbox {
   width: 16px;
   height: 16px;
-
   cursor: pointer;
-
-  accent-color: #198754;
+  accent-color: var(--slider-navy);
 }
 
-
 /* =========================================================
-   IMAGE
+   DESCRIPTION
 ========================================================= */
 
-.slider-image-wrapper {
-  width: 100px;
-  height: 68px;
-
+.slider-description {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
   overflow: hidden;
-  background: #f3f4f6;
-  border: 1px solid #d1d5db;
+  line-height: 1.4;
+}
 
+/* =========================================================
+   MEDIA (image + video)
+========================================================= */
+
+.slider-media {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100px;
+  height: 64px;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid var(--slider-border);
+  border-radius: 6px;
+  background: #f1f5f9;
+  cursor: pointer;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
-.slider-image {
+.slider-media:hover {
+  border-color: var(--slider-navy);
+  box-shadow: 0 3px 10px rgba(6, 47, 92, 0.2);
+}
+
+.slider-media-item {
   width: 100%;
   height: 100%;
-
   display: block;
-
   object-fit: cover;
 }
 
+.slider-media-video {
+  background: #0b1b30;
+}
 
-/* =========================================================
-   IMAGE ERROR
-========================================================= */
+.slider-media-play {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(6, 47, 92, 0.35);
+}
 
-.slider-image-error::before {
-  content: "Image unavailable";
-
+.slider-media-play svg {
+  box-sizing: content-box;
+  padding: 8px 8px 8px 10px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--slider-navy);
   font-size: 11px;
-  color: #9ca3af;
+}
 
+.slider-media-error::before {
+  content: "Media unavailable";
+  padding: 0 6px;
+  color: #94a3b8;
+  font-size: 11px;
   text-align: center;
 }
 
+.slider-no-media {
+  color: var(--slider-muted);
+  font-size: 12.5px;
+}
 
 /* =========================================================
-   DELETE BUTTON
+   ROW ACTIONS
 ========================================================= */
 
+.slider-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.slider-edit-btn,
 .slider-delete-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 30px;
+  padding: 0 10px;
   border: none;
-
-  border-radius: 4px;
-
-  padding: 6px 10px;
-
-  background: #dc3545;
-  color: #ffffff;
-
+  border-radius: 6px;
+  font-family: inherit;
   font-size: 12px;
-  font-weight: 500;
-
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
   cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
 
-  transition:
-    background 0.2s ease,
-    transform 0.15s ease;
+.slider-edit-btn {
+  background: var(--slider-navy);
+  color: #ffffff;
+}
+
+.slider-edit-btn:hover {
+  background: var(--slider-navy-dark);
+  transform: translateY(-1px);
+}
+
+.slider-delete-btn {
+  background: var(--slider-danger);
+  color: #ffffff;
 }
 
 .slider-delete-btn:hover {
-  background: #bb2d3b;
-
+  background: var(--slider-danger-dark);
   transform: translateY(-1px);
 }
 
+.slider-edit-btn svg,
+.slider-delete-btn svg {
+  font-size: 11px;
+}
 
 /* =========================================================
-   DELETE SELECTED FOOTER
+   FLOATING SELECTED ACTION BAR
 ========================================================= */
 
-.slider-selected-footer {
+.slider-selected-actions {
+  position: sticky;
+  bottom: 18px;
+  z-index: 20;
+
   display: flex;
-
   align-items: center;
+  justify-content: space-between;
+  gap: 14px;
 
-  justify-content: flex-end;
+  width: fit-content;
+  min-width: 340px;
+  max-width: 100%;
+  margin: 16px auto 0;
+  padding: 10px 12px 10px 18px;
 
-  margin-top: 18px;
+  border-radius: 12px;
+  background: var(--slider-navy);
+  box-shadow: 0 12px 30px rgba(6, 47, 92, 0.35);
+  animation: slider-bar-in 0.25s ease;
 }
 
-.slider-delete-selected-btn {
-  display: inline-flex;
+@keyframes slider-bar-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
+.slider-selected-count {
+  color: #e6efff;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.slider-selected-buttons {
+  display: flex;
   align-items: center;
+  gap: 8px;
+}
 
+.slider-selected-cancel-btn,
+.slider-selected-delete-btn {
+  display: inline-flex;
+  align-items: center;
   justify-content: center;
-
   gap: 7px;
 
-  border: none;
+  height: 34px;
+  padding: 0 14px;
+  border-radius: 8px;
 
-  border-radius: 4px;
-
-  padding: 8px 14px;
-
-  background: #dc3545;
-
-  color: #ffffff;
-
-  font-size: 13px;
-
-  font-weight: 500;
-
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  white-space: nowrap;
   cursor: pointer;
 
-  transition:
-    background 0.2s ease,
-    transform 0.15s ease;
+  transition: background 0.2s ease, transform 0.2s ease;
 }
 
-.slider-delete-selected-btn:hover {
-  background: #bb2d3b;
+.slider-selected-cancel-btn {
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  background: transparent;
+  color: #ffffff;
+}
 
+.slider-selected-cancel-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
   transform: translateY(-1px);
 }
 
-.slider-delete-selected-btn svg {
-  font-size: 12px;
+.slider-selected-delete-btn {
+  border: none;
+  background: var(--slider-danger);
+  color: #ffffff;
 }
 
+.slider-selected-delete-btn:hover {
+  background: var(--slider-danger-dark);
+  transform: translateY(-1px);
+}
+
+.slider-selected-cancel-btn:active,
+.slider-selected-delete-btn:active {
+  transform: translateY(0);
+}
+
+/* =========================================================
+   PREVIEW OVERLAY
+========================================================= */
+
+.slider-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(4, 31, 61, 0.55);
+  animation: slider-fade-in 0.2s ease;
+}
+
+@keyframes slider-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slider-pop-in {
+  from {
+    opacity: 0;
+    transform: scale(0.94) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* =========================================================
+   MEDIA PREVIEW
+========================================================= */
+
+.slider-preview-overlay {
+  background: rgba(4, 20, 40, 0.8);
+}
+
+.slider-preview {
+  position: relative;
+  max-width: min(900px, 100%);
+  max-height: 85vh;
+  animation: slider-pop-in 0.22s ease;
+}
+
+.slider-preview img,
+.slider-preview video {
+  display: block;
+  max-width: 100%;
+  max-height: 85vh;
+  border-radius: 10px;
+  background: #000000;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+}
+
+.slider-preview-close {
+  position: absolute;
+  top: -14px;
+  right: -14px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 50%;
+  background: #ffffff;
+  color: var(--slider-navy);
+  font-size: 13px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.slider-preview-close:hover {
+  background: var(--slider-navy-soft);
+}
+
+/* =========================================================
+   FOCUS + REDUCED MOTION
+========================================================= */
+
+.slider-page button:focus-visible,
+.slider-page a:focus-visible,
+.slider-page .slider-checkbox:focus-visible {
+  outline: 2px solid var(--slider-navy);
+  outline-offset: 2px;
+}
+
+.slider-selected-actions button:focus-visible {
+  outline-color: #ffffff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .slider-page *,
+  .slider-page *::before,
+  .slider-page *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
 
 /* =========================================================
    RESPONSIVE
 ========================================================= */
 
 @media (max-width: 768px) {
-  .slider-card {
-    padding: 20px 15px;
-  }
-
-  .slider-card-header {
-    align-items: flex-start;
-
-    flex-direction: column;
-  }
-
   .slider-page-title {
-    font-size: 24px;
-  }
-
-  .slider-card-header h3 {
     font-size: 22px;
   }
 
-  .slider-image-wrapper {
-    width: 110px;
-    height: 75px;
+  .slider-card {
+    padding: 16px 10px 18px;
+  }
+
+  .slider-card-header h3 {
+    font-size: 17px;
+  }
+
+  .slider-media {
+    width: 88px;
+    height: 58px;
   }
 }
 
-
 @media (max-width: 480px) {
-  .slider-delete-selected-btn {
-    padding: 7px 11px;
-
-    font-size: 12px;
+  .slider-card-header {
+    flex-wrap: wrap;
   }
 
-  .slider-delete-btn {
-    padding: 7px 12px;
-
-    font-size: 12px;
+  .slider-selected-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    min-width: 0;
+    width: 100%;
+    padding: 12px;
   }
+
+  .slider-selected-count {
+    text-align: center;
+  }
+
+  .slider-selected-buttons {
+    justify-content: center;
+  }
+
 }

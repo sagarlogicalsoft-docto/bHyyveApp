@@ -1,12 +1,12 @@
 
 import React from "react";
 
-import {
-  FaFacebookF,
-  FaInstagram,
-  FaTwitter,
-  FaLinkedinIn,
-} from "react-icons/fa";
+// import {
+//   FaFacebookF,
+//   FaInstagram,
+//   FaTwitter,
+//   FaLinkedinIn,
+// } from "react-icons/fa";
 
 import "./restaurantFooter.css";
 
@@ -37,16 +37,16 @@ const RestaurantFooter = () => {
         <div className="restaurant-footer-links">
           <button type="button">Privacy Policy</button>
 
-          <button type="button">Terms & Conditions</button>
+          {/* <button type="button">Terms & Conditions</button>
 
-          <button type="button">Help & Support</button>
+          <button type="button">Help & Support</button> */}
         </div>
 
         {/* =====================================================
             SOCIAL ICONS
         ===================================================== */}
 
-        <div className="restaurant-footer-social">
+        {/* <div className="restaurant-footer-social">
           <button
             type="button"
             aria-label="Facebook"
@@ -78,7 +78,7 @@ const RestaurantFooter = () => {
           >
             <FaLinkedinIn />
           </button>
-        </div>
+        </div> */}
       </div>
     </footer>
   );

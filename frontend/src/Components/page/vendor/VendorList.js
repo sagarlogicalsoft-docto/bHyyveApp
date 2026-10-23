@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   FaPlus,
   FaEye,
@@ -8,21 +8,37 @@ import {
   FaCheckCircle,
   FaClock,
 } from "react-icons/fa";
-import { IoIosArrowForward } from "react-icons/io";
 import api from "../../../config/api";
 import { getImage } from "../../utils/images";
 
 import DataTable from "../../common/DataTable";
+import ServiceBreadcrumbs from "../../common/ServiceBreadcrumbs";
+import ServiceConfirmModal from "../../common/modal/serviceModal/ServiceConfirmModal";
+import ServiceSuccessModal from "../../common/modal/serviceModal/ServiceSuccessModal";
 import "./vendorList.css";
 
 const VendorList = () => {
   const navigate = useNavigate();
   const [selectedVendors, setSelectedVendors] = useState([]);
   const [deleteVendor, setDeleteVendor] = useState(null);
+  const [showBulkDelete, setShowBulkDelete] = useState(false);
   const [vendorData, setVendorData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [kycVendor, setKycVendor] = useState(null);
   const [kycUpdating, setKycUpdating] = useState(false);
+  const [successModal, setSuccessModal] = useState({
+    isOpen: false,
+    title: "",
+    message: "",
+  });
+
+  const showSuccess = useCallback((title, message) => {
+    setSuccessModal({ isOpen: true, title, message });
+  }, []);
+
+  const closeSuccess = useCallback(() => {
+    setSuccessModal((previous) => ({ ...previous, isOpen: false }));
+  }, []);
 
   const fetchVendors = useCallback(async () => {
     try {
@@ -30,7 +46,7 @@ const VendorList = () => {
 
       console.log("Fetching vendors...");
 
-      const response = await api.get("/vendor/vendors");
+      const response = await api.get("/admin/vendors");
 
       console.log("Vendor API Response:", response.data);
 
@@ -65,6 +81,7 @@ const VendorList = () => {
   useEffect(() => {
     fetchVendors();
   }, [fetchVendors]);
+
   // =========================================================
   // SELECT SINGLE VENDOR
   // =========================================================
@@ -78,6 +95,10 @@ const VendorList = () => {
     });
   }, []);
 
+  // =========================================================
+  // KYC STATUS
+  // =========================================================
+
   const handleKycStatusChange = useCallback((vendor) => {
     setKycVendor(vendor);
   }, []);
@@ -87,11 +108,14 @@ const VendorList = () => {
       return;
     }
 
+    const vendorName = kycVendor.name;
+    const nextStatus = kycVendor.kyc === "Approved" ? "Pending" : "Approved";
+
     try {
       setKycUpdating(true);
 
       const response = await api.patch(
-        `/vendor/vendors/${kycVendor.id}/kyc-status`,
+        `/admin/vendors/${kycVendor.id}/kyc-status`,
       );
 
       console.log("KYC status response:", response.data);
@@ -99,6 +123,10 @@ const VendorList = () => {
       if (response.data.success) {
         setKycVendor(null);
         fetchVendors();
+        showSuccess(
+          "Status Updated!",
+          `KYC status for ${vendorName} is now ${nextStatus}.`,
+        );
       } else {
         alert(response.data.message || "Failed to change KYC status.");
       }
@@ -148,54 +176,56 @@ const VendorList = () => {
     setDeleteVendor(vendor);
   }, []);
 
-const confirmDelete = async () => {
-  if (!deleteVendor?.id) {
-    return;
-  }
-
-  try {
-    setLoading(true);
-
-    const response = await api.delete(
-      `/vendor/vendors/${deleteVendor.id}`
-    );
-
-    console.log("Delete vendor response:", response.data);
-
-    if (response.data.success) {
-      setDeleteVendor(null);
-
-      // Refresh vendor list
-      await fetchVendors();
-
-      // Agar deleted vendor selected tha to selection se bhi remove karo
-      setSelectedVendors((previous) =>
-        previous.filter((id) => id !== deleteVendor.id)
-      );
-    } else {
-      console.error(
-        response.data.message || "Failed to delete vendor."
-      );
+  const confirmDelete = async () => {
+    if (!deleteVendor?.id) {
+      return;
     }
-  } catch (error) {
-    console.error(
-      "Delete vendor error:",
-      error.response?.data || error
-    );
-  } finally {
-    setLoading(false);
-  }
-};
+
+    const vendorName = deleteVendor.vendorName;
+
+    try {
+      setLoading(true);
+
+      const response = await api.delete(`/admin/vendors/${deleteVendor.id}`);
+
+      console.log("Delete vendor response:", response.data);
+
+      if (response.data.success) {
+        setDeleteVendor(null);
+
+        // Refresh vendor list
+        await fetchVendors();
+
+        // Agar deleted vendor selected tha to selection se bhi remove karo
+        setSelectedVendors((previous) =>
+          previous.filter((id) => id !== deleteVendor.id),
+        );
+
+        showSuccess(
+          "Vendor Deleted!",
+          `${vendorName} has been deleted successfully.`,
+        );
+      } else {
+        console.error(response.data.message || "Failed to delete vendor.");
+      }
+    } catch (error) {
+      console.error("Delete vendor error:", error.response?.data || error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleDeleteSelected = async () => {
     if (selectedVendors.length === 0) {
       return;
     }
 
+    const deletedCount = selectedVendors.length;
+
     try {
       setLoading(true);
 
-      const response = await api.delete("/vendor/vendors/selected", {
+      const response = await api.delete("/admin/vendors/selected", {
         data: {
           vendor_ids: selectedVendors,
         },
@@ -206,9 +236,15 @@ const confirmDelete = async () => {
       if (response.data.success) {
         // Clear selected vendors
         setSelectedVendors([]);
+        setShowBulkDelete(false);
 
         // Refresh vendor list
         fetchVendors();
+
+        showSuccess(
+          "Vendors Deleted!",
+          `${deletedCount} vendor${deletedCount > 1 ? "s have" : " has"} been deleted successfully.`,
+        );
       } else {
         console.error(
           response.data.message || "Failed to delete selected vendors.",
@@ -249,7 +285,7 @@ const confirmDelete = async () => {
       {
         key: "select",
         label: (
-          <div className="vendor-select-header">
+          <div className="venl-vendor-select-header">
             <input
               type="checkbox"
               checked={allSelected}
@@ -266,7 +302,7 @@ const confirmDelete = async () => {
         render: (_, row) => (
           <input
             type="checkbox"
-            className="vendor-row-checkbox"
+            className="venl-vendor-row-checkbox"
             checked={selectedVendors.includes(row.id)}
             onChange={() => handleSelectVendor(row.id)}
             onClick={(event) => event.stopPropagation()}
@@ -281,7 +317,7 @@ const confirmDelete = async () => {
         width: "20px",
         sortable: false,
         render: (_, row, rowIndex) => (
-          <span className="vendor-serial">{rowIndex + 1}</span>
+          <span className="venl-vendor-serial">{rowIndex + 1}</span>
         ),
       },
 
@@ -292,8 +328,12 @@ const confirmDelete = async () => {
         width: "120px",
         sortable: false,
         render: (value, row) => (
-          <div className="vendor-image-wrapper">
-            <img src={value} alt={row.vendorName} className="vendor-image" />
+          <div className="venl-vendor-image-wrapper">
+            <img
+              src={value}
+              alt={row.vendorName}
+              className="venl-vendor-image"
+            />
           </div>
         ),
       },
@@ -304,7 +344,7 @@ const confirmDelete = async () => {
         label: "Vendor Name",
         width: "100px",
         sortable: true,
-        render: (value) => <span className="vendors-name">{value}</span>,
+        render: (value) => <span className="venl-vendors-name">{value}</span>,
       },
 
       // SHOP NAME
@@ -313,7 +353,9 @@ const confirmDelete = async () => {
         label: "Shop Name",
         width: "150px",
         sortable: true,
-        render: (value) => <div className="vendor-shop-name">{value}</div>,
+        render: (value) => (
+          <div className="venl-vendor-shop-name">{value}</div>
+        ),
       },
 
       // CATEGORY
@@ -322,14 +364,16 @@ const confirmDelete = async () => {
         label: "Category",
         width: "120px",
         sortable: true,
-        render: (value) => <span className="vendor-category">{value}</span>,
+        render: (value) => (
+          <span className="venl-vendor-category">{value}</span>
+        ),
       },
 
       // UPLOAD DOCUMENT
       {
         key: "uploadDoc",
         label: (
-          <span className="vendor-upload-header">
+          <span className="venl-vendor-upload-header">
             Upload
             <br />
             Doc
@@ -340,7 +384,7 @@ const confirmDelete = async () => {
         render: (_, row) => (
           <button
             type="button"
-            className="vendor-upload-btn"
+            className="venl-vendor-upload-btn"
             title="Upload Document"
             onClick={() => handleUploadDocument(row)}
           >
@@ -360,8 +404,8 @@ const confirmDelete = async () => {
             type="button"
             className={
               value === "Approved"
-                ? "vendor-kyc-approved"
-                : "vendor-kyc-pending"
+                ? "venl-vendor-kyc-approved"
+                : "venl-vendor-kyc-pending"
             }
             onClick={() => handleKycStatusChange(row)}
             title="Change KYC Status"
@@ -371,6 +415,7 @@ const confirmDelete = async () => {
           </button>
         ),
       },
+
       // ACTION
       {
         key: "actions",
@@ -378,10 +423,10 @@ const confirmDelete = async () => {
         width: "100px",
         sortable: false,
         render: (_, row) => (
-          <div className="vendor-actions">
+          <div className="venl-vendor-actions">
             <button
               type="button"
-              className="vendor-view-btn"
+              className="venl-vendor-view-btn"
               onClick={() => handleViewDetail(row)}
             >
               <FaEye />
@@ -389,7 +434,7 @@ const confirmDelete = async () => {
             </button>
             <button
               type="button"
-              className="vendor-delete-btn"
+              className="venl-vendor-delete-btn"
               onClick={() => handleDelete(row)}
             >
               <FaTrash />
@@ -410,36 +455,37 @@ const confirmDelete = async () => {
       handleKycStatusChange,
     ],
   );
+
   return (
-    <div className="vendor-page">
+    <div className="venl-vendor-page">
       {/* =====================================================
           PAGE HEADER
       ===================================================== */}
-      <div className="vendor-page-header">
+      <div className="venl-vendor-page-header">
         <div>
-          <h2 className="vendor-page-title">Vendor List</h2>
-          <div className="vendor-breadcrumb">
-            <Link to="/home">Home</Link>
-            <span>
-              <IoIosArrowForward />
-            </span>
-            <span className="vendor-breadcrumb-active">Vendor List</span>
-          </div>
+          <h2 className="venl-vendor-page-title">Vendor List</h2>
+          <ServiceBreadcrumbs items={[{ label: "Vendor List" }]} />
         </div>
       </div>
+
       {/* =====================================================
           CONTENT CARD
       ===================================================== */}
-      <div className="vendor-card">
-        <div className="vendor-card-header">
-          <h3>Vendor List</h3>
+      <div className="venl-vendor-card">
+        <div className="venl-vendor-card-header">
+          <h3>
+            Vendor List
+            {!loading && (
+              <span className="venl-vendor-count">{vendorData.length}</span>
+            )}
+          </h3>
           <button
             type="button"
-            className="vendor-add-btn"
+            className="venl-vendor-add-btn"
             onClick={() => navigate("/vendor/add")}
           >
             <FaPlus />
-            <span>Add Vender</span>
+            <span>Add Vendor</span>
           </button>
         </div>
 
@@ -447,9 +493,15 @@ const confirmDelete = async () => {
             COMMON DATATABLE
         =================================================== */}
 
-        <div className="vendor-table-wrapper">
+        <div className="venl-vendor-table-wrapper">
           {loading ? (
-            <div className="vendor-loading">Loading vendors...</div>
+            <div className="venl-vendor-loading">
+              <span
+                className="venl-vendor-loading-spinner"
+                aria-hidden="true"
+              />
+              Loading vendors...
+            </div>
           ) : (
             <DataTable
               columns={columns}
@@ -463,90 +515,69 @@ const confirmDelete = async () => {
         </div>
       </div>
 
+      {/* =====================================================
+          SELECTED ACTION BAR
+      ===================================================== */}
       {selectedVendors.length > 0 && (
-        <div className="vendor-selected-actions">
-          <span className="vendor-selected-count">
+        <div className="venl-vendor-selected-actions">
+          <span className="venl-vendor-selected-count">
             {selectedVendors.length} vendor
             {selectedVendors.length > 1 ? "s" : ""} selected
           </span>
 
           <button
             type="button"
-            className="vendor-selected-delete-btn"
-            onClick={handleDeleteSelected}
+            className="venl-vendor-selected-delete-btn"
+            onClick={() => setShowBulkDelete(true)}
           >
             <FaTrash />({selectedVendors.length}) Delete Selected
           </button>
         </div>
       )}
+
       {/* =====================================================
-          DELETE MODAL
+          CONFIRM + SUCCESS MODALS
       ===================================================== */}
-      {deleteVendor && (
-        <div className="vendor-modal-overlay">
-          <div className="vendor-delete-modal">
-            <div className="vendor-delete-icon">
-              <FaTrash />
-            </div>
+      <ServiceConfirmModal
+        isOpen={Boolean(deleteVendor)}
+        variant="danger"
+        title="Delete Vendor?"
+        message={`You want to delete ${deleteVendor?.vendorName || "this vendor"}? This action cannot be undone.`}
+        confirmText="Yes, Delete"
+        cancelText="Cancel"
+        onConfirm={confirmDelete}
+        onCancel={() => setDeleteVendor(null)}
+      />
 
-            <h3>Are you sure?</h3>
+      <ServiceConfirmModal
+        isOpen={showBulkDelete}
+        variant="danger"
+        title="Delete Selected Vendors?"
+        message={`You are about to delete ${selectedVendors.length} selected vendor${selectedVendors.length > 1 ? "s" : ""}. This action cannot be undone.`}
+        confirmText="Yes, Delete All"
+        cancelText="Cancel"
+        onConfirm={handleDeleteSelected}
+        onCancel={() => setShowBulkDelete(false)}
+      />
 
-            <p>
-              You want to delete <strong>{deleteVendor.vendorName}</strong>?
-            </p>
+      <ServiceConfirmModal
+        isOpen={Boolean(kycVendor)}
+        variant="primary"
+        title="Change KYC Status?"
+        message={`Do you want to change KYC status for ${kycVendor?.name || "this vendor"} to ${kycVendor?.kyc === "Approved" ? "Pending" : "Approved"}?`}
+        confirmText="Yes, Change"
+        cancelText="No"
+        isLoading={kycUpdating}
+        onConfirm={confirmKycStatusChange}
+        onCancel={() => setKycVendor(null)}
+      />
 
-            <div className="vendor-modal-actions">
-              <button
-                type="button"
-                className="vendor-confirm-delete"
-                onClick={confirmDelete}
-              >
-                Yes, Delete
-              </button>
-
-              <button
-                type="button"
-                className="vendor-cancel-delete"
-                onClick={() => setDeleteVendor(null)}
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-      {kycVendor && (
-        <div className="vendor-kyc-modal-overlay">
-          <div className="vendor-kyc-modal">
-            <h3>Change KYC Status</h3>
-
-            <p>
-              Do you want to change KYC status for{" "}
-              <strong>{kycVendor.name}</strong>?
-            </p>
-
-            <div className="vendor-kyc-modal-actions">
-              <button
-                type="button"
-                className="vendor-kyc-cancel-btn"
-                onClick={() => setKycVendor(null)}
-                disabled={kycUpdating}
-              >
-                No
-              </button>
-
-              <button
-                type="button"
-                className="vendor-kyc-confirm-btn"
-                onClick={confirmKycStatusChange}
-                disabled={kycUpdating}
-              >
-                {kycUpdating ? "Updating..." : "Yes"}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      <ServiceSuccessModal
+        isOpen={successModal.isOpen}
+        title={successModal.title}
+        message={successModal.message}
+        onClose={closeSuccess}
+      />
     </div>
   );
 };

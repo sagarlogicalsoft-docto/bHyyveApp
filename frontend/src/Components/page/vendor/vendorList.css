@@ -2,1049 +2,665 @@
    VENDOR PAGE
 ========================================= */
 
-.vendor-page {
+.venl-vendor-page {
   width: 100%;
   min-height: calc(100vh - 70px);
-
-  padding: 20px 0 50px;
-
-  background: #f5f7fb;
-
+  padding: 18px 5px 60px;
+  background: #f4f6fb;
   box-sizing: border-box;
 }
-
 
 /* =========================================
    PAGE HEADER
 ========================================= */
 
-.vendor-page-header {
+.venl-vendor-page-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   gap: 20px;
-
-  margin-bottom: 14px;
+  margin-bottom: 16px;
 }
 
-
-.vendor-page-title {
-  margin: 0;
-
-  color: #172b4d;
-
-  font-size: 22px;
+.venl-vendor-page-title {
+  margin: 0 0 6px;
+  color: #111827;
+  font-size: 24px;
   font-weight: 700;
+  letter-spacing: -0.3px;
+  line-height: 1.25;
 }
-
 
 /* =========================================
-   BREADCRUMB
+   CARD
 ========================================= */
 
-.vendor-breadcrumb {
+.venl-vendor-card {
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid #e3e8f0;
+  border-radius: 14px;
+  box-shadow:
+    0 1px 2px rgba(17, 24, 39, 0.04),
+    0 8px 24px rgba(17, 24, 39, 0.05);
+  overflow: hidden;
+}
+
+/* =========================================
+   CARD HEADER
+========================================= */
+
+.venl-vendor-card-header {
   display: flex;
   align-items: center;
-
-  gap: 8px;
-
-  margin-top: 6px;
-
-  font-size: 13px;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 22px;
+  border-bottom: 1px solid #edf0f5;
+  background: linear-gradient(180deg, #ffffff 0%, #fafbfd 100%);
 }
 
-
-.vendor-breadcrumb a {
-  color: #073b74;
-  text-decoration: none;
-  font-weight: 500;
-}
-
-
-.vendor-breadcrumb a:hover {
-  text-decoration: underline;
-}
-
-
-.vendor-breadcrumb > span {
+.venl-vendor-card-header h3 {
   display: flex;
   align-items: center;
-
-  color: #1ba784;
+  gap: 10px;
+  margin: 0;
+  color: #111827;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.3;
 }
 
-
-.vendor-breadcrumb-active {
-  color: #1ba784 !important;
-
-  font-weight: 600;
+.venl-vendor-count {
+  min-width: 26px;
+  padding: 2px 9px;
+  border-radius: 999px;
+  background: #eaf1ff;
+  color: #000080;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.5;
+  text-align: center;
 }
-
 
 /* =========================================
    ADD VENDOR BUTTON
 ========================================= */
 
-.vendor-add-btn {
+.venl-vendor-add-btn {
   display: inline-flex;
-
   align-items: center;
   justify-content: center;
-
-  gap: 7px;
-
-  min-width: 70px;
-  height: 28px;
-
-  padding: 0 8px;
-
+  gap: 8px;
+  height: 38px;
+  padding: 0 18px;
   border: none;
-  border-radius: 5px;
-
-  background: #087ff5;
+  border-radius: 9px;
+  background: linear-gradient(135deg, #06315f 0%, #042d5c 55%, #022348 100%);
   color: #ffffff;
-
-  font-size: 11px;
+  font-size: 13.5px;
   font-weight: 600;
-
   line-height: 1;
-
   white-space: nowrap;
-
   cursor: pointer;
-
   flex-shrink: 0;
-
-  box-shadow: 0 2px 6px rgba(8, 127, 245, 0.2);
-
+  box-shadow: 0 4px 12px rgba(55, 125, 255, 0.32);
   transition:
-    background 0.2s ease,
     transform 0.2s ease,
-    box-shadow 0.2s ease;
+    box-shadow 0.2s ease,
+    filter 0.2s ease;
 }
 
-.vendor-add-btn svg {
+.venl-vendor-add-btn svg {
   font-size: 12px;
   flex-shrink: 0;
 }
 
-.vendor-add-btn:hover {
-  background: #066ed6;
+.venl-vendor-add-btn:hover {
   transform: translateY(-1px);
-  box-shadow: 0 4px 10px rgba(8, 127, 245, 0.28);
+  filter: brightness(1.05);
+  box-shadow: 0 8px 18px rgba(55, 125, 255, 0.4);
 }
 
-.vendor-add-btn:active {
+.venl-vendor-add-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 3px 8px rgba(55, 125, 255, 0.3);
+}
+
+.venl-vendor-add-btn:focus-visible,
+.venl-vendor-upload-btn:focus-visible,
+.venl-vendor-view-btn:focus-visible,
+.venl-vendor-delete-btn:focus-visible,
+.venl-vendor-kyc-approved:focus-visible,
+.venl-vendor-kyc-pending:focus-visible,
+.venl-vendor-selected-delete-btn:focus-visible {
+  outline: 3px solid rgba(55, 125, 255, 0.35);
+  outline-offset: 2px;
+}
+
+/* =========================================
+   TABLE WRAPPER
+   (strips the DataTable's own card chrome so
+   there is no card-inside-a-card)
+   NOTE: .datatable-container / .datatable-card
+   belong to the shared DataTable component, so
+   they are intentionally NOT renamed.
+========================================= */
+
+.venl-vendor-table-wrapper {
+  width: 100%;
+  padding: 0;
+}
+
+.venl-vendor-table-wrapper .datatable-container {
+  padding: 0;
+}
+
+.venl-vendor-table-wrapper .datatable-card {
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 18px 22px 22px;
+}
+
+/* Table polish (generic selectors so it works with any DataTable markup) */
+.venl-vendor-table-wrapper table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.venl-vendor-table-wrapper thead th {
+  padding: 13px 12px;
+  background: #f4f7fc;
+  color: #111827;
+  font-size: 13px;
+  font-weight: 700;
+  text-align: left;
+  border-top: 1px solid #e3e8f0;
+  border-bottom: 1px solid #e3e8f0;
+  white-space: nowrap;
+}
+
+.venl-vendor-table-wrapper thead th:first-child {
+  border-left: 1px solid #e3e8f0;
+  border-top-left-radius: 10px;
+}
+
+.venl-vendor-table-wrapper thead th:last-child {
+  border-right: 1px solid #e3e8f0;
+  border-top-right-radius: 10px;
+}
+
+.venl-vendor-table-wrapper tbody td {
+  padding: 12px;
+  border-bottom: 1px solid #eef1f6;
+  vertical-align: middle;
+  transition: background 0.15s ease;
+}
+
+.venl-vendor-table-wrapper tbody tr:hover td {
+  background: #f8faff;
+}
+
+.venl-vendor-table-wrapper tbody tr:last-child td {
+  border-bottom: 1px solid #e3e8f0;
+}
+
+/* Search + entries controls */
+.venl-vendor-table-wrapper input[type="search"],
+.venl-vendor-table-wrapper input[type="text"],
+.venl-vendor-table-wrapper select {
+  height: 36px;
+  padding: 0 12px;
+  border: 1px solid #d9e0ec;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #111827;
+  font-size: 13px;
+  outline: none;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.venl-vendor-table-wrapper input[type="search"]:focus,
+.venl-vendor-table-wrapper input[type="text"]:focus,
+.venl-vendor-table-wrapper select:focus {
+  border-color: #377dff;
+  box-shadow: 0 0 0 3px rgba(55, 125, 255, 0.15);
+}
+
+/* =========================================
+   LOADING
+========================================= */
+
+.venl-vendor-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 56px 22px;
+  color: #6b7280;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.venl-vendor-loading-spinner {
+  width: 20px;
+  height: 20px;
+  border: 3px solid #dbe6ff;
+  border-top-color: #377dff;
+  border-radius: 50%;
+  animation: venl-vendor-spin 0.7s linear infinite;
+}
+
+@keyframes venl-vendor-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* =========================================
+   SELECT HEADER + CHECKBOXES
+========================================= */
+
+.venl-vendor-select-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  line-height: 1.1;
+}
+
+.venl-vendor-select-header input,
+.venl-vendor-row-checkbox {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  cursor: pointer;
+  accent-color: #377dff;
+}
+
+.venl-vendor-select-header span {
+  color: #111827;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.venl-vendor-select-header span:last-child {
+  display: none;
+}
+
+/* =========================================
+   SERIAL NUMBER
+========================================= */
+
+.venl-vendor-serial {
+  color: #6b7280;
+  font-size: 13.5px;
+  font-weight: 600;
+}
+
+/* =========================================
+   IMAGE
+========================================= */
+
+.venl-vendor-image-wrapper {
+  width: 76px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: #f8fafc;
+  border: 1px solid #e8edf4;
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+
+.venl-vendor-image {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
+
+/* =========================================
+   TEXT CELLS
+========================================= */
+
+.venl-vendors-name {
+  display: block;
+  color: #111827;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+  white-space: normal;
+}
+
+.venl-vendor-shop-name {
+  color: #374151;
+  font-size: 13.5px;
+  font-weight: 500;
+  line-height: 1.4;
+  white-space: pre-line;
+}
+
+.venl-vendor-category {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 6px;
+  background: #f1f4f9;
+  color: #4b5563;
+  font-size: 12.5px;
+  font-weight: 600;
+  line-height: 1.4;
+  white-space: normal;
+}
+
+/* =========================================
+   UPLOAD DOCUMENT
+========================================= */
+
+.venl-vendor-upload-header {
+  display: inline-block;
+  line-height: 1.2;
+}
+
+.venl-vendor-upload-btn {
+  width: 36px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #cfe0ff;
+  border-radius: 8px;
+  background: #eef4ff;
+  color: #042d5c;
+  font-size: 15px;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.venl-vendor-upload-btn:hover {
+  background: #042d5c;
+  border-color: #042d5c;
+  color: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 5px 12px rgba(4, 45, 92, 0.3);
+}
+
+.venl-vendor-upload-btn:active {
   transform: translateY(0);
 }
 
+/* =========================================
+   KYC STATUS
+========================================= */
+
+.venl-vendor-kyc-approved,
+.venl-vendor-kyc-pending {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-width: 92px;
+  padding: 6px 12px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.2;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.venl-vendor-kyc-approved {
+  background: #e7f8ef;
+  border-color: #b7ebcf;
+  color: #12804a;
+}
+
+.venl-vendor-kyc-approved:hover {
+  background: #16a05c;
+  border-color: #16a05c;
+  color: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 5px 12px rgba(22, 160, 92, 0.3);
+}
+
+.venl-vendor-kyc-pending {
+  background: #fff4e0;
+  border-color: #ffdfa6;
+  color: #b36b00;
+}
+
+.venl-vendor-kyc-pending:hover {
+  background: #f59e0b;
+  border-color: #f59e0b;
+  color: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 5px 12px rgba(245, 158, 11, 0.32);
+}
+
+.venl-vendor-kyc-approved svg,
+.venl-vendor-kyc-pending svg {
+  font-size: 11px;
+}
+
+/* =========================================
+   ROW ACTIONS
+========================================= */
+
+.venl-vendor-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 6px;
+}
+
+.venl-vendor-view-btn,
+.venl-vendor-delete-btn {
+  min-width: 104px;
+  height: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 0 10px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.venl-vendor-view-btn {
+  background: #eef4ff;
+  border-color: #cfe0ff;
+  color: #042d5c;
+}
+
+.venl-vendor-view-btn:hover {
+  background: #042d5c;
+  border-color: #042d5c;
+  color: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 5px 12px rgba(4, 45, 92, 0.3);
+}
+
+.venl-vendor-delete-btn {
+  background: #fff1f2;
+  border-color: #ffd3d7;
+  color: #d92d3f;
+}
+
+.venl-vendor-delete-btn:hover {
+  background: #e5384a;
+  border-color: #e5384a;
+  color: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 5px 12px rgba(229, 56, 74, 0.3);
+}
+
+.venl-vendor-view-btn:active,
+.venl-vendor-delete-btn:active {
+  transform: translateY(0);
+}
+
+/* =========================================
+   SELECTED ACTION BAR (floating)
+========================================= */
+
+.venl-vendor-selected-actions {
+  position: sticky;
+  bottom: 18px;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  width: fit-content;
+  min-width: 340px;
+  max-width: 100%;
+  margin: 16px auto 0;
+  padding: 10px 12px 10px 18px;
+  border-radius: 12px;
+  background: #062f5c;
+  box-shadow: 0 12px 30px rgba(6, 47, 92, 0.35);
+  animation: venl-vendor-bar-in 0.25s ease;
+}
+
+@keyframes venl-vendor-bar-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.venl-vendor-selected-count {
+  color: #e6efff;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.venl-vendor-selected-delete-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 34px;
+  padding: 0 14px;
+  border: none;
+  border-radius: 8px;
+  background: #e5384a;
+  color: #ffffff;
+  font-size: 12.5px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.venl-vendor-selected-delete-btn:hover {
+  background: #cf2a3c;
+  transform: translateY(-1px);
+}
+
+.venl-vendor-selected-delete-btn:active {
+  transform: translateY(0);
+}
 
 /* =========================================
    TABLET
 ========================================= */
 
 @media (max-width: 991px) {
-  .vendor-card-header {
-    padding: 15px 18px;
+  .venl-vendor-card-header {
+    padding: 16px 18px;
   }
 
-  .vendor-add-btn {
-    min-width: 80px;
-
-    height: 34px;
-
-    padding: 0 13px;
-
-    font-size: 13px;
+  .venl-vendor-table-wrapper .datatable-card {
+    padding: 16px 18px 20px;
   }
 }
-
 
 /* =========================================
    MOBILE
 ========================================= */
 
 @media (max-width: 767px) {
-  .vendor-card-header {
+  .venl-vendor-page {
+    padding: 14px 10px 60px;
+  }
+
+  .venl-vendor-page-header {
+    align-items: flex-start;
     flex-direction: column;
+    gap: 10px;
+  }
 
+  .venl-vendor-page-title {
+    font-size: 21px;
+  }
+
+  .venl-vendor-card {
+    border-radius: 12px;
+  }
+
+  .venl-vendor-card-header {
+    flex-direction: column;
     align-items: stretch;
-
     gap: 12px;
-
-    padding: 15px;
-  }
-
-  .vendor-card-header h3 {
-    font-size: 16px;
-  }
-
-  .vendor-add-btn {
-    width: 100%;
-
-    min-width: 0;
-
-    height: 38px;
-
-    padding: 0 15px;
-
-    font-size: 14px;
-  }
-
-  .vendor-add-btn svg {
-    font-size: 13px;
-  }
-}
-
-
-/* =========================================
-   SMALL MOBILE
-========================================= */
-
-@media (max-width: 480px) {
-  .vendor-card-header {
     padding: 14px;
   }
 
-  .vendor-add-btn {
+  .venl-vendor-card-header h3 {
+    font-size: 16px;
+  }
+
+  .venl-vendor-add-btn {
+    width: 100%;
+    height: 40px;
+    font-size: 14px;
+  }
+
+  .venl-vendor-table-wrapper .datatable-card {
+    padding: 14px;
+  }
+
+  .venl-vendor-selected-actions {
+    width: 100%;
+    min-width: 0;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 12px;
+    text-align: center;
+  }
+
+  .venl-vendor-selected-delete-btn {
+    justify-content: center;
     height: 38px;
-
-    width: 100%;
-  }
-}
-
-
-/* =========================================
-   CARD (single unified card — title, controls
-   and table all live inside this one surface,
-   matching the reference image)
-========================================= */
-
-.vendor-card {
-  width: 100%;
-  background: #ffffff;
-  border: 1px solid #e8edf3;
-  border-radius: 10px;
-  box-shadow: 0 3px 14px rgba(30, 45, 65, 0.06);
-  overflow: hidden;
-}
-
-
-/* =========================================
-   CARD HEADER
-========================================= */
-
-.vendor-card-header {
-  display: flex;
-
-  align-items: center;
-  justify-content: space-between;
-
-  gap: 15px;
-
-  padding: 18px 22px;
-
-  border-bottom: 1px solid #edf0f4;
-
-  background: #ffffff;
-}
-
-.vendor-card-header h3 {
-  margin: 0;
-
-  color: #172b4d;
-
-  font-size: 20px;
-  font-weight: 700;
-
-  line-height: 1.3;
-}
-
-/* =========================================
-   TABLE WRAPPER
-
-   The DataTable component ships its own
-   bordered/shadowed/padded card (so it can be
-   dropped in anywhere as a standalone piece),
-   but here it sits inside .vendor-card already,
-   so we strip that inner chrome to avoid a
-   "card inside a card" double border.
-========================================= */
-
-.vendor-table-wrapper {
-  width: 100%;
-
-  padding: 0;
-}
-
-.vendor-table-wrapper .datatable-container {
-  padding: 0;
-}
-
-.vendor-table-wrapper .datatable-card {
-  border: none;
-  border-radius: 0;
-  box-shadow: none;
-  padding: 18px 22px 20px;
-}
-
-
-/* =========================================
-   LOADING
-========================================= */
-
-.vendor-loading {
-  padding: 40px 22px;
-
-  text-align: center;
-
-  color: #8a94a6;
-
-  font-size: 14px;
-}
-
-
-/* =========================================
-   SELECT HEADER
-========================================= */
-
-.vendor-select-header {
-  display: flex;
-
-  flex-direction: row;
-
-  align-items: center;
-
-  gap: 6px;
-
-  line-height: 1.1;
-}
-
-
-.vendor-select-header input {
-  width: 15px;
-  height: 15px;
-
-  margin: 0;
-
-  cursor: pointer;
-
-  accent-color: #073b74;
-}
-
-
-.vendor-select-header span {
-  color: #202020;
-
-  font-size: 14px;
-
-  font-weight: 700;
-}
-
-.vendor-select-header span:last-child {
-  display: none;
-}
-
-
-/* =========================================
-   ROW CHECKBOX
-========================================= */
-
-.vendor-row-checkbox {
-  width: 15px;
-  height: 15px;
-
-  cursor: pointer;
-
-  accent-color: #073b74;
-}
-
-
-/* =========================================
-   SERIAL NUMBER
-========================================= */
-
-.vendor-serial {
-  color: #626262;
-
-  font-size: 14px;
-
-  font-weight: 500;
-}
-
-
-/* =========================================
-   IMAGE
-========================================= */
-
-.vendor-image-wrapper {
-  width: 76px;
-  height: 64px;
-
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
-
-  overflow: hidden;
-
-  background: #ffffff;
-
-  border-radius: 4px;
-
-  box-sizing: border-box;
-}
-
-
-.vendor-image {
-  max-width: 76px;
-  max-height: 64px;
-  width: auto;
-  height: auto;
-
-  display: block;
-
-  object-fit: contain;
-}
-
-
-/* =========================================
-   VENDOR NAME
-========================================= */
-
-.vendors-name {
-  display: block;
-
-  color: #4a4a4a;
-
-  font-size: 14px;
-
-  font-weight: 500;
-
-  line-height: 1.4;
-
-  white-space: normal;
-}
-
-
-/* =========================================
-   SHOP NAME
-========================================= */
-
-.vendor-shop-name {
-  color: #4a4a4a;
-
-  font-size: 14px;
-
-  font-weight: 500;
-
-  line-height: 1.4;
-
-  white-space: pre-line;
-}
-
-
-/* =========================================
-   CATEGORY
-========================================= */
-
-.vendor-category {
-  display: block;
-
-  color: #4a4a4a;
-
-  font-size: 14px;
-
-  font-weight: 500;
-
-  line-height: 1.4;
-
-  white-space: normal;
-}
-
-
-/* =========================================
-   UPLOAD HEADER
-========================================= */
-
-.vendor-upload-header {
-  display: inline-block;
-
-  line-height: 1.2;
-}
-
-
-/* =========================================
-   UPLOAD DOCUMENT BUTTON
-========================================= */
-
-.vendor-upload-btn {
-  width: 32px;
-  height: 28px;
-
-  display: inline-flex;
-
-  align-items: center;
-  justify-content: center;
-
-  border: none;
-
-  border-radius: 5px;
-
-  background: #087ff5;
-
-  color: #ffffff;
-
-  cursor: pointer;
-
-  font-size: 14px;
-
-  box-shadow: 0 2px 5px rgba(8, 127, 245, 0.18);
-
-  transition:
-    background 0.2s ease,
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
-}
-
-
-.vendor-upload-btn:hover {
-  background: #066ed6;
-
-  transform: translateY(-1px);
-
-  box-shadow: 0 4px 8px rgba(8, 127, 245, 0.25);
-}
-
-
-.vendor-upload-btn:active {
-  transform: translateY(0);
-}
-
-
-/* =========================================
-   KYC APPROVED
-========================================= */
-
-.vendor-kyc-approved {
-  display: inline-flex;
-
-  align-items: center;
-  justify-content: center;
-
-  gap: 5px;
-
-  min-width: 78px;
-
-  padding: 7px 12px;
-
-  border-radius: 5px;
-
-  background: #087ff5;
-
-  color: #ffffff;
-
-  font-size: 12px;
-
-  font-weight: 700;
-
-  line-height: 1.2;
-
-  box-shadow: 0 2px 4px rgba(8, 127, 245, 0.15);
-}
-
-.vendor-kyc-approved {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-  min-width: 84px;
-  padding: 7px 12px;
-  border-radius: 5px;
-  background: #087ff5;
-  color: #ffffff;
-  font-size: 12px;
-  font-weight: 700;
-  line-height: 1.2;
-  box-shadow: 0 2px 4px rgba(8, 127, 245, 0.15);
-}
-
-/* Pending KYC */
-.vendor-kyc-pending {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-  min-width: 84px;
-  padding: 7px 12px;
-  border-radius: 5px;
-  background: #cf8403;
-  color: #ffffff;
-  font-size: 12px;
-  font-weight: 700;
-  line-height: 1.2;
-  box-shadow: 0 2px 4px rgba(245, 158, 11, 0.15);
-}
-
-
-.vendor-kyc-approved svg {
-  font-size: 11px;
-}
-
-.vendor-kyc-modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.45);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-}
-
-.vendor-kyc-modal {
-  width: 360px;
-  max-width: calc(100% - 30px);
-  background: #ffffff;
-  border-radius: 8px;
-  padding: 22px;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.18);
-  text-align: center;
-}
-
-.vendor-kyc-modal h3 {
-  margin: 0 0 10px;
-  font-size: 17px;
-}
-
-.vendor-kyc-modal p {
-  margin: 0 0 20px;
-  font-size: 13px;
-  color: #555;
-}
-
-.vendor-kyc-modal-actions {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-}
-
-.vendor-kyc-cancel-btn,
-.vendor-kyc-confirm-btn {
-  border: none;
-  border-radius: 5px;
-  padding: 8px 20px;
-  font-size: 12px;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.vendor-kyc-cancel-btn {
-  background: #e5e7eb;
-  color: #333;
-}
-
-.vendor-kyc-confirm-btn {
-  background: #087ff5;
-  color: #fff;
-}
-
-.vendor-kyc-cancel-btn:disabled,
-.vendor-kyc-confirm-btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-
-/* =========================================
-   ACTIONS
-========================================= */
-
-.vendor-actions {
-  display: flex;
-
-  flex-direction: column;
-
-  align-items: stretch;
-
-  gap: 6px;
-}
-
-.vendor-selected-actions {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 12px;
-  padding: 10px 14px;
-  border: 1px solid #e5e7eb;
-  border-radius: 6px;
-  background: #ffffff;
-}
-
-.vendor-selected-count {
-  font-size: 12px;
-  font-weight: 600;
-  color: #555;
-}
-
-.vendor-selected-delete-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 13px;
-  border: none;
-  border-radius: 5px;
-  background: #dc3545;
-  color: #ffffff;
-  font-size: 12px;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.vendor-selected-delete-btn:hover {
-  opacity: 0.9;
-}
-
-
-/* =========================================
-   VIEW DETAIL BUTTON
-========================================= */
-
-.vendor-view-btn {
-  min-width: 96px;
-  height: 28px;
-
-  display: inline-flex;
-
-  align-items: center;
-  justify-content: center;
-
-  gap: 6px;
-
-  padding: 0 10px;
-
-  border: none;
-
-  border-radius: 5px;
-
-  background: #087ff5;
-
-  color: #ffffff;
-
-  cursor: pointer;
-
-  font-size: 12px;
-
-  font-weight: 600;
-
-  box-shadow: 0 2px 5px rgba(8, 127, 245, 0.15);
-
-  transition:
-    background 0.2s ease,
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
-}
-
-
-.vendor-view-btn:hover {
-  background: #066ed6;
-
-  transform: translateY(-1px);
-
-  box-shadow: 0 4px 8px rgba(8, 127, 245, 0.22);
-}
-
-
-.vendor-view-btn:active {
-  transform: translateY(0);
-}
-
-
-/* =========================================
-   DELETE BUTTON
-========================================= */
-
-.vendor-delete-btn {
-  min-width: 96px;
-  height: 28px;
-
-  display: inline-flex;
-
-  align-items: center;
-  justify-content: center;
-
-  gap: 6px;
-
-  padding: 0 10px;
-
-  border: none;
-
-  border-radius: 5px;
-
-  background: #dc3545;
-
-  color: #ffffff;
-
-  cursor: pointer;
-
-  font-size: 12px;
-
-  font-weight: 600;
-
-  box-shadow: 0 2px 5px rgba(220, 53, 69, 0.15);
-
-  transition:
-    background 0.2s ease,
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
-}
-
-
-.vendor-delete-btn:hover {
-  background: #c82333;
-
-  transform: translateY(-1px);
-
-  box-shadow: 0 4px 8px rgba(220, 53, 69, 0.22);
-}
-
-
-.vendor-delete-btn:active {
-  transform: translateY(0);
-}
-
-
-/* =========================================
-   DELETE MODAL OVERLAY
-========================================= */
-
-.vendor-modal-overlay {
-  position: fixed;
-
-  inset: 0;
-
-  z-index: 9999;
-
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
-
-  padding: 20px;
-
-  background: rgba(0, 0, 0, 0.45);
-
-  box-sizing: border-box;
-}
-
-
-/* =========================================
-   DELETE MODAL
-========================================= */
-
-.vendor-delete-modal {
-  width: 400px;
-
-  max-width: 100%;
-
-  padding: 30px;
-
-  background: #ffffff;
-
-  border-radius: 8px;
-
-  text-align: center;
-
-  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.25);
-
-  box-sizing: border-box;
-}
-
-
-/* =========================================
-   DELETE ICON
-========================================= */
-
-.vendor-delete-icon {
-  width: 60px;
-  height: 60px;
-
-  margin: 0 auto 18px;
-
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
-
-  border-radius: 50%;
-
-  background: #fff0f0;
-
-  color: #dc3545;
-
-  font-size: 24px;
-}
-
-
-/* =========================================
-   MODAL TITLE
-========================================= */
-
-.vendor-delete-modal h3 {
-  margin: 0 0 10px;
-
-  color: #333;
-
-  font-size: 21px;
-
-  font-weight: 700;
-}
-
-
-/* =========================================
-   MODAL TEXT
-========================================= */
-
-.vendor-delete-modal p {
-  margin: 0 0 24px;
-
-  color: #6b7280;
-
-  font-size: 14px;
-
-  line-height: 1.5;
-}
-
-
-.vendor-delete-modal p strong {
-  color: #374151;
-}
-
-
-/* =========================================
-   MODAL ACTIONS
-========================================= */
-
-.vendor-modal-actions {
-  display: flex;
-
-  align-items: center;
-
-  justify-content: center;
-
-  gap: 10px;
-}
-
-
-/* =========================================
-   CONFIRM DELETE
-========================================= */
-
-.vendor-confirm-delete {
-  border: none;
-
-  border-radius: 5px;
-
-  padding: 9px 18px;
-
-  background: #dc3545;
-
-  color: #ffffff;
-
-  font-size: 13px;
-
-  font-weight: 600;
-
-  cursor: pointer;
-
-  transition:
-    background 0.2s ease,
-    transform 0.2s ease;
-}
-
-
-.vendor-confirm-delete:hover {
-  background: #c82333;
-
-  transform: translateY(-1px);
-}
-
-
-/* =========================================
-   CANCEL DELETE
-========================================= */
-
-.vendor-cancel-delete {
-  border: none;
-
-  border-radius: 5px;
-
-  padding: 9px 18px;
-
-  background: #6c757d;
-
-  color: #ffffff;
-
-  font-size: 13px;
-
-  font-weight: 600;
-
-  cursor: pointer;
-
-  transition:
-    background 0.2s ease,
-    transform 0.2s ease;
-}
-
-
-.vendor-cancel-delete:hover {
-  background: #5c636a;
-
-  transform: translateY(-1px);
-}
-
-
-/* =========================================
-   RESPONSIVE
-========================================= */
-
-@media (max-width: 767px) {
-  .vendor-page {
-    padding: 15px;
-  }
-
-  .vendor-page-header {
-    align-items: flex-start;
-
-    flex-direction: column;
-  }
-
-  .vendor-page-title {
-    font-size: 20px;
-  }
-
-  .vendor-add-btn {
-    width: 100%;
-  }
-
-  .vendor-card-header {
-    padding: 16px;
-  }
-
-  .vendor-table-wrapper .datatable-card {
-    padding: 16px;
-  }
-
-  .vendor-delete-modal {
-    padding: 24px 20px;
-  }
-
-  .vendor-modal-actions {
-    flex-direction: column;
-  }
-
-  .vendor-confirm-delete,
-  .vendor-cancel-delete {
-    width: 100%;
   }
 }

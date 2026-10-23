@@ -5,148 +5,111 @@ import React, {
   useState,
   useCallback,
 } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import {
-  FaEllipsisH,
   FaEdit,
   FaTrash,
   FaFileExport,
   FaFileImport,
+  FaTimes,
+  FaGripVertical,
 } from "react-icons/fa";
 
-import { IoIosArrowForward } from "react-icons/io";
 import DataTable from "../../common/DataTable";
-import "./categoryList.css";
-import useOutsideClick from "../../../hooks/UseOutsideClick";
 import { getImage } from "../../utils/images";
 
-const API_BASE_URL =
-  process.env.REACT_APP_API_BASE_URL || "http://localhost:5000/api";
+import ServiceBreadcrumbs from "../../common/ServiceBreadcrumbs";
+import ServiceConfirmModal from "../../../Components/common/modal/serviceModal/ServiceConfirmModal";
+import ServiceSuccessModal from "../../../Components/common/modal/serviceModal/ServiceSuccessModal";
+import api from "../../../config/api";
 
-async function fetchCategories() {
-  const response = await fetch(`${API_BASE_URL}/admin/categories`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+import "./categoryList.css";
 
-  const payload = await response.json();
-  if (!response.ok) {
-    throw new Error(payload?.message || `Request failed (${response.status})`);
-  }
-  return payload;
-};
-
-async function updateCategoryStatus(id, status) {
-  const response = await fetch(
-    `${API_BASE_URL}/admin/categories/${id}/status`,
-    {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        status: status,
-      }),
-    }
-  );
-
-  const payload = await response.json();
-  if (!response.ok) {
+async function request(config) {
+  try {
+    const response = await api.request(config);
+    return response.data;
+  } catch (err) {
     throw new Error(
-      payload?.message || `Request failed (${response.status})`
+      err?.response?.data?.message ||
+        err?.message ||
+        `Request failed (${err?.response?.status || "network error"})`,
     );
   }
-  return payload;
-};
-
-async function deleteCategory(id) {
-  const response = await fetch(
-    `${API_BASE_URL}/admin/categories/${id}`,
-    {
-      method: "DELETE",
-    }
-  );
-  const payload = await response.json();
-  if (!response.ok) {
-    throw new Error(
-      payload?.message || `Request failed (${response.status})`
-    );
-  }
-  return payload;
 }
 
-async function deleteSelectedCategories(catIds) {
-  const response = await fetch(
-    `${API_BASE_URL}/admin/categories/selected`,
-    {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        cat_id: catIds,
-      }),
-    }
-  );
-  const payload = await response.json();
-  if (!response.ok) {
-    throw new Error(
-      payload?.message || `Request failed (${response.status})`
-    );
-  }
-  return payload;
-};
+function fetchCategories() {
+  return request({ method: "GET", url: "/admin/categories" });
+}
 
-async function importCategories(file) {
+function updateCategoryStatus(id, status) {
+  return request({
+    method: "PUT",
+    url: `/admin/categories/${id}/status`,
+    data: { status },
+  });
+}
+
+function deleteCategory(id) {
+  return request({ method: "DELETE", url: `/admin/categories/${id}` });
+}
+
+function deleteSelectedCategories(catIds) {
+  return request({
+    method: "DELETE",
+    url: "/admin/categories/selected",
+    data: { cat_id: catIds },
+  });
+}
+
+function importCategories(file) {
   const formData = new FormData();
-
   formData.append("csv_file", file);
 
-  const response = await fetch(
-    `${API_BASE_URL}/admin/categories/import`,
-    {
-      method: "POST",
-      body: formData,
-    }
-  );
+  return request({
+    method: "POST",
+    url: "/admin/categories/import",
+    data: formData,
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+}
 
-  const payload = await response.json();
+function updateCategoryOrder(orderIds) {
+  return request({
+    method: "PUT",
+    url: "/admin/categories/order",
+    data: { order_ids: orderIds },
+  });
+}
 
-  if (!response.ok) {
-    throw new Error(
-      payload?.message || `Request failed (${response.status})`
-    );
-  }
-
-  return payload;
-};
+/* =========================================================
+   COMPONENT
+========================================================= */
 
 const CategoryList = () => {
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
-  const [openActionId, setOpenActionId] = useState(null);
-  const [selectedCategories, setSelectedCategories] = useState([]);
-  const [statusCategory, setStatusCategory] = useState(null);
-
-  // =========================================================
-  // TEMPORARY CATEGORY DATA
-  // Later API data will come here
-  // =========================================================
+  const selectAllRef = useRef(null);
 
   const [categoryData, setCategoryData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // =========================================================
-  // CLOSE ACTION MENU WHEN CLICKING OUTSIDE
-  // =========================================================
+  const [selectedCategories, setSelectedCategories] = useState([]);
 
-  useOutsideClick(".category-action-menu", () => {
-    setOpenActionId(null);
-  });
+  // confirm modal: { type: "delete" | "deleteSelected" | "status", category? }
+  const [confirmState, setConfirmState] = useState(null);
+  // success modal: { title, message }
+  const [successState, setSuccessState] = useState(null);
+  // inline error banner for failed actions
+  const [actionError, setActionError] = useState("");
+  const [isReorderMode, setIsReorderMode] = useState(false);
+  const [savingOrder, setSavingOrder] = useState(false);
+
+  /* ---------------------------------------------------------
+     LOAD
+  --------------------------------------------------------- */
 
   const loadCategories = useCallback(async () => {
     setLoading(true);
@@ -154,17 +117,13 @@ const CategoryList = () => {
 
     try {
       const response = await fetchCategories();
-
-      console.log("CATEGORY API RESPONSE:", response);
-      console.log("CATEGORY DATA:", response?.data);
-
       const data = Array.isArray(response?.data) ? response.data : [];
 
       const formattedCategories = data.map((item) => ({
         id: item.id,
         name: item.category_name || "—",
         image: getImage(item.category_image),
-        services: item.name || "—",
+        description: item.sort_description || "—",
         status: Number(item.status) === 1 ? "Active" : "Inactive",
       }));
 
@@ -180,196 +139,289 @@ const CategoryList = () => {
   useEffect(() => {
     loadCategories();
   }, [loadCategories]);
-  // =========================================================
-  // SELECT / UNSELECT CATEGORY
-  // =========================================================
 
-  const handleSelectCategory = (id) => {
-    setSelectedCategories((previous) => {
-      if (previous.includes(id)) {
-        return previous.filter((item) => item !== id);
+  const handleReorderCategories = async (reorderedCategories) => {
+    const previousCategories = categoryData;
+
+    setActionError("");
+    setSavingOrder(true);
+    setCategoryData(reorderedCategories);
+
+    try {
+      const response = await updateCategoryOrder(
+        reorderedCategories.map((category) => category.id),
+      );
+
+      if (response?.result !== true) {
+        throw new Error(response?.msg || "Failed to save category order.");
+      }
+    } catch (err) {
+      setCategoryData(previousCategories);
+      setActionError(
+        err.message || "Failed to save category order. Please try again.",
+      );
+      throw err;
+    } finally {
+      setSavingOrder(false);
+    }
+  };
+
+  /* ---------------------------------------------------------
+     SELECT
+  --------------------------------------------------------- */
+
+  const allSelected =
+    categoryData.length > 0 &&
+    selectedCategories.length === categoryData.length;
+  const someSelected = selectedCategories.length > 0 && !allSelected;
+
+  // partial ("-") state for the header checkbox
+  useEffect(() => {
+    if (selectAllRef.current) {
+      selectAllRef.current.indeterminate = someSelected;
+    }
+  }, [someSelected, loading]);
+
+  const handleSelectCategory = useCallback((id) => {
+    setSelectedCategories((previous) =>
+      previous.includes(id)
+        ? previous.filter((item) => item !== id)
+        : [...previous, id],
+    );
+  }, []);
+
+  const handleSelectAll = useCallback(() => {
+    setSelectedCategories(
+      allSelected ? [] : categoryData.map((category) => category.id),
+    );
+  }, [allSelected, categoryData]);
+
+  const clearSelection = useCallback(() => setSelectedCategories([]), []);
+
+  /* ---------------------------------------------------------
+     CONFIRM MODAL ACTIONS
+  --------------------------------------------------------- */
+
+  const closeConfirm = useCallback(() => setConfirmState(null), []);
+  const closeSuccess = useCallback(() => setSuccessState(null), []);
+
+  const handleConfirm = async () => {
+    if (!confirmState) return;
+
+    setActionError("");
+
+    try {
+      if (confirmState.type === "delete") {
+        const id = confirmState.category.id;
+        await deleteCategory(id);
+
+        setCategoryData((previous) =>
+          previous.filter((category) => category.id !== id),
+        );
+        setSelectedCategories((previous) =>
+          previous.filter((categoryId) => categoryId !== id),
+        );
+        setSuccessState({
+          title: "Category Deleted",
+          message: "The category has been deleted successfully.",
+        });
       }
 
-      return [...previous, id];
-    });
+      if (confirmState.type === "deleteSelected") {
+        await deleteSelectedCategories(selectedCategories);
+
+        setCategoryData((previous) =>
+          previous.filter(
+            (category) => !selectedCategories.includes(category.id),
+          ),
+        );
+        setSelectedCategories([]);
+        setSuccessState({
+          title: "Categories Deleted",
+          message: "The selected categories have been deleted successfully.",
+        });
+      }
+
+      if (confirmState.type === "status") {
+        const { category } = confirmState;
+        const newStatus = category.status === "Active" ? 0 : 1;
+
+        await updateCategoryStatus(category.id, newStatus);
+
+        setCategoryData((previous) =>
+          previous.map((item) =>
+            item.id === category.id
+              ? { ...item, status: newStatus === 1 ? "Active" : "Inactive" }
+              : item,
+          ),
+        );
+        setSuccessState({
+          title: "Status Updated",
+          message: `The category has been ${
+            newStatus === 1 ? "activated" : "deactivated"
+          } successfully.`,
+        });
+      }
+    } catch (err) {
+      console.error("Category action error:", err);
+      setActionError(err.message || "Something went wrong. Please try again.");
+    } finally {
+      setConfirmState(null);
+    }
   };
 
-  // =========================================================
-  // DELETE SINGLE CATEGORY
-  // =========================================================
+  // Text / variant for the confirm modal
+  const confirmContent = useMemo(() => {
+    if (!confirmState) {
+      return {
+        title: "Are you sure?",
+        message: "",
+        confirmText: "Confirm",
+        variant: "primary",
+      };
+    }
 
- const handleDelete = async (id) => {
-  const confirmed = window.confirm(
-    "Are you sure you want to delete this category?"
-  );
+    if (confirmState.type === "delete") {
+      return {
+        title: "Delete Category?",
+        message:
+          "This category will be permanently deleted. This action cannot be undone.",
+        confirmText: "Yes, Delete",
+        variant: "danger",
+      };
+    }
 
-  if (!confirmed) return;
+    if (confirmState.type === "deleteSelected") {
+      return {
+        title: "Delete Selected Categories?",
+        message: `You are about to delete ${selectedCategories.length} selected categor${
+          selectedCategories.length === 1 ? "y" : "ies"
+        }. This action cannot be undone.`,
+        confirmText: "Yes, Delete All",
+        variant: "danger",
+      };
+    }
 
-  try {
-    const response = await deleteCategory(id);
+    const isActive = confirmState.category.status === "Active";
 
-    console.log("DELETE CATEGORY API RESPONSE:", response);
+    return {
+      title: isActive ? "Deactivate Category?" : "Activate Category?",
+      message: `Do you want to ${
+        isActive ? "deactivate" : "activate"
+      } this category?`,
+      confirmText: isActive ? "Yes, Deactivate" : "Yes, Activate",
+      variant: isActive ? "danger" : "primary",
+    };
+  }, [confirmState, selectedCategories.length]);
 
-    setCategoryData((previous) =>
-      previous.filter((category) => category.id !== id)
-    );
-
-    setSelectedCategories((previous) =>
-      previous.filter((categoryId) => categoryId !== id)
-    );
-
-    setOpenActionId(null);
-  } catch (error) {
-    console.error("Delete category error:", error);
-    alert(error.message || "Failed to delete category.");
-  }
-};
-
-  // =========================================================
-  // DELETE SELECTED
-  // =========================================================
-
-const handleDeleteSelected = async () => {
-  if (selectedCategories.length === 0) return;
-
-  const confirmed = window.confirm(
-    `Are you sure you want to delete ${selectedCategories.length} selected category(s)?`
-  );
-
-  if (!confirmed) return;
-
-  try {
-    const response = await deleteSelectedCategories(selectedCategories);
-
-    console.log(
-      "DELETE SELECTED CATEGORIES API RESPONSE:",
-      response
-    );
-
-    setCategoryData((previous) =>
-      previous.filter(
-        (category) => !selectedCategories.includes(category.id)
-      )
-    );
-
-    setSelectedCategories([]);
-  } catch (error) {
-    console.error("Delete selected categories error:", error);
-    alert(
-      error.message || "Failed to delete selected categories."
-    );
-  }
-};
-  // =========================================================
-  // EDIT CATEGORY
-  // =========================================================
-
-  const handleEdit = (id) => {
-    setOpenActionId(null);
-
-    console.log("Edit Category:", id);
-
-    // Later:
-    // navigate(`/category/edit/${id}`);
-
-    navigate(`/edit_category/${id}`);
-  };
-
-  // =========================================================
-  // STATUS
-  // =========================================================
-
-const handleStatusChange = async () => {
-  if (!statusCategory) return;
-  const newStatus =
-    statusCategory.status === "Active" ? 0 : 1;
-  try {
-    const response = await updateCategoryStatus(
-      statusCategory.id,
-      newStatus
-    );
-
-    console.log("CATEGORY STATUS API RESPONSE:", response);
-    setCategoryData((previous) =>
-      previous.map((category) =>
-        category.id === statusCategory.id
-          ? {
-              ...category,
-              status: newStatus === 1 ? "Active" : "Inactive",
-            }
-          : category
-      )
-    );
-
-    setStatusCategory(null);
-  } catch (error) {
-    console.error("Category status update error:", error);
-    alert(error.message || "Failed to update category status.");
-  }
-};
-
+  /* ---------------------------------------------------------
+     IMPORT / EXPORT
+  --------------------------------------------------------- */
 
   const handleImportClick = () => {
     fileInputRef.current?.click();
   };
 
- const handleImportFile = async (event) => {
-  const file = event.target.files?.[0];
+  const handleImportFile = async (event) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
 
-  if (!file) return;
+    setActionError("");
 
-  try {
-    console.log("Import file:", file);
+    try {
+      const response = await importCategories(file);
 
-    const response = await importCategories(file);
+      setSuccessState({
+        title: "Import Successful",
+        message: response?.message || "Categories imported successfully.",
+      });
 
-    console.log("IMPORT CATEGORY API RESPONSE:", response);
-
-    alert(response.message || "Categories imported successfully.");
-
-    // Refresh category list after successful import
-    await loadCategories();
-  } catch (error) {
-    console.error("Import categories error:", error);
-
-    alert(error.message || "Failed to import categories.");
-  } finally {
-    // Allow selecting the same file again
-    event.target.value = "";
-  }
-};
+      await loadCategories();
+    } catch (err) {
+      console.error("Import categories error:", err);
+      setActionError(err.message || "Failed to import categories.");
+    } finally {
+      // allow selecting the same file again
+      event.target.value = "";
+    }
+  };
 
   const handleExport = async () => {
     try {
       const XLSX = await import("xlsx");
+
       const exportData = categoryData.map((item, index) => ({
         "Sr. No.": index + 1,
         Name: item.name,
-        Services: item.services,
+        Description: item.description,
         Status: item.status,
       }));
+
       const worksheet = XLSX.utils.json_to_sheet(exportData);
       const workbook = XLSX.utils.book_new();
 
       XLSX.utils.book_append_sheet(workbook, worksheet, "Categories");
       XLSX.writeFile(workbook, "category-list.xlsx");
-    } catch (error) {
-      console.error("Export error:", error);
-      alert("Export failed. Please make sure the xlsx package is installed.");
+    } catch (err) {
+      console.error("Export error:", err);
+      setActionError(
+        "Export failed. Please make sure the xlsx package is installed.",
+      );
     }
   };
+
+  /* ---------------------------------------------------------
+     TABLE COLUMNS
+  --------------------------------------------------------- */
 
   const columns = useMemo(
     () => [
       {
-        key: "select",
-        label: "Select",
+        key: "move",
+        label: "Move",
         width: "20px",
+        sortable: false,
+        render: (_, row, rowIndex, dragProps) => (
+          <button
+            type="button"
+            className="datatable-drag-handle"
+            title="Drag to reorder"
+            aria-label={`Move category ${row.name}`}
+            draggable={Boolean(
+              isReorderMode && !savingOrder && dragProps?.draggable,
+            )}
+            disabled={!isReorderMode || savingOrder}
+            onClick={(event) => event.stopPropagation()}
+            onDragStart={(event) => {
+              console.log("HANDLE DRAG START:", row.id);
+              event.dataTransfer.effectAllowed = "move";
+              dragProps?.onDragStart(event);
+            }}
+          >
+            <FaGripVertical aria-hidden="true" />
+          </button>
+        ),
+      },
+      {
+        key: "select",
+        label: (
+          <input
+            ref={selectAllRef}
+            type="checkbox"
+            className="ctgl-checkbox"
+            title="Select all"
+            aria-label="Select all categories"
+            checked={allSelected}
+            onChange={handleSelectAll}
+            onClick={(event) => event.stopPropagation()}
+          />
+        ),
+        width: "40px",
         sortable: false,
         render: (_, row) => (
           <input
             type="checkbox"
-            className="category-checkbox"
+            className="ctgl-checkbox"
             checked={selectedCategories.includes(row.id)}
             onChange={() => handleSelectCategory(row.id)}
             onClick={(event) => event.stopPropagation()}
@@ -379,48 +431,55 @@ const handleStatusChange = async () => {
       {
         key: "serial",
         label: "Sr. No.",
-        width: "40px",
+        width: "50px",
         sortable: false,
         render: (_, row, rowIndex) => rowIndex + 1,
       },
       {
         key: "image",
         label: "Image",
-        width: "50px",
+        width: "120px",
         sortable: false,
         render: (value) => (
-          <div className="category-image-wrapper">
-            <img src={value} alt="Category" className="category-image" />
+          <div className="ctgl-image-wrapper">
+            <img src={value} alt="Category" className="ctgl-image" />
           </div>
         ),
       },
       {
         key: "name",
         label: "Name",
-        width: "60px",
+        width: "80px",
         sortable: true,
       },
       {
-        key: "services",
-        label: "Services",
-        width: "60px",
+        key: "description",
+        label: "Description",
+        width: "120px",
         sortable: true,
+        render: (value) => (
+          <span className="ctgl-description" title={value}>
+            {value}
+          </span>
+        ),
       },
       {
         key: "status",
         label: "Status",
-        width: "40px",
+        width: "90px",
         sortable: true,
         render: (value, row) => (
           <button
             type="button"
-            className={`category-status ${
-              value === "Active"
-                ? "category-status-active"
-                : "category-status-inactive"
+            className={`ctgl-status ${
+              value === "Active" ? "ctgl-status-active" : "ctgl-status-inactive"
             }`}
-            onClick={() => setStatusCategory(row)}
+            title={
+              value === "Active" ? "Click to deactivate" : "Click to activate"
+            }
+            onClick={() => setConfirmState({ type: "status", category: row })}
           >
+            <span className="ctgl-status-dot" />
             {value}
           </button>
         ),
@@ -431,97 +490,109 @@ const handleStatusChange = async () => {
         width: "80px",
         sortable: false,
         render: (_, row) => (
-          <div className="category-action-menu">
+          <div className="ctgl-action-buttons">
             <button
               type="button"
-              className="category-three-dot-btn"
-              onClick={(event) => {
-                event.stopPropagation();
-                setOpenActionId(openActionId === row.id ? null : row.id);
-              }}
+              className="ctgl-btn ctgl-btn-edit"
+              title="Edit"
+              aria-label="Edit category"
+              onClick={() => navigate(`/edit_category/${row.id}`)}
             >
-              <FaEllipsisH />
+              <FaEdit />
             </button>
-            {openActionId === row.id && (
-              <div className="category-action-dropdown">
-                <button type="button" onClick={() => handleEdit(row.id)}>
-                  <FaEdit />
-                  <span>Edit</span>
-                </button>
-                <button
-                  type="button"
-                  className="category-delete-action"
-                  onClick={() => {
-                    setOpenActionId(null);
-                    handleDelete(row.id);
-                  }}
-                >
-                  <FaTrash />
-                  <span>Delete</span>
-                </button>
-              </div>
-            )}
+
+            <button
+              type="button"
+              className="ctgl-btn ctgl-btn-delete"
+              title="Delete"
+              aria-label="Delete category"
+              onClick={() => setConfirmState({ type: "delete", category: row })}
+            >
+              <FaTrash />
+            </button>
           </div>
         ),
       },
     ],
-    [openActionId, selectedCategories],
+    [
+      allSelected,
+      selectedCategories,
+      handleSelectAll,
+      handleSelectCategory,
+      navigate,
+      isReorderMode,
+      savingOrder,
+    ],
   );
 
-  return (
-    <div className="category-page">
-      {/* =====================================================
-          PAGE HEADER
-      ===================================================== */}
+  /* ---------------------------------------------------------
+     RENDER
+  --------------------------------------------------------- */
 
-      <div className="category-page-header">
-        <div>
-          <h2 className="category-page-title">Category List</h2>
-          <div className="category-breadcrumb">
-            <Link to="/home">Home</Link>
-            <span>
-              <IoIosArrowForward />
-            </span>
-            <span className="category-breadcrumb-active">Category List</span>
-          </div>
-        </div>
+  return (
+    <div className="ctgl-page">
+      {/* PAGE HEADER */}
+      <div className="ctgl-page-header">
+        <h2 className="ctgl-page-title">Category List</h2>
+        <ServiceBreadcrumbs items={[{ label: "Category List" }]} />
       </div>
 
-      {/* =====================================================
-          MAIN CARD
-      ===================================================== */}
+      {/* MAIN CARD */}
+      <div className="ctgl-card">
+        <div className="ctgl-card-header">
+          <div className="ctgl-card-heading">
+            <h3>Category Management</h3>
+            {!loading && !error && (
+              <span className="ctgl-count-badge">
+                {categoryData.length} total
+              </span>
+            )}
+          </div>
 
-      <div className="category-card">
-        {/* CARD HEADER */}
-        <div className="category-card-header">
-          <h3>Category Management</h3>
-          <div className="category-header-actions">
-            {/* Hidden file input */}
+          <div className="ctgl-header-actions">
             <input
               ref={fileInputRef}
               type="file"
               accept=".csv,.xlsx,.xls"
-              className="category-hidden-file"
+              className="ctgl-hidden-file"
               onChange={handleImportFile}
             />
-
-            {/* IMPORT */}
-
             <button
               type="button"
-              className="category-import-btn"
+              className="ctgl-export-btn"
+              onClick={() => setIsReorderMode((previous) => !previous)}
+              disabled={
+                loading ||
+                Boolean(error) ||
+                savingOrder ||
+                categoryData.length === 0
+              }
+              title="Reorder Categories"
+            >
+              <span>
+                {savingOrder
+                  ? "Saving..."
+                  : isReorderMode
+                    ? "Done Reordering"
+                    : "Reorder Categories"}
+              </span>
+            </button>
+            <button
+              type="button"
+              className="ctgl-import-btn"
               onClick={handleImportClick}
               title="Import Categories"
             >
               <FaFileImport />
               <span>Import</span>
             </button>
-            {/* EXPORT */}
+
             <button
               type="button"
-              className="category-export-btn"
+              className="ctgl-export-btn"
               onClick={handleExport}
               title="Export Categories"
+              disabled={categoryData.length === 0}
             >
               <FaFileExport />
               <span>Export</span>
@@ -529,81 +600,105 @@ const handleStatusChange = async () => {
           </div>
         </div>
 
-        <div className="category-table-wrapper">
-          <div className="category-table-wrapper">
-            {loading && (
-              <p className="category-loading">Loading categories...</p>
-            )}
-
-            {error && <div className="category-error">{error}</div>}
-
-            {!loading && !error && (
-              <DataTable
-                columns={columns}
-                data={categoryData}
-                entriesPerPageOptions={[5, 10, 25, 50, 100]}
-                defaultEntriesPerPage={10}
-                searchable={true}
-                sortable={true}
-              />
-            )}
-          </div>
-        </div>
-
-        {/* ===================================================
-            DELETE SELECTED
-        =================================================== */}
-
-        {selectedCategories.length > 0 && (
-          <div className="category-selected-footer">
+        {/* ACTION ERROR BANNER */}
+        {actionError && (
+          <div className="ctgl-alert" role="alert">
+            <span>{actionError}</span>
             <button
               type="button"
-              className="category-delete-selected-btn"
-              onClick={handleDeleteSelected}
+              className="ctgl-alert-close"
+              aria-label="Dismiss"
+              onClick={() => setActionError("")}
             >
-              <FaTrash />
-              Delete Selected
-              <span>({selectedCategories.length})</span>
+              <FaTimes />
             </button>
           </div>
         )}
-      </div>
 
-      {statusCategory && (
-        <div className="category-status-modal-overlay">
-          <div className="category-status-modal">
-            <div className="category-status-modal-icon">!</div>
+        {/* TABLE */}
+        <div className="ctgl-table-wrapper">
+          {loading && (
+            <div className="ctgl-state ctgl-loading">
+              <span className="ctgl-spinner" aria-hidden="true" />
+              Loading categories...
+            </div>
+          )}
 
-            <h3>Are you sure?</h3>
-
-            <p>
-              You want to{" "}
-              <strong>
-                {statusCategory.status === "Active" ? "deactivate" : "activate"}
-              </strong>{" "}
-              this category?
-            </p>
-
-            <div className="category-status-modal-actions">
+          {error && (
+            <div className="ctgl-state ctgl-error">
+              <span>{error}</span>
               <button
                 type="button"
-                className="category-status-confirm-btn"
-                onClick={handleStatusChange}
+                className="ctgl-retry-btn"
+                onClick={loadCategories}
               >
-                Yes,{" "}
-                {statusCategory.status === "Active" ? "Deactivate" : "Activate"}
-              </button>
-              <button
-                type="button"
-                className="category-status-cancel-btn"
-                onClick={() => setStatusCategory(null)}
-              >
-                Cancel
+                Retry
               </button>
             </div>
+          )}
+
+          {!loading && !error && (
+            <DataTable
+              columns={columns}
+              data={categoryData}
+              entriesPerPageOptions={[5, 10, 25, 50, 100]}
+              defaultEntriesPerPage={10}
+              searchable={true}
+              sortable={true}
+              reorderable={isReorderMode}
+              onReorder={handleReorderCategories}
+              reorderDisabled={savingOrder}
+            />
+          )}
+        </div>
+      </div>
+
+      {/* FLOATING SELECTED ACTION BAR */}
+      {selectedCategories.length > 0 && (
+        <div className="ctgl-selected-actions">
+          <span className="ctgl-selected-count">
+            {selectedCategories.length} selected
+          </span>
+
+          <div className="ctgl-selected-buttons">
+            <button
+              type="button"
+              className="ctgl-selected-cancel-btn"
+              onClick={clearSelection}
+            >
+              Cancel
+            </button>
+
+            <button
+              type="button"
+              className="ctgl-selected-delete-btn"
+              onClick={() => setConfirmState({ type: "deleteSelected" })}
+            >
+              <FaTrash />
+              <span>Delete Selected</span>
+            </button>
           </div>
         </div>
       )}
+
+      {/* CONFIRM MODAL */}
+      <ServiceConfirmModal
+        isOpen={Boolean(confirmState)}
+        title={confirmContent.title}
+        message={confirmContent.message}
+        confirmText={confirmContent.confirmText}
+        variant={confirmContent.variant}
+        onConfirm={handleConfirm}
+        onCancel={closeConfirm}
+      />
+
+      {/* SUCCESS MODAL */}
+      <ServiceSuccessModal
+        isOpen={Boolean(successState)}
+        title={successState?.title}
+        message={successState?.message}
+        onClose={closeSuccess}
+      />
     </div>
   );
 };

@@ -1,16 +1,44 @@
 /* =========================================
+   TOKENS
+========================================= */
+
+.allusers-page {
+  --au-navy: #062f5c;
+  --au-navy-hover: #04223f;
+  --au-navy-soft: #0b4482;
+  --au-navy-tint: #eaf1f9;
+  --au-navy-line: #d5e1ee;
+  --au-text: #1f2d3d;
+  --au-muted: #64748b;
+  --au-green: #16a34a;
+  --au-green-hover: #128a3e;
+  --au-red: #dc3043;
+  --au-red-hover: #bd2335;
+  --au-border: #e3e9f0;
+}
+
+/* =========================================
    PAGE
 ========================================= */
 
 .allusers-page {
   width: 100%;
   min-height: calc(100vh - 70px);
-
-  padding: 20px 0 50px;
-
-  background: #f5f7fb;
-
+  padding: 16px 5px 40px;
+  background: #f3f6fa;
   box-sizing: border-box;
+}
+
+.allusers-page *,
+.allusers-page *::before,
+.allusers-page *::after {
+  box-sizing: border-box;
+}
+
+.allusers-page button:focus-visible,
+.allusers-page input:focus-visible {
+  outline: 2px solid var(--au-navy-soft);
+  outline-offset: 2px;
 }
 
 /* =========================================
@@ -18,62 +46,68 @@
 ========================================= */
 
 .allusers-page-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  gap: 20px;
-  margin-bottom: 14px;
+  margin-bottom: 16px;
+  padding: 0 2px;
 }
 
 .allusers-page-title {
   margin: 0;
-
-  color: #172b4d;
-
+  color: #111827;
   font-size: 24px;
   font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+/* spacing hook passed to ServiceBreadcrumbs */
+.allusers-breadcrumb-spacing {
+  margin-top: 6px;
 }
 
 /* =========================================
-   BREADCRUMB
+   SUMMARY STATS
 ========================================= */
 
-.allusers-breadcrumb {
+.allusers-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.allusers-stat {
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
-
-  gap: 8px;
-
-  margin-top: 6px;
-
-  font-size: 14px;
+  gap: 12px;
+  padding: 14px 16px;
+  background: #ffffff;
+  border: 1px solid var(--au-border);
+  border-left: 4px solid var(--au-navy);
+  border-radius: 8px;
 }
 
-.allusers-breadcrumb a {
-  color: #073b74;
-  text-decoration: none;
-}
-
-.allusers-breadcrumb a:hover {
-  text-decoration: underline;
-}
-
-.allusers-breadcrumb-arrow {
+.allusers-stat-icon {
   display: flex;
   align-items: center;
-
-  color: #8a94a6;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  background: var(--au-navy-tint);
+  color: var(--au-navy);
+  font-size: 16px;
 }
 
-.allusers-breadcrumb-parent {
-  color: #6b7280;
+.allusers-stat strong {
+  display: block;
+  color: var(--au-text);
+  font-size: 20px;
+  line-height: 1.2;
 }
 
-.allusers-breadcrumb-active {
-  color: #1ba784;
-  font-weight: 600;
+.allusers-stat span:not(.allusers-stat-icon) {
+  color: var(--au-muted);
+  font-size: 12px;
 }
 
 /* =========================================
@@ -82,302 +116,274 @@
 
 .allusers-card {
   width: 100%;
-
   background: #ffffff;
-
-  border: 1px solid #e8edf3;
+  border: 1px solid var(--au-border);
   border-radius: 10px;
-
-  box-shadow: 0 3px 12px rgba(30, 45, 65, 0.05);
-
+  box-shadow: 0 2px 10px rgba(6, 47, 92, 0.06);
   overflow: hidden;
 }
-
-/* =========================================
-   CARD HEADER
-========================================= */
 
 .allusers-card-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-
-  padding: 14px 16px;
-
-  border-bottom: 1px solid #edf0f4;
+  padding: 14px 18px;
+  background: var(--au-navy);
 }
 
 .allusers-card-header h3 {
   margin: 0;
-
-  color: #172b4d;
-
-  font-size: 18px;
-  font-weight: 700;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
 }
-
-/* =========================================
-   TABLE WRAPPER
-========================================= */
 
 .allusers-table-wrapper {
   width: 100%;
+  padding: 16px 16px 12px;
+  overflow-x: auto;
+}
+
+/* generic table polish (works with most DataTable markups) */
+.allusers-table-wrapper table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.allusers-table-wrapper th,
+.allusers-table-wrapper td {
+  padding: 12px 12px;
+  vertical-align: middle;
+  text-align: left;
+  border-bottom: 1px solid var(--au-border);
+}
+
+.allusers-table-wrapper th {
+  background: var(--au-navy-tint);
+  color: var(--au-navy);
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+  border-bottom: 1px solid var(--au-navy-line);
+}
+
+.allusers-table-wrapper tbody tr:hover td {
+  background: #f8fafd;
 }
 
 /* =========================================
-   SELECT HEADER
+   LOADING / ERROR STATE
+========================================= */
+
+.allusers-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 48px 16px;
+  color: var(--au-muted);
+  font-size: 14px;
+}
+
+.allusers-state-error {
+  flex-direction: column;
+  color: var(--au-red);
+}
+
+.allusers-retry-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 34px;
+  padding: 0 14px;
+  border: 1px solid var(--au-navy);
+  border-radius: 6px;
+  background: #ffffff;
+  color: var(--au-navy);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.allusers-retry-btn:hover {
+  background: var(--au-navy-tint);
+}
+
+.allusers-spinner {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--au-navy-line);
+  border-top-color: var(--au-navy);
+  border-radius: 50%;
+  animation: allusers-spin 0.7s linear infinite;
+}
+
+.allusers-spinner-light {
+  width: 14px;
+  height: 14px;
+  border-color: rgba(255, 255, 255, 0.35);
+  border-top-color: #ffffff;
+}
+
+@keyframes allusers-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* =========================================
+   TABLE CELLS
 ========================================= */
 
 .allusers-select-header {
   display: flex;
-
-  align-items: flex-start;
-
   flex-direction: column;
-
+  align-items: flex-start;
   gap: 2px;
-
   line-height: 1.1;
 }
 
-.allusers-select-header input {
-  width: 15px;
-  height: 15px;
-
-  margin: 0;
-
-  cursor: pointer;
-}
-
 .allusers-select-header span {
-  font-size: 14px;
+  font-size: 13px;
 }
 
-/* =========================================
-   ROW CHECKBOX
-========================================= */
-
+.allusers-select-header input,
 .allusers-row-checkbox {
   width: 15px;
   height: 15px;
-
+  margin: 0;
+  accent-color: var(--au-navy);
   cursor: pointer;
 }
 
-/* =========================================
-   SERIAL
-========================================= */
-
-.allusers-serial {
+.allusers-text {
   color: #4b5563;
-
   font-size: 14px;
 }
 
-/* =========================================
-   PHOTO
-========================================= */
-
-.allusers-photo-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.allusers-name {
+  color: var(--au-text);
+  font-size: 14px;
+  font-weight: 600;
 }
 
 .allusers-photo {
+  display: block;
   width: 38px;
   height: 38px;
-
   object-fit: cover;
-
   border-radius: 50%;
-
-  border: 2px solid #d9e7b5;
-
-  background: #e5f2c5;
+  border: 2px solid var(--au-navy-line);
+  background: var(--au-navy-tint);
 }
 
-/* =========================================
-   NAME
-========================================= */
+/* ACTIVITY */
 
-.allusers-name {
+.allusers-activity {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
   color: #4b5563;
-
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 13px;
 }
 
-/* =========================================
-   PHONE
-========================================= */
-
-.allusers-phone {
-  color: #4b5563;
-
-  font-size: 14px;
+.allusers-activity::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #f59e0b;
 }
 
-/* =========================================
-   EMAIL
-========================================= */
-
-.allusers-email {
-  color: #4b5563;
-
-  font-size: 14px;
+.allusers-activity-online::before {
+  background: var(--au-green);
 }
 
-/* =========================================
-   WALLET
-========================================= */
+.allusers-activity-never::before {
+  background: #cbd5e1;
+}
+
+.allusers-activity-never {
+  color: #94a3b8;
+}
+
+/* WALLET */
 
 .allusers-wallet {
   display: flex;
-
   flex-direction: column;
-
   align-items: flex-start;
-
-  gap: 5px;
+  gap: 6px;
 }
 
 .allusers-wallet-amount {
   display: inline-flex;
-
   align-items: center;
-
-  min-height: 25px;
-
-  padding: 3px 8px;
-
-  border-radius: 2px;
-
-  background: #20a94b;
-
-  color: #ffffff;
-
+  min-height: 24px;
+  padding: 2px 9px;
+  border-radius: 4px;
+  background: #e7f6ec;
+  color: #11813a;
   font-size: 12px;
   font-weight: 700;
 }
 
-.allusers-add-wallet-btn {
-  display: inline-flex;
-
-  align-items: center;
-  justify-content: center;
-
-  gap: 5px;
-
-  min-height: 28px;
-
-  padding: 0 9px;
-
-  border: none;
-  border-radius: 3px;
-
-  background: #15943e;
-
-  color: #ffffff;
-
-  font-size: 11px;
-  font-weight: 600;
-
-  cursor: pointer;
-
-  transition: all 0.2s ease;
-}
-
-.allusers-add-wallet-btn:hover {
-  background: #117b34;
-
-  transform: translateY(-1px);
-}
-
-.allusers-add-wallet-btn svg {
-  font-size: 10px;
-}
-
-/* =========================================
-   DATE
-========================================= */
-
-.allusers-date {
-  color: #4b5563;
-
-  font-size: 14px;
-}
-
-/* =========================================
-   ACTIVITY
-========================================= */
-
-.allusers-activity {
-  color: #4b5563;
-
-  font-size: 14px;
-}
-
-/* =========================================
-   ACTIONS
-========================================= */
-
-.allusers-actions {
-  display: flex;
-
-  flex-direction: column;
-
-  align-items: flex-start;
-
-  gap: 4px;
-}
-
+.allusers-add-wallet-btn,
 .allusers-view-btn,
 .allusers-delete-btn {
   display: inline-flex;
-
   align-items: center;
   justify-content: center;
-
-  gap: 5px;
-
-  min-height: 29px;
-
+  gap: 6px;
+  min-height: 28px;
   padding: 0 10px;
-
   border: none;
-
-  border-radius: 3px;
-
+  border-radius: 5px;
   color: #ffffff;
-
   font-size: 11px;
   font-weight: 600;
-
+  white-space: nowrap;
   cursor: pointer;
+  transition: background 0.2s ease;
+}
 
-  transition: all 0.2s ease;
+.allusers-add-wallet-btn {
+  background: var(--au-green);
+}
+
+.allusers-add-wallet-btn:hover {
+  background: var(--au-green-hover);
 }
 
 .allusers-view-btn {
-  background: #087ff5;
+  background: var(--au-navy);
 }
 
 .allusers-view-btn:hover {
-  background: #0568cc;
+  background: var(--au-navy-hover);
 }
 
 .allusers-delete-btn {
-  background: #dc3043;
+  background: var(--au-red);
 }
 
 .allusers-delete-btn:hover {
-  background: #bd2335;
+  background: var(--au-red-hover);
 }
 
+.allusers-add-wallet-btn svg,
 .allusers-view-btn svg,
 .allusers-delete-btn svg {
   font-size: 10px;
+}
+
+.allusers-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
 }
 
 /* =========================================
@@ -386,610 +392,423 @@
 
 .allusers-selected-footer {
   display: flex;
-
   align-items: center;
   justify-content: space-between;
-
-  gap: 15px;
-
-  padding: 12px 22px;
-
-  border-top: 1px solid #edf0f4;
-
-  background: #ffffff;
+  gap: 12px;
+  padding: 12px 18px;
+  border-top: 1px solid var(--au-border);
+  background: var(--au-navy-tint);
 }
 
 .allusers-selected-info {
-  color: #6b7280;
-
+  color: var(--au-navy);
   font-size: 13px;
-  font-weight: 500;
+  font-weight: 600;
+}
+
+.allusers-footer-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.allusers-clear-btn {
+  min-height: 34px;
+  padding: 0 12px;
+  border: 1px solid var(--au-navy-line);
+  border-radius: 6px;
+  background: #ffffff;
+  color: var(--au-navy);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.allusers-clear-btn:hover {
+  background: #f8fafc;
 }
 
 .allusers-delete-selected-btn {
   display: inline-flex;
-
   align-items: center;
   justify-content: center;
-
   gap: 6px;
-
   min-height: 34px;
-
-  padding: 0 13px;
-
+  padding: 0 14px;
   border: none;
-  border-radius: 4px;
-
-  background: #dc3043;
-
+  border-radius: 6px;
+  background: var(--au-red);
   color: #ffffff;
-
   font-size: 12px;
   font-weight: 600;
-
   cursor: pointer;
 }
 
 .allusers-delete-selected-btn:hover {
-  background: #bd2335;
+  background: var(--au-red-hover);
 }
 
 /* =========================================
-   MODAL OVERLAY
+   ERROR LINE INSIDE ServiceConfirmModal
+========================================= */
+
+.allusers-confirm-error {
+  display: block;
+  margin-top: 12px;
+  padding: 9px 12px;
+  border-radius: 6px;
+  background: #fdecee;
+  color: var(--au-red);
+  font-size: 13px;
+  text-align: left;
+}
+
+/* =========================================
+   ADD WALLET MODAL (page-specific)
 ========================================= */
 
 .allusers-modal-overlay {
   position: fixed;
-
   inset: 0;
-
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
-
-  padding: 20px;
-
-  background: rgba(0, 0, 0, 0.48);
-
   z-index: 99999;
-
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(4, 22, 44, 0.55);
+  backdrop-filter: blur(2px);
   box-sizing: border-box;
+  animation: allusers-fade 0.18s ease-out;
 }
-
-/* =========================================
-   DELETE MODAL
-========================================= */
-
-.allusers-delete-modal {
-  width: 400px;
-
-  max-width: 100%;
-
-  padding: 30px;
-
-  background: #ffffff;
-
-  border-radius: 8px;
-
-  text-align: center;
-
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
-}
-
-.allusers-delete-icon {
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
-
-  width: 60px;
-  height: 60px;
-
-  margin: 0 auto 20px;
-
-  border-radius: 50%;
-
-  background: #fff0f0;
-
-  color: #dc3043;
-
-  font-size: 22px;
-}
-
-.allusers-delete-modal h3 {
-  margin: 0 0 10px;
-
-  color: #374151;
-
-  font-size: 22px;
-}
-
-.allusers-delete-modal p {
-  margin: 0 0 25px;
-
-  color: #6b7280;
-
-  font-size: 14px;
-}
-
-.allusers-modal-actions {
-  display: flex;
-
-  justify-content: center;
-
-  gap: 10px;
-}
-
-.allusers-confirm-delete,
-.allusers-cancel-delete {
-  display: inline-flex;
-
-  align-items: center;
-  justify-content: center;
-
-  gap: 6px;
-
-  min-height: 40px;
-
-  padding: 0 16px;
-
-  border: none;
-
-  border-radius: 5px;
-
-  color: #ffffff;
-
-  font-size: 13px;
-  font-weight: 600;
-
-  cursor: pointer;
-}
-
-.allusers-confirm-delete {
-  background: #dc3043;
-}
-
-.allusers-confirm-delete:hover {
-  background: #bd2335;
-}
-
-.allusers-cancel-delete {
-  background: #6c757d;
-}
-
-.allusers-cancel-delete:hover {
-  background: #5c636a;
-}
-
-/* =========================================
-   WALLET MODAL
-========================================= */
 
 .allusers-wallet-modal {
-  width: 400px;
-
+  width: 420px;
   max-width: 100%;
-
-  max-height: calc(100vh - 40px);
-
+  max-height: calc(100vh - 32px);
   overflow-y: auto;
-
-  padding: 25px;
-
+  padding: 24px;
   background: #ffffff;
-
   border-radius: 12px;
-
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
-
+  box-shadow: 0 24px 60px rgba(4, 22, 44, 0.35);
   box-sizing: border-box;
-   scrollbar-width: none;
+  scrollbar-width: none;
   -ms-overflow-style: none;
+  animation: allusers-pop 0.22s ease-out;
 }
+
 .allusers-wallet-modal::-webkit-scrollbar {
   display: none;
 }
 
-/* =========================================
-   QUESTION ICON
-========================================= */
-
-.allusers-wallet-question {
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
-
-  width: 50px;
-  height: 50px;
-
-  margin: 0 auto 18px;
-
-  border: 2px solid #83b4ca;
-
-  border-radius: 50%;
-
-  color: #83b4ca;
-
-  font-size: 36px;
-  font-weight: 600;
+@keyframes allusers-fade {
+  from {
+    opacity: 0;
+  }
 }
 
-/* =========================================
-   WALLET TITLE
-========================================= */
+@keyframes allusers-pop {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.97);
+  }
+}
 
 .allusers-wallet-title {
   display: flex;
-
   align-items: center;
-  justify-content: center;
-
-  gap: 4px;
-
-  margin: 0 0 18px;
-
-  color: #344458;
-
-  font-size: 24px;
+  gap: 8px;
+  margin: 0 0 16px;
+  color: var(--au-navy);
+  font-size: 20px;
   font-weight: 700;
 }
 
 .allusers-wallet-title svg {
-  color: #f4b400;
-
-  font-size: 20px;
+  font-size: 18px;
 }
-
-/* =========================================
-   USER
-========================================= */
 
 .allusers-wallet-user {
   display: flex;
-
   align-items: center;
-
   gap: 14px;
-
-  padding: 16px;
-
+  padding: 14px 16px;
+  border: 1px solid var(--au-navy-line);
   border-radius: 10px;
-
-  background: linear-gradient(
-    135deg,
-    #6879df,
-    #7547a9
-  );
-
-  color: #ffffff;
+  background: var(--au-navy-tint);
 }
 
 .allusers-wallet-user-icon {
   display: flex;
-
   align-items: center;
   justify-content: center;
-
-  width: 48px;
-  height: 48px;
-
-  border-radius: 50%;
-
-  background: rgba(255, 255, 255, 0.18);
-
-  overflow: hidden;
-
+  width: 46px;
+  height: 46px;
   flex-shrink: 0;
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 0 0 1px var(--au-navy-line);
+  overflow: hidden;
 }
 
 .allusers-wallet-user-icon img {
   width: 100%;
   height: 100%;
-
   object-fit: cover;
 }
 
 .allusers-wallet-user h4 {
-  margin: 0 0 3px;
-
-  font-size: 17px;
+  margin: 0 0 2px;
+  color: var(--au-navy);
+  font-size: 16px;
   font-weight: 700;
 }
 
 .allusers-wallet-user span {
+  color: var(--au-muted);
   font-size: 12px;
-
-  opacity: 0.9;
 }
-
-/* =========================================
-   CURRENT BALANCE
-========================================= */
 
 .allusers-current-balance {
   display: flex;
-
   align-items: center;
   justify-content: space-between;
-
-  margin-top: 22px;
-
-  padding: 14px 18px;
-
-  border-left: 4px solid #20a94b;
-
+  gap: 12px;
+  margin-top: 14px;
+  padding: 12px 16px;
+  border-left: 4px solid var(--au-green);
   border-radius: 8px;
-
-  background: #f7f9fa;
+  background: #f6f9fc;
 }
 
 .allusers-current-balance > div {
   display: flex;
-
   flex-direction: column;
-
   gap: 2px;
 }
 
-.allusers-current-balance span:first-child {
-  color: #6b7280;
-
-  font-size: 14px;
+.allusers-current-balance span {
+  color: var(--au-muted);
+  font-size: 12px;
 }
 
 .allusers-current-balance strong {
-  color: #20a94b;
-
-  font-size: 28px;
+  color: var(--au-text);
+  font-size: 22px;
   font-weight: 700;
 }
 
-.allusers-money-icon {
-  font-size: 28px;
+.allusers-new-balance {
+  text-align: right;
 }
 
-/* =========================================
-   DIVIDER
-========================================= */
-
-.allusers-wallet-divider {
-  width: 100%;
-
-  height: 1px;
-
-  margin: 22px 0;
-
-  background: #e5e7eb;
+.allusers-new-balance strong {
+  color: var(--au-green);
 }
 
-/* =========================================
-   WALLET FIELD
-========================================= */
+/* FIELD */
+
+.allusers-wallet-field {
+  margin-top: 18px;
+}
 
 .allusers-wallet-field label {
   display: block;
-
-  margin-bottom: 9px;
-
-  color: #4b5563;
-
+  margin-bottom: 8px;
+  color: #334155;
   font-size: 13px;
   font-weight: 600;
 }
 
 .allusers-wallet-field label span {
-  color: #dc3043;
+  color: var(--au-red);
 }
 
 .allusers-amount-wrapper {
   display: flex;
-
   align-items: center;
-
-  border: 2px solid #20a94b;
-
-  border-radius: 9px;
-
+  border: 1.5px solid var(--au-navy-line);
+  border-radius: 8px;
   background: #ffffff;
-
   overflow: hidden;
-
-  transition: box-shadow 0.2s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .allusers-amount-wrapper:focus-within {
-  box-shadow: 0 0 0 3px rgba(32, 169, 75, 0.12);
+  border-color: var(--au-navy);
+  box-shadow: 0 0 0 3px rgba(6, 47, 92, 0.12);
+}
+
+.allusers-amount-invalid,
+.allusers-amount-invalid:focus-within {
+  border-color: var(--au-red);
+  box-shadow: 0 0 0 3px rgba(220, 48, 67, 0.12);
 }
 
 .allusers-dollar {
-  width: 42px;
-
-  text-align: center;
-
-  color: #6b7280;
-
+  width: 40px;
+  color: var(--au-muted);
   font-size: 15px;
+  text-align: center;
 }
 
 .allusers-amount-wrapper input {
   flex: 1;
-
-  height: 52px;
-
-  padding: 0 12px;
-
+  min-width: 0;
+  height: 48px;
+  padding: 0 12px 0 0;
   border: none;
-
   outline: none;
-
-  color: #374151;
-
+  color: var(--au-text);
   font-size: 17px;
 }
 
 .allusers-amount-wrapper input::placeholder {
-  color: #d1d5db;
+  color: #cbd5e1;
 }
 
 .allusers-wallet-field small {
   display: block;
-
   margin-top: 6px;
-
-  color: #6b7280;
-
+  color: var(--au-muted);
   font-size: 12px;
 }
 
-/* =========================================
-   INFO
-========================================= */
+.allusers-wallet-field small.allusers-field-error {
+  color: var(--au-red);
+}
 
 .allusers-wallet-info {
   display: flex;
-
   align-items: flex-start;
-  margin-top: 15px;
-
   gap: 8px;
-
+  margin: 14px 0 20px;
   padding: 10px 12px;
-
-  border-left: 4px solid #087ff5;
-
+  border-left: 4px solid var(--au-navy);
   border-radius: 6px;
-
-  background: #e7f4ff;
-
-  color: #005fc7;
-
+  background: var(--au-navy-tint);
+  color: var(--au-navy);
   font-size: 13px;
+  line-height: 1.4;
 }
 
-.allusers-info-icon {
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
-
-  width: 20px;
-  height: 20px;
-
+.allusers-wallet-info svg {
   flex-shrink: 0;
-
-  border: 1px solid #005fc7;
-
-  border-radius: 2px;
-
-  font-size: 10px;
+  margin-top: 2px;
 }
 
-/* =========================================
-   WALLET ACTIONS
-========================================= */
+/* WALLET BUTTONS */
 
 .allusers-wallet-actions {
   display: flex;
-
   align-items: center;
   justify-content: center;
-
-  gap: 12px;
+  gap: 10px;
 }
 
-.allusers-add-funds-btn,
-.allusers-wallet-cancel-btn {
+.allusers-btn {
   display: inline-flex;
-
   align-items: center;
   justify-content: center;
-
-  gap: 5px;
-
+  gap: 7px;
   min-height: 40px;
-
-  padding: 0 15px;
-
-  border: none;
-
+  padding: 0 18px;
+  border: 1px solid transparent;
   border-radius: 7px;
-
-  color: #ffffff;
-
-  font-size: 14px;
-  font-weight: 700;
-
+  font-size: 13px;
+  font-weight: 600;
   cursor: pointer;
-
-  transition: all 0.2s ease;
+  transition: background 0.2s ease;
 }
 
-.allusers-add-funds-btn {
-  background: #20a94b;
+.allusers-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
 }
 
-.allusers-add-funds-btn:hover {
-  background: #188d3d;
-
-  transform: translateY(-1px);
+.allusers-btn-primary {
+  background: var(--au-navy);
+  color: #ffffff;
 }
 
-.allusers-wallet-cancel-btn {
-  background: #6c757d;
+.allusers-btn-primary:hover:not(:disabled) {
+  background: var(--au-navy-hover);
 }
 
-.allusers-wallet-cancel-btn:hover {
-  background: #5c636a;
+.allusers-btn-ghost {
+  background: #ffffff;
+  border-color: #cfd8e3;
+  color: #475569;
+}
+
+.allusers-btn-ghost:hover:not(:disabled) {
+  background: #f8fafc;
 }
 
 /* =========================================
-   MOBILE
+   TABLET + MOBILE
 ========================================= */
+
+@media (max-width: 991px) {
+  .allusers-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
 
 @media (max-width: 767px) {
   .allusers-page {
-    padding: 15px;
+    padding: 12px 8px 32px;
   }
 
   .allusers-page-title {
     font-size: 20px;
   }
 
-  .allusers-card-header {
-    padding: 16px;
+  .allusers-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .allusers-table-wrapper {
+    padding: 10px 8px 8px;
   }
 
   .allusers-selected-footer {
-    align-items: flex-start;
-
+    align-items: stretch;
     flex-direction: column;
   }
 
-  .allusers-delete-selected-btn {
+  .allusers-footer-actions {
     width: 100%;
+  }
+
+  .allusers-footer-actions button {
+    flex: 1;
   }
 
   .allusers-wallet-modal {
-    padding: 22px 18px;
-  }
-
-  .allusers-wallet-title {
-    font-size: 20px;
-  }
-
-  .allusers-current-balance strong {
-    font-size: 24px;
+    padding: 20px 16px;
   }
 
   .allusers-wallet-actions {
-    flex-direction: column;
+    flex-direction: column-reverse;
   }
 
-  .allusers-add-funds-btn,
-  .allusers-wallet-cancel-btn {
+  .allusers-btn {
     width: 100%;
+  }
+}
+
+/* =========================================
+   REDUCED MOTION
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .allusers-modal-overlay,
+  .allusers-wallet-modal {
+    animation: none;
+  }
+
+  .allusers-spinner {
+    animation-duration: 1.6s;
   }
 }

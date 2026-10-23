@@ -13,6 +13,7 @@ import {
 
 import api from "../../../../config/api";
 import "./viewCoupon.css";
+import Breadcrumbs from "../../common/BreadCrumbs";
 
 // =========================================
 // API CALLS
@@ -220,17 +221,22 @@ const ViewCoupon = () => {
   // =========================================
 
   return (
+     <>
+      <div className="breadcrumb-wrapper">
+        <Breadcrumbs
+          items={[
+            {
+              label: "Coupons",
+              path: "/restaurant/coupons"
+            },
+            {
+              label: "Coupon Details",
+            },
+          ]}
+        />
+      </div>
     <div className="view-coupon-page">
       <Toaster position="top-right" />
-      {/* BREADCRUMB */}
-      <div className="view-coupon-breadcrumb">
-        <Link to="/restaurant/dashboard">Home</Link>
-        <span>/</span>
-        <Link to="/restaurant/coupons">Coupon List</Link>
-        <span>/</span>
-        <span>Coupon Details</span>
-      </div>
-
       <div className="view-coupon-card">
         {/* HEADER */}
         <div className="view-coupon-header">
@@ -434,6 +440,7 @@ const ViewCoupon = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

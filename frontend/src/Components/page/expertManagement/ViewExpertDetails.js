@@ -1,691 +1,614 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
+import {
+  FaEnvelope,
+  FaPhoneAlt,
+  FaMapMarkerAlt,
+  FaExternalLinkAlt,
+  FaRedoAlt,
+  FaUpload,
+} from "react-icons/fa";
+
 import "./viewExpertDetails.css";
 import { getImage } from "../../utils/images";
+import api from "../../../config/api";
+import ServiceBreadcrumbs from "../../../Components/common/ServiceBreadcrumbs";
+import ServiceSuccessModal from "../../../Components/common/modal/serviceModal/ServiceSuccessModal";
+import ServiceConfirmModal from "../../../Components/common/modal/serviceModal/ServiceConfirmModal"; // adjust path if different
 
-/* ------------------------------------------------------------------ *
- * API layer
- * ------------------------------------------------------------------ */
+/* =========================================================
+   CONFIG
+========================================================= */
 
-const API_BASE_URL =  "http://localhost:5000/api";
+const ROUTES = {
+  expertList: "/view_experts",
+};
 
-function getAuthToken() {
-  return typeof window !== "undefined"
-    ? window.localStorage.getItem("authToken")
-    : null;
-}
-
-function buildHeaders(isFormData = false) {
-  const headers = {};
-
-  if (!isFormData) {
-    headers["Content-Type"] = "application/json";
-  }
-
-  const token = getAuthToken();
-
-  if (token) {
-    headers.Authorization = `Bearer ${token}`;
-  }
-
-  return headers;
-}
-
-async function handleResponse(response) {
-  let payload = null;
-
-  try {
-    payload = await response.json();
-  } catch (err) {
-    // no JSON body
-  }
-
-  if (!response.ok) {
-    const message =
-      (payload && (payload.message || payload.error)) ||
-      `Request failed (${response.status})`;
-
-    const error = new Error(message);
-    error.status = response.status;
-    error.payload = payload;
-
-    throw error;
-  }
-
-  return payload;
-}
-
-/* ------------------------------------------------------------------ *
- * EXPERT GET API
- *
- * GET /api/expert/expert-details/:id
- * ------------------------------------------------------------------ */
-
-async function fetchExpertProfile(expertId) {
-  const response = await fetch(
-    `${API_BASE_URL}/expert/expert-details/${expertId}`,
-    {
-      method: "GET",
-      headers: buildHeaders(),
-    },
-  );
-
-  return handleResponse(response);
-}
-
-/* ------------------------------------------------------------------ *
- * EXPERT UPDATE API
- *
- * PUT /api/expert/update-expert/:id
- *
- * This contains ONLY the fields handled by:
- * update_expert_basis_detail()
- *
- * PHP fields:
- * name
- * email
- * mobile
- * city_id
- * about
- * account_holder
- * account_number
- * branch_name
- * ifsc_code
- * ------------------------------------------------------------------ */
-
-async function updateExpertProfile(expertId, profileData) {
-  const response = await fetch(
-    `${API_BASE_URL}/expert/update-expert/${expertId}`,
-    {
-      method: "PUT",
-      headers: buildHeaders(),
-      body: JSON.stringify(profileData),
-    },
-  );
-
-  return handleResponse(response);
-}
-
-/* ------------------------------------------------------------------ *
- * EXISTING VENDOR API FUNCTIONS
- *
- * Kept here exactly for your existing Documents UI.
- * ------------------------------------------------------------------ */
-
-async function updateVendorAvatar(vendorId, file) {
-  const formData = new FormData();
-
-  formData.append("avatar", file);
-
-  const response = await fetch(`${API_BASE_URL}/vendors/${vendorId}/avatar`, {
-    method: "POST",
-    headers: buildHeaders(true),
-    body: formData,
-  });
-
-  return handleResponse(response);
-}
-
-async function fetchVendorDocuments(vendorId) {
-  const response = await fetch(
-    `${API_BASE_URL}/vendors/${vendorId}/documents`,
-    {
-      method: "GET",
-      headers: buildHeaders(),
-    },
-  );
-
-  return handleResponse(response);
-}
-
-async function uploadVendorDocument(vendorId, docKey, file) {
-  const formData = new FormData();
-
-  formData.append("document", file);
-
-  const response = await fetch(
-    `${API_BASE_URL}/vendors/${vendorId}/documents/${docKey}`,
-    {
-      method: "POST",
-      headers: buildHeaders(true),
-      body: formData,
-    },
-  );
-
-  return handleResponse(response);
-}
-
-/* ------------------------------------------------------------------ *
- * EXISTING CONSTANTS
- * ------------------------------------------------------------------ */
-
-const CITY_OPTIONS = [
-  "Mumbai",
-  "Delhi",
-  "Bengaluru",
-  "Hyderabad",
-  "Pune",
-  "Chennai",
-  "Kolkata",
+const MAX_DOCUMENT_SIZE_MB = 5;
+const ALLOWED_DOCUMENT_TYPES = [
+  "application/pdf",
+  "image/jpeg",
+  "image/png",
+  "image/webp",
 ];
 
 const EMPTY_PROFILE = {
-  avatarUrl: "",
+  image: "",
   vendorName: "",
-  fullName: "",
+  name: "",
   email: "",
   mobile: "",
   city: "",
+  cityId: "",
   about: "",
-  accountStatus: "active",
-
-  bank: {
-    accountHolderName: "",
-    accountNumber: "",
-    branchName: "",
-    ifscCode: "",
-  },
+  status: 0,
+  accountHolder: "",
+  accountNumber: "",
+  branchName: "",
+  ifscCode: "",
+  contractId: "",
+  tradeLicense: "",
+  ownerId: "",
+  idProof: "",
+  idProofTwo: "",
 };
 
-/* ------------------------------------------------------------------ *
- * COMPONENT
- * ------------------------------------------------------------------ */
+// fields the admin can edit (used for the unsaved-changes check)
+const EDITABLE_FIELDS = [
+  "name",
+  "email",
+  "mobile",
+  "cityId",
+  "about",
+  "accountHolder",
+  "accountNumber",
+  "branchName",
+  "ifscCode",
+];
 
-export default function ViewExpertDetails({ vendorId }) {
+const PERSONAL_FIELDS = [
+  { key: "name", label: "Full name", placeholder: "Enter full name" },
+  {
+    key: "email",
+    label: "Email",
+    type: "email",
+    placeholder: "name@example.com",
+  },
+  {
+    key: "mobile",
+    label: "Mobile",
+    type: "tel",
+    placeholder: "Enter mobile number",
+  },
+];
+
+const BANK_FIELDS = [
+  {
+    key: "accountHolder",
+    label: "Account holder name",
+    placeholder: "Name as per bank account",
+  },
+  {
+    key: "accountNumber",
+    label: "Account number",
+    placeholder: "Enter account number",
+  },
+  { key: "branchName", label: "Branch name", placeholder: "Enter branch name" },
+  { key: "ifscCode", label: "IFSC code", placeholder: "e.g. SBIN0001234" },
+];
+
+const DOCUMENT_FIELDS = [
+  { label: "Aadhar Card", field: "contractId" },
+  { label: "Driving Licence", field: "tradeLicense" },
+  { label: "Documents", field: "ownerId" },
+  { label: "ID Proof", field: "idProof" },
+  { label: "ID Proof Two", field: "idProofTwo" },
+];
+
+/* =========================================================
+   API SERVICE LAYER (swap endpoints here only)
+========================================================= */
+
+const expertService = {
+  getDetails: (id) => api.get(`/admin/expert_details/${id}`),
+  getCities: () => api.get("/admin/cities"),
+  update: (id, payload) => api.put(`/admin/update_expert/${id}`, payload),
+
+  // TODO: replace both stubs with real api calls when the endpoints are ready
+  updateStatus: async (id, status) => ({ data: { success: true, id, status } }),
+  uploadDocument: async (id, field, file) => ({
+    data: { success: true, id, field, fileName: file.name },
+  }),
+};
+
+const mapProfile = (data) => ({
+  ...EMPTY_PROFILE,
+  image: data.image || "",
+  vendorName: data.vendor_name || "",
+  name: data.name || "",
+  email: data.email || "",
+  mobile: data.mobile || "",
+  city: data.city_name || "",
+  cityId: data.city_id ?? "",
+  about: data.about || "",
+  status: Number(data.status) === 1 ? 1 : 0,
+  accountHolder: data.account_holder || "",
+  accountNumber: data.account_number || "",
+  branchName: data.branch_name || "",
+  ifscCode: data.ifsc_code || "",
+  contractId: data.contract_id || "",
+  tradeLicense: data.trade_license || "",
+  ownerId: data.owner_id || "",
+  idProof: data.id_proof || "",
+  idProofTwo: data.id_proof_two || "",
+});
+
+const buildUpdatePayload = (profile) => ({
+  name: profile.name.trim(),
+  email: profile.email.trim(),
+  mobile: profile.mobile.trim(),
+  city_id: profile.cityId,
+  about: profile.about,
+  account_holder: profile.accountHolder,
+  account_number: profile.accountNumber,
+  branch_name: profile.branchName,
+  ifsc_code: profile.ifscCode,
+});
+
+/*
+ * The original PHP links files using:
+ * base_url('uploads/Ids/' . $filename)
+ *
+ * Confirm that your Node backend serves this same public path
+ * before relying on these links.
+ */
+const getDocumentUrl = (filename) => {
+  if (!filename) return "";
+
+  const baseURL = api.defaults?.baseURL;
+
+  if (!baseURL) return "";
+
+  const serverOrigin = new URL(baseURL, window.location.origin).origin;
+
+  return `${serverOrigin}/uploads/Ids/${encodeURIComponent(filename)}`;
+};
+
+/* =========================================================
+   COMPONENT
+========================================================= */
+
+export default function ViewExpertDetails() {
   const { id } = useParams();
 
-  const expertId = id || vendorId;
-
-  const [activeTab, setActiveTab] = useState("vendor");
-
+  const [activeTab, setActiveTab] = useState("profile");
   const [profile, setProfile] = useState(EMPTY_PROFILE);
+  const [savedProfile, setSavedProfile] = useState(EMPTY_PROFILE);
+  const [cities, setCities] = useState([]);
 
-  const [profileLoading, setProfileLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState("");
+  const [saveError, setSaveError] = useState("");
+  const [saving, setSaving] = useState(false);
+  const [success, setSuccess] = useState(null); // { title, message }
+  const [statusConfirmOpen, setStatusConfirmOpen] = useState(false);
+  const [uploadedDocs, setUploadedDocs] = useState({}); // { field: { name, url } }
+  const [uploadingField, setUploadingField] = useState("");
+  const [docError, setDocError] = useState("");
+  const uploadedDocsRef = useRef({});
+  const [errors, setErrors] = useState({});
 
-  const [profileError, setProfileError] = useState(null);
+  /* ---------- load ---------- */
 
-  const [saveState, setSaveState] = useState("idle");
-
-  const [avatarUploading, setAvatarUploading] = useState(false);
-
-  const avatarInputRef = useRef(null);
-
-  const [documents, setDocuments] = useState([]);
-
-  const [documentsLoading, setDocumentsLoading] = useState(true);
-
-  const [documentsError, setDocumentsError] = useState(null);
-
-  const [uploadingDocKey, setUploadingDocKey] = useState(null);
-
-  /* ---------------------------------------------------------------- *
-   * LOAD EXPERT DETAILS
-   * ---------------------------------------------------------------- */
-
-  const loadProfile = useCallback(async () => {
-    setProfileLoading(true);
-    setProfileError(null);
-
-    try {
-      if (!expertId) {
-        throw new Error("Expert ID is missing.");
-      }
-
-      const response = await fetchExpertProfile(expertId);
-
-    
-
-      const data = response?.data || response;
-
-      if (!data) {
-        throw new Error("Expert data not found.");
-      }
-
-      setProfile({
-        ...EMPTY_PROFILE,
-
-        avatarUrl: getImage(data.image),
-
-        vendorName: data.vendor_name || "",
-
-        fullName: data.name || "",
-
-        email: data.email || "",
-
-        mobile: data.mobile || "",
-
-        city: data.city_name || "",
-
-        about: data.about || "",
-
-        accountStatus: Number(data.status) === 1 ? "active" : "inactive",
-
-        bank: {
-          accountHolderName: data.account_holder || "",
-
-          accountNumber: data.account_number || "",
-
-          branchName: data.branch_name || "",
-
-          ifscCode: data.ifsc_code || "",
-        },
-      });
-    } catch (err) {
-      console.error("Get expert details error:", err);
-
-      setProfileError(err.message || "Could not load this expert.");
-    } finally {
-      setProfileLoading(false);
-    }
-  }, [expertId]);
-
-  /* ---------------------------------------------------------------- *
-   * LOAD DOCUMENTS
-   *
-   * Existing functionality preserved.
-   * ---------------------------------------------------------------- */
-
-  const loadDocuments = useCallback(async () => {
-    setDocumentsLoading(true);
-    setDocumentsError(null);
-
-    try {
-      const data = await fetchVendorDocuments(vendorId);
-
-      setDocuments(Array.isArray(data) ? data : data.documents || []);
-    } catch (err) {
-      setDocumentsError(err.message || "Could not load documents.");
-    } finally {
-      setDocumentsLoading(false);
-    }
-  }, [vendorId]);
-
-  /* ---------------------------------------------------------------- *
-   * INITIAL LOAD
-   * ---------------------------------------------------------------- */
-
-  useEffect(() => {
-    loadProfile();
-    loadDocuments();
-  }, [loadProfile, loadDocuments]);
-
-  /* ---------------------------------------------------------------- *
-   * FIELD CHANGE
-   * ---------------------------------------------------------------- */
-
-  function handleFieldChange(field, value) {
-    setProfile((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
-  }
-
-  /* ---------------------------------------------------------------- *
-   * BANK FIELD CHANGE
-   * ---------------------------------------------------------------- */
-
-  function handleBankFieldChange(field, value) {
-    setProfile((prev) => ({
-      ...prev,
-
-      bank: {
-        ...prev.bank,
-        [field]: value,
-      },
-    }));
-  }
-
-  /* ---------------------------------------------------------------- *
-   * EXISTING AVATAR FUNCTION
-   *
-   * Kept as-is because you asked not to change other functionality.
-   * ---------------------------------------------------------------- */
-
-  async function handleAvatarSelect(event) {
-    const file = event.target.files && event.target.files[0];
-
-    if (!file) return;
-
-    setAvatarUploading(true);
-
-    try {
-      const result = await updateVendorAvatar(vendorId, file);
-
-      setProfile((prev) => ({
-        ...prev,
-        avatarUrl: (result && result.avatarUrl) || prev.avatarUrl,
-      }));
-    } catch (err) {
-      setProfileError(err.message || "Could not update the photo.");
-    } finally {
-      setAvatarUploading(false);
-
-      event.target.value = "";
-    }
-  }
-
-  /* ---------------------------------------------------------------- *
-   * SAVE EXPERT DETAILS
-   *
-   * Converted directly from PHP:
-   *
-   * update_expert_basis_detail()
-   * ------------------------------------------------------------------ */
-
-  async function handleSaveProfile(event) {
-    event.preventDefault();
-
-    setSaveState("saving");
-    setProfileError(null);
-
-    try {
-      /*
-       * EXACT PHP update fields.
-       *
-       * PHP:
-       *
-       * $post_data['name']
-       * $post_data['email']
-       * $post_data['mobile']
-       * $post_data['city_id']
-       * $post_data['about']
-       * $post_data['account_holder']
-       * $post_data['account_number']
-       * $post_data['branch_name']
-       * $post_data['ifsc_code']
-       */
-
-      const expertData = {
-        name: profile.fullName,
-        email: profile.email,
-        mobile: profile.mobile,
-
-        /*
-         * Current UI has city name.
-         *
-         * Backend PHP expects city_id.
-         *
-         * Since your current GET returns city_name,
-         * this UI field cannot send city_id correctly yet.
-         *
-         * We therefore send the existing value.
-         */
-
-        city_id: profile.city,
-
-        about: profile.about,
-
-        account_holder: profile.bank.accountHolderName,
-
-        account_number: profile.bank.accountNumber,
-
-        branch_name: profile.bank.branchName,
-
-        ifsc_code: profile.bank.ifscCode,
-      };
-
-      if (!expertId) {
-        setSaveState("error");
-        setProfileError("Expert ID is missing.");
+  const loadProfile = useCallback(
+    async ({ silent = false } = {}) => {
+      if (!id) {
+        setLoadError("Expert ID is missing.");
+        setLoading(false);
         return;
       }
 
-      await updateExpertProfile(expertId, expertData);
+      if (!silent) setLoading(true);
+      setLoadError("");
 
-      setSaveState("saved");
+      try {
+        const response = await expertService.getDetails(id);
+        const data = response.data?.data || response.data;
 
-      /*
-       * Reload the same expert after successful update.
-       */
-      await loadProfile();
+        if (!data) throw new Error("Expert not found.");
 
-      setTimeout(() => {
-        setSaveState("idle");
-      }, 2500);
-    } catch (err) {
-      console.error("Update expert details error:", err);
+        const mapped = mapProfile(data);
 
-      setProfileError(err.message || "Could not save changes.");
+        setProfile(mapped);
+        setSavedProfile(mapped);
+      } catch (err) {
+        setLoadError(
+          err.response?.data?.message ||
+            err.message ||
+            "Could not load expert details.",
+        );
+      } finally {
+        setLoading(false);
+      }
+    },
+    [id],
+  );
 
-      setSaveState("error");
+  useEffect(() => {
+    loadProfile();
+
+    const loadCities = async () => {
+      try {
+        const response = await expertService.getCities();
+
+        if (response.data.success) setCities(response.data.data || []);
+      } catch (err) {
+        console.error("Failed to fetch cities:", err);
+      }
+    };
+
+    loadCities();
+  }, [loadProfile]);
+
+  /* ---------- free local preview URLs on unmount ---------- */
+
+  useEffect(
+    () => () => {
+      Object.values(uploadedDocsRef.current).forEach((doc) =>
+        URL.revokeObjectURL(doc.url),
+      );
+    },
+    [],
+  );
+
+  /* ---------- derived ---------- */
+
+  const isActive = profile.status === 1;
+
+  const isDirty = EDITABLE_FIELDS.some(
+    (field) => String(profile[field]) !== String(savedProfile[field]),
+  );
+
+  const documents = DOCUMENT_FIELDS.map(({ label, field }) => {
+    const uploaded = uploadedDocs[field];
+    const filename = uploaded?.name || profile[field];
+
+    return {
+      label,
+      field,
+      filename,
+      url: uploaded?.url || getDocumentUrl(profile[field]),
+      submitted: Boolean(filename),
+    };
+  });
+
+  const submittedCount = documents.filter((doc) => doc.submitted).length;
+
+  const documentProgress = Math.round(
+    (submittedCount / DOCUMENT_FIELDS.length) * 100,
+  );
+
+  /* ---------- handlers ---------- */
+
+  const handleChange = (field, value) => {
+    setProfile((previous) => ({ ...previous, [field]: value }));
+    setErrors((previous) => ({ ...previous, [field]: "" }));
+    setSaveError("");
+  };
+
+  const handleDiscard = () => {
+    setProfile(savedProfile);
+    setErrors({});
+    setSaveError("");
+  };
+
+  const validate = () => {
+    const next = {};
+
+    if (!profile.name.trim()) next.name = "Enter the full name";
+
+    if (
+      profile.email.trim() &&
+      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(profile.email.trim())
+    ) {
+      next.email = "Enter a valid email address";
     }
-  }
 
-  /* ---------------------------------------------------------------- *
-   * EXISTING DOCUMENT UPLOAD
-   * ---------------------------------------------------------------- */
+    const mobileDigits = profile.mobile.replace(/\D/g, "");
 
-  async function handleDocumentUpload(docKey, file) {
-    setUploadingDocKey(docKey);
+    if (
+      profile.mobile.trim() &&
+      (mobileDigits.length < 7 || mobileDigits.length > 15)
+    ) {
+      next.mobile = "Enter a valid mobile number";
+    }
+
+    setErrors(next);
+    return Object.keys(next).length === 0;
+  };
+
+  const handleSave = async (event) => {
+    event.preventDefault();
+
+    if (!validate()) return;
+
+    setSaving(true);
+    setSaveError("");
 
     try {
-      const result = await uploadVendorDocument(vendorId, docKey, file);
+      await expertService.update(id, buildUpdatePayload(profile));
 
-      setDocuments((prev) =>
-        prev.map((doc) =>
-          doc.key === docKey
-            ? {
-                ...doc,
-                status: (result && result.status) || "submitted",
-                fileName: file.name,
-              }
-            : doc,
-        ),
-      );
+      await loadProfile({ silent: true });
+      setSuccess({
+        title: "Expert updated",
+        message: "The expert details have been saved successfully.",
+      });
     } catch (err) {
-      setDocumentsError(err.message || "Could not upload that document.");
+      setSaveError(
+        err.response?.data?.message ||
+          err.message ||
+          "Could not save expert details.",
+      );
     } finally {
-      setUploadingDocKey(null);
+      setSaving(false);
     }
-  }
+  };
 
-  const submittedCount = documents.filter(
-    (doc) => doc.status === "submitted",
-  ).length;
+  const handleSuccessClose = useCallback(() => setSuccess(null), []);
 
-  const isActive = profile.accountStatus === "active";
+  /* ---------- account status (UI only for now) ---------- */
 
-  /* ---------------------------------------------------------------- *
-   * JSX
-   * ---------------------------------------------------------------- */
+  const handleStatusConfirm = async () => {
+    const nextStatus = isActive ? 0 : 1;
+
+    await expertService.updateStatus(id, nextStatus);
+
+    setProfile((previous) => ({ ...previous, status: nextStatus }));
+    setSavedProfile((previous) => ({ ...previous, status: nextStatus }));
+    setStatusConfirmOpen(false);
+    setSuccess({
+      title: "Status updated",
+      message: `The account is now ${nextStatus === 1 ? "active" : "inactive"}.`,
+    });
+  };
+
+  /* ---------- document upload (UI only for now) ---------- */
+
+  const handleDocumentSelect = async (field, label, event) => {
+    const file = event.target.files?.[0];
+
+    event.target.value = "";
+
+    if (!file) return;
+
+    setDocError("");
+
+    if (!ALLOWED_DOCUMENT_TYPES.includes(file.type)) {
+      setDocError("Only PDF, JPG, PNG or WEBP files are allowed.");
+      return;
+    }
+
+    if (file.size > MAX_DOCUMENT_SIZE_MB * 1024 * 1024) {
+      setDocError(`File must be smaller than ${MAX_DOCUMENT_SIZE_MB} MB.`);
+      return;
+    }
+
+    try {
+      setUploadingField(field);
+
+      await expertService.uploadDocument(id, field, file);
+
+      const previous = uploadedDocsRef.current[field];
+
+      if (previous) URL.revokeObjectURL(previous.url);
+
+      uploadedDocsRef.current = {
+        ...uploadedDocsRef.current,
+        [field]: { name: file.name, url: URL.createObjectURL(file) },
+      };
+
+      setUploadedDocs(uploadedDocsRef.current);
+      setSuccess({
+        title: "Document uploaded",
+        message: `${label} has been uploaded successfully.`,
+      });
+    } catch (err) {
+      setDocError(
+        err.response?.data?.message || err.message || "Upload failed.",
+      );
+    } finally {
+      setUploadingField("");
+    }
+  };
+
+  /* ---------- field renderer (plain function, not a component) ---------- */
+
+  const renderField = ({ key, label, type = "text", placeholder }) => (
+    <div
+      key={key}
+      className={`vd-field ${errors[key] ? "has-error" : ""}`.trim()}
+    >
+      <label htmlFor={key}>
+        {label}
+        {key === "name" && <span className="vd-required">*</span>}
+      </label>
+
+      <input
+        id={key}
+        type={type}
+        value={profile[key]}
+        placeholder={placeholder}
+        onChange={(event) => handleChange(key, event.target.value)}
+        autoComplete="off"
+      />
+
+      {errors[key] && <small className="vd-error">{errors[key]}</small>}
+    </div>
+  );
+
+  /* =========================================================
+     RENDER
+  ========================================================= */
 
   return (
     <div className="view-details">
-      <header className="vd-header">
-        <div className="vd-header-identity">
-          <span className="vd-header-label">Expert</span>
+      {/* ---------- PAGE HEADER ---------- */}
 
-          <h1 className="vd-header-name">{profile.fullName || "—"}</h1>
+      <header className="vd-page-header">
+        <h2 className="vd-page-title">Expert Details</h2>
+
+        <ServiceBreadcrumbs
+          items={[
+            { label: "Expert List", to: ROUTES.expertList },
+            { label: "Expert Details" },
+          ]}
+        />
+      </header>
+
+      {loading && (
+        <div className="vd-state-card">
+          <i className="vd-spinner" aria-hidden="true" />
+          <span>Loading expert details…</span>
         </div>
+      )}
 
-        <div className="vd-header-actions">
-          <span
-            className={`vd-status-chip ${
-              isActive ? "is-active" : "is-inactive"
-            }`}
-          >
-            <span className="vd-status-dot" aria-hidden="true" />
-
-            {isActive ? "Active" : "Inactive"}
-          </span>
+      {!loading && loadError && (
+        <div className="vd-state-card vd-state-error" role="alert">
+          <p>{loadError}</p>
 
           <button
             type="button"
-            className="vd-link-button"
-            onClick={() => setActiveTab("documents")}
+            className="vd-secondary-button"
+            onClick={() => loadProfile()}
           >
-            Upload documents
+            <FaRedoAlt />
+            <span>Try again</span>
           </button>
         </div>
-      </header>
+      )}
 
-      <nav className="vd-tabs" role="tablist" aria-label="Profile sections">
-        <button
-          type="button"
-          role="tab"
-          aria-selected={activeTab === "vendor"}
-          className={`vd-tab ${activeTab === "vendor" ? "is-active" : ""}`}
-          onClick={() => setActiveTab("vendor")}
-        >
-          Vendor
-        </button>
+      {!loading && !loadError && (
+        <>
+          {/* ---------- PROFILE SUMMARY ---------- */}
 
-        <button
-          type="button"
-          role="tab"
-          aria-selected={activeTab === "documents"}
-          className={`vd-tab ${activeTab === "documents" ? "is-active" : ""}`}
-          onClick={() => setActiveTab("documents")}
-        >
-          Documents
-          {documents.length > 0 && (
-            <span className="vd-tab-count">
-              {submittedCount}/{documents.length}
-            </span>
-          )}
-        </button>
-      </nav>
+          <section className="vd-summary">
+            <div className="vd-avatar">
+              {profile.image ? (
+                <img
+                  src={getImage(profile.image)}
+                  alt={`${profile.name || "Expert"} profile`}
+                />
+              ) : (
+                <span>{(profile.name || "?").charAt(0).toUpperCase()}</span>
+              )}
+            </div>
 
-      <div className="vd-panel">
-        {activeTab === "vendor" && (
-          <form className="vd-form" onSubmit={handleSaveProfile}>
-            {profileError && (
-              <div className="vd-alert" role="alert">
-                {profileError}
-              </div>
-            )}
-
-            {profileLoading ? (
-              <p className="vd-hint">Loading profile…</p>
-            ) : (
-              <>
-                {/* ------------------------------------------------ *
-                 * IMAGE
-                 * ------------------------------------------------ */}
-
-                <div className="vd-avatar-row">
-                  <div className="vd-avatar">
-                    {profile.avatarUrl ? (
-                      <img
-                        src={profile.avatarUrl}
-                        alt={`${profile.fullName || "Vendor"} profile`}
-                      />
-                    ) : (
-                      <span className="vd-avatar-fallback">
-                        {(profile.fullName || "?")
-                          .trim()
-                          .charAt(0)
-                          .toUpperCase()}
-                      </span>
-                    )}
-
-                    <button
-                      type="button"
-                      className="vd-avatar-edit"
-                      onClick={() =>
-                        avatarInputRef.current && avatarInputRef.current.click()
-                      }
-                      disabled={avatarUploading}
-                    >
-                      {avatarUploading ? "Uploading…" : "Change photo"}
-                    </button>
-
-                    <input
-                      ref={avatarInputRef}
-                      type="file"
-                      accept="image/*"
-                      className="vd-visually-hidden"
-                      onChange={handleAvatarSelect}
-                    />
-                  </div>
+            <div className="vd-summary-body">
+              <div className="vd-summary-top">
+                <div>
+                  <h3 className="vd-summary-name">{profile.name || "—"}</h3>
+                  <p className="vd-summary-vendor">
+                    {profile.vendorName
+                      ? `Vendor: ${profile.vendorName}`
+                      : "No vendor assigned"}
+                  </p>
                 </div>
 
-                {/* ------------------------------------------------ *
-                 * VENDOR DETAIL
-                 * ------------------------------------------------ */}
+                <button
+                  type="button"
+                  className={`vd-status-chip is-button ${
+                    isActive ? "is-active" : "is-inactive"
+                  }`}
+                  title="Click to change account status"
+                  onClick={() => setStatusConfirmOpen(true)}
+                >
+                  <span className="vd-status-dot" aria-hidden="true" />
+                  {isActive ? "Account Active" : "Account Inactive"}
+                </button>
+              </div>
 
-                <section className="vd-section">
-                  <h2 className="vd-section-title">Vendor detail</h2>
+              <ul className="vd-summary-meta">
+                {savedProfile.email && (
+                  <li>
+                    <FaEnvelope />
+                    <span>{savedProfile.email}</span>
+                  </li>
+                )}
 
-                  <div className="vd-field">
-                    <label htmlFor="vendorName">Vendor name</label>
+                {savedProfile.mobile && (
+                  <li>
+                    <FaPhoneAlt />
+                    <span>{savedProfile.mobile}</span>
+                  </li>
+                )}
 
-                    <input
-                      id="vendorName"
-                      type="text"
-                      value={profile.vendorName}
-                      onChange={(e) =>
-                        handleFieldChange("vendorName", e.target.value)
-                      }
-                      placeholder="e.g. One More Bite"
-                    />
+                {savedProfile.city && (
+                  <li>
+                    <FaMapMarkerAlt />
+                    <span>{savedProfile.city}</span>
+                  </li>
+                )}
+              </ul>
+            </div>
+          </section>
+
+          {/* ---------- TABS + PANEL ---------- */}
+
+          <div className="vd-card">
+            <nav className="vd-tabs" role="tablist" aria-label="Expert details">
+              <button
+                type="button"
+                role="tab"
+                aria-selected={activeTab === "profile"}
+                className={`vd-tab ${activeTab === "profile" ? "is-active" : ""}`}
+                onClick={() => setActiveTab("profile")}
+              >
+                Profile
+              </button>
+
+              <button
+                type="button"
+                role="tab"
+                aria-selected={activeTab === "documents"}
+                className={`vd-tab ${activeTab === "documents" ? "is-active" : ""}`}
+                onClick={() => setActiveTab("documents")}
+              >
+                Documents
+                <span className="vd-tab-count">
+                  {submittedCount}/{DOCUMENT_FIELDS.length}
+                </span>
+              </button>
+            </nav>
+
+            {activeTab === "profile" && (
+              <form className="vd-form" onSubmit={handleSave} noValidate>
+                {saveError && (
+                  <div className="vd-alert" role="alert">
+                    {saveError}
                   </div>
-                </section>
-
-                {/* ------------------------------------------------ *
-                 * PERSONAL DETAIL
-                 * ------------------------------------------------ */}
+                )}
 
                 <section className="vd-section">
-                  <h2 className="vd-section-title">Personal detail</h2>
+                  <h4 className="vd-section-title">Personal detail</h4>
 
                   <div className="vd-grid">
-                    <div className="vd-field">
-                      <label htmlFor="fullName">Full name</label>
-
-                      <input
-                        id="fullName"
-                        type="text"
-                        value={profile.fullName}
-                        onChange={(e) =>
-                          handleFieldChange("fullName", e.target.value)
-                        }
-                      />
-                    </div>
+                    {PERSONAL_FIELDS.map(renderField)}
 
                     <div className="vd-field">
-                      <label htmlFor="email">Email</label>
-
-                      <input
-                        id="email"
-                        type="email"
-                        value={profile.email}
-                        onChange={(e) =>
-                          handleFieldChange("email", e.target.value)
-                        }
-                        placeholder="name@example.com"
-                      />
-                    </div>
-
-                    <div className="vd-field">
-                      <label htmlFor="mobile">Mobile</label>
-
-                      <input
-                        id="mobile"
-                        type="tel"
-                        value={profile.mobile}
-                        onChange={(e) =>
-                          handleFieldChange("mobile", e.target.value)
-                        }
-                        placeholder="10-digit number"
-                      />
-                    </div>
-
-                    <div className="vd-field">
-                      <label htmlFor="city">City</label>
+                      <label htmlFor="cityId">City</label>
 
                       <select
-                        id="city"
-                        value={profile.city}
-                        onChange={(e) =>
-                          handleFieldChange("city", e.target.value)
+                        id="cityId"
+                        value={profile.cityId}
+                        onChange={(event) =>
+                          handleChange("cityId", event.target.value)
                         }
                       >
-                        <option value="">Select</option>
+                        <option value="">Select city</option>
 
-                        {CITY_OPTIONS.map((city) => (
-                          <option key={city} value={city}>
-                            {city}
+                        {cities.map((city) => (
+                          <option key={city.id} value={String(city.id)}>
+                            {city.city_name}
                           </option>
                         ))}
                       </select>
@@ -698,214 +621,181 @@ export default function ViewExpertDetails({ vendorId }) {
                         id="about"
                         rows={3}
                         value={profile.about}
-                        onChange={(e) =>
-                          handleFieldChange("about", e.target.value)
+                        placeholder="Write a short introduction about the expert"
+                        onChange={(event) =>
+                          handleChange("about", event.target.value)
                         }
-                        placeholder="A short introduction shown on the vendor's public profile"
                       />
                     </div>
                   </div>
                 </section>
-
-                {/* ------------------------------------------------ *
-                 * BANK DETAIL
-                 * ------------------------------------------------ */}
 
                 <section className="vd-section">
-                  <h2 className="vd-section-title">Bank detail</h2>
+                  <h4 className="vd-section-title">Bank detail</h4>
 
-                  <div className="vd-grid">
-                    <div className="vd-field">
-                      <label htmlFor="accHolderName">Account holder name</label>
-
-                      <input
-                        id="accHolderName"
-                        type="text"
-                        value={profile.bank.accountHolderName}
-                        onChange={(e) =>
-                          handleBankFieldChange(
-                            "accountHolderName",
-                            e.target.value,
-                          )
-                        }
-                      />
-                    </div>
-
-                    <div className="vd-field">
-                      <label htmlFor="accountNumber">Account number</label>
-
-                      <input
-                        id="accountNumber"
-                        type="text"
-                        inputMode="numeric"
-                        value={profile.bank.accountNumber}
-                        onChange={(e) =>
-                          handleBankFieldChange("accountNumber", e.target.value)
-                        }
-                      />
-                    </div>
-
-                    <div className="vd-field">
-                      <label htmlFor="branchName">Branch name</label>
-
-                      <input
-                        id="branchName"
-                        type="text"
-                        value={profile.bank.branchName}
-                        onChange={(e) =>
-                          handleBankFieldChange("branchName", e.target.value)
-                        }
-                      />
-                    </div>
-
-                    <div className="vd-field">
-                      <label htmlFor="ifscCode">IFSC code</label>
-
-                      <input
-                        id="ifscCode"
-                        type="text"
-                        value={profile.bank.ifscCode}
-                        onChange={(e) =>
-                          handleBankFieldChange(
-                            "ifscCode",
-                            e.target.value.toUpperCase(),
-                          )
-                        }
-                        placeholder="e.g. HDFC0001234"
-                      />
-                    </div>
-                  </div>
+                  <div className="vd-grid">{BANK_FIELDS.map(renderField)}</div>
                 </section>
 
-                {/* ------------------------------------------------ *
-                 * SAVE
-                 * ------------------------------------------------ */}
-
                 <div className="vd-form-footer">
-                  {saveState === "saved" && (
-                    <span className="vd-save-hint is-success">Saved</span>
+                  {isDirty && !saving && (
+                    <span className="vd-unsaved">You have unsaved changes</span>
                   )}
 
-                  {saveState === "error" && (
-                    <span className="vd-save-hint is-error">
-                      Save failed — try again
-                    </span>
-                  )}
+                  <button
+                    type="button"
+                    className="vd-secondary-button"
+                    onClick={handleDiscard}
+                    disabled={!isDirty || saving}
+                  >
+                    Discard
+                  </button>
 
                   <button
                     type="submit"
                     className="vd-primary-button"
-                    disabled={saveState === "saving"}
+                    disabled={!isDirty || saving}
                   >
-                    {saveState === "saving" ? "Saving…" : "Save changes"}
+                    {saving && <i className="vd-spinner vd-spinner-light" />}
+                    <span>{saving ? "Saving…" : "Update now"}</span>
                   </button>
                 </div>
-              </>
-            )}
-          </form>
-        )}
-
-        {/* ========================================================= *
-         * DOCUMENTS
-         * Existing code preserved
-         * ========================================================= */}
-
-        {activeTab === "documents" && (
-          <div className="vd-documents">
-            {documentsError && (
-              <div className="vd-alert" role="alert">
-                {documentsError}
-              </div>
+              </form>
             )}
 
-            {documentsLoading ? (
-              <p className="vd-hint">Loading documents…</p>
-            ) : (
-              <>
+            {activeTab === "documents" && (
+              <section className="vd-documents">
+                {docError && (
+                  <div className="vd-alert vd-alert-inline" role="alert">
+                    {docError}
+                  </div>
+                )}
+
                 <div className="vd-documents-summary">
                   <span>
-                    {submittedCount} of {documents.length} documents submitted
+                    {submittedCount} of {DOCUMENT_FIELDS.length} documents
+                    submitted · PDF, JPG, PNG or WEBP up to{" "}
+                    {MAX_DOCUMENT_SIZE_MB} MB
                   </span>
 
-                  <div className="vd-progress-track">
+                  <div
+                    className="vd-progress-track"
+                    role="progressbar"
+                    aria-valuenow={documentProgress}
+                    aria-valuemin={0}
+                    aria-valuemax={100}
+                    aria-label="Documents submitted"
+                  >
                     <div
                       className="vd-progress-fill"
-                      style={{
-                        width: `${
-                          documents.length
-                            ? (submittedCount / documents.length) * 100
-                            : 0
-                        }%`,
-                      }}
+                      style={{ width: `${documentProgress}%` }}
                     />
                   </div>
                 </div>
 
                 <ul className="vd-document-list">
-                  {documents.map((doc) => {
-                    const isSubmitted = doc.status === "submitted";
-
-                    const isUploading = uploadingDocKey === doc.key;
+                  {documents.map(({ label, field, filename, url, submitted }) => {
+                    const isUploading = uploadingField === field;
 
                     return (
-                      <li key={doc.key} className="vd-document-row">
+                      <li key={field} className="vd-document-row">
                         <div className="vd-document-info">
-                          <span className="vd-document-label">{doc.label}</span>
+                          <span className="vd-document-label">{label}</span>
 
-                          {doc.fileName && (
+                          {filename && (
                             <span className="vd-document-filename">
-                              {doc.fileName}
+                              {filename}
                             </span>
                           )}
                         </div>
 
                         <div className="vd-document-actions">
-                          <span
-                            className={`vd-status-chip ${
-                              isSubmitted ? "is-active" : "is-pending"
-                            }`}
-                          >
+                          {submitted && url ? (
+                            <a
+                              className="vd-view-button"
+                              href={url}
+                              target="_blank"
+                              rel="noreferrer"
+                            >
+                              <FaExternalLinkAlt />
+                              <span>View</span>
+                            </a>
+                          ) : (
                             <span
-                              className="vd-status-dot"
-                              aria-hidden="true"
-                            />
+                              className={`vd-status-chip ${
+                                submitted ? "is-active" : "is-pending"
+                              }`}
+                            >
+                              <span
+                                className="vd-status-dot"
+                                aria-hidden="true"
+                              />
+                              {submitted ? "Submitted" : "Not submitted"}
+                            </span>
+                          )}
 
-                            {isSubmitted ? "Submitted" : "Not submitted"}
-                          </span>
+                          <input
+                            id={`doc-${field}`}
+                            type="file"
+                            className="vd-file-input"
+                            accept=".pdf,.jpg,.jpeg,.png,.webp"
+                            disabled={isUploading}
+                            onChange={(event) =>
+                              handleDocumentSelect(field, label, event)
+                            }
+                          />
 
-                          <label className="vd-upload-button">
-                            {isUploading
-                              ? "Uploading…"
-                              : isSubmitted
-                                ? "Replace"
-                                : "Upload"}
-
-                            <input
-                              type="file"
-                              className="vd-visually-hidden"
-                              disabled={isUploading}
-                              onChange={(e) => {
-                                const file =
-                                  e.target.files && e.target.files[0];
-
-                                if (file) {
-                                  handleDocumentUpload(doc.key, file);
-                                }
-
-                                e.target.value = "";
-                              }}
-                            />
+                          <label
+                            htmlFor={`doc-${field}`}
+                            className={`vd-upload-button ${
+                              isUploading ? "is-disabled" : ""
+                            }`.trim()}
+                          >
+                            {isUploading ? (
+                              <i className="vd-spinner vd-spinner-small" />
+                            ) : (
+                              <FaUpload />
+                            )}
+                            <span>
+                              {isUploading
+                                ? "Uploading…"
+                                : submitted
+                                  ? "Replace"
+                                  : "Upload"}
+                            </span>
                           </label>
                         </div>
                       </li>
                     );
                   })}
                 </ul>
-              </>
+              </section>
             )}
           </div>
-        )}
-      </div>
+        </>
+      )}
+
+      {/* ---------- SUCCESS MODAL ---------- */}
+
+      <ServiceSuccessModal
+        isOpen={Boolean(success)}
+        title={success?.title}
+        message={success?.message}
+        buttonText="Done"
+        onClose={handleSuccessClose}
+      />
+
+      {/* ---------- STATUS CONFIRM MODAL ---------- */}
+
+      <ServiceConfirmModal
+        isOpen={statusConfirmOpen}
+        title={isActive ? "Deactivate account?" : "Activate account?"}
+        message={`The expert's account will be set to ${
+          isActive ? "inactive" : "active"
+        }. You can change it again at any time.`}
+        confirmText={isActive ? "Yes, deactivate" : "Yes, activate"}
+        onConfirm={handleStatusConfirm}
+        onCancel={() => setStatusConfirmOpen(false)}
+      />
     </div>
   );
 }

@@ -56,6 +56,2287 @@ const AdminModel = {
   // SERVICE MODELS
   // =====================================================
 
+  // -----------------------------------------
+  // SUB ADMIN MANAGEMENT
+  // -----------------------------------------
+  async getSubAdmins() {
+    const [rows] = await pool.execute(`
+      SELECT
+        admin.*,
+        roles.id AS role_table_id,
+        roles.role_name
+      FROM admin
+      LEFT JOIN roles
+        ON roles.id = admin.role_id
+      WHERE admin.type = 'sub_admin'
+      ORDER BY admin.admin_id DESC
+    `);
+
+    return rows;
+  },
+
+  async changeSubAdminStatus(id) {
+    const [admins] = await pool.execute(
+      "SELECT admin_id, admin_status FROM admin WHERE admin_id = ? LIMIT 1",
+      [id],
+    );
+
+    if (admins.length === 0) {
+      return {
+        success: false,
+        message: "Admin not found",
+      };
+    }
+
+    const currentStatus = Number(admins[0].admin_status);
+    const newStatus = currentStatus === 1 ? 0 : 1;
+
+    await pool.execute("UPDATE admin SET admin_status = ? WHERE admin_id = ?", [
+      newStatus,
+      id,
+    ]);
+
+    const statusText = newStatus === 1 ? "activated" : "deactivated";
+
+    return {
+      success: true,
+      message: `Admin has been ${statusText} successfully`,
+      status: newStatus,
+    };
+  },
+
+  async saveSubAdmin({
+    admin_name,
+    admin_email,
+    admin_password,
+    permission,
+    role_id,
+    employee_since,
+  }) {
+    const [existingAdmin] = await pool.execute(
+      "SELECT admin_id FROM admin WHERE admin_email = ? LIMIT 1",
+      [admin_email],
+    );
+
+    if (existingAdmin.length > 0) {
+      return {
+        success: false,
+        message: "Email already exists",
+      };
+    }
+
+    // Convert permission array into comma-separated string
+    const permissionString = Array.isArray(permission)
+      ? permission.join(",")
+      : "";
+
+    if (!permissionString) {
+      return {
+        success: false,
+        message: "Please select at least one permission",
+      };
+    }
+
+    // Prepare data
+    const data = [
+      admin_name,
+      admin_email,
+      admin_password,
+      "sub_admin",
+      role_id,
+      permissionString,
+      employee_since || null,
+    ];
+
+    // Insert
+    const [result] = await pool.execute(
+      `
+      INSERT INTO admin
+      (
+        admin_name,
+        admin_email,
+        admin_password,
+        type,
+        role_id,
+        permission,
+        employee_since
+      )
+      VALUES (?, ?, ?, ?, ?, ?, ?)
+      `,
+      data,
+    );
+
+    return {
+      success: true,
+      message: "Sub Admin added successfully.",
+      admin_id: result.insertId,
+    };
+  },
+
+  async getSubAdminById(id) {
+    const [rows] = await pool.execute(
+      `
+      SELECT
+        admin.*,
+        roles.id AS role_table_id,
+        roles.role_name
+      FROM admin
+      LEFT JOIN roles
+        ON roles.id = admin.role_id
+      WHERE admin.admin_id = ?
+        AND admin.type = 'sub_admin'
+      LIMIT 1
+      `,
+      [id],
+    );
+
+    if (rows.length === 0) {
+      return null;
+    }
+
+    return rows[0];
+  },
+
+  async updateSubAdmin(id, data) {
+    const {
+      admin_name,
+      admin_email,
+      admin_password,
+      permission,
+      role_id,
+      employee_since,
+    } = data;
+
+    // Check admin exists
+    const [admins] = await pool.execute(
+      `
+      SELECT admin_id
+      FROM admin
+      WHERE admin_id = ?
+        AND type = 'sub_admin'
+      LIMIT 1
+      `,
+      [id],
+    );
+
+    if (admins.length === 0) {
+      return {
+        success: false,
+        message: "Sub Admin not found",
+      };
+    }
+
+    // Check email already belongs to another admin
+    const [emailExists] = await pool.execute(
+      `
+      SELECT admin_id
+      FROM admin
+      WHERE admin_email = ?
+        AND admin_id != ?
+      LIMIT 1
+      `,
+      [admin_email, id],
+    );
+
+    if (emailExists.length > 0) {
+      return {
+        success: false,
+        message: "Email already exists",
+      };
+    }
+
+    const permissionString = Array.isArray(permission)
+      ? permission.join(",")
+      : permission;
+
+    if (!permissionString) {
+      return {
+        success: false,
+        message: "Please select at least one permission",
+      };
+    }
+
+    const updateData = {
+      admin_name,
+      admin_email,
+      permission: permissionString,
+      role_id,
+    };
+
+    // Only update password if provided
+    if (admin_password && admin_password.trim() !== "") {
+      updateData.admin_password = admin_password;
+    }
+
+    // Only update employee_since when provided
+    if (employee_since && employee_since !== "0000-00-00") {
+      updateData.employee_since = employee_since;
+    }
+
+    const fields = [];
+    const values = [];
+
+    Object.entries(updateData).forEach(([key, value]) => {
+      fields.push(`${key} = ?`);
+      values.push(value);
+    });
+
+    values.push(id);
+
+    await pool.execute(
+      `
+      UPDATE admin
+      SET ${fields.join(", ")}
+      WHERE admin_id = ?
+        AND type = 'sub_admin'
+      `,
+      values,
+    );
+
+    return {
+      success: true,
+      message: "Sub Admin updated successfully.",
+    };
+  },
+
+  async deleteSubAdmin(adminId) {
+    // Check whether Sub Admin exists
+    const [subAdmin] = await pool.execute(
+      `
+      SELECT admin_id
+      FROM admin
+      WHERE admin_id = ?
+        AND type = 'sub_admin'
+      LIMIT 1
+      `,
+      [adminId],
+    );
+
+    if (subAdmin.length === 0) {
+      return {
+        success: false,
+        message: "Sub Admin not found",
+      };
+    }
+
+    // Delete Sub Admin
+    const [result] = await pool.execute(
+      `
+      DELETE FROM admin
+      WHERE admin_id = ?
+        AND type = 'sub_admin'
+      `,
+      [adminId],
+    );
+
+    if (result.affectedRows === 0) {
+      return {
+        success: false,
+        message: "Failed to delete Sub Admin",
+      };
+    }
+
+    return {
+      success: true,
+      message: "Sub Admin deleted successfully",
+    };
+  },
+
+  // -----------------------------------------
+  // ROLE MANAGEMENT
+  // -----------------------------------------
+
+  async getRoles() {
+    const [rows] = await pool.execute(`
+      SELECT *
+      FROM roles
+      ORDER BY id DESC
+    `);
+
+    return rows;
+  },
+
+  async addRole({ role_name, responsibilities, status }) {
+    // Check if role already exists
+    const [existingRole] = await pool.execute(
+      `
+      SELECT id
+      FROM roles
+      WHERE role_name = ?
+      LIMIT 1
+      `,
+      [role_name],
+    );
+
+    if (existingRole.length > 0) {
+      return {
+        success: false,
+        message: "Role already exists",
+      };
+    }
+
+    // Insert role
+    const [result] = await pool.execute(
+      `
+      INSERT INTO roles
+      (
+        role_name,
+        responsibilities,
+        status,
+        created_at
+      )
+      VALUES (?, ?, ?, NOW())
+      `,
+      [role_name, responsibilities || "", status ?? 1],
+    );
+
+    return {
+      success: true,
+      message: "Role added successfully",
+      role_id: result.insertId,
+    };
+  },
+
+  async updateRoleStatus(id, status) {
+    if (!id) {
+      return {
+        success: false,
+        message: "Invalid ID",
+      };
+    }
+
+    const [result] = await pool.execute(
+      "UPDATE roles SET status = ? WHERE id = ?",
+      [status, id],
+    );
+
+    if (result.affectedRows === 0) {
+      return {
+        success: false,
+        message: "Failed to update status",
+      };
+    }
+
+    return {
+      success: true,
+      message: "Status updated successfully",
+    };
+  },
+
+  async updateRole(id, { role_name, responsibilities }) {
+    // Check if role exists
+    const [roles] = await pool.execute(
+      "SELECT id, status FROM roles WHERE id = ? LIMIT 1",
+      [id],
+    );
+
+    if (roles.length === 0) {
+      return {
+        success: false,
+        message: "Role not found",
+      };
+    }
+
+    // Check duplicate role name
+    const [existingRole] = await pool.execute(
+      "SELECT id FROM roles WHERE role_name = ? AND id != ? LIMIT 1",
+      [role_name, id],
+    );
+
+    if (existingRole.length > 0) {
+      return {
+        success: false,
+        message: "Role name already exists",
+      };
+    }
+
+    // Preserve existing status
+    const currentStatus = roles[0].status;
+
+    const [result] = await pool.execute(
+      `UPDATE roles
+       SET role_name = ?, responsibilities = ?, status = ?
+       WHERE id = ?`,
+      [role_name, responsibilities || "", currentStatus, id],
+    );
+
+    if (result.affectedRows === 0) {
+      return {
+        success: false,
+        message: "Failed to update role",
+      };
+    }
+
+    return {
+      success: true,
+      message: "Role updated successfully",
+    };
+  },
+
+  async deleteRole(id) {
+    if (!id) {
+      return {
+        status: "error",
+        message: "Invalid ID",
+      };
+    }
+
+    const [result] = await pool.query("DELETE FROM roles WHERE id = ?", [id]);
+
+    if (result.affectedRows > 0) {
+      return {
+        status: "success",
+        message: "Role deleted successfully",
+      };
+    }
+
+    return {
+      status: "error",
+      message: "Failed to delete role",
+    };
+  },
+
+  // -----------------------------------------
+  // VENDOR MODELS
+  // -----------------------------------------
+
+  // GET VENDOR LIST
+  async getVendorList() {
+    const [rows] = await pool.query(`
+    SELECT
+      v.*,
+      c.category_name
+    FROM vendor v
+    LEFT JOIN category c ON c.id = v.cat_id
+    WHERE (v.cat_id != 118 OR v.cat_id IS NULL)
+      AND (
+        c.category_name IS NULL
+        OR c.category_name NOT LIKE '%Restaurant%'
+      )
+    ORDER BY v.id DESC
+  `);
+
+    return rows;
+  },
+
+  // GET VENDOR CATEGORIES
+  async getVendorCategories() {
+    const [rows] = await pool.query(`
+    SELECT *
+    FROM category
+    WHERE id != 118
+      AND (
+        category_name IS NULL
+        OR category_name NOT LIKE '%Restaurant%'
+      )
+    ORDER BY id DESC
+  `);
+
+    return rows;
+  },
+
+  // GET VENDOR CITIES
+  async getVendorCities() {
+    const [rows] = await pool.query(`
+      SELECT *
+      FROM city_list
+      ORDER BY id DESC
+    `);
+
+    return rows;
+  },
+
+  // ADD VENDOR
+  async addVendor(vendorData, addressData) {
+    const connection = await pool.getConnection();
+
+    try {
+      await connection.beginTransaction();
+
+      const [vendorResult] = await connection.query(
+        `
+        INSERT INTO vendor (
+          name,
+          email_id,
+          mobile,
+          password,
+          business_name,
+          hst_number,
+          cat_id,
+          image,
+          id_proof,
+          id_proof_two,
+          city_id,
+          lat,
+          \`long\`,
+          facebook_ink
+        )
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        `,
+        [
+          vendorData.name,
+          vendorData.email_id,
+          vendorData.mobile,
+          vendorData.password,
+          vendorData.business_name,
+          vendorData.hst_number,
+          vendorData.cat_id,
+          vendorData.image,
+          vendorData.id_proof,
+          vendorData.id_proof_two,
+          vendorData.city_id,
+          vendorData.lat,
+          vendorData.long,
+          vendorData.facebook_ink,
+        ],
+      );
+
+      const vendorId = vendorResult.insertId;
+
+      await connection.query(
+        `
+        INSERT INTO vendor_address (
+          vendor_id,
+          address,
+          lat,
+          \`long\`
+        )
+        VALUES (?, ?, ?, ?)
+        `,
+        [vendorId, addressData.address, addressData.lat, addressData.long],
+      );
+
+      await connection.commit();
+
+      return vendorId;
+    } catch (error) {
+      await connection.rollback();
+      throw error;
+    } finally {
+      connection.release();
+    }
+  },
+
+  // UPLOAD VENDOR DOCUMENTS
+  async uploadVendorDocuments(vendorId, files) {
+    const connection = await pool.getConnection();
+
+    try {
+      const updates = [];
+      const values = [];
+
+      const documentMap = {
+        contract_id: "contract_id",
+        trade_license: "trade_license",
+        owner_id: "owner_id",
+        registration_id: "registration_id",
+        price_list: "price_list",
+        computer_card: "computer_card",
+        id_proof_1: "id_proof",
+        id_proof_2: "id_proof_two",
+      };
+
+      Object.keys(documentMap).forEach((fieldName) => {
+        if (files?.[fieldName]?.[0]) {
+          const columnName = documentMap[fieldName];
+          const fileName = files[fieldName][0].filename;
+
+          updates.push(`\`${columnName}\` = ?`);
+          values.push(fileName);
+        }
+      });
+
+      if (updates.length === 0) {
+        return {
+          uploaded: [],
+        };
+      }
+
+      values.push(vendorId);
+
+      const [result] = await connection.query(
+        `
+        UPDATE vendor
+        SET ${updates.join(", ")}
+        WHERE id = ?
+        `,
+        values,
+      );
+
+      return {
+        affectedRows: result.affectedRows,
+        uploaded: Object.keys(documentMap).filter(
+          (fieldName) => files?.[fieldName]?.[0],
+        ),
+      };
+    } finally {
+      connection.release();
+    }
+  },
+
+  // CHANGE VENDOR KYC STATUS
+  async changeKycStatus(vendorId) {
+    const connection = await pool.getConnection();
+
+    try {
+      // Get current KYC status
+      const [rows] = await connection.query(
+        `
+        SELECT id, is_kyc_approved
+        FROM vendor
+        WHERE id = ?
+        `,
+        [vendorId],
+      );
+
+      // Vendor not found
+      if (rows.length === 0) {
+        return {
+          success: false,
+          message: "No KYC data found regarding this vendor.",
+        };
+      }
+
+      const currentStatus = Number(rows[0].is_kyc_approved);
+
+      // Toggle status
+      const newStatus = currentStatus === 0 ? 1 : 0;
+
+      const message =
+        newStatus === 1
+          ? "KYC Approved Successfully"
+          : "KYC Disapproved Successfully";
+
+      // Update vendor
+      await connection.query(
+        `
+        UPDATE vendor
+        SET is_kyc_approved = ?
+        WHERE id = ?
+        `,
+        [newStatus, vendorId],
+      );
+
+      return {
+        success: true,
+        message,
+        is_kyc_approved: newStatus,
+      };
+    } finally {
+      connection.release();
+    }
+  },
+
+  // DELETE VENDOR
+  async deleteVendor(vendorId) {
+    const connection = await pool.getConnection();
+
+    try {
+      await connection.beginTransaction();
+
+      // Delete vendor
+      const [vendorResult] = await connection.query(
+        `
+        DELETE FROM vendor
+        WHERE id = ?
+        `,
+        [vendorId],
+      );
+
+      // Delete shop details
+      await connection.query(
+        `
+        DELETE FROM shop_details
+        WHERE id = ?
+        `,
+        [vendorId],
+      );
+
+      await connection.commit();
+
+      if (vendorResult.affectedRows === 0) {
+        return {
+          success: false,
+          message: "Vendor not found.",
+        };
+      }
+
+      return {
+        success: true,
+        message: "Vendor is deleted.",
+      };
+    } catch (error) {
+      await connection.rollback();
+      throw error;
+    } finally {
+      connection.release();
+    }
+  },
+
+  // DELETE SELECTED VENDORS
+  async deleteSelectedVendors(vendorIds) {
+    if (!Array.isArray(vendorIds) || vendorIds.length === 0) {
+      return {
+        success: false,
+        message: "No Vendor selected for deletion",
+      };
+    }
+
+    const connection = await pool.getConnection();
+
+    try {
+      const placeholders = vendorIds.map(() => "?").join(", ");
+
+      const [result] = await connection.query(
+        `
+        DELETE FROM vendor
+        WHERE id IN (${placeholders})
+        `,
+        vendorIds,
+      );
+
+      return {
+        success: true,
+        message: "Selected Vendor deleted successfully",
+        deletedCount: result.affectedRows,
+      };
+    } finally {
+      connection.release();
+    }
+  },
+
+  // GET VENDOR BY ID
+  async getVendorById(vendorId) {
+    const connection = await pool.getConnection();
+
+    try {
+      const [rows] = await connection.query(
+        `
+        SELECT
+          vendor.*,
+
+          IFNULL(
+            (
+              SELECT city_name
+              FROM city_list
+              WHERE city_list.id = vendor.city_id
+            ),
+            ''
+          ) AS city_name,
+
+          IFNULL(
+            (
+              SELECT category_name
+              FROM category
+              WHERE category.id = vendor.cat_id
+            ),
+            ''
+          ) AS category_name,
+
+          IFNULL(
+            (
+              SELECT shop_name
+              FROM shop_details
+              WHERE shop_details.vendor_id = vendor.id
+              LIMIT 1
+            ),
+            ''
+          ) AS shop_name
+
+        FROM vendor
+        WHERE vendor.id = ?
+        `,
+        [vendorId],
+      );
+
+      // PHP:
+      // if(empty($data['vendorDetail'])){
+      //     redirect('Admin/dashboard');
+      // }
+
+      if (rows.length === 0) {
+        return {
+          success: false,
+          message: "Vendor not found.",
+        };
+      }
+
+      // PHP:
+      // UPDATE notifications
+      // SET is_seen_admin='1'
+      // WHERE vendor_id = '$id'
+
+      await connection.query(
+        `
+        UPDATE notifications
+        SET is_seen_admin = 1
+        WHERE vendor_id = ?
+        `,
+        [vendorId],
+      );
+
+      return {
+        success: true,
+        data: rows[0],
+      };
+    } finally {
+      connection.release();
+    }
+  },
+
+  // GET ALL CITIES
+  async getAllCities() {
+    const [rows] = await pool.query(
+      "SELECT id, city_name FROM city_list ORDER BY city_name ASC",
+    );
+
+    return rows;
+  },
+
+  // GET VENDOR DETAILS
+  async getServiceVendorShopDetails(vendorId) {
+    const [rows] = await pool.execute(
+      `
+      SELECT vendor.*,
+        IFNULL(
+          (SELECT city_name
+           FROM city_list
+           WHERE city_list.id = vendor.city_id),
+          ''
+        ) AS city_name,
+        IFNULL(
+          (SELECT category_name
+           FROM category
+           WHERE category.id = vendor.cat_id),
+          ''
+        ) AS category_name,
+        IFNULL(
+          (SELECT shop_name
+           FROM shop_details
+           WHERE shop_details.vendor_id = vendor.id
+           LIMIT 1),
+          ''
+        ) AS shop_name
+      FROM vendor
+      WHERE vendor.id = ?
+      LIMIT 1
+      `,
+      [vendorId],
+    );
+
+    if (rows.length === 0) {
+      return null;
+    }
+
+    // Preserve the notification update from PHP shop_detail()
+    await pool.execute(
+      `
+      UPDATE notifications
+      SET is_seen_admin = '1'
+      WHERE vendor_id = ?
+      `,
+      [vendorId],
+    );
+
+    return rows[0];
+  },
+
+  
+  // VENDOR ADDRESSES ====================
+
+  async getServiceVendorAddresses(vendorId) {
+    const [rows] = await pool.execute(
+      `
+      SELECT *
+      FROM vendor_address
+      WHERE vendor_id = ?
+      ORDER BY id DESC
+      `,
+      [vendorId],
+    );
+
+    return rows;
+  },
+
+  async saveServiceVendorAddress(data) {
+    const {
+      vendorId,
+      addressId,
+      address,
+      lat,
+      lng,
+    } = data;
+
+    const now = new Date();
+    const timestamp = [
+      now.getFullYear(),
+      "-",
+      String(now.getMonth() + 1).padStart(2, "0"),
+      "-",
+      String(now.getDate()).padStart(2, "0"),
+      " ",
+      String(now.getHours()).padStart(2, "0"),
+      ":",
+      String(now.getMinutes()).padStart(2, "0"),
+      ":",
+      String(now.getSeconds()).padStart(2, "0"),
+    ].join("");
+
+    if (addressId > 0) {
+      await pool.execute(
+        `
+        UPDATE vendor_address
+        SET
+          address = ?,
+          lat = ?,
+          \`long\` = ?,
+          updated_at = ?
+        WHERE id = ?
+          AND vendor_id = ?
+        `,
+        [address, lat, lng, timestamp, addressId, vendorId],
+      );
+    } else {
+      await pool.execute(
+        `
+        INSERT INTO vendor_address
+          (vendor_id, address, lat, \`long\`, created_at, updated_at)
+        VALUES (?, ?, ?, ?, ?, ?)
+        `,
+        [vendorId, address, lat, lng, timestamp, timestamp],
+      );
+    }
+
+    await this.syncServiceVendorLatLng(vendorId);
+
+    return true;
+  },
+
+  async deleteServiceVendorAddress(vendorId, addressId) {
+    await pool.execute(
+      `
+      DELETE FROM vendor_address
+      WHERE id = ?
+        AND vendor_id = ?
+      `,
+      [addressId, vendorId],
+    );
+
+    await this.syncServiceVendorLatLng(vendorId);
+
+    return true;
+  },
+
+  async syncServiceVendorLatLng(vendorId) {
+    const [rows] = await pool.execute(
+      `
+      SELECT lat, \`long\`
+      FROM vendor_address
+      WHERE vendor_id = ?
+      ORDER BY id DESC
+      LIMIT 1
+      `,
+      [vendorId],
+    );
+
+    // Match the PHP behavior:
+    // Do not clear vendor coordinates if no address remains.
+    if (rows.length > 0) {
+      await pool.execute(
+        `
+        UPDATE vendor
+        SET lat = ?, \`long\` = ?
+        WHERE id = ?
+        `,
+        [rows[0].lat, rows[0].long, vendorId],
+      );
+    }
+
+    return true;
+  },
+
+
+  // GET CATEGORY KEYWORDS
+  async getServiceVendorKeywordsByCategory(categoryId) {
+    const [rows] = await pool.execute(
+      `
+      SELECT *
+      FROM category_keywords
+      WHERE category_id = ?
+      ORDER BY keyword ASC
+      `,
+      [categoryId],
+    );
+
+    return rows;
+  },
+
+  // GET SELECTED VENDOR KEYWORD IDS
+  async getServiceVendorKeywordIds(vendorId) {
+    const [rows] = await pool.execute(
+      `
+      SELECT keyword_id
+      FROM vendor_keywords
+      WHERE vendor_id = ?
+      `,
+      [vendorId],
+    );
+
+    return rows.map((row) => row.keyword_id);
+  },
+
+  // SAVE SERVICE SIDE VENDOR KEYWORDS
+  async saveServiceVendorKeywords(vendorId, keywordIds) {
+    await pool.execute(
+      `
+      DELETE FROM vendor_keywords
+      WHERE vendor_id = ?
+      `,
+      [vendorId],
+    );
+
+    // Match the PHP behavior: empty keyword array means
+    // existing mappings are deleted and the operation succeeds.
+    if (Array.isArray(keywordIds) && keywordIds.length > 0) {
+      const insertValues = keywordIds.map((keywordId) => [vendorId, keywordId]);
+
+      await pool.query(
+        `
+        INSERT INTO vendor_keywords (vendor_id, keyword_id)
+        VALUES ?
+        `,
+        [insertValues],
+      );
+    }
+
+    return true;
+  },
+
+  // UPDATE VENDOR DETAILS
+  async updateServiceVendorDetails(vendorId, data) {
+    const fieldMap = {
+      name: "name",
+      email_id: "email_id",
+      mobile: "mobile",
+      city_id: "city_id",
+      about: "about",
+      acc_holder_name: "acc_holder_name",
+      account_number: "account_number",
+      branch_name: "branch_name",
+      tansit_number: "tansit_number",
+      branch_address: "branch_address",
+      institution_number: "institution_number",
+      cat_id: "cat_id",
+      shopname: "business_name",
+      hst_no: "hst_number",
+      password: "password",
+    };
+
+    const updates = [];
+    const values = [];
+
+    for (const [requestField, databaseField] of Object.entries(fieldMap)) {
+      const value = data[requestField];
+
+      // Match PHP !empty(): do not update empty values or "0".
+      if (
+        value !== undefined &&
+        value !== null &&
+        value !== "" &&
+        value !== "0" &&
+        value !== 0 &&
+        value !== false
+      ) {
+        updates.push(`${databaseField} = ?`);
+        values.push(value);
+      }
+    }
+
+    if (updates.length === 0) {
+      return false;
+    }
+
+    values.push(vendorId);
+
+    await pool.execute(
+      `
+      UPDATE vendor
+      SET ${updates.join(", ")}
+      WHERE id = ?
+      `,
+      values,
+    );
+
+    return true;
+  },
+
+  // GET VENDOR BOOKINGS
+  async getServiceVendorPendingBookings(vendorId) {
+    // PHP first checks whether at least one pending booking exists.
+    const [pendingRows] = await pool.execute(
+      `
+      SELECT *
+      FROM booking
+      WHERE vendor_id = ?
+        AND status = 0
+      `,
+      [vendorId],
+    );
+
+    if (pendingRows.length === 0) {
+      return false;
+    }
+
+    // Intentionally retrieve ALL bookings after the pending check,
+    // matching the original PHP query's status-filter behavior.
+    const [bookingRows] = await pool.execute(
+      `
+      SELECT
+        booking.id AS Booking_id,
+        booking.booking_uniqe_id AS Booking_id_string,
+        booking.userid,
+        (
+          SELECT CONCAT(users.fname, ' ', users.lname)
+          FROM users
+          WHERE users.id = booking.userid
+        ) AS customer_name,
+        (
+          SELECT address.address
+          FROM address
+          WHERE address.id = booking.address_id
+        ) AS booking_address,
+        (
+          SELECT payment_details.amount
+          FROM payment_details
+          WHERE payment_details.id = booking.payment_id
+        ) AS paid_amount,
+        (
+          SELECT payment_details.transaction
+          FROM payment_details
+          WHERE payment_details.id = booking.payment_id
+        ) AS transaction,
+        booking.address_id,
+        booking.date,
+        booking.time_slote_id,
+        booking.payment_id,
+        DATE_FORMAT(booking.date, '%d-%m-%Y') AS booked_date,
+        DATE_FORMAT(time_slots.time_slote, '%h:%i %p') AS booked_time,
+        CONCAT(
+          DATE_FORMAT(booking.date, '%d-%m-%Y'),
+          ' ',
+          DATE_FORMAT(time_slots.time_slote, '%h:%i %p')
+        ) AS booked_date_time,
+        50 AS item_count,
+        200 AS total_amount,
+        booking.status AS current_status,
+        (
+          SELECT category.category_name
+          FROM category
+          WHERE category.id = booking.cat_id
+        ) AS rcat_name,
+        CASE
+          WHEN booking.status = 0 THEN 'Pending'
+          WHEN booking.status = 1 THEN 'Confirmed'
+          WHEN booking.status = 2 THEN 'Completed'
+          WHEN booking.status = 3 THEN 'Cancelled'
+          ELSE 'NA'
+        END AS status_in_string,
+        booking.cart_meta_data,
+        booking.vendor_id
+      FROM booking
+      JOIN time_slots
+        ON time_slots.id = booking.time_slote_id
+      WHERE booking.vendor_id = ?
+      `,
+      [vendorId],
+    );
+
+    for (const booking of bookingRows) {
+      const cart = booking.cart_meta_data
+        ? JSON.parse(booking.cart_meta_data)
+        : [];
+
+      const cartItems = Array.isArray(cart) ? cart : Object.values(cart || {});
+
+      booking.item_count = cartItems.length;
+      booking.total_amount = 0;
+      booking.product_list = [];
+
+      for (const item of cartItems) {
+        booking.total_amount += Number(item.final_amount || 0);
+
+        const product = {
+          product_id: item.product_id,
+          name: item.name,
+          image: item.image,
+          quantity: item.quantity,
+          final_amount: item.final_amount,
+          addons: [],
+          addon_price: item.addon_price,
+        };
+
+        if (
+          item.addon !== undefined &&
+          item.addon !== null &&
+          String(item.addon).trim() !== ""
+        ) {
+          // PHP uses the add-on IDs in an SQL IN(...) clause.
+          // Parse them as numeric IDs before querying.
+          const addonIds = String(item.addon)
+            .split(",")
+            .map((id) => id.trim())
+            .filter((id) => /^\d+$/.test(id));
+
+          if (addonIds.length > 0) {
+            const placeholders = addonIds.map(() => "?").join(", ");
+
+            const [addons] = await pool.execute(
+              `
+              SELECT *
+              FROM addon_product
+              WHERE id IN (${placeholders})
+              `,
+              addonIds,
+            );
+
+            product.addons = addons;
+          }
+        }
+
+        booking.product_list.push(product);
+      }
+    }
+
+    return bookingRows;
+  },
+
+  // GET VENDOR RADIUS
+  async getVendorRadius() {
+    const [rows] = await pool.query("SELECT * FROM nearby");
+
+    // Same as PHP ->row()
+    return rows[0] || null;
+  },
+
+  // SAVE VENDOR RADIUS
+  async saveVendorRadius({ redius, vendor_id }) {
+    let formattedRadius = String(redius ?? "").trim();
+
+    // Same as PHP stripos($formatted_radius, 'KM')
+    if (!formattedRadius.toLowerCase().includes("km")) {
+      formattedRadius += " KM";
+    }
+
+    const now = new Date();
+    const pad = (value) => String(value).padStart(2, "0");
+
+    // Same formats as PHP date('d-m-Y') and date('H:i')
+    const formattedDate = `${pad(now.getDate())}-${pad(now.getMonth() + 1)}-${now.getFullYear()}`;
+
+    const formattedTime = `${pad(now.getHours())}:${pad(now.getMinutes())}`;
+
+    const vendorData = [formattedRadius, formattedDate, formattedTime];
+
+    // Same as PHP: update when vendor_id is not empty
+    if (
+      vendor_id !== undefined &&
+      vendor_id !== null &&
+      String(vendor_id).trim() !== ""
+    ) {
+      const [result] = await pool.query(
+        `UPDATE nearby
+         SET redius = ?, date = ?, time = ?
+         WHERE id = ?`,
+        [...vendorData, vendor_id],
+      );
+
+      if (result.affectedRows === 0) {
+        return {
+          success: false,
+          message: "No vendor radius record was updated.",
+        };
+      }
+
+      return {
+        success: true,
+        message: "Vendor radius successfully updated.",
+      };
+    }
+
+    // Same as PHP: insert when vendor_id is empty
+    const [result] = await pool.query(
+      `INSERT INTO nearby (redius, date, time)
+       VALUES (?, ?, ?)`,
+      vendorData,
+    );
+
+    return {
+      success: true,
+      message: "Vendor radius successfully added.",
+      insertId: result.insertId,
+    };
+  },
+
+  // -----------------------------------------
+  // USER MANAGEMENT
+  // -----------------------------------------
+
+  // ALL USERS
+  async getUsers() {
+    const [rows] = await pool.execute(
+      `
+    SELECT *
+    FROM users
+    WHERE role = ?
+    ORDER BY id DESC
+    `,
+      [1],
+    );
+
+    return rows;
+  },
+
+  // ==================== ALL USERS: WALLET ====================
+  async addWalletAmount(userId, amount) {
+    await pool.execute(`UPDATE users SET wallet = wallet + ? WHERE id = ?`, [
+      amount,
+      userId,
+    ]);
+
+    await pool.execute(
+      `INSERT INTO wallet_details (userid, amount, debit_credit)
+     VALUES (?, ?, 'credit')`,
+      [userId, amount],
+    );
+
+    const [rows] = await pool.execute(`SELECT fcm_id FROM users WHERE id = ?`, [
+      userId,
+    ]);
+
+    return rows[0] || null;
+  },
+
+  // ==================== ALL USERS: SINGLE DELETE ====================
+  async deleteCustomer(id) {
+    const [result] = await pool.execute(`DELETE FROM users WHERE id = ?`, [id]);
+
+    return result;
+  },
+
+  // ==================== ALL USERS: BULK DELETE ====================
+  async deleteSelectedUsers(ids) {
+    const placeholders = ids.map(() => "?").join(", ");
+
+    const [result] = await pool.execute(
+      `DELETE FROM users WHERE id IN (${placeholders})`,
+      ids,
+    );
+
+    return result;
+  },
+
+  async getUserDetail(userId) {
+    const [rows] = await pool.execute("SELECT * FROM users WHERE id = ?", [
+      userId,
+    ]);
+    return rows[0] || null;
+  },
+
+  async getUserAddresses(userId) {
+    const [rows] = await pool.execute(
+      "SELECT * FROM address WHERE user_id = ?",
+      [userId],
+    );
+    return rows;
+  },
+
+  async getUserBookings(userId) {
+    const [rows] = await pool.execute(
+      `SELECT * FROM booking
+     WHERE booking.status IN (0, 2)
+       AND booking.userid = ?
+     ORDER BY booking.id DESC`,
+      [userId],
+    );
+
+    return rows;
+  },
+
+  async getUserBookingDetails(userId) {
+    const [rows] = await pool.execute(
+      `SELECT
+      booking.id AS Booking_id,
+      booking.booking_uniqe_id AS Booking_id_string,
+      booking.userid,
+      (SELECT CONCAT(users.fname, ' ', users.lname)
+       FROM users WHERE users.id = booking.userid) AS customer_name,
+
+      CASE
+        WHEN booking.address_id IS NOT NULL AND booking.address_id != 0
+        THEN (SELECT a.address FROM address a WHERE a.id = booking.address_id)
+        ELSE (SELECT va.address FROM vendor_address va
+              WHERE va.id = booking.vendor_address_id)
+      END AS booking_address,
+
+      (SELECT ROUND(payment_details.amount, 2)
+       FROM payment_details
+       WHERE payment_details.id = booking.payment_id) AS paid_amount,
+
+      (SELECT payment_details.transaction
+       FROM payment_details
+       WHERE payment_details.id = booking.payment_id) AS transaction,
+
+      booking.address_id,
+      booking.date,
+      booking.time_slote_id,
+      booking.payment_id,
+
+      CASE
+        WHEN booking.date = '0000-00-00'
+          OR booking.date IS NULL
+          OR booking.time_slote_id = '0'
+        THEN DATE_FORMAT(booking.onsite_date, '%d-%m-%Y')
+        ELSE DATE_FORMAT(booking.date, '%d-%m-%Y')
+      END AS booked_date,
+
+      CASE
+        WHEN booking.time_slote_id = '0'
+        THEN (SELECT DATE_FORMAT(ts.time_slote, '%h:%i %p')
+              FROM time_slots ts
+              WHERE ts.id = booking.onsite_time_slote_id)
+        ELSE DATE_FORMAT(time_slots.time_slote, '%h:%i %p')
+      END AS booked_time,
+
+      CONCAT(
+        CASE
+          WHEN booking.date = '0000-00-00'
+            OR booking.date IS NULL
+            OR booking.time_slote_id = '0'
+          THEN DATE_FORMAT(booking.onsite_date, '%d-%m-%Y')
+          ELSE DATE_FORMAT(booking.date, '%d-%m-%Y')
+        END,
+        ' ',
+        CASE
+          WHEN booking.time_slote_id = '0'
+          THEN (SELECT DATE_FORMAT(ts.time_slote, '%h:%i %p')
+                FROM time_slots ts
+                WHERE ts.id = booking.onsite_time_slote_id)
+          ELSE DATE_FORMAT(time_slots.time_slote, '%h:%i %p')
+        END
+      ) AS booked_date_time,
+
+      booking.status AS current_status,
+
+      (SELECT category.category_name
+       FROM category WHERE category.id = booking.cat_id) AS rcat_name,
+
+      CASE
+        WHEN booking.status = 0 THEN 'Pending'
+        WHEN booking.status = 1 THEN 'Confirmed'
+        WHEN booking.status = 2 THEN 'Completed'
+        WHEN booking.status = 3 THEN 'Cancelled'
+        ELSE 'NA'
+      END AS status_in_string,
+
+      booking.cart_meta_data,
+      booking.vendor_id
+
+    FROM booking
+    LEFT JOIN time_slots
+      ON time_slots.id = booking.time_slote_id
+    WHERE booking.status IN (0, 2)
+      AND booking.userid = ?
+    ORDER BY booking.id DESC`,
+      [userId],
+    );
+
+    return rows;
+  },
+
+  async getCouponById(couponId) {
+    const [rows] = await pool.execute("SELECT * FROM cupon_code WHERE id = ?", [
+      couponId,
+    ]);
+    return rows[0] || null;
+  },
+
+  async getAddonProducts(addonIds) {
+    const [rows] = await pool.query(
+      `SELECT * FROM addon_product WHERE id IN (${addonIds})`,
+    );
+    return rows;
+  },
+
+  async updateUserDetail(userId, postData) {
+    const fields = Object.keys(postData);
+    if (!fields.length) return null;
+
+    const setClause = fields.map((field) => `\`${field}\` = ?`).join(", ");
+    const values = fields.map((field) => postData[field]);
+
+    const [result] = await pool.execute(
+      `UPDATE users SET ${setClause} WHERE id = ?`,
+      [...values, userId],
+    );
+
+    return result;
+  },
+
+  async checkUserEmailOrMobile(email, mobile, userId) {
+    const [rows] = await pool.execute(
+      `SELECT * FROM users
+     WHERE (users.email = ? OR users.mobile = ?)
+       AND users.id != ?`,
+      [email, mobile, userId],
+    );
+    return rows;
+  },
+
+  async updateUserAddress(addressId, address) {
+    const [result] = await pool.execute(
+      "UPDATE address SET address = ? WHERE id = ?",
+      [address, addressId],
+    );
+    return result;
+  },
+
+  async deleteUserAddress(addressId, userId) {
+    const [result] = await pool.execute(
+      "DELETE FROM address WHERE id = ? AND user_id = ?",
+      [addressId, userId],
+    );
+    return result;
+  },
+
+  // ==================== EXPERTS MANAGEMENT ====================
+
+  // GET ALL EXPERTS
+  async getExperts() {
+    const [rows] = await pool.execute(`
+      SELECT
+        experts.*,
+        vendor.name AS vendor_name,
+        category.category_name,
+        sub_category.name AS sub_category_name
+      FROM experts
+      LEFT JOIN vendor
+        ON vendor.id = experts.vendor_id
+      LEFT JOIN category
+        ON category.id = experts.category_id
+      LEFT JOIN sub_category
+        ON sub_category.id = experts.scat_id
+      ORDER BY experts.id DESC
+    `);
+
+    return rows;
+  },
+
+  // SAVE NEW EXPERT
+  async saveNewExpert(expertData) {
+    const { image, name, experience, vendor_id, category_id, scat_id } =
+      expertData;
+
+    const [result] = await pool.execute(
+      `INSERT INTO experts
+        (image, name, experience, vendor_id, category_id, scat_id)
+       VALUES (?, ?, ?, ?, ?, ?)`,
+      [image, name, experience, vendor_id, category_id, scat_id],
+    );
+
+    return {
+      id: result.insertId,
+      image,
+      name,
+      experience,
+      vendor_id,
+      category_id,
+      scat_id,
+    };
+  },
+
+  // GET EXPERT FORM DATA
+  async getExpertFormData() {
+    const [vendors] = await pool.execute(`
+      SELECT id, name
+      FROM vendor
+      ORDER BY name ASC
+    `);
+
+    const [categories] = await pool.execute(`
+      SELECT id, category_name
+      FROM category
+      ORDER BY category_name ASC
+    `);
+
+    const [subCategories] = await pool.execute(`
+      SELECT id, name, cat_id
+      FROM sub_category
+      ORDER BY name ASC
+    `);
+
+    return { vendors, categories, subCategories };
+  },
+
+  // GET SINGLE EXPERT DETAILS
+  async getExpertDetails(id) {
+    const [rows] = await pool.execute(
+      `SELECT
+         experts.*,
+         IFNULL(
+           (
+             SELECT city_name
+             FROM city_list
+             WHERE city_list.id = experts.city_id
+           ),
+           ''
+         ) AS city_name,
+         vendor.name AS vendor_name
+       FROM experts
+       LEFT JOIN vendor
+         ON vendor.id = experts.vendor_id
+       WHERE experts.id = ?`,
+      [id],
+    );
+
+    return rows.length > 0 ? rows[0] : null;
+  },
+
+  // UPDATE EXPERT BASIC DETAILS
+  async updateExpertBasisDetail(id, expertData) {
+    const {
+      name,
+      email,
+      mobile,
+      city_id,
+      about,
+      account_holder,
+      account_number,
+      branch_name,
+      ifsc_code,
+    } = expertData;
+
+    const updateFields = [];
+    const updateValues = [];
+
+    if (name) {
+      updateFields.push("name = ?");
+      updateValues.push(name);
+    }
+    if (email) {
+      updateFields.push("email = ?");
+      updateValues.push(email);
+    }
+    if (mobile) {
+      updateFields.push("mobile = ?");
+      updateValues.push(mobile);
+    }
+    if (city_id) {
+      updateFields.push("city_id = ?");
+      updateValues.push(city_id);
+    }
+    if (about) {
+      updateFields.push("about = ?");
+      updateValues.push(about);
+    }
+    if (account_holder) {
+      updateFields.push("account_holder = ?");
+      updateValues.push(account_holder);
+    }
+    if (account_number) {
+      updateFields.push("account_number = ?");
+      updateValues.push(account_number);
+    }
+    if (branch_name) {
+      updateFields.push("branch_name = ?");
+      updateValues.push(branch_name);
+    }
+    if (ifsc_code) {
+      updateFields.push("ifsc_code = ?");
+      updateValues.push(ifsc_code);
+    }
+
+    if (updateFields.length === 0 || !id) {
+      return false;
+    }
+
+    updateValues.push(id);
+
+    const [result] = await pool.execute(
+      `UPDATE experts
+       SET ${updateFields.join(", ")}
+       WHERE id = ?`,
+      updateValues,
+    );
+
+    return result.affectedRows > 0;
+  },
+
+  // ==================== APP REVIEWS ====================
+
+  async getAppReviews() {
+    const [rows] = await pool.execute(`
+    SELECT
+    app_rating_review.id AS app_r_id,
+    app_rating_review.*,
+    DATE_FORMAT(
+        app_rating_review.date_time,
+        '%Y-%m-%d %h:%i%p'
+    ) AS r_dated,
+    users.*
+FROM app_rating_review
+ LEFT JOIN users
+    ON users.id = app_rating_review.user_id
+  `);
+
+    return rows;
+  },
+
+  async markAppReviewAsTestimonial(id) {
+    const [result] = await pool.execute(
+      "UPDATE app_rating_review SET is_testimonial = 'true' WHERE id = ?",
+      [id],
+    );
+
+    return result;
+  },
+
+  async removeAppReviewTestimonial(id) {
+    const [result] = await pool.execute(
+      "UPDATE app_rating_review SET is_testimonial = 'false' WHERE id = ?",
+      [id],
+    );
+
+    return result;
+  },
+
+  async deleteAppReview(id) {
+    const [result] = await pool.execute(
+      "DELETE FROM app_rating_review WHERE id = ?",
+      [id],
+    );
+
+    return result;
+  },
+
+  // ==================== CATEGORY MANAGEMENT ====================
+
+  // ==================== CATEGORY ====================
+
+  async getCategories() {
+    const [rows] = await pool.execute(`
+    SELECT
+      category.*,
+      services.name,
+      services.ar_name
+    FROM category
+    LEFT JOIN services
+      ON services.id = category.service_id
+    WHERE category.id != 118
+    ORDER BY category.sort_order ASC, category.id DESC
+  `);
+    return rows;
+  },
+
+  //change category orders
+  async updateCategoryOrder(orderIds) {
+    const connection = await pool.getConnection();
+
+    try {
+      await connection.beginTransaction();
+
+      for (let index = 0; index < orderIds.length; index++) {
+        await connection.execute(
+          `UPDATE category SET sort_order = ? WHERE id = ?`,
+          [index + 1, Number(orderIds[index])],
+        );
+      }
+
+      await connection.commit();
+
+      return {
+        result: true,
+        msg: "Order updated successfully",
+        updated_count: orderIds.length,
+      };
+    } catch (error) {
+      await connection.rollback();
+      throw error;
+    } finally {
+      connection.release();
+    }
+  },
+
+  async updateCategoryStatus(id, status) {
+    const [result] = await pool.execute(
+      `UPDATE category SET status = ? WHERE id = ?`,
+      [status, id],
+    );
+
+    return result;
+  },
+
+  async getCategoryById(id) {
+    const [rows] = await pool.execute(`SELECT * FROM category WHERE id = ?`, [
+      id,
+    ]);
+
+    return rows[0];
+  },
+
+  async updateCategory(id, data) {
+    const [result] = await pool.execute(
+      `UPDATE category
+     SET category_name = ?,
+         showHomeService = ?,
+         showOnSiteService = ?,
+         sort_description = ?
+     WHERE id = ?`,
+      [
+        data.category_name,
+        data.showHomeService,
+        data.showOnSiteService,
+        data.sort_description,
+        id,
+      ],
+    );
+
+    return result;
+  },
+
+  async updateCategoryImage(id, image) {
+    const [result] = await pool.execute(
+      `UPDATE category SET category_image = ? WHERE id = ?`,
+      [image, id],
+    );
+
+    return result;
+  },
+
+  async deleteCategory(id) {
+    const [result] = await pool.execute(`DELETE FROM category WHERE id = ?`, [
+      id,
+    ]);
+
+    return result;
+  },
+
+  async deleteSelectedCategories(catIds) {
+    const placeholders = catIds.map(() => "?").join(",");
+
+    const [result] = await pool.execute(
+      `DELETE FROM category WHERE id IN (${placeholders})`,
+      catIds,
+    );
+
+    return result;
+  },
+
+  async importCategories(categories) {
+    if (!categories.length) return null;
+
+    const values = categories.map((row) => [
+      row.category_name,
+      row.status,
+      row.category_image,
+    ]);
+
+    const placeholders = values.map(() => "(?, ?, ?)").join(",");
+    const flatValues = values.flat();
+
+    const [result] = await pool.execute(
+      `INSERT INTO category (category_name, status, category_image)
+       VALUES ${placeholders}`,
+      flatValues,
+    );
+
+    return result;
+  },
+
+  async addCategory(data) {
+    const [result] = await pool.execute(
+      `INSERT INTO category
+       (category_name, category_image, showHomeService, showOnSiteService, sort_description)
+       VALUES (?, ?, ?, ?, ?)`,
+      [
+        data.category_name,
+        data.category_image,
+        data.showHomeService,
+        data.showOnSiteService,
+        data.sort_description,
+      ],
+    );
+
+    return result;
+  },
+
+  // CATEGORY KEYWORDS MANAGEMENT
+  // =====================================================
+
+  async getCategoryKeywordList() {
+    const [rows] = await pool.execute(`
+    SELECT
+      category_keywords.id,
+      category_keywords.keyword,
+      category_keywords.category_id,
+      category.category_name AS cat_name,
+      category.category_image
+    FROM category_keywords
+    LEFT JOIN category
+      ON category.id = category_keywords.category_id
+    ORDER BY
+      category.category_name ASC,
+      category_keywords.keyword ASC
+  `);
+
+    const [allCategories] = await pool.execute(`
+    SELECT id, category_name, category_image
+    FROM category
+    ORDER BY category_name ASC
+  `);
+
+    const groupedKeywords = {};
+
+    for (const row of rows) {
+      const categoryKey =
+        row.category_id === null ? "null" : String(row.category_id);
+
+      if (!groupedKeywords[categoryKey]) {
+        groupedKeywords[categoryKey] = {
+          category_id: row.category_id,
+          category_name: row.cat_name || "Unassigned",
+          category_image: row.category_image,
+          keywords: [],
+        };
+      }
+
+      groupedKeywords[categoryKey].keywords.push({
+        id: row.id,
+        keyword: row.keyword,
+      });
+    }
+
+    return {
+      grouped_keywords: groupedKeywords,
+      all_categories: allCategories,
+      total_categories: Object.keys(groupedKeywords).length,
+      total_keywords: rows.length,
+    };
+  },
+
+  async getCategoryKeywordCategory(categoryId) {
+    const [rows] = await pool.execute(
+      `SELECT id, category_name, category_image
+     FROM category
+     WHERE id = ?`,
+      [categoryId],
+    );
+
+    return rows[0] || null;
+  },
+
+  async categoryKeywordExists(categoryId, keyword) {
+    const [rows] = await pool.execute(
+      `SELECT id
+     FROM category_keywords
+     WHERE category_id = ? AND keyword = ?
+     LIMIT 1`,
+      [categoryId, keyword],
+    );
+
+    return rows.length > 0;
+  },
+
+  async insertCategoryKeyword(categoryId, keyword) {
+    const [result] = await pool.execute(
+      `INSERT INTO category_keywords
+      (category_id, keyword, status, created_at)
+     VALUES (?, ?, 1, NOW())`,
+      [categoryId, keyword],
+    );
+
+    return {
+      id: result.insertId,
+      keyword,
+    };
+  },
+
+  async deleteCategoryKeyword(id) {
+    const [result] = await pool.execute(
+      `DELETE FROM category_keywords WHERE id = ?`,
+      [id],
+    );
+
+    return result;
+  },
+
+  async deleteCategoryKeywordsByCategory(categoryId) {
+    const [result] = await pool.execute(
+      `DELETE FROM category_keywords WHERE category_id = ?`,
+      [categoryId],
+    );
+
+    return result;
+  },
+
+  // ==================== SUBCATEGORY ====================
+
+  async getSubCategories() {
+    const [rows] = await pool.execute(`
+    SELECT
+      sub_category.*,
+      category.category_name AS category_name
+    FROM sub_category
+    JOIN category ON category.id = sub_category.cat_id
+    WHERE sub_category.cat_id != 118
+    ORDER BY sub_category.sort_order ASC, sub_category.id DESC
+  `);
+
+    return rows;
+  },
+
+  async updateSubCategoryOrder(orderIds) {
+    const connection = await pool.getConnection();
+
+    try {
+      await connection.beginTransaction();
+
+      for (let index = 0; index < orderIds.length; index++) {
+        await connection.execute(
+          `UPDATE sub_category
+         SET sort_order = ?
+         WHERE id = ?`,
+          [index + 1, Number.parseInt(orderIds[index], 10) || 0],
+        );
+      }
+
+      await connection.commit();
+
+      return {
+        updated_count: orderIds.length,
+      };
+    } catch (error) {
+      await connection.rollback();
+      throw error;
+    } finally {
+      connection.release();
+    }
+  },
+
+  async addSubCategory(data) {
+    const [result] = await pool.execute(
+      `INSERT INTO sub_category (cat_id, name, description, image)
+       VALUES (?, ?, ?, ?)`,
+      [data.cat_id, data.name, data.description, data.image],
+    );
+
+    return result;
+  },
+
+  async getSubCategoryByIdService(id) {
+    const [rows] = await pool.execute(
+      `SELECT * FROM sub_category WHERE id = ?`,
+      [id],
+    );
+
+    return rows[0] || null;
+  },
+
+  async updateSubCategory(id, data) {
+    let query;
+    let values;
+
+    if (data.image !== undefined) {
+      query = `UPDATE sub_category
+             SET cat_id = ?, name = ?, description = ?, image = ?
+             WHERE id = ?`;
+
+      values = [data.cat_id, data.name, data.description || "", data.image, id];
+    } else {
+      query = `UPDATE sub_category
+             SET cat_id = ?, name = ?, description = ?
+             WHERE id = ?`;
+
+      values = [data.cat_id, data.name, data.description || "", id];
+    }
+
+    const [result] = await pool.execute(query, values);
+
+    return result;
+  },
+
+  async deleteSubCategory(id) {
+    const [result] = await pool.execute(
+      `DELETE FROM sub_category WHERE id = ?`,
+      [id],
+    );
+
+    return result;
+  },
+
+  async deleteSelectedSubCategories(subCatIds) {
+    const placeholders = subCatIds.map(() => "?").join(",");
+
+    const [result] = await pool.execute(
+      `DELETE FROM sub_category WHERE id IN (${placeholders})`,
+      subCatIds,
+    );
+
+    return result;
+  },
+
+  async changeSubCategoryStatus(id, newStatus) {
+    const [result] = await pool.execute(
+      `UPDATE sub_category SET status = ? WHERE id = ?`,
+      [newStatus, id],
+    );
+
+    return result;
+  },
+
+  // ========================  VENDOR IMAGE SLIDER =================================
+
+  async getAllVendorImages() {
+    const [rows] = await pool.execute(`
+    SELECT videos.*, vendor.name AS vendor_name
+    FROM videos
+    JOIN vendor ON vendor.id = videos.vendor_id
+    ORDER BY videos.id DESC
+  `);
+
+    return rows;
+  },
+
+  async getVendorImageById(id) {
+    const [rows] = await pool.execute(`SELECT * FROM videos WHERE id = ?`, [
+      id,
+    ]);
+
+    return rows[0] || null;
+  },
+
+  async getVendorImageFormData() {
+    const [services] = await pool.execute(`SELECT * FROM services LIMIT 6`);
+
+    const [vendors] = await pool.execute(`SELECT * FROM vendor`);
+
+    return { services, vendors };
+  },
+
+  async addVendorImage(data) {
+    const [result] = await pool.execute(
+      `INSERT INTO videos (title, description, image, vendor_id)
+     VALUES (?, ?, ?, ?)`,
+      [data.title, data.description, data.image, data.vendor_id],
+    );
+
+    return result.insertId;
+  },
+
+  async updateVendorImage(id, data) {
+    const fields = [`title = ?`, `description = ?`, `vendor_id = ?`];
+
+    const values = [data.title, data.description, data.vendor_id];
+
+    if (data.image) {
+      fields.push(`image = ?`);
+      values.push(data.image);
+    }
+
+    values.push(id);
+
+    const [result] = await pool.execute(
+      `UPDATE videos SET ${fields.join(", ")} WHERE id = ?`,
+      values,
+    );
+
+    return result;
+  },
+
+  async deleteVendorImage(id) {
+    const [result] = await pool.execute(`DELETE FROM videos WHERE id = ?`, [
+      id,
+    ]);
+
+    return result;
+  },
+
+  async deleteSelectedVendorImages(ids) {
+    if (!ids.length) return null;
+
+    const placeholders = ids.map(() => "?").join(", ");
+
+    const [result] = await pool.execute(
+      `DELETE FROM videos WHERE id IN (${placeholders})`,
+      ids,
+    );
+
+    return result;
+  },
+
+  // ==================== SERVICE SIDE CITIES ====================
+
+  async getServiceSideCities() {
+    const [rows] = await pool.execute("SELECT * FROM city_list");
+    return rows;
+  },
+
+  async getServiceSideCityById(id) {
+    const [rows] = await pool.execute("SELECT * FROM city_list WHERE id = ?", [
+      id,
+    ]);
+    return rows[0] || null;
+  },
+
+  async addServiceSideCity(cityName) {
+    const [result] = await pool.execute(
+      "INSERT INTO city_list (city_name) VALUES (?)",
+      [cityName],
+    );
+    return result;
+  },
+
+  async getServiceSideCityByName(cityName) {
+    const [rows] = await pool.execute(
+      `SELECT id, city_name
+     FROM city_list
+     WHERE LOWER(TRIM(city_name)) = LOWER(TRIM(?))
+     LIMIT 1`,
+      [cityName],
+    );
+
+    return rows[0] || null;
+  },
+
+  async updateServiceSideCity(id, cityName) {
+    const [result] = await pool.execute(
+      "UPDATE city_list SET city_name = ? WHERE id = ?",
+      [cityName, id],
+    );
+    return result;
+  },
+
+  async deleteServiceSideCity(id) {
+    const [result] = await pool.execute("DELETE FROM city_list WHERE id = ?", [
+      id,
+    ]);
+    return result;
+  },
+
+  async deleteSelectedServiceSideCities(cityIds) {
+    if (!Array.isArray(cityIds) || cityIds.length === 0) {
+      return { affectedRows: 0 };
+    }
+
+    const placeholders = cityIds.map(() => "?").join(", ");
+
+    const [result] = await pool.execute(
+      `DELETE FROM city_list WHERE id IN (${placeholders})`,
+      cityIds,
+    );
+
+    return result;
+  },
+
   // =====================================================
   // RESTAURANT MODELS
   // =====================================================
@@ -3547,14 +5828,14 @@ const AdminModel = {
     return result;
   },
 
-// =================================
-// RESTAURANT - STORE KEYWORDS
-// =================================
+  // =================================
+  // RESTAURANT - STORE KEYWORDS
+  // =================================
 
-// GET STORE BY ID
-async getRestaurantStoreById(id) {
-  const [rows] = await pool.execute(
-    `
+  // GET STORE BY ID
+  async getRestaurantStoreById(id) {
+    const [rows] = await pool.execute(
+      `
     SELECT
       vendor.*,
       category.category_name AS category_name,
@@ -3567,65 +5848,62 @@ async getRestaurantStoreById(id) {
     WHERE vendor.vendor_type = 'restaurant'
     AND vendor.id = ?
     `,
-    [id],
-  );
+      [id],
+    );
 
-  return rows[0] || null;
-},
+    return rows[0] || null;
+  },
 
-// GET KEYWORDS BY CATEGORY
-async getRestaurantKeywordsByCategory(categoryId) {
- const [rows] = await pool.execute(
-    `
+  // GET KEYWORDS BY CATEGORY
+  async getRestaurantKeywordsByCategory(categoryId) {
+    const [rows] = await pool.execute(
+      `
     SELECT *
     FROM category_keywords
     WHERE category_id = ?
     ORDER BY keyword ASC
     `,
-    [118],
-  );
+      [118],
+    );
 
-  return rows;
-},
+    return rows;
+  },
 
-// GET RESTAURANT VENDOR KEYWORD IDS
-async getRestaurantVendorKeywordIds(vendorId) {
-  const [rows] = await pool.execute(
-    `
+  // GET RESTAURANT VENDOR KEYWORD IDS
+  async getRestaurantVendorKeywordIds(vendorId) {
+    const [rows] = await pool.execute(
+      `
     SELECT keyword_id
     FROM restaurant_vendor_keywords
     WHERE vendor_id = ?
     `,
-    [vendorId],
-  );
+      [vendorId],
+    );
 
-  const ids = [];
+    const ids = [];
 
-  for (const row of rows) {
-    ids.push(row.keyword_id);
-  }
+    for (const row of rows) {
+      ids.push(row.keyword_id);
+    }
 
-  return ids;
-},
+    return ids;
+  },
 
-// SAVE RESTAURANT VENDOR KEYWORDS
-async saveRestaurantVendorKeywords(vendorId, keywordIds) {
-  await pool.execute(
-    `
+  // SAVE RESTAURANT VENDOR KEYWORDS
+  async saveRestaurantVendorKeywords(vendorId, keywordIds) {
+    await pool.execute(
+      `
     DELETE FROM restaurant_vendor_keywords
     WHERE vendor_id = ?
     `,
-    [vendorId],
-  );
+      [vendorId],
+    );
 
-  if (Array.isArray(keywordIds) && keywordIds.length > 0) {
-    const insertValues = keywordIds.map((keywordId) => [
-      vendorId,
-      keywordId,
-    ]);
+    if (Array.isArray(keywordIds) && keywordIds.length > 0) {
+      const insertValues = keywordIds.map((keywordId) => [vendorId, keywordId]);
 
-    await pool.query(
-      `
+      await pool.query(
+        `
       INSERT INTO restaurant_vendor_keywords
       (
         vendor_id,
@@ -3633,13 +5911,12 @@ async saveRestaurantVendorKeywords(vendorId, keywordIds) {
       )
       VALUES ?
       `,
-      [insertValues],
-    );
-  }
+        [insertValues],
+      );
+    }
 
-  return true;
-},
-
+    return true;
+  },
 };
 
 module.exports = AdminModel;

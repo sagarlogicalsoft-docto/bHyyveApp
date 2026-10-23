@@ -126,6 +126,11 @@
   scrollbar-width: auto;
 }
 
+.datatable-scroll-reorderable {
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
 .datatable-table-wrapper {
   width: max-content;
   min-width: 100%;
@@ -182,11 +187,11 @@
 
 .datatable-table thead th {
   height: 52px;
-  padding: 8px 8px;
+  padding: 8px 6px;
   background: #ffffff;
   border-bottom: 1px solid #edf0f4;
   color: #172b4d;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 700;
   text-align: left;
   white-space: nowrap;
@@ -237,7 +242,7 @@
 ========================================= */
 
 .datatable-table tbody td {
-  padding: 8px;
+  padding: 6px;
 
   border-bottom: 1px solid #edf0f4;
 
@@ -262,13 +267,21 @@
   background: #f8fafc;
 }
 
+.datatable-table tbody tr.datatable-row-dragging {
+  opacity: 0.4;
+}
+
+.datatable-table tbody tr.datatable-row-drag-over {
+  box-shadow: inset 0 2px 0 #1ba784;
+}
+
 
 /* =========================================
    EMPTY
 ========================================= */
 
 .datatable-empty {
-  height: 120px;
+  height: 100px;
 
   text-align: center !important;
 
@@ -325,8 +338,8 @@
 ========================================= */
 
 .datatable-pagination button {
-  min-width: 36px;
-  height: 36px;
+  min-width: 34px;
+  height: 34px;
 
   padding: 0 10px;
 
@@ -356,6 +369,38 @@
   border-color: #073b74;
 
   color: #ffffff;
+}
+
+
+/* Drage and Drop style  */
+.datatable-drag-handle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 30px;
+  min-height: 30px;
+  padding: 4px 8px;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  color: #64748b;
+  font-size: 20px;
+  line-height: 1;
+  cursor: grab;
+  touch-action: none;
+}
+
+.datatable-drag-handle:hover:not(:disabled) {
+  background: #f0f3f7;
+}
+
+.datatable-drag-handle:active {
+  cursor: grabbing;
+}
+
+.datatable-drag-handle:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
 }
 
 

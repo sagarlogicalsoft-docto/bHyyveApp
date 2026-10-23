@@ -361,7 +361,7 @@ const ADDON_TOPPING_TYPES = [
   },
 ];
 
-const MAX_IMAGE_MB = 1;
+const MAX_IMAGE_MB = 10;
 
 const RECOMMENDED_RATIO = 2;
 const RATIO_TOLERANCE = 0.05;
@@ -491,8 +491,7 @@ export default function EditRestaurantItem({ onUpdated }) {
 
         if (!mounted) return;
 
-        const data =
-          itemResponse?.data?.data ?? itemResponse?.data ?? {};
+        const data = itemResponse?.data?.data ?? itemResponse?.data ?? {};
         const item = data.item ?? {};
 
         setVendors(Array.isArray(data.vendors) ? data.vendors : []);
@@ -526,9 +525,7 @@ export default function EditRestaurantItem({ onUpdated }) {
               type: group.type,
               title: group.title ?? "",
               selection:
-                Number(group.is_required) === 1
-                  ? "required"
-                  : "optional",
+                Number(group.is_required) === 1 ? "required" : "optional",
               options:
                 group.type === "addon"
                   ? Array.isArray(group.options)
@@ -564,8 +561,7 @@ export default function EditRestaurantItem({ onUpdated }) {
         if (!mounted) return;
 
         setLoadError(
-          error?.response?.data?.msg ||
-            "Unable to load this restaurant item.",
+          error?.response?.data?.msg || "Unable to load this restaurant item.",
         );
       } finally {
         if (mounted) {
@@ -713,8 +709,7 @@ export default function EditRestaurantItem({ onUpdated }) {
       img.onload = () => {
         const ratio = img.width / img.height;
         URL.revokeObjectURL(objectUrl);
-        const offRatio =
-          Math.abs(ratio - RECOMMENDED_RATIO) > RATIO_TOLERANCE;
+        const offRatio = Math.abs(ratio - RECOMMENDED_RATIO) > RATIO_TOLERANCE;
         resolve({
           error: "",
           warning: offRatio
@@ -845,21 +840,15 @@ export default function EditRestaurantItem({ onUpdated }) {
     if (!entry) return;
 
     if (!entry.groupId) {
-      setAddonsToppings((prev) =>
-        prev.filter((e) => e.entryId !== entryId),
-      );
+      setAddonsToppings((prev) => prev.filter((e) => e.entryId !== entryId));
       return;
     }
 
     try {
-      const res = await restaurantItemService.deleteAddonGroup(
-        entry.groupId,
-      );
+      const res = await restaurantItemService.deleteAddonGroup(entry.groupId);
 
       if (res?.data?.result) {
-        setAddonsToppings((prev) =>
-          prev.filter((e) => e.entryId !== entryId),
-        );
+        setAddonsToppings((prev) => prev.filter((e) => e.entryId !== entryId));
       }
     } catch (error) {
       setSubmitError(
@@ -968,8 +957,7 @@ export default function EditRestaurantItem({ onUpdated }) {
 
       if (!res?.data?.result) {
         setModalErrors({
-          submit:
-            res?.data?.msg || "Unable to save this addon.",
+          submit: res?.data?.msg || "Unable to save this addon.",
         });
         return;
       }
@@ -982,9 +970,7 @@ export default function EditRestaurantItem({ onUpdated }) {
         type: "addon",
         title: group?.title ?? addonForm.title.trim(),
         selection:
-          Number(group?.is_required) === 1
-            ? "required"
-            : addonForm.selection,
+          Number(group?.is_required) === 1 ? "required" : addonForm.selection,
         options: Array.isArray(group?.options)
           ? group.options.map((opt) => ({
               rowId: makeId("opt"),
@@ -1009,9 +995,7 @@ export default function EditRestaurantItem({ onUpdated }) {
       closeModal();
     } catch (error) {
       setModalErrors({
-        submit:
-          error?.response?.data?.msg ||
-          "Unable to save this addon.",
+        submit: error?.response?.data?.msg || "Unable to save this addon.",
       });
     }
   };
@@ -1080,8 +1064,7 @@ export default function EditRestaurantItem({ onUpdated }) {
     );
 
     if (!hasValidRow) {
-      nextErrors.toppings =
-        "Add at least one topping with a name and price.";
+      nextErrors.toppings = "Add at least one topping with a name and price.";
     }
 
     setModalErrors(nextErrors);
@@ -1116,10 +1099,7 @@ export default function EditRestaurantItem({ onUpdated }) {
       .forEach((row, index) => {
         payload.append("option_name[]", row.name.trim());
         payload.append("option_price[]", row.price);
-        payload.append(
-          "existing_image[]",
-          row.existingImage || "",
-        );
+        payload.append("existing_image[]", row.existingImage || "");
 
         if (row.imageFile) {
           payload.append(`option_image_${index}`, row.imageFile);
@@ -1131,8 +1111,7 @@ export default function EditRestaurantItem({ onUpdated }) {
 
       if (!res?.data?.result) {
         setModalErrors({
-          submit:
-            res?.data?.msg || "Unable to save this topping.",
+          submit: res?.data?.msg || "Unable to save this topping.",
         });
         return;
       }
@@ -1145,9 +1124,7 @@ export default function EditRestaurantItem({ onUpdated }) {
         type: "topping",
         title: group?.title ?? "Toppings",
         selection:
-          Number(group?.is_required) === 1
-            ? "required"
-            : toppingForm.selection,
+          Number(group?.is_required) === 1 ? "required" : toppingForm.selection,
         options: [],
         toppings: Array.isArray(group?.options)
           ? group.options.map((opt) => ({
@@ -1176,9 +1153,7 @@ export default function EditRestaurantItem({ onUpdated }) {
       closeModal();
     } catch (error) {
       setModalErrors({
-        submit:
-          error?.response?.data?.msg ||
-          "Unable to save this topping.",
+        submit: error?.response?.data?.msg || "Unable to save this topping.",
       });
     }
   };
@@ -1229,9 +1204,7 @@ export default function EditRestaurantItem({ onUpdated }) {
         setSubmitSuccess(true);
         onUpdated?.(res.data.data);
       } else {
-        setSubmitError(
-          res?.data?.msg || "Unable to update this item.",
-        );
+        setSubmitError(res?.data?.msg || "Unable to update this item.");
       }
     } catch (err) {
       setSubmitError(
@@ -1472,9 +1445,7 @@ export default function EditRestaurantItem({ onUpdated }) {
               </select>
 
               {fieldError("vendorId") && (
-                <span className="eri-error-text">
-                  {fieldError("vendorId")}
-                </span>
+                <span className="eri-error-text">{fieldError("vendorId")}</span>
               )}
             </div>
 
@@ -1578,9 +1549,7 @@ export default function EditRestaurantItem({ onUpdated }) {
                 ))}
               </select>
               {fieldError("itemType") && (
-                <span className="eri-error-text">
-                  {fieldError("itemType")}
-                </span>
+                <span className="eri-error-text">{fieldError("itemType")}</span>
               )}
             </div>
 
@@ -1721,9 +1690,7 @@ export default function EditRestaurantItem({ onUpdated }) {
                         <button
                           type="button"
                           className="eri-outline-btn eri-outline-btn--danger"
-                          onClick={() =>
-                            removeAddonToppingEntry(entry.entryId)
-                          }
+                          onClick={() => removeAddonToppingEntry(entry.entryId)}
                         >
                           <Trash2 size={14} strokeWidth={2} />
                           Remove
@@ -1749,8 +1716,7 @@ export default function EditRestaurantItem({ onUpdated }) {
                                 {top.imagePreview || top.existingImageUrl ? (
                                   <img
                                     src={
-                                      top.imagePreview ||
-                                      top.existingImageUrl
+                                      top.imagePreview || top.existingImageUrl
                                     }
                                     alt=""
                                   />
@@ -1919,10 +1885,7 @@ export default function EditRestaurantItem({ onUpdated }) {
                           className="eri-input eri-row-price"
                           placeholder="Price"
                           value={row.price}
-                          onChange={handleAddonOptionChange(
-                            row.rowId,
-                            "price",
-                          )}
+                          onChange={handleAddonOptionChange(row.rowId, "price")}
                         />
                         <button
                           type="button"
@@ -1943,9 +1906,7 @@ export default function EditRestaurantItem({ onUpdated }) {
                   )}
 
                   {modalErrors.submit && (
-                    <span className="eri-error-text">
-                      {modalErrors.submit}
-                    </span>
+                    <span className="eri-error-text">{modalErrors.submit}</span>
                   )}
 
                   <button
@@ -2031,18 +1992,13 @@ export default function EditRestaurantItem({ onUpdated }) {
                           className="eri-input eri-row-price"
                           placeholder="Price"
                           value={row.price}
-                          onChange={handleToppingRowChange(
-                            row.rowId,
-                            "price",
-                          )}
+                          onChange={handleToppingRowChange(row.rowId, "price")}
                         />
 
                         <label className="eri-file-chip">
                           {row.imagePreview || row.existingImageUrl ? (
                             <img
-                              src={
-                                row.imagePreview || row.existingImageUrl
-                              }
+                              src={row.imagePreview || row.existingImageUrl}
                               alt=""
                               className="eri-file-chip-thumb"
                             />
@@ -2083,9 +2039,7 @@ export default function EditRestaurantItem({ onUpdated }) {
                   )}
 
                   {modalErrors.submit && (
-                    <span className="eri-error-text">
-                      {modalErrors.submit}
-                    </span>
+                    <span className="eri-error-text">{modalErrors.submit}</span>
                   )}
 
                   <button
@@ -2134,6 +2088,7 @@ export default function EditRestaurantItem({ onUpdated }) {
         buttonText="OK"
         onClose={() => {
           setSubmitSuccess(false);
+          navigate("/restaurant/product_list");
         }}
       />
     </div>

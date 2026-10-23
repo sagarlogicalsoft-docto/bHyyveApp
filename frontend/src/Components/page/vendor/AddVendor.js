@@ -2,12 +2,11 @@ import React, { useEffect, useState } from "react";
 import {
   GoogleMap,
   Marker,
-  Circle,
   Autocomplete,
   useJsApiLoader,
 } from "@react-google-maps/api";
 
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import {
   FaEye,
@@ -15,16 +14,114 @@ import {
   FaSave,
   FaMapMarkerAlt,
   FaCloudUploadAlt,
+  FaExclamationCircle,
+  FaFilePdf,
+  FaTimes,
 } from "react-icons/fa";
 
-import { IoIosArrowForward } from "react-icons/io";
+import ServiceBreadcrumbs from "../../common/ServiceBreadcrumbs";
+import ServiceSuccessModal from "../../common/modal/serviceModal/ServiceSuccessModal";
 
 import api from "../../../config/api";
 
 import "./addVendor.css";
 
+const MAX_FILE_SIZE_MB = 5;
+
+// =========================================================
+// API SERVICE LAYER (kept inline - move to a service file later)
+// =========================================================
+
+const fetchCategoriesApi = async () => {
+  const response = await api.get("/admin/categories");
+  return response.data;
+};
+
+const fetchCitiesApi = async () => {
+  const response = await api.get("/admin/cities");
+  return response.data;
+};
+
+const createVendorApi = async (formData) => {
+  const data = new FormData();
+
+  // Basic details
+  data.append("name", formData.fullName);
+  data.append("email", formData.email);
+  data.append("password", formData.password);
+  data.append("mobile", formData.mobile);
+
+  // Business details
+  data.append("business_name", formData.businessName);
+  data.append("hst_number", formData.hstNo);
+  data.append("facebook_ink", formData.facebookLink);
+
+  // Category + city ids
+  data.append("cat_id", formData.category);
+  data.append("city_id", formData.city);
+
+  // Location
+  data.append("address", formData.location);
+  data.append("lat", formData.latitude);
+  data.append("long", formData.longitude);
+
+  // Files
+  if (formData.profileImage) {
+    data.append("image", formData.profileImage);
+  }
+
+  if (formData.businessLogo) {
+    data.append("business_logo", formData.businessLogo);
+  }
+
+  if (formData.idProof) {
+    data.append("id_proof", formData.idProof);
+  }
+
+  if (formData.idProofTwo) {
+    data.append("id_proof_two", formData.idProofTwo);
+  }
+
+  const response = await api.post("/admin/vendors", data);
+  return response.data;
+};
+
+// =========================================================
+// CONSTANTS + HELPERS
+// =========================================================
+
+const fileFields = [
+  {
+    name: "profileImage",
+    label: "Profile Image",
+    accept: "image/*",
+    imageOnly: true,
+  },
+  {
+    name: "businessLogo",
+    label: "Business Logo",
+    accept: "image/*",
+    imageOnly: true,
+  },
+  { name: "idProof", label: "ID Proof", accept: "image/*,.pdf" },
+  { name: "idProofTwo", label: "ID Proof Two", accept: "image/*,.pdf" },
+];
+
+const formatFileSize = (bytes) => {
+  if (bytes < 1024 * 1024) {
+    return `${Math.max(1, Math.round(bytes / 1024))} KB`;
+  }
+
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+};
+
 const AddVendor = () => {
   const navigate = useNavigate();
+
+  const { isLoaded: isGoogleMapsLoaded } = useJsApiLoader({
+    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
+    libraries: ["places"],
+  });
 
   // =========================================================
   // FORM STATE
@@ -44,6 +141,7 @@ const AddVendor = () => {
     latitude: "",
     longitude: "",
     profileImage: null,
+    businessLogo: null,
     idProof: null,
     idProofTwo: null,
   });
@@ -66,6 +164,9 @@ const AddVendor = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
   const [apiError, setApiError] = useState("");
+  const [previews, setPreviews] = useState({});
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
   const [map, setMap] = useState(null);
   const [autocomplete, setAutocomplete] = useState(null);
 
@@ -77,10 +178,10 @@ const AddVendor = () => {
     try {
       setLoadingCategories(true);
 
-      const response = await api.get("/vendor/categories");
+      const data = await fetchCategoriesApi();
 
-      if (response.data?.success) {
-        setCategories(response.data.data || []);
+      if (data?.success) {
+        setCategories(data.data || []);
       } else {
         setCategories([]);
       }
@@ -103,10 +204,10 @@ const AddVendor = () => {
     try {
       setLoadingCities(true);
 
-      const response = await api.get("/vendor/cities");
+      const data = await fetchCitiesApi();
 
-      if (response.data?.success) {
-        setCities(response.data.data || []);
+      if (data?.success) {
+        setCities(data.data || []);
       } else {
         setCities([]);
       }
@@ -127,6 +228,33 @@ const AddVendor = () => {
     fetchCategories();
     fetchCities();
   }, []);
+
+  // =========================================================
+  // IMAGE PREVIEW URLS (created per selected image, cleaned up)
+  // =========================================================
+
+  useEffect(() => {
+    const urls = {};
+
+    fileFields.forEach(({ name }) => {
+      const file = formData[name];
+
+      if (file && file.type.startsWith("image/")) {
+        urls[name] = URL.createObjectURL(file);
+      }
+    });
+
+    setPreviews(urls);
+
+    return () => {
+      Object.values(urls).forEach((url) => URL.revokeObjectURL(url));
+    };
+  }, [
+    formData.profileImage,
+    formData.businessLogo,
+    formData.idProof,
+    formData.idProofTwo,
+  ]);
 
   // =========================================================
   // INPUT CHANGE
@@ -192,22 +320,53 @@ const AddVendor = () => {
   };
 
   // =========================================================
-  // FILE CHANGE
+  // FILE CHANGE (type + size validation)
   // =========================================================
 
-  const handleFileChange = (event) => {
+  const handleFileChange = (event, imageOnly) => {
     const { name, files } = event.target;
+    const file = files?.[0];
+
+    // allow choosing the same file again after removing it
+    event.target.value = "";
+
+    if (!file) {
+      return;
+    }
+
+    let fileError = "";
+
+    if (imageOnly && !file.type.startsWith("image/")) {
+      fileError = "Please choose an image file.";
+    } else if (file.size > MAX_FILE_SIZE_MB * 1024 * 1024) {
+      fileError = `File must be smaller than ${MAX_FILE_SIZE_MB} MB.`;
+    }
+
+    if (fileError) {
+      setErrors((previous) => ({ ...previous, [name]: fileError }));
+      return;
+    }
 
     setFormData((previous) => ({
       ...previous,
-      [name]: files?.[0] || null,
+      [name]: file,
     }));
 
-    if (errors[name]) {
-      setErrors((previous) => ({
-        ...previous,
-        [name]: "",
-      }));
+    setErrors((previous) => ({ ...previous, [name]: "" }));
+  };
+
+  const handleFileRemove = (name) => {
+    setFormData((previous) => ({
+      ...previous,
+      [name]: null,
+    }));
+
+    setErrors((previous) => ({ ...previous, [name]: "" }));
+  };
+
+  const handlePreviewOpen = (name) => {
+    if (previews[name]) {
+      window.open(previews[name], "_blank");
     }
   };
 
@@ -242,6 +401,13 @@ const AddVendor = () => {
 
     setErrors(newErrors);
 
+    // focus the first invalid field
+    const firstInvalid = Object.keys(newErrors)[0];
+
+    if (firstInvalid) {
+      document.getElementById(firstInvalid)?.focus();
+    }
+
     return Object.keys(newErrors).length === 0;
   };
 
@@ -261,87 +427,13 @@ const AddVendor = () => {
     try {
       setSaving(true);
 
-      // -----------------------------------------------------
-      // CREATE MULTIPART FORM DATA
-      // -----------------------------------------------------
+      const data = await createVendorApi(formData);
 
-      const data = new FormData();
-
-      // Basic details
-      data.append("name", formData.fullName);
-      data.append("email", formData.email);
-      data.append("password", formData.password);
-      data.append("mobile", formData.mobile);
-
-      // Business details
-      data.append("business_name", formData.businessName);
-
-      data.append("hst_number", formData.hstNo);
-
-      data.append("facebook_ink", formData.facebookLink);
-
-      // -----------------------------------------------------
-      // CATEGORY ID
-      // -----------------------------------------------------
-
-      data.append("cat_id", formData.category);
-
-      // -----------------------------------------------------
-      // CITY ID
-      // -----------------------------------------------------
-
-      data.append("city_id", formData.city);
-
-      // -----------------------------------------------------
-      // LOCATION
-      // -----------------------------------------------------
-
-      data.append("address", formData.location);
-      data.append("lat", formData.latitude);
-      data.append("long", formData.longitude);
-
-      // -----------------------------------------------------
-      // FILES
-      // -----------------------------------------------------
-
-      if (formData.profileImage) {
-        data.append("image", formData.profileImage);
-      }
-
-      if (formData.idProof) {
-        data.append("id_proof", formData.idProof);
-      }
-
-      if (formData.idProofTwo) {
-        data.append("id_proof_two", formData.idProofTwo);
-      }
-
-      // -----------------------------------------------------
-      // DEBUG
-      // -----------------------------------------------------
-
-      console.log("Submitting Vendor:");
-
-      for (const [key, value] of data.entries()) {
-        console.log(key, value);
-      }
-
-      // -----------------------------------------------------
-      // POST API
-      // -----------------------------------------------------
-
-      const response = await api.post("/vendor/vendors", data);
-
-      // -----------------------------------------------------
-      // SUCCESS
-      // -----------------------------------------------------
-
-      if (response.data?.success) {
-        alert(response.data.message || "Vendor added successfully.");
-
-        navigate("/vendor_list");
+      if (data?.success) {
+        setSuccessMessage(data.message || "Vendor added successfully.");
+        setShowSuccess(true);
       } else {
-        setApiError(response.data?.message || "Failed to add vendor.");
+        setApiError(data?.message || "Failed to add vendor.");
       }
     } catch (error) {
       console.error("Create vendor error:", error);
@@ -357,88 +449,69 @@ const AddVendor = () => {
   };
 
   // =========================================================
-  // CANCEL
+  // CANCEL + SUCCESS CLOSE
   // =========================================================
 
   const handleCancel = () => {
     navigate("/vendor_list");
   };
 
-  const { isLoaded: isGoogleMapsLoaded } = useJsApiLoader({
-    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
-    libraries: ["places"],
-  });
+  const handleSuccessClose = () => {
+    setShowSuccess(false);
+    navigate("/vendor_list");
+  };
 
   return (
     <div className="add-vendor-page">
       {/* =====================================================
-          PAGE HEADER
+          PAGE HEADING + BREADCRUMBS
       ===================================================== */}
 
-      <div className="add-vendor-page-header">
-        <div>
-          <h2 className="add-vendor-page-title">Add New Vendor</h2>
+      <h2 className="add-vendor-page-title">Add New Vendor</h2>
 
-          <div className="add-vendor-breadcrumb">
-            <Link to="/home">Home</Link>
-
-            <span>
-              <IoIosArrowForward />
-            </span>
-
-            <Link to="/vendor_list">Vendor List</Link>
-
-            <span>
-              <IoIosArrowForward />
-            </span>
-
-            <span className="add-vendor-breadcrumb-active">Add Vendor</span>
-          </div>
-        </div>
-      </div>
+      <ServiceBreadcrumbs
+        className="add-vendor-breadcrumb"
+        items={[
+          { label: "Vendor List", to: "/vendor_list" },
+          { label: "Add Vendor" },
+        ]}
+      />
 
       {/* =====================================================
           FORM CARD
       ===================================================== */}
 
       <div className="add-vendor-card">
-        <form onSubmit={handleSubmit}>
-          {/* =================================================
-              CARD HEADER
-          ================================================= */}
-
+        <form onSubmit={handleSubmit} noValidate>
           <div className="add-vendor-card-header">
-            <div>
-              <h3>Add New Vendor</h3>
+            <h3>Vendor Information</h3>
 
-              <p>Enter vendor information and business details below.</p>
-            </div>
+            <p>Enter vendor information and business details below.</p>
           </div>
 
-          {/* =================================================
-              API ERROR
-          ================================================= */}
-
           {apiError && (
-            <div
-              className="add-vendor-error"
-              style={{
-                margin: "12px 20px",
-                display: "block",
-              }}
-            >
-              {apiError}
+            <div className="add-vendor-alert" role="alert">
+              <FaExclamationCircle />
+
+              <span>{apiError}</span>
+
+              <button
+                type="button"
+                className="add-vendor-alert-close"
+                onClick={() => setApiError("")}
+                aria-label="Dismiss message"
+              >
+                <FaTimes />
+              </button>
             </div>
           )}
 
-          {/* =================================================
-              FORM BODY
-          ================================================= */}
-
           <div className="add-vendor-form-body">
             {/* ===============================================
-                ROW 1
+                ACCOUNT DETAILS
             =============================================== */}
+
+            <h4 className="add-vendor-section-title">Account details</h4>
 
             <div className="add-vendor-form-group">
               <label htmlFor="fullName">
@@ -511,10 +584,6 @@ const AddVendor = () => {
               )}
             </div>
 
-            {/* ===============================================
-                ROW 2
-            =============================================== */}
-
             <div className="add-vendor-form-group">
               <label htmlFor="mobile">Mobile</label>
 
@@ -527,6 +596,12 @@ const AddVendor = () => {
                 placeholder="Enter your mobile no."
               />
             </div>
+
+            {/* ===============================================
+                BUSINESS DETAILS
+            =============================================== */}
+
+            <h4 className="add-vendor-section-title">Business details</h4>
 
             <div className="add-vendor-form-group">
               <label htmlFor="businessName">Business Name</label>
@@ -554,10 +629,6 @@ const AddVendor = () => {
               />
             </div>
 
-            {/* ===============================================
-                ROW 3
-            =============================================== */}
-
             <div className="add-vendor-form-group">
               <label htmlFor="facebookLink">Facebook Link</label>
 
@@ -570,8 +641,6 @@ const AddVendor = () => {
                 placeholder="Enter your Facebook Link"
               />
             </div>
-
-            {/* CATEGORY */}
 
             <div className="add-vendor-form-group">
               <label htmlFor="category">
@@ -604,8 +673,6 @@ const AddVendor = () => {
               )}
             </div>
 
-            {/* CITY */}
-
             <div className="add-vendor-form-group">
               <label htmlFor="city">
                 Select City <span>*</span>
@@ -636,103 +703,134 @@ const AddVendor = () => {
             </div>
 
             {/* ===============================================
-                ROW 4 - FILES
+                DOCUMENTS (selected file shows below the field)
             =============================================== */}
 
-            <div className="add-vendor-form-group">
-              <label htmlFor="profileImage">Profile Image</label>
+            <h4 className="add-vendor-section-title">Images and documents</h4>
 
-              <div className="add-vendor-file-wrapper">
-                <FaCloudUploadAlt />
+            {fileFields.map((field) => {
+              const file = formData[field.name];
+              const previewUrl = previews[field.name];
 
-                <input
-                  id="profileImage"
-                  name="profileImage"
-                  type="file"
-                  accept="image/*"
-                  onChange={handleFileChange}
-                />
-              </div>
+              return (
+                <div className="add-vendor-form-group" key={field.name}>
+                  <label htmlFor={field.name}>{field.label}</label>
 
-              {formData.profileImage && (
-                <small className="add-vendor-file-name">
-                  {formData.profileImage.name}
-                </small>
-              )}
-            </div>
+                  <div
+                    className={`add-vendor-file-wrapper ${
+                      file ? "has-file" : ""
+                    } ${errors[field.name] ? "input-error" : ""}`}
+                  >
+                    <input
+                      id={field.name}
+                      name={field.name}
+                      type="file"
+                      className="add-vendor-file-input"
+                      accept={field.accept}
+                      onChange={(event) =>
+                        handleFileChange(event, field.imageOnly)
+                      }
+                    />
 
-            <div className="add-vendor-form-group">
-              <label htmlFor="idProof">ID Proof</label>
+                    <label
+                      htmlFor={field.name}
+                      className="add-vendor-file-label"
+                    >
+                      <FaCloudUploadAlt />
 
-              <div className="add-vendor-file-wrapper">
-                <FaCloudUploadAlt />
+                      <span>{file ? "Change file" : "Choose file"}</span>
+                    </label>
+                  </div>
 
-                <input
-                  id="idProof"
-                  name="idProof"
-                  type="file"
-                  accept="image/*,.pdf"
-                  onChange={handleFileChange}
-                />
-              </div>
+                  {errors[field.name] && (
+                    <small className="add-vendor-error">
+                      {errors[field.name]}
+                    </small>
+                  )}
 
-              {formData.idProof && (
-                <small className="add-vendor-file-name">
-                  {formData.idProof.name}
-                </small>
-              )}
-            </div>
+                  {file && (
+                    <div className="add-vendor-file-preview">
+                      {previewUrl ? (
+                        <button
+                          type="button"
+                          className="add-vendor-file-thumb"
+                          onClick={() => handlePreviewOpen(field.name)}
+                          title="Open full size"
+                        >
+                          <img src={previewUrl} alt={`${field.label} preview`} />
+                        </button>
+                      ) : (
+                        <span className="add-vendor-file-thumb add-vendor-file-thumb-pdf">
+                          <FaFilePdf />
+                        </span>
+                      )}
 
-            <div className="add-vendor-form-group">
-              <label htmlFor="idProofTwo">ID Proof Two</label>
+                      <div className="add-vendor-file-info">
+                        <span className="add-vendor-file-name">
+                          {file.name}
+                        </span>
 
-              <div className="add-vendor-file-wrapper">
-                <FaCloudUploadAlt />
+                        <span className="add-vendor-file-size">
+                          {formatFileSize(file.size)}
+                        </span>
+                      </div>
 
-                <input
-                  id="idProofTwo"
-                  name="idProofTwo"
-                  type="file"
-                  accept="image/*,.pdf"
-                  onChange={handleFileChange}
-                />
-              </div>
-
-              {formData.idProofTwo && (
-                <small className="add-vendor-file-name">
-                  {formData.idProofTwo.name}
-                </small>
-              )}
-            </div>
+                      <button
+                        type="button"
+                        className="add-vendor-file-remove"
+                        onClick={() => handleFileRemove(field.name)}
+                        aria-label={`Remove ${field.label}`}
+                        title="Remove"
+                      >
+                        <FaTimes />
+                      </button>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
 
             {/* ===============================================
                 LOCATION
             =============================================== */}
 
             <div className="add-vendor-location-section">
+              <h4 className="add-vendor-section-title">Location</h4>
+
               <label htmlFor="location">Location Highlight</label>
 
               <div className="add-vendor-location-input">
-  <FaMapMarkerAlt />
+                <FaMapMarkerAlt />
 
-  <Autocomplete
-    onLoad={handleAutocompleteLoad}
-    onPlaceChanged={handlePlaceChanged}
-  >
-    <input
-      id="location"
-      name="location"
-      type="text"
-      value={formData.location}
-      onChange={handleChange}
-      placeholder="Type address..."
-    />
-  </Autocomplete>
-</div>
+                {isGoogleMapsLoaded ? (
+                  <Autocomplete
+                    onLoad={handleAutocompleteLoad}
+                    onPlaceChanged={handlePlaceChanged}
+                  >
+                    <input
+                      id="location"
+                      name="location"
+                      type="text"
+                      value={formData.location}
+                      onChange={handleChange}
+                      placeholder="Type address..."
+                    />
+                  </Autocomplete>
+                ) : (
+                  <input
+                    id="location"
+                    name="location"
+                    type="text"
+                    value={formData.location}
+                    onChange={handleChange}
+                    placeholder="Loading address autocomplete..."
+                  />
+                )}
+              </div>
 
-              {/* =============================================
-                  MAP
-              ============================================= */}
+              <p className="add-vendor-map-hint">
+                Search an address or click on the map to drop a pin.
+              </p>
 
               <div className="add-vendor-map-wrapper">
                 {isGoogleMapsLoaded ? (
@@ -759,7 +857,7 @@ const AddVendor = () => {
                     )}
                   </GoogleMap>
                 ) : (
-                  <div>Loading map...</div>
+                  <div className="add-vendor-map-loading">Loading map...</div>
                 )}
               </div>
             </div>
@@ -784,13 +882,28 @@ const AddVendor = () => {
               className="add-vendor-save-btn"
               disabled={saving}
             >
-              <FaSave />
+              {saving ? (
+                <span className="add-vendor-spinner" aria-hidden="true" />
+              ) : (
+                <FaSave />
+              )}
 
               <span>{saving ? "Saving..." : "Save Vendor"}</span>
             </button>
           </div>
         </form>
       </div>
+
+      {/* =====================================================
+          SUCCESS MODAL
+      ===================================================== */}
+
+      <ServiceSuccessModal
+        isOpen={showSuccess}
+        title="Vendor added"
+        message={successMessage}
+        onClose={handleSuccessClose}
+      />
     </div>
   );
 };

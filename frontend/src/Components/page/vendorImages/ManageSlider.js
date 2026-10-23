@@ -1,98 +1,155 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { IoIosArrowForward } from "react-icons/io";
-import { FaTrash } from "react-icons/fa";
-
+import { FaTrash, FaPlus, FaEdit, FaPlay, FaTimes } from "react-icons/fa";
+import api from "../../../config/api";
 import DataTable from "../../common/DataTable";
-
-import "./manageSlider.css";
+import ServiceBreadcrumbs from "../../common/ServiceBreadcrumbs";
+import ServiceConfirmModal from "../../common/modal/serviceModal/ServiceConfirmModal";
+import ServiceSuccessModal from "../../common/modal/serviceModal/ServiceSuccessModal";
 import { getImage } from "../../utils/images";
 
-const BASE_URL =
-  process.env.REACT_APP_API_BASE_URL || "http://localhost:5000/api";
+import "./manageSlider.css";
+
+// =========================================================
+// ROUTES (update to match your router)
+// =========================================================
+
+const ROUTES = {
+  home: "/home",
+  add: "/add_vendor_image",
+  edit: (id) => `/edit_ven_images/${id}`,
+};
+
+// =========================================================
+// SERVICE LAYER (API calls - easy to move to a service file later)
+// =========================================================
+
+const sliderService = {
+  getAll: async () => {
+    const response = await api.get("/admin/vendor-images");
+    const result = response.data;
+
+    if (!result.success) {
+      throw new Error(result.message || "Failed to fetch vendor images");
+    }
+
+    return result;
+  },
+
+  remove: async (id) => {
+    const response = await api.delete(`/admin/vendor-images/${id}`);
+    const result = response.data;
+
+    if (!result.success) {
+      throw new Error(result.message || "Failed to delete vendor image");
+    }
+
+    return result;
+  },
+
+  removeSelected: async (ids) => {
+    const response = await api.delete("/admin/vendor-images/selected", {
+      data: { home_id: ids },
+    });
+    const result = response.data;
+
+    if (!result.success) {
+      throw new Error(result.message || "Failed to delete selected sliders");
+    }
+
+    return result;
+  },
+};
+
+// =========================================================
+// HELPERS
+// =========================================================
+
+const VIDEO_EXTENSIONS = ["mp4", "webm", "ogg", "ogv", "mov", "m4v", "mkv"];
+
+const isVideoFile = (fileName = "") => {
+  const cleanName = String(fileName).split("?")[0];
+  const extension = cleanName.split(".").pop().toLowerCase();
+  return VIDEO_EXTENSIONS.includes(extension);
+};
+
+const getErrorMessage = (err, fallback) =>
+  err.response?.data?.message || err.message || fallback;
+
+const CONFIRM_CLOSED = { open: false, type: "single", id: null };
+const SUCCESS_CLOSED = { open: false, message: "" };
+
+// =========================================================
+// COMPONENT
+// =========================================================
 
 const ManageSlider = () => {
-  // =========================================================
-  // STATE
-  // =========================================================
-
   const [sliderData, setSliderData] = useState([]);
   const [selectedSliders, setSelectedSliders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
+  const [confirm, setConfirm] = useState(CONFIRM_CLOSED);
+  const [deleting, setDeleting] = useState(false);
+  const [success, setSuccess] = useState(SUCCESS_CLOSED);
+  const [preview, setPreview] = useState(null);
+
   // =========================================================
-  // GET ALL VENDOR IMAGES
+  // FETCH
   // =========================================================
 
-  const fetchVendorImages = async () => {
+  const fetchVendorImages = useCallback(async () => {
     try {
       setLoading(true);
       setError("");
 
-      const response = await fetch(`${BASE_URL}/admin/vendor-images`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const result = await sliderService.getAll();
 
-      const result = await response.json();
-
-      console.log("VENDOR IMAGES API RESPONSE:", result);
-
-      if (!response.ok || !result.success) {
-        throw new Error(result?.message || "Failed to fetch vendor images");
-      }
-
-      // Convert backend response to frontend table format
-      const formattedData = (result.data || []).map((item) => {
-        console.log("IMAGE FROM API:", item.image);
-        console.log("IMAGE FROM getImage:", getImage(item.image));
-
-        return {
-          id: item.id,
-          vendorName: item.vendor_name,
-          title: item.title || "",
-          description: item.description || "",
-          image: getImage(item.image),
-        };
-      });
+      const formattedData = (result.data || []).map((item) => ({
+        id: item.id,
+        vendorName: item.vendor_name || "",
+        title: item.title || "",
+        description: item.description || "",
+        media: item.image ? getImage(item.image) : "",
+        isVideo: isVideoFile(item.image),
+      }));
 
       setSliderData(formattedData);
     } catch (err) {
       console.error("Fetch vendor images error:", err);
-      setError(err.message || "Failed to fetch vendor images");
+      setError(getErrorMessage(err, "Failed to fetch vendor images"));
     } finally {
       setLoading(false);
     }
-  };
-
-  // =========================================================
-  // LOAD DATA
-  // =========================================================
+  }, []);
 
   useEffect(() => {
     fetchVendorImages();
-  }, []);
+  }, [fetchVendorImages]);
+
+  // Close media preview with Escape (confirm/success modals handle their own)
+  useEffect(() => {
+    if (!preview) return undefined;
+
+    const onKeyDown = (event) => {
+      if (event.key === "Escape") setPreview(null);
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [preview]);
 
   // =========================================================
-  // SELECT / UNSELECT
+  // SELECTION
   // =========================================================
 
   const handleSelectSlider = (id) => {
-    setSelectedSliders((previous) => {
-      if (previous.includes(id)) {
-        return previous.filter((item) => item !== id);
-      }
-
-      return [...previous, id];
-    });
+    setSelectedSliders((previous) =>
+      previous.includes(id)
+        ? previous.filter((item) => item !== id)
+        : [...previous, id],
+    );
   };
-
-  // =========================================================
-  // SELECT ALL
-  // =========================================================
 
   const handleSelectAll = () => {
     if (selectedSliders.length === sliderData.length) {
@@ -104,118 +161,57 @@ const ManageSlider = () => {
   };
 
   // =========================================================
-  // DELETE SINGLE
+  // DELETE (confirm modal -> success modal)
   // =========================================================
 
-const handleDelete = async (id) => {
-  const confirmed = window.confirm(
-    "Are you sure you want to delete this slider?"
-  );
+  const openConfirm = (type, id = null) => {
+    setConfirm({ open: true, type, id });
+  };
 
-  if (!confirmed) return;
+  const closeConfirm = useCallback(() => setConfirm(CONFIRM_CLOSED), []);
 
-  try {
-    const response = await fetch(
-      `${BASE_URL}/admin/vendor-images/${id}`,
-      {
-        method: "DELETE",
+  const closeSuccess = useCallback(() => setSuccess(SUCCESS_CLOSED), []);
+
+  const handleConfirmDelete = async () => {
+    try {
+      setDeleting(true);
+      setError("");
+
+      let message;
+
+      if (confirm.type === "bulk") {
+        const result = await sliderService.removeSelected(selectedSliders);
+
+        setSliderData((previous) =>
+          previous.filter((slider) => !selectedSliders.includes(slider.id)),
+        );
+        setSelectedSliders([]);
+        message = result.message || "Selected sliders deleted successfully.";
+      } else {
+        const result = await sliderService.remove(confirm.id);
+
+        setSliderData((previous) =>
+          previous.filter((slider) => slider.id !== confirm.id),
+        );
+        setSelectedSliders((previous) =>
+          previous.filter((sliderId) => sliderId !== confirm.id),
+        );
+        message = result.message || "Slider deleted successfully.";
       }
-    );
 
-    const result = await response.json();
-
-    console.log("DELETE VENDOR IMAGE API RESPONSE:", result);
-
-    if (!response.ok || !result.success) {
-      throw new Error(
-        result?.message || "Failed to delete vendor image"
-      );
+      closeConfirm();
+      setSuccess({ open: true, message });
+    } catch (err) {
+      console.error("Delete vendor image error:", err);
+      closeConfirm();
+      setError(getErrorMessage(err, "Failed to delete. Try again."));
+    } finally {
+      setDeleting(false);
     }
-
-    // Remove deleted slider from UI
-    setSliderData((previous) =>
-      previous.filter((slider) => slider.id !== id)
-    );
-
-    // Remove it from selected sliders also
-    setSelectedSliders((previous) =>
-      previous.filter((sliderId) => sliderId !== id)
-    );
-
-    alert(result.message || "Deleted Successfully");
-  } catch (error) {
-    console.error("Delete vendor image error:", error);
-
-    alert(error.message || "Failed to delete vendor image.");
-  }
-};
+  };
 
   // =========================================================
-  // DELETE SELECTED
-  // =========================================================
-
-const handleSelectedDelete = async () => {
-  if (selectedSliders.length === 0) {
-    alert("Please select at least one slider.");
-    return;
-  }
-
-  const confirmed = window.confirm(
-    `Are you sure you want to delete ${selectedSliders.length} selected slider(s)?`
-  );
-
-  if (!confirmed) return;
-
-  try {
-    const response = await fetch(
-      `${BASE_URL}/admin/vendor-images-selected`,
-      {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          home_id: selectedSliders,
-        }),
-      }
-    );
-
-    const result = await response.json();
-
-    console.log(
-      "DELETE SELECTED VENDOR IMAGES API RESPONSE:",
-      result
-    );
-
-    if (!response.ok || !result.success) {
-      throw new Error(
-        result?.message || "Failed to delete selected sliders"
-      );
-    }
-
-    setSliderData((previous) =>
-      previous.filter(
-        (slider) => !selectedSliders.includes(slider.id)
-      )
-    );
-
-    setSelectedSliders([]);
-
-    alert(result.message || "Selected sliders deleted successfully.");
-  } catch (error) {
-    console.error(
-      "Delete selected vendor images error:",
-      error
-    );
-
-    alert(
-      error.message || "Failed to delete selected sliders."
-    );
-  }
-};
-
-  // =========================================================
-  // TABLE COLUMNS
+  // TABLE COLUMNS (same as the PHP view)
   // =========================================================
 
   const columns = useMemo(
@@ -233,13 +229,11 @@ const handleSelectedDelete = async () => {
               }
               onChange={handleSelectAll}
             />
-
             <span>All Select</span>
           </div>
         ),
-        width: "80px",
+        width: "95px",
         sortable: false,
-
         render: (_, row) => (
           <input
             type="checkbox"
@@ -250,81 +244,99 @@ const handleSelectedDelete = async () => {
           />
         ),
       },
-
-      {
-        key: "serial",
-        label: "S.No",
-        width: "50px",
-        sortable: false,
-      },
-
-      {
-        key: "vendorName",
-        label: "Vendor Name",
-        width: "150px",
-        sortable: true,
-      },
-
-      {
-        key: "title",
-        label: "Title",
-        width: "150px",
-        sortable: true,
-      },
-
+      { key: "serial", label: "Id", width: "45px", sortable: false },
+      { key: "vendorName", label: "Vendor Name", width: "130px", sortable: true },
+      { key: "title", label: "Title", width: "130px", sortable: true },
       {
         key: "description",
         label: "Description",
-        width: "150px",
+        width: "200px",
         sortable: true,
-      },
-
-      {
-        key: "image",
-        label: "Image",
-        width: "150px",
-        sortable: false,
-
         render: (value) => (
-          <div className="slider-image-wrapper">
-            {value ? (
-              <img
-                src={value}
-                alt="Slider"
-                className="slider-image"
-                onError={(event) => {
-                  event.currentTarget.style.display = "none";
-                  event.currentTarget.parentElement.classList.add(
-                    "slider-image-error",
-                  );
-                }}
-              />
-            ) : (
-              <span>No Image</span>
-            )}
-          </div>
+          <span className="slider-description" title={value}>
+            {value || "-"}
+          </span>
         ),
       },
+      {
+        key: "media",
+        label: "Media",
+        width: "120px",
+        sortable: false,
+        render: (value, row) => {
+          if (!value) {
+            return <span className="slider-no-media">No media</span>;
+          }
 
+          return (
+            <button
+              type="button"
+              className={`slider-media ${row.isVideo ? "slider-media-video" : ""}`}
+              onClick={(event) => {
+                event.stopPropagation();
+                setPreview({ src: value, isVideo: row.isVideo, title: row.title });
+              }}
+              title={row.isVideo ? "Play video" : "View image"}
+            >
+              {row.isVideo ? (
+                <>
+                  <video
+                    className="slider-media-item"
+                    src={value}
+                    muted
+                    preload="metadata"
+                    playsInline
+                  />
+                  <span className="slider-media-play">
+                    <FaPlay />
+                  </span>
+                </>
+              ) : (
+                <img
+                  src={value}
+                  alt={row.title || "Slider"}
+                  className="slider-media-item"
+                  onError={(event) => {
+                    event.currentTarget.style.display = "none";
+                    event.currentTarget.parentElement.classList.add(
+                      "slider-media-error",
+                    );
+                  }}
+                />
+              )}
+            </button>
+          );
+        },
+      },
       {
         key: "actions",
         label: "Action",
-        width: "100px",
+        width: "170px",
         sortable: false,
-
         render: (_, row) => (
-          <button
-            type="button"
-            className="slider-delete-btn"
-            onClick={() => handleDelete(row.id)}
-          >
-            Delete
-          </button>
+          <div className="slider-actions">
+            <Link to={ROUTES.edit(row.id)} className="slider-edit-btn">
+              <FaEdit />
+              <span>Edit</span>
+            </Link>
+
+            <button
+              type="button"
+              className="slider-delete-btn"
+              onClick={() => openConfirm("single", row.id)}
+            >
+              <FaTrash />
+              <span>Delete</span>
+            </button>
+          </div>
         ),
       },
     ],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [selectedSliders, sliderData],
   );
+
+  const confirmCount = confirm.type === "bulk" ? selectedSliders.length : 1;
 
   // =========================================================
   // RETURN
@@ -332,51 +344,49 @@ const handleSelectedDelete = async () => {
 
   return (
     <div className="slider-page">
-      {/* =====================================================
-          PAGE HEADER
-      ===================================================== */}
-
+      {/* PAGE HEADER */}
       <div className="slider-page-header">
-        <div>
-          <h2 className="slider-page-title">Manage Slider</h2>
+        <h2 className="slider-page-title">Home Slider</h2>
 
-          <div className="slider-breadcrumb">
-            <Link to="/home">Home</Link>
-
-            <span>
-              <IoIosArrowForward />
-            </span>
-
-            <span className="slider-breadcrumb-active">Manage Slider</span>
-          </div>
-        </div>
+        <ServiceBreadcrumbs items={[{ label: "All Home Slider" }]} />
       </div>
 
-      {/* =====================================================
-          MAIN CARD
-      ===================================================== */}
-
+      {/* MAIN CARD */}
       <div className="slider-card">
-        {/* ===================================================
-            CARD HEADER
-        =================================================== */}
-
         <div className="slider-card-header">
-          <h3>All Home Slider Data</h3>
+          <div className="slider-card-title">
+            <h3>All Home Slider Data</h3>
+
+            {!loading && (
+              <span
+                className="slider-count-pill"
+                title={`${sliderData.length} total sliders`}
+              >
+                {sliderData.length} {sliderData.length === 1 ? "Slider" : "Sliders"}
+              </span>
+            )}
+          </div>
+
+          <Link to={ROUTES.add} className="slider-add-btn">
+            <FaPlus />
+            <span>Add New</span>
+          </Link>
         </div>
 
-        {/* ===================================================
-            ERROR
-        =================================================== */}
-
-        {error && <div className="slider-error">{error}</div>}
-
-        {/* ===================================================
-            LOADING
-        =================================================== */}
+        {error && (
+          <div className="slider-error" role="alert">
+            <span>{error}</span>
+            <button type="button" onClick={fetchVendorImages}>
+              Retry
+            </button>
+          </div>
+        )}
 
         {loading ? (
-          <div className="slider-loading">Loading vendor images...</div>
+          <div className="slider-loading">
+            <span className="slider-spinner" />
+            Loading vendor images...
+          </div>
         ) : (
           <div className="slider-table-wrapper">
             <DataTable
@@ -390,26 +400,96 @@ const handleSelectedDelete = async () => {
           </div>
         )}
 
-        {/* ===================================================
-            DELETE SELECTED
-        =================================================== */}
-
+        {/* FLOATING SELECTED ACTION BAR */}
         {selectedSliders.length > 0 && (
-          <div className="slider-selected-footer">
-            <button
-              type="button"
-              className="slider-delete-selected-btn"
-              onClick={handleSelectedDelete}
-            >
-              <FaTrash />
+          <div className="slider-selected-actions">
+            <span className="slider-selected-count">
+              {selectedSliders.length} selected
+            </span>
 
-              <span>Delete All</span>
+            <div className="slider-selected-buttons">
+              <button
+                type="button"
+                className="slider-selected-cancel-btn"
+                onClick={() => setSelectedSliders([])}
+              >
+                Cancel
+              </button>
 
-              <span>({selectedSliders.length})</span>
-            </button>
+              <button
+                type="button"
+                className="slider-selected-delete-btn"
+                onClick={() => openConfirm("bulk")}
+              >
+                <FaTrash />
+                <span>Delete Selected</span>
+              </button>
+            </div>
           </div>
         )}
       </div>
+
+      {/* CONFIRM MODAL */}
+      <ServiceConfirmModal
+        isOpen={confirm.open}
+        variant="danger"
+        title={
+          confirm.type === "bulk"
+            ? `Delete ${confirmCount} sliders?`
+            : "Delete this slider?"
+        }
+        message={
+          confirm.type === "bulk"
+            ? "The selected sliders will be removed permanently. This can't be undone."
+            : "This slider will be removed permanently. This can't be undone."
+        }
+        confirmText="Yes, delete"
+        cancelText="Cancel"
+        isLoading={deleting}
+        onConfirm={handleConfirmDelete}
+        onCancel={closeConfirm}
+      />
+
+      {/* SUCCESS MODAL */}
+      <ServiceSuccessModal
+        isOpen={success.open}
+        title="Deleted"
+        message={success.message}
+        buttonText="Done"
+        autoCloseMs={2000}
+        onClose={closeSuccess}
+      />
+
+      {/* MEDIA PREVIEW MODAL */}
+      {preview && (
+        <div
+          className="slider-modal-overlay slider-preview-overlay"
+          onClick={() => setPreview(null)}
+        >
+          <div
+            className="slider-preview"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Media preview"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <button
+              type="button"
+              className="slider-preview-close"
+              onClick={() => setPreview(null)}
+              aria-label="Close preview"
+            >
+              <FaTimes />
+            </button>
+
+            {preview.isVideo ? (
+              <video src={preview.src} controls autoPlay playsInline />
+            ) : (
+              <img src={preview.src} alt={preview.title || "Slider"} />
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

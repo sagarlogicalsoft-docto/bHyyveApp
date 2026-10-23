@@ -23,9 +23,9 @@ app.use(
   }),
 );
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.use("/assets/", express.static(path.join(__dirname, "assets")));
-// app.use("/uploads", express.static(path.join(__dirname, "assets/images")));
 // Home
 app.get("/", (req, res) => {
   res.json({

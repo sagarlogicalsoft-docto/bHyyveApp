@@ -1,261 +1,293 @@
-import React, { useMemo, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   FaEye,
   FaTrash,
   FaWallet,
   FaCheck,
   FaTimes,
-  FaInfo,
+  FaInfoCircle,
+  FaUsers,
+  FaCheckSquare,
+  FaExclamationTriangle,
+  FaRedo,
 } from "react-icons/fa";
-import { IoIosArrowForward } from "react-icons/io";
 
 import DataTable from "../../common/DataTable";
+import ServiceBreadcrumbs from "../../common/ServiceBreadcrumbs";
+import ServiceConfirmModal from "../../common/modal/serviceModal/ServiceConfirmModal";
+import ServiceSuccessModal from "../../common/modal/serviceModal/ServiceSuccessModal";
+import api from "../../../config/api";
 import "./allUsers.css";
+
+const ENDPOINTS = {
+  list: "/admin/users",
+  remove: (id) => `/admin/users/${id}`,
+  removeMany: "/admin/users/bulk-delete",
+  addWallet: (id) => `/admin/users/${id}/wallet`,
+};
+
+const formatUserDate = (value) => {
+  if (!value) return "";
+
+  const date = new Date(value);
+
+  if (Number.isNaN(date.getTime())) return value;
+
+  return new Intl.DateTimeFormat("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
+    timeZone: "America/Toronto",
+  })
+    .format(date)
+    .replace(",", "");
+};
+
+const normalizeUser = (user) => ({
+  id: user.id ?? user.user_id,
+  photo: user.image ?? user.profile_image ?? "",
+  name: [user.fname, user.lname].filter(Boolean).join(" "),
+  phone: user.mobile ?? "",
+  email: user.email ?? "",
+  wallet: Number(user.wallet ?? 0),
+  date: formatUserDate(user.create_date),
+  activity: user.last_login_time_difference ?? "",
+});
+
+const userService = {
+  getAll: async () => {
+    const response = await api.get(ENDPOINTS.list);
+    const body = response.data;
+
+    const list = Array.isArray(body)
+      ? body
+      : Array.isArray(body?.data)
+        ? body.data
+        : Array.isArray(body?.users)
+          ? body.users
+          : [];
+
+    return list.map(normalizeUser);
+  },
+
+  remove: (id) => api.delete(ENDPOINTS.remove(id)),
+
+  removeMany: (ids) => api.post(ENDPOINTS.removeMany, { ids }),
+
+  addWallet: (id, amount) => api.post(ENDPOINTS.addWallet(id), { amount }),
+};
+
+// =========================================================
+// HELPERS
+// =========================================================
+
+const formatMoney = (value) => `$${Number(value).toFixed(2)}`;
+
+const AVATAR_FALLBACK =
+  "data:image/svg+xml;utf8," +
+  encodeURIComponent(
+    `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'><rect width='40' height='40' fill='#dbe6f3'/><circle cx='20' cy='15' r='7' fill='#062f5c'/><path d='M6 38c2-9 9-12 14-12s12 3 14 12' fill='#062f5c'/></svg>`,
+  );
+
+const getActivityTone = (text = "") => {
+  const value = text.toLowerCase();
+  if (value.includes("never")) return "never";
+  if (value.includes("just now") || /^\d+s ago$/.test(value)) return "online";
+  return "recent";
+};
+
+// =========================================================
+// COMPONENT
+// =========================================================
 
 const AllUsers = () => {
   const navigate = useNavigate();
 
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState("");
+
   const [selectedUsers, setSelectedUsers] = useState([]);
-  const [deleteUser, setDeleteUser] = useState(null);
+
+  // confirm: { type: "single", user } | { type: "bulk" }
+  const [confirm, setConfirm] = useState(null);
+  const [confirmError, setConfirmError] = useState("");
+
   const [walletUser, setWalletUser] = useState(null);
   const [walletAmount, setWalletAmount] = useState("");
+  const [walletError, setWalletError] = useState("");
+  const [walletBusy, setWalletBusy] = useState(false);
+
+  const [success, setSuccess] = useState(null); // { title, message }
 
   // =========================================================
-  // TEMPORARY USER DATA
-  // Later API data will come here
+  // LOAD USERS
   // =========================================================
 
-  const userData = [
-    {
-      id: 1,
-      photo: "https://i.pravatar.cc/80?img=12",
-      name: "Keon Liu",
-      phone: "2198261",
-      email: "keonliu13@gmail.com",
-      wallet: 0.0,
-      date: "24 Jul 2026 04:52 AM",
-      activity: "Never Login",
-    },
-    {
-      id: 2,
-      photo: "https://i.pravatar.cc/80?img=13",
-      name: "Michael Martin",
-      phone: "8210251824",
-      email: "michael@gmail.com",
-      wallet: 0.0,
-      date: "13 Jul 2026 08:27 PM",
-      activity: "1S ago",
-    },
-    {
-      id: 3,
-      photo: "https://i.pravatar.cc/80?img=14",
-      name: "Sarah Young",
-      phone: "8815687927",
-      email: "sarah@gmail.com",
-      wallet: 0.0,
-      date: "01 Jul 2026 11:06 AM",
-      activity: "just now",
-    },
-    {
-      id: 4,
-      photo: "https://i.pravatar.cc/80?img=15",
-      name: "Indranie Hameraj",
-      phone: "9876543210",
-      email: "indranie@gmail.com",
-      wallet: 100.0,
-      date: "22 Jun 2026 02:18 AM",
-      activity: "4D 21H 22MIN 25S ago",
-    },
-    {
-      id: 5,
-      photo: "https://i.pravatar.cc/80?img=16",
-      name: "John Smith",
-      phone: "9876541230",
-      email: "johnsmith@gmail.com",
-      wallet: 0.0,
-      date: "09 Jun 2026 01:38 PM",
-      activity: "just now",
-    },
-    {
-      id: 6,
-      photo: "https://i.pravatar.cc/80?img=17",
-      name: "David Wilson",
-      phone: "9876512340",
-      email: "david@gmail.com",
-      wallet: 0.0,
-      date: "05 May 2026 06:07 PM",
-      activity: "7S ago",
-    },
-    {
-      id: 7,
-      photo: "https://i.pravatar.cc/80?img=18",
-      name: "Robert Taylor",
-      phone: "9876501234",
-      email: "robert@gmail.com",
-      wallet: 0.0,
-      date: "04 May 2026 07:04 PM",
-      activity: "27S ago",
-    },
-    {
-      id: 8,
-      photo: "https://i.pravatar.cc/80?img=19",
-      name: "James Anderson",
-      phone: "9876543211",
-      email: "james@gmail.com",
-      wallet: 0.0,
-      date: "01 May 2026 04:27 PM",
-      activity: "23S ago",
-    },
-    {
-      id: 9,
-      photo: "https://i.pravatar.cc/80?img=20",
-      name: "William Brown",
-      phone: "9876543212",
-      email: "william@gmail.com",
-      wallet: 0.0,
-      date: "30 Apr 2026 07:15 PM",
-      activity: "7MIN 35S ago",
-    },
-    {
-      id: 10,
-      photo: "https://i.pravatar.cc/80?img=21",
-      name: "Daniel Miller",
-      phone: "9876543213",
-      email: "daniel@gmail.com",
-      wallet: 0.0,
-      date: "30 Apr 2026 06:49 PM",
-      activity: "11MIN 5S ago",
-    },
-    {
-      id: 11,
-      photo: "https://i.pravatar.cc/80?img=22",
-      name: "Chris Davis",
-      phone: "9876543214",
-      email: "chris@gmail.com",
-      wallet: 25.0,
-      date: "28 Apr 2026 05:30 PM",
-      activity: "2H ago",
-    },
-    {
-      id: 12,
-      photo: "https://i.pravatar.cc/80?img=23",
-      name: "Matthew Garcia",
-      phone: "9876543215",
-      email: "matthew@gmail.com",
-      wallet: 50.0,
-      date: "26 Apr 2026 02:20 PM",
-      activity: "1D ago",
-    },
-  ];
+  const loadUsers = async () => {
+    setLoading(true);
+    setLoadError("");
+
+    try {
+      setUsers(await userService.getAll());
+    } catch (error) {
+      setLoadError(error.message || "Unable to load users.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadUsers();
+  }, []);
 
   // =========================================================
-  // SELECT USER
+  // SELECTION
   // =========================================================
+
+  const allSelected = users.length > 0 && selectedUsers.length === users.length;
 
   const handleSelectUser = (id) => {
-    setSelectedUsers((previous) => {
-      if (previous.includes(id)) {
-        return previous.filter((userId) => userId !== id);
-      }
-
-      return [...previous, id];
-    });
+    setSelectedUsers((previous) =>
+      previous.includes(id)
+        ? previous.filter((userId) => userId !== id)
+        : [...previous, id],
+    );
   };
-
-  // =========================================================
-  // SELECT ALL
-  // =========================================================
-
-  const allSelected =
-    userData.length > 0 && selectedUsers.length === userData.length;
 
   const handleSelectAll = () => {
-    if (allSelected) {
-      setSelectedUsers([]);
-      return;
+    setSelectedUsers(allSelected ? [] : users.map((user) => user.id));
+  };
+
+  // =========================================================
+  // DELETE (single + selected share ServiceConfirmModal)
+  // =========================================================
+
+  const closeConfirm = useCallback(() => {
+    setConfirm(null);
+    setConfirmError("");
+  }, []);
+
+  const closeSuccess = useCallback(() => setSuccess(null), []);
+
+  const handleConfirmDelete = async () => {
+    if (!confirm) return;
+
+    const ids = confirm.type === "bulk" ? selectedUsers : [confirm.user.id];
+
+    try {
+      if (ids.length === 1) {
+        await userService.remove(ids[0]);
+      } else {
+        await userService.removeMany(ids);
+      }
+
+      setUsers((previous) => previous.filter((user) => !ids.includes(user.id)));
+      setSelectedUsers((previous) =>
+        previous.filter((id) => !ids.includes(id)),
+      );
+
+      setSuccess({
+        title: ids.length === 1 ? "User deleted" : "Users deleted",
+        message:
+          ids.length === 1
+            ? `${confirm.user.name} has been removed.`
+            : `${ids.length} users have been removed.`,
+      });
+
+      closeConfirm();
+    } catch (error) {
+      // keep the modal open and show the reason inside it
+      setConfirmError(
+        error.message || "Something went wrong. Please try again.",
+      );
     }
-
-    setSelectedUsers(userData.map((user) => user.id));
   };
 
   // =========================================================
-  // VIEW DETAIL
+  // ADD WALLET (page-specific form modal)
   // =========================================================
 
-  const handleViewDetail = (id) => {
-    navigate(`/users/view/${id}`);
-  };
+  const walletValue = Number(walletAmount);
+  const walletInvalid = walletAmount !== "" && walletValue < 1;
 
-  // =========================================================
-  // DELETE
-  // =========================================================
-
-  const handleDelete = (user) => {
-    setDeleteUser(user);
-  };
-
-  const confirmDelete = () => {
-    if (!deleteUser) return;
-
-    console.log("Delete User:", deleteUser.id);
-
-    // API call later
-
-    setDeleteUser(null);
-  };
-
-  // =========================================================
-  // DELETE SELECTED
-  // =========================================================
-
-  const handleDeleteSelected = () => {
-    if (selectedUsers.length === 0) {
-      return;
-    }
-
-    const confirmed = window.confirm(
-      `Are you sure you want to delete ${selectedUsers.length} selected user(s)?`,
-    );
-
-    if (!confirmed) return;
-
-    console.log("Delete selected users:", selectedUsers);
-
-    // API call later
-
-    setSelectedUsers([]);
-  };
-
-  // =========================================================
-  // ADD WALLET
-  // =========================================================
-
-  const handleOpenWallet = (user) => {
-    setWalletUser(user);
-    setWalletAmount("");
-  };
-
-  const handleCloseWallet = () => {
+  const closeWallet = useCallback(() => {
+    if (walletBusy) return;
     setWalletUser(null);
     setWalletAmount("");
-  };
+    setWalletError("");
+  }, [walletBusy]);
 
-  const handleAddWallet = () => {
-    if (!walletAmount || Number(walletAmount) < 1) {
-      alert("Minimum amount is $1.00");
+  useEffect(() => {
+    if (!walletUser) return undefined;
+
+    const onKeyDown = (event) => {
+      if (event.key === "Escape") closeWallet();
+    };
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    document.addEventListener("keydown", onKeyDown);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [walletUser, closeWallet]);
+
+  const handleAddWallet = async () => {
+    if (!walletUser) return;
+
+    if (!walletAmount || walletValue < 1) {
+      setWalletError("Minimum amount is $1.00");
       return;
     }
 
-    console.log("Add wallet amount:", {
-      userId: walletUser.id,
-      amount: Number(walletAmount),
-    });
+    setWalletBusy(true);
+    setWalletError("");
 
-    // API call later
+    try {
+      await userService.addWallet(walletUser.id, walletValue);
+      await loadUsers();
 
-    handleCloseWallet();
+      setSuccess({
+        title: "Funds added",
+        message: `${formatMoney(walletValue)} was added to ${walletUser.name}'s wallet.`,
+      });
+
+      setWalletUser(null);
+      setWalletAmount("");
+    } catch (error) {
+      setWalletError(
+        error.message || "Something went wrong. Please try again.",
+      );
+    } finally {
+      setWalletBusy(false);
+    }
   };
+
+  // =========================================================
+  // SUMMARY
+  // =========================================================
+
+  const totalWallet = useMemo(
+    () => users.reduce((sum, user) => sum + Number(user.wallet || 0), 0),
+    [users],
+  );
+
+  const stats = [
+    { label: "Total users", value: users.length, icon: <FaUsers /> },
+    { label: "Selected", value: selectedUsers.length, icon: <FaCheckSquare /> },
+    {
+      label: "Total wallet balance",
+      value: formatMoney(totalWallet),
+      icon: <FaWallet />,
+    },
+  ];
 
   // =========================================================
   // TABLE COLUMNS
@@ -263,7 +295,6 @@ const AllUsers = () => {
 
   const columns = useMemo(
     () => [
-      // SELECT
       {
         key: "select",
         label: (
@@ -273,15 +304,13 @@ const AllUsers = () => {
               checked={allSelected}
               onChange={handleSelectAll}
               onClick={(event) => event.stopPropagation()}
+              aria-label="Select all users"
             />
-
             <span>All</span>
-            <span>Select</span>
           </div>
         ),
-        width: "100px",
+        width: "70px",
         sortable: false,
-
         render: (_, row) => (
           <input
             type="checkbox"
@@ -289,101 +318,74 @@ const AllUsers = () => {
             checked={selectedUsers.includes(row.id)}
             onChange={() => handleSelectUser(row.id)}
             onClick={(event) => event.stopPropagation()}
+            aria-label={`Select ${row.name}`}
           />
         ),
       },
-
-      // SERIAL NUMBER
       {
         key: "serial",
         label: "Sr.No",
-        width: "50px",
+        width: "60px",
         sortable: false,
-
         render: (_, row, rowIndex) => (
-          <span className="allusers-serial">
-            {rowIndex + 1}
-          </span>
+          <span className="allusers-text">{rowIndex + 1}</span>
         ),
       },
-
-      // PHOTO
       {
         key: "photo",
         label: "Photo",
-        width: "80px",
+        width: "70px",
         sortable: false,
-
         render: (value, row) => (
-          <div className="allusers-photo-wrapper">
-            <img
-              src={value}
-              alt={row.name}
-              className="allusers-photo"
-            />
-          </div>
+          <img
+            src={value || AVATAR_FALLBACK}
+            alt={row.name}
+            className="allusers-photo"
+            onError={(event) => {
+              event.currentTarget.onerror = null;
+              event.currentTarget.src = AVATAR_FALLBACK;
+            }}
+          />
         ),
       },
-
-      // NAME
       {
         key: "name",
         label: "Name",
-        width: "80px",
+        width: "150px",
         sortable: true,
-
-        render: (value) => (
-          <span className="allusers-name">
-            {value}
-          </span>
-        ),
+        render: (value) => <span className="allusers-name">{value}</span>,
       },
-
-      // PHONE
       {
         key: "phone",
         label: "Phone",
-        width: "50px",
+        width: "110px",
         sortable: true,
-
-        render: (value) => (
-          <span className="allusers-phone">
-            {value}
-          </span>
-        ),
+        render: (value) => <span className="allusers-text">{value}</span>,
       },
-
-      // EMAIL
       {
         key: "email",
         label: "E-mail",
-        width: "100px",
+        width: "190px",
         sortable: true,
-
-        render: (value) => (
-          <span className="allusers-email">
-            {value}
-          </span>
-        ),
+        render: (value) => <span className="allusers-text">{value}</span>,
       },
-
-      // WALLET
       {
         key: "wallet",
         label: "Wallet/Reward",
-        width: "50px",
+        width: "130px",
         sortable: true,
-
         render: (value, row) => (
           <div className="allusers-wallet">
-            <span className="allusers-wallet-amount">
-              ${Number(value).toFixed(2)}
-            </span>
+            <span className="allusers-wallet-amount">{formatMoney(value)}</span>
 
             <button
               type="button"
               className="allusers-add-wallet-btn"
-              onClick={() => handleOpenWallet(row)}
+              onClick={() => {
+                setWalletUser(row);
+                setWalletAmount("");
+                setWalletError("");
+              }}
             >
               <FaWallet />
               <span>Add Wallet</span>
@@ -391,48 +393,37 @@ const AllUsers = () => {
           </div>
         ),
       },
-
-      // DATE
       {
         key: "date",
         label: "Date",
-        width: "100px",
+        width: "150px",
         sortable: true,
-
-        render: (value) => (
-          <span className="allusers-date">
-            {value}
-          </span>
-        ),
+        render: (value) => <span className="allusers-text">{value}</span>,
       },
-
-      // LAST ACTIVITY
       {
         key: "activity",
         label: "Last/Activity",
-        width: "190px",
+        width: "170px",
         sortable: true,
-
         render: (value) => (
-          <span className="allusers-activity">
+          <span
+            className={`allusers-activity allusers-activity-${getActivityTone(value)}`}
+          >
             {value}
           </span>
         ),
       },
-
-      // ACTION
       {
         key: "actions",
         label: "Action",
-        width: "170px",
+        width: "130px",
         sortable: false,
-
         render: (_, row) => (
           <div className="allusers-actions">
             <button
               type="button"
               className="allusers-view-btn"
-              onClick={() => handleViewDetail(row.id)}
+              onClick={() => navigate(`/users/view/${row.id}`)}
             >
               <FaEye />
               <span>View Detail</span>
@@ -441,7 +432,10 @@ const AllUsers = () => {
             <button
               type="button"
               className="allusers-delete-btn"
-              onClick={() => handleDelete(row)}
+              onClick={() => {
+                setConfirm({ type: "single", user: row });
+                setConfirmError("");
+              }}
             >
               <FaTrash />
               <span>Delete</span>
@@ -450,246 +444,271 @@ const AllUsers = () => {
         ),
       },
     ],
-    [selectedUsers, allSelected],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [users, selectedUsers, allSelected],
   );
+
+  // =========================================================
+  // RENDER
+  // =========================================================
 
   return (
     <div className="allusers-page">
-      {/* =========================================
-          PAGE HEADER
-      ========================================= */}
-
+      {/* PAGE HEADER */}
       <div className="allusers-page-header">
-        <div>
-          <h2 className="allusers-page-title">
-            All Users
-          </h2>
+        <h2 className="allusers-page-title">All Users</h2>
 
-          <div className="allusers-breadcrumb">
-            <Link to="/home">
-              Home
-            </Link>
-
-            <span className="allusers-breadcrumb-arrow">
-              <IoIosArrowForward />
-            </span>
-            <span className="allusers-breadcrumb-active">
-              All Users
-            </span>
-          </div>
-        </div>
+        <ServiceBreadcrumbs
+          className="allusers-breadcrumb-spacing"
+          items={[{ label: "All Users" }]}
+        />
       </div>
 
-      {/* =========================================
-          CARD
-      ========================================= */}
+      {/* SUMMARY */}
+      <div className="allusers-stats">
+        {stats.map((stat) => (
+          <div className="allusers-stat" key={stat.label}>
+            <span className="allusers-stat-icon">{stat.icon}</span>
+            <div>
+              <strong>{stat.value}</strong>
+              <span>{stat.label}</span>
+            </div>
+          </div>
+        ))}
+      </div>
 
+      {/* CARD */}
       <div className="allusers-card">
         <div className="allusers-card-header">
           <h3>All Users Data</h3>
         </div>
 
-        {/* =========================================
-            DATATABLE
-        ========================================= */}
-
         <div className="allusers-table-wrapper">
-          <DataTable
-            columns={columns}
-            data={userData}
-            entriesPerPageOptions={[10, 25, 50, 100]}
-            defaultEntriesPerPage={10}
-            searchable={true}
-            sortable={true}
-          />
-        </div>
+          {loading && (
+            <div className="allusers-state" role="status">
+              <span className="allusers-spinner" />
+              Loading users…
+            </div>
+          )}
 
-        {/* =========================================
-            DELETE SELECTED
-        ========================================= */}
+          {!loading && loadError && (
+            <div className="allusers-state allusers-state-error" role="alert">
+              <FaExclamationTriangle />
+              <span>{loadError}</span>
+              <button
+                type="button"
+                className="allusers-retry-btn"
+                onClick={loadUsers}
+              >
+                <FaRedo />
+                Try again
+              </button>
+            </div>
+          )}
+
+          {!loading && !loadError && users.length === 0 && (
+            <div className="allusers-state">No users found.</div>
+          )}
+
+          {!loading && !loadError && users.length > 0 && (
+            <DataTable
+              columns={columns}
+              data={users}
+              entriesPerPageOptions={[10, 25, 50, 100]}
+              defaultEntriesPerPage={10}
+              searchable={true}
+              sortable={true}
+            />
+          )}
+        </div>
 
         {selectedUsers.length > 0 && (
           <div className="allusers-selected-footer">
             <div className="allusers-selected-info">
-              {selectedUsers.length} user
-              {selectedUsers.length > 1 ? "s" : ""} selected
+              {selectedUsers.length} user{selectedUsers.length > 1 ? "s" : ""}{" "}
+              selected
             </div>
 
-            <button
-              type="button"
-              className="allusers-delete-selected-btn"
-              onClick={handleDeleteSelected}
-            >
-              <FaTrash />
-              Delete Selected
-            </button>
+            <div className="allusers-footer-actions">
+              <button
+                type="button"
+                className="allusers-clear-btn"
+                onClick={() => setSelectedUsers([])}
+              >
+                Clear selection
+              </button>
+
+              <button
+                type="button"
+                className="allusers-delete-selected-btn"
+                onClick={() => {
+                  setConfirm({ type: "bulk" });
+                  setConfirmError("");
+                }}
+              >
+                <FaTrash />
+                Delete Selected
+              </button>
+            </div>
           </div>
         )}
       </div>
 
-      {/* =========================================
-          DELETE MODAL
-      ========================================= */}
+      {/* DELETE CONFIRM (shared modal) */}
+      <ServiceConfirmModal
+        isOpen={Boolean(confirm)}
+        variant="danger"
+        title={
+          confirm?.type === "bulk"
+            ? "Delete selected users?"
+            : "Delete this user?"
+        }
+        message={
+          <>
+            {confirm?.type === "bulk"
+              ? `You are about to delete ${selectedUsers.length} selected user${
+                  selectedUsers.length > 1 ? "s" : ""
+                }. This can't be undone.`
+              : `${confirm?.user?.name ?? "This user"} will be permanently removed. This can't be undone.`}
+            {confirmError && (
+              <span className="allusers-confirm-error" role="alert">
+                {confirmError}
+              </span>
+            )}
+          </>
+        }
+        confirmText="Yes, delete"
+        cancelText="Cancel"
+        onConfirm={handleConfirmDelete}
+        onCancel={closeConfirm}
+      />
 
-      {deleteUser && (
-        <div className="allusers-modal-overlay">
-          <div className="allusers-delete-modal">
-            <div className="allusers-delete-icon">
-              <FaTrash />
-            </div>
+      {/* SUCCESS (shared modal) */}
+      <ServiceSuccessModal
+        isOpen={Boolean(success)}
+        title={success?.title}
+        message={success?.message}
+        onClose={closeSuccess}
+      />
 
-            <h3>Are you sure?</h3>
-
-            <p>
-              You want to delete{" "}
-              <strong>{deleteUser.name}</strong>?
-            </p>
-
-            <div className="allusers-modal-actions">
-              <button
-                type="button"
-                className="allusers-confirm-delete"
-                onClick={confirmDelete}
-              >
-                <FaCheck />
-                Yes, Delete
-              </button>
-
-              <button
-                type="button"
-                className="allusers-cancel-delete"
-                onClick={() => setDeleteUser(null)}
-              >
-                <FaTimes />
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* =========================================
-          ADD WALLET MODAL
-      ========================================= */}
-
+      {/* ADD WALLET MODAL (page-specific form) */}
       {walletUser && (
-        <div className="allusers-modal-overlay">
-          <div className="allusers-wallet-modal">
-            {/* TOP QUESTION ICON */}
-
-            <div className="allusers-wallet-question">
-              ?
-            </div>
-
-            {/* TITLE */}
-
-            <h3 className="allusers-wallet-title">
+        <div
+          className="allusers-modal-overlay"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) closeWallet();
+          }}
+        >
+          <div
+            className="allusers-wallet-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="allusers-wallet-title"
+          >
+            <h3 className="allusers-wallet-title" id="allusers-wallet-title">
               <FaWallet />
               Add Wallet Amount
             </h3>
 
-            {/* USER INFORMATION */}
-
             <div className="allusers-wallet-user">
               <div className="allusers-wallet-user-icon">
                 <img
-                  src={walletUser.photo}
+                  src={walletUser.photo || AVATAR_FALLBACK}
                   alt={walletUser.name}
+                  onError={(event) => {
+                    event.currentTarget.onerror = null;
+                    event.currentTarget.src = AVATAR_FALLBACK;
+                  }}
                 />
               </div>
 
               <div>
                 <h4>{walletUser.name}</h4>
-
-                <span>
-                  User ID: {walletUser.id}
-                </span>
+                <span>User ID: {walletUser.id}</span>
               </div>
             </div>
-
-            {/* CURRENT BALANCE */}
 
             <div className="allusers-current-balance">
               <div>
-                <span>Current Balance</span>
-
-                <strong>
-                  ${Number(walletUser.wallet).toFixed(2)}
-                </strong>
+                <span>Current balance</span>
+                <strong>{formatMoney(walletUser.wallet)}</strong>
               </div>
 
-              <span className="allusers-money-icon">
-                💰
-              </span>
+              {walletValue >= 1 && (
+                <div className="allusers-new-balance">
+                  <span>After adding</span>
+                  <strong>
+                    {formatMoney(Number(walletUser.wallet) + walletValue)}
+                  </strong>
+                </div>
+              )}
             </div>
-
-            {/* DIVIDER */}
-
-            <div className="allusers-wallet-divider" />
-
-            {/* AMOUNT */}
 
             <div className="allusers-wallet-field">
               <label htmlFor="walletAmount">
-                <span>*</span> Enter Amount to Add
+                Amount to add <span>*</span>
               </label>
 
-              <div className="allusers-amount-wrapper">
-                <span className="allusers-dollar">
-                  $
-                </span>
+              <div
+                className={`allusers-amount-wrapper ${
+                  walletInvalid || walletError ? "allusers-amount-invalid" : ""
+                }`}
+              >
+                <span className="allusers-dollar">$</span>
 
                 <input
                   id="walletAmount"
                   type="number"
                   min="1"
                   step="0.01"
+                  autoFocus
                   value={walletAmount}
-                  onChange={(event) =>
-                    setWalletAmount(event.target.value)
-                  }
+                  aria-invalid={walletInvalid || Boolean(walletError)}
+                  onChange={(event) => {
+                    setWalletAmount(event.target.value);
+                    setWalletError("");
+                  }}
+                  onKeyDown={(event) => {
+                    if (event.key === "Enter" && !walletBusy) handleAddWallet();
+                  }}
                   placeholder="0.00"
                 />
               </div>
 
-              <small>
-                Minimum amount: $1.00
+              <small
+                className={
+                  walletInvalid || walletError ? "allusers-field-error" : ""
+                }
+              >
+                {walletError || "Minimum amount: $1.00"}
               </small>
             </div>
 
-            {/* INFORMATION */}
-
             <div className="allusers-wallet-info">
-              <div className="allusers-info-icon">
-                <FaInfo />
-              </div>
-
-              <span>
-                The amount will be added immediately to the
-                user's wallet balance.
-              </span>
+              <FaInfoCircle />
+              <span>The amount is added to the user's wallet immediately.</span>
             </div>
-
-            {/* DIVIDER */}
-
-            <div className="allusers-wallet-divider" />
-
-            {/* MODAL BUTTONS */}
 
             <div className="allusers-wallet-actions">
               <button
                 type="button"
-                className="allusers-add-funds-btn"
+                className="allusers-btn allusers-btn-primary"
                 onClick={handleAddWallet}
+                disabled={walletBusy}
               >
-                <FaCheck />
-                Yes, Add Funds
+                {walletBusy ? (
+                  <span className="allusers-spinner allusers-spinner-light" />
+                ) : (
+                  <FaCheck />
+                )}
+                {walletBusy ? "Adding…" : "Yes, add funds"}
               </button>
 
               <button
                 type="button"
-                className="allusers-wallet-cancel-btn"
-                onClick={handleCloseWallet}
+                className="allusers-btn allusers-btn-ghost"
+                onClick={closeWallet}
+                disabled={walletBusy}
               >
                 <FaTimes />
                 Cancel

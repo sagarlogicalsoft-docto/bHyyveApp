@@ -1,21 +1,68 @@
-import React, { useEffect, useMemo, useState } from "react";
-import api from "../../../config/api";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
+import { toast, Toaster } from "react-hot-toast";
 import {
   FaPlus,
-  FaSyncAlt,
   FaEdit,
   FaTrash,
-  FaCheckCircle,
   FaTimesCircle,
   FaUserTag,
   FaListUl,
   FaTimes,
   FaCheck,
+  FaRedo,
 } from "react-icons/fa";
 
+import api from "../../../config/api";
 import DataTable from "../../common/DataTable";
+import ServiceBreadcrumbs from "../../common/ServiceBreadcrumbs";
+import ServiceSuccessModal from "../../common/modal/serviceModal/ServiceSuccessModal";
+import ServiceConfirmModal from "../../common/modal/serviceModal/ServiceConfirmModal";
 import "./role.css";
+
+/* =========================================
+   API SERVICE FUNCTIONS
+   (kept inline; move to a service file later
+   by cutting everything in this block)
+========================================= */
+
+const getErrorMessage = (error, fallback) =>
+  error?.response?.data?.message || error?.message || fallback;
+
+const mapRole = (item) => ({
+  id: item.id,
+  role: item.role_name,
+  responsibilities: item.responsibilities || "",
+  status: Number(item.status) === 1 ? "Active" : "Inactive",
+});
+
+const fetchRolesRequest = async () => {
+  const response = await api.get("/admin/roles");
+
+  return response.data; // { success, message, data: [] }
+};
+
+const updateRoleRequest = async (id, payload) => {
+  const response = await api.put(`/admin/roles/${id}`, payload);
+
+  return response.data; // { success, message }
+};
+
+const updateRoleStatusRequest = async (id, status) => {
+  const response = await api.put(`/admin/roles/${id}/status`, { status });
+
+  return response.data; // { success, message }
+};
+
+const deleteRoleRequest = async (id) => {
+  const response = await api.delete(`/admin/roles/${id}/delete`);
+
+  return response.data; // { success | status, message }
+};
+
+/* =========================================
+   COMPONENT
+========================================= */
 
 const Role = () => {
   // -----------------------------------------
@@ -25,52 +72,76 @@ const Role = () => {
   const [roles, setRoles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+
   // -----------------------------------------
   // MODAL STATES
   // -----------------------------------------
 
   const [statusRole, setStatusRole] = useState(null);
-  const [editRole, setEditRole] = useState(null);
-
   const [deleteRole, setDeleteRole] = useState(null);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [editRole, setEditRole] = useState(null);
+  const [isUpdating, setIsUpdating] = useState(false);
+
+  // success modal: { title, message } | null
+  const [successInfo, setSuccessInfo] = useState(null);
 
   const [editForm, setEditForm] = useState({
     role: "",
     responsibilities: "",
   });
 
-  useEffect(() => {
-    fetchRoles();
-  }, []);
+  // -----------------------------------------
+  // LOAD ROLES
+  // -----------------------------------------
 
-  const fetchRoles = async () => {
+  const fetchRoles = useCallback(async () => {
     try {
       setLoading(true);
       setError("");
 
-      const response = await api.get("/admin/roles");
+      const result = await fetchRolesRequest();
 
-      if (response.data.success) {
-        const formattedRoles = response.data.data.map((item) => ({
-          id: item.id,
-          role: item.role_name,
-          responsibilities: item.responsibilities || "",
-          status: Number(item.status) === 1 ? "Active" : "Inactive",
-        }));
-
-        setRoles(formattedRoles);
+      if (result.success) {
+        setRoles(result.data.map(mapRole));
       } else {
-        setError(response.data.message || "Failed to fetch roles.");
+        setError(result.message || "Failed to fetch roles.");
       }
-    } catch (error) {
-      console.error("Fetch roles error:", error);
+    } catch (err) {
+      console.error("Fetch roles error:", err);
 
-      setError(error.response?.data?.message || "Unable to fetch roles.");
+      setError(getErrorMessage(err, "Unable to fetch roles."));
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    fetchRoles();
+  }, [fetchRoles]);
+
+  // -----------------------------------------
+  // CLOSE EDIT MODAL WITH ESCAPE
+  // -----------------------------------------
+
+  useEffect(() => {
+    if (!editRole) {
+      return undefined;
+    }
+
+    const onKeyDown = (event) => {
+      if (event.key === "Escape" && !isUpdating) {
+        setEditRole(null);
+      }
+    };
+
+    document.addEventListener("keydown", onKeyDown);
+
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [editRole, isUpdating]);
+
+  // useCallback keeps the success auto-close timer from restarting on re-render
+  const handleSuccessClose = useCallback(() => setSuccessInfo(null), []);
+
   // -----------------------------------------
   // OPEN EDIT MODAL
   // -----------------------------------------
@@ -102,17 +173,24 @@ const Role = () => {
   // -----------------------------------------
 
   const handleUpdateRole = async () => {
-    if (!editRole || !editForm.role.trim()) {
+    if (!editRole) {
+      return;
+    }
+
+    if (!editForm.role.trim()) {
+      toast.error("Role name is required.");
       return;
     }
 
     try {
-      const response = await api.put(`/admin/roles/${editRole.id}`, {
+      setIsUpdating(true);
+
+      const result = await updateRoleRequest(editRole.id, {
         role_name: editForm.role.trim(),
         responsibilities: editForm.responsibilities.trim(),
       });
 
-      if (response.data.success) {
+      if (result.success) {
         setRoles((previousRoles) =>
           previousRoles.map((item) =>
             item.id === editRole.id
@@ -125,20 +203,26 @@ const Role = () => {
           ),
         );
 
-        alert(response.data.message);
         setEditRole(null);
-      } else {
-        alert(response.data.message || "Failed to update role.");
-      }
-    } catch (error) {
-      console.error("Update role error:", error);
 
-      alert(error.response?.data?.message || "Failed to update role.");
+        setSuccessInfo({
+          title: "Role updated",
+          message: result.message || "Role updated successfully.",
+        });
+      } else {
+        toast.error(result.message || "Failed to update role.");
+      }
+    } catch (err) {
+      console.error("Update role error:", err);
+
+      toast.error(getErrorMessage(err, "Failed to update role."));
+    } finally {
+      setIsUpdating(false);
     }
   };
 
   // -----------------------------------------
-  // CHANGE STATUS
+  // CHANGE STATUS (runs when confirm modal is accepted)
   // -----------------------------------------
 
   const handleStatusChange = async () => {
@@ -146,85 +230,69 @@ const Role = () => {
       return;
     }
 
+    const newStatus = statusRole.status === "Active" ? 0 : 1;
+
     try {
-      const newStatus = statusRole.status === "Active" ? 0 : 1;
+      const result = await updateRoleStatusRequest(statusRole.id, newStatus);
 
-      const response = await api.put(`/admin/roles/${statusRole.id}/status`, {
-        status: newStatus,
-      });
-
-      if (response.data.success) {
+      if (result.success) {
         setRoles((previousRoles) =>
           previousRoles.map((item) =>
             item.id === statusRole.id
-              ? {
-                  ...item,
-                  status: newStatus === 1 ? "Active" : "Inactive",
-                }
+              ? { ...item, status: newStatus === 1 ? "Active" : "Inactive" }
               : item,
           ),
         );
 
-        alert(response.data.message);
-        setStatusRole(null);
+        setSuccessInfo({
+          title: newStatus === 1 ? "Role activated" : "Role deactivated",
+          message: result.message || "Status updated successfully.",
+        });
       } else {
-        alert(response.data.message || "Failed to update status.");
+        toast.error(result.message || "Failed to update status.");
       }
-    } catch (error) {
-      console.error("Update role status error:", error);
+    } catch (err) {
+      console.error("Update role status error:", err);
 
-      alert(error.response?.data?.message || "Failed to update role status.");
+      toast.error(getErrorMessage(err, "Failed to update role status."));
+    } finally {
+      setStatusRole(null);
     }
   };
 
   // -----------------------------------------
-  // DELETE ROLE
+  // DELETE ROLE (runs when confirm modal is accepted)
   // -----------------------------------------
 
-  const handleDelete = (role) => {
-    setDeleteRole(role);
-    setShowDeleteModal(true);
-  };
+  const confirmDeleteRole = async () => {
+    if (!deleteRole) {
+      return;
+    }
 
-const confirmDeleteRole = async () => {
-  if (!deleteRole) return;
+    try {
+      const result = await deleteRoleRequest(deleteRole.id);
 
-  try {
-    const response = await api.delete(
-      `/admin/roles/${deleteRole.id}/delete`
-    );
+      // Check successful API response
+      if (result.success === true || result.status === "success") {
+        // Remove role from table
+        setRoles((previousRoles) =>
+          previousRoles.filter((item) => item.id !== deleteRole.id),
+        );
 
-    // Check successful API response
-    if (
-      response.data.success === true ||
-      response.data.status === "success"
-    ) {
-      // Remove role from table
-      setRoles((previousRoles) =>
-        previousRoles.filter((item) => item.id !== deleteRole.id)
-      );
+        setSuccessInfo({
+          title: "Role deleted",
+          message: result.message || "Role deleted successfully.",
+        });
+      } else {
+        toast.error(result.message || "Failed to delete role.");
+      }
+    } catch (err) {
+      console.error("Delete role error:", err);
 
-      // Close modal immediately after successful deletion
-      setShowDeleteModal(false);
+      toast.error(getErrorMessage(err, "Failed to delete role."));
+    } finally {
       setDeleteRole(null);
-
-      alert(response.data.message || "Role deleted successfully");
-    } else {
-      alert(response.data.message || "Failed to delete role.");
     }
-  } catch (error) {
-    console.error("Delete role error:", error);
-
-    alert(
-      error.response?.data?.message ||
-        "Failed to delete role."
-    );
-  }
-};
-
-  const cancelDeleteRole = () => {
-    setDeleteRole(null);
-    setShowDeleteModal(false);
   };
 
   // -----------------------------------------
@@ -252,7 +320,7 @@ const confirmDeleteRole = async () => {
       {
         key: "responsibilities",
         label: "Responsibilities",
-        width: "100px",
+        width: "120px",
         sortable: true,
 
         render: (value) =>
@@ -268,41 +336,38 @@ const confirmDeleteRole = async () => {
       {
         key: "status",
         label: "Status",
-        width: "100px",
+        width: "60px",
         sortable: true,
 
-        render: (value) => (
-          <span
+        // clicking the badge opens the status confirmation
+        render: (value, row) => (
+          <button
+            type="button"
             className={`role-status-badge ${
-              value === "Active" ? "role-status-active" : "role-status-inactive"
+              value === "Active"
+                ? "role-status-badge-active"
+                : "role-status-badge-inactive"
             }`}
+            title={
+              value === "Active" ? "Click to deactivate" : "Click to activate"
+            }
+            onClick={() => setStatusRole(row)}
           >
-            {value === "Active" ? <FaCheckCircle /> : <FaTimesCircle />}
+            <span className="role-status-dot" />
 
             {value}
-          </span>
+          </button>
         ),
       },
 
       {
         key: "actions",
         label: "Actions",
-        width: "100px",
+        width: "80px",
         sortable: false,
 
         render: (_, row) => (
           <div className="role-action-buttons">
-            {/* STATUS */}
-
-            <button
-              type="button"
-              className="role-btn role-btn-status"
-              onClick={() => setStatusRole(row)}
-            >
-              <FaSyncAlt />
-              Status
-            </button>
-
             {/* EDIT */}
 
             <button
@@ -319,7 +384,7 @@ const confirmDeleteRole = async () => {
             <button
               type="button"
               className="role-btn role-btn-delete"
-              onClick={() => handleDelete(row)}
+              onClick={() => setDeleteRole(row)}
             >
               <FaTrash />
               Delete
@@ -331,24 +396,20 @@ const confirmDeleteRole = async () => {
     [],
   );
 
+  const deactivating = statusRole?.status === "Active";
+
   return (
     <div className="role-page">
+      <Toaster position="top-right" />
+
       {/* =========================================
           PAGE HEADER
       ========================================= */}
 
       <div className="role-page-header">
-        <div>
-          <h1>Role Management</h1>
+        <h1>Role Management</h1>
 
-          <div className="role-breadcrumb">
-            <Link to="/home">Home</Link>
-
-            <span>/</span>
-
-            <span>Role Management</span>
-          </div>
-        </div>
+        <ServiceBreadcrumbs items={[{ label: "Role Management" }]} />
       </div>
 
       {/* =========================================
@@ -367,134 +428,117 @@ const confirmDeleteRole = async () => {
           </Link>
         </div>
 
-        {/* DATATABLE */}
+        {/* DATATABLE / STATES */}
 
         {loading ? (
-          <div className="text-center py-4">Loading roles...</div>
+          <div className="role-state" role="status">
+            <span className="role-spinner" />
+            <p>Loading roles...</p>
+          </div>
         ) : error ? (
-          <div className="text-center py-4 text-danger">{error}</div>
+          <div className="role-state role-state-error" role="alert">
+            <FaTimesCircle className="role-state-icon" />
+            <p>{error}</p>
+
+            <button
+              type="button"
+              className="role-retry-btn"
+              onClick={fetchRoles}
+            >
+              <FaRedo />
+              Try again
+            </button>
+          </div>
         ) : (
-          <DataTable
-            columns={columns}
-            data={roles}
-            entriesPerPageOptions={[10, 25, 50, 100]}
-            searchable={true}
-            sortable={true}
-          />
+          <div className="role-table-wrapper">
+            <DataTable
+              columns={columns}
+              data={roles}
+              entriesPerPageOptions={[10, 25, 50, 100]}
+              searchable={true}
+              sortable={true}
+            />
+          </div>
         )}
       </section>
 
       {/* =========================================
-          CHANGE STATUS MODAL
+          CHANGE STATUS CONFIRM
       ========================================= */}
 
-      {statusRole && (
-        <div className="role-modal-overlay" onClick={() => setStatusRole(null)}>
-          <div
-            className="role-status-modal"
-            onClick={(event) => event.stopPropagation()}
-          >
-            <h2>Change Status</h2>
+      <ServiceConfirmModal
+        isOpen={Boolean(statusRole)}
+        variant={deactivating ? "warning" : "success"}
+        title={deactivating ? "Deactivate this role?" : "Activate this role?"}
+        message={
+          statusRole
+            ? `"${statusRole.role}" will change from ${statusRole.status} to ${
+                deactivating ? "Inactive" : "Active"
+              }.`
+            : ""
+        }
+        confirmText={deactivating ? "Yes, deactivate" : "Yes, activate"}
+        onConfirm={handleStatusChange}
+        onCancel={() => setStatusRole(null)}
+      />
 
-            <div className="role-status-modal-icon">
-              <FaTimes />
-            </div>
+      {/* =========================================
+          DELETE CONFIRM
+      ========================================= */}
 
-            <p className="role-status-message">
-              You are about to change status of role:
-            </p>
+      <ServiceConfirmModal
+        isOpen={Boolean(deleteRole)}
+        variant="danger"
+        title="Delete role?"
+        message={
+          deleteRole
+            ? `"${deleteRole.role}" will be removed and this can't be undone.`
+            : ""
+        }
+        confirmText="Yes, delete"
+        onConfirm={confirmDeleteRole}
+        onCancel={() => setDeleteRole(null)}
+      />
 
-            <strong className="role-status-role-name">
-              "{statusRole.role}"
-            </strong>
+      {/* =========================================
+          SUCCESS MODAL
+      ========================================= */}
 
-            <div className="role-status-information">
-              <div className="role-status-row">
-                <span>Current Status:</span>
-
-                <span
-                  className={`role-status-badge ${
-                    statusRole.status === "Active"
-                      ? "role-status-active"
-                      : "role-status-inactive"
-                  }`}
-                >
-                  {statusRole.status === "Active" ? (
-                    <FaCheckCircle />
-                  ) : (
-                    <FaTimesCircle />
-                  )}
-
-                  {statusRole.status}
-                </span>
-              </div>
-
-              <div className="role-status-row">
-                <span>New Status:</span>
-
-                <span
-                  className={`role-status-badge ${
-                    statusRole.status === "Active"
-                      ? "role-status-inactive"
-                      : "role-status-active"
-                  }`}
-                >
-                  {statusRole.status === "Active" ? (
-                    <FaTimesCircle />
-                  ) : (
-                    <FaCheckCircle />
-                  )}
-
-                  {statusRole.status === "Active" ? "Inactive" : "Active"}
-                </span>
-              </div>
-            </div>
-
-            <div className="role-modal-actions">
-              <button
-                type="button"
-                className="role-modal-cancel"
-                onClick={() => setStatusRole(null)}
-              >
-                <FaTimes />
-                No, Cancel
-              </button>
-
-              <button
-                type="button"
-                className="role-modal-confirm"
-                onClick={handleStatusChange}
-              >
-                <FaCheck />
-                Yes, Change to{" "}
-                {statusRole.status === "Active" ? "Inactive" : "Active"}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      <ServiceSuccessModal
+        isOpen={Boolean(successInfo)}
+        title={successInfo?.title}
+        message={successInfo?.message}
+        onClose={handleSuccessClose}
+      />
 
       {/* =========================================
           EDIT ROLE MODAL
       ========================================= */}
 
       {editRole && (
-        <div className="role-modal-overlay" onClick={() => setEditRole(null)}>
+        <div
+          className="role-modal-overlay"
+          onClick={() => !isUpdating && setEditRole(null)}
+        >
           <div
             className="role-edit-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="role-edit-title"
             onClick={(event) => event.stopPropagation()}
           >
-            <h2>Edit Role</h2>
+            <h2 id="role-edit-title">Edit Role</h2>
 
             {/* ROLE NAME */}
 
             <div className="role-form-group">
-              <label>
+              <label htmlFor="role-edit-name">
                 <FaUserTag />
                 Role Name <span>*</span>
               </label>
 
               <input
+                id="role-edit-name"
                 type="text"
                 name="role"
                 value={editForm.role}
@@ -507,12 +551,13 @@ const confirmDeleteRole = async () => {
             {/* RESPONSIBILITIES */}
 
             <div className="role-form-group">
-              <label>
+              <label htmlFor="role-edit-responsibilities">
                 <FaListUl />
                 Responsibilities
               </label>
 
               <textarea
+                id="role-edit-responsibilities"
                 name="responsibilities"
                 value={editForm.responsibilities}
                 onChange={handleEditChange}
@@ -521,7 +566,7 @@ const confirmDeleteRole = async () => {
               />
 
               <div className="role-character-count">
-                {editForm.responsibilities.length} characters
+                {editForm.responsibilities.length}/500 characters
               </div>
             </div>
 
@@ -530,55 +575,26 @@ const confirmDeleteRole = async () => {
             <div className="role-edit-actions">
               <button
                 type="button"
-                className="role-update-button"
-                onClick={handleUpdateRole}
-              >
-                <FaCheck />
-                Update
-              </button>
-
-              <button
-                type="button"
                 className="role-cancel-button"
                 onClick={() => setEditRole(null)}
+                disabled={isUpdating}
               >
                 <FaTimes />
                 Cancel
               </button>
-            </div>
-          </div>
-        </div>
-      )}
-      {showDeleteModal && deleteRole && (
-        <div className="role-modal-overlay">
-          <div className="role-confirm-modal">
-            <h2>Delete Role</h2>
-
-            <div className="role-delete-icon">
-              <FaTrash />
-            </div>
-
-            <p>Are you sure you want to delete this role?</p>
-
-            <strong>"{deleteRole.role}"</strong>
-
-            <div className="role-modal-actions">
-              <button
-                type="button"
-                className="role-cancel-btn"
-                onClick={cancelDeleteRole}
-              >
-                <FaTimes />
-                No, Cancel
-              </button>
 
               <button
                 type="button"
-                className="role-delete-confirm-btn"
-                onClick={confirmDeleteRole}
+                className="role-update-button"
+                onClick={handleUpdateRole}
+                disabled={isUpdating}
               >
-                <FaTrash />
-                Yes, Delete
+                {isUpdating ? (
+                  <span className="role-btn-spinner" aria-hidden="true" />
+                ) : (
+                  <FaCheck />
+                )}
+                {isUpdating ? "Updating..." : "Update"}
               </button>
             </div>
           </div>

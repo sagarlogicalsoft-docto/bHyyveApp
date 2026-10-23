@@ -15,10 +15,12 @@ import AddExpert from "./Components/page/expertManagement/AddExpert";
 import ViewExpert from "./Components/page/expertManagement/ViewExpert";
 import CategoryList from "./Components/page/categoryManagement/CategoryList";
 import AddCategory from "./Components/page/categoryManagement/AddCategory";
+import CategoryKeywords from "./Components/page/categoryManagement/categoryKeywords";
 import SubCategoryList from "./Components/page/categoryManagement/SubCategoryList";
 import AddSubCategory from "./Components/page/categoryManagement/AddSubCategory";
 import ManageSlider from "./Components/page/vendorImages/ManageSlider";
 import AddImages from "./Components/page/vendorImages/AddImages";
+import EditVendorSlider from "./Components/page/vendorImages/EditVendorSlider";
 import NewBooking from "./Components/page/booking/NewBooking";
 import ViewNewBooking from "./Components/page/booking/ViewNewBooking";
 import InprogressBooking from "./Components/page/booking/InprogressBooking";
@@ -161,6 +163,9 @@ function App() {
         <Route path="/add_category" element={<DashboardLayout />}>
           <Route index element={<AddCategory />} />
         </Route>
+        <Route path="/manage_category_keywords" element={<DashboardLayout />}>
+          <Route index element={< CategoryKeywords />} />
+        </Route>
         <Route path="/edit_category/:id" element={<DashboardLayout />}>
           <Route index element={< EditCategory />} />
         </Route>
@@ -173,11 +178,14 @@ function App() {
         <Route path="/edit_sub_category/:id" element={<DashboardLayout />}>
           <Route index element={< EditSubCategory />} />
         </Route>
-        <Route path="/add_vendor_images" element={<DashboardLayout />}>
+        <Route path="/add_vendor_image" element={<DashboardLayout />}>
           <Route index element={<AddImages />} />
         </Route>
         <Route path="/all_ven_images" element={<DashboardLayout />}>
           <Route index element={<ManageSlider />} />
+        </Route>
+        <Route path="/edit_ven_images/:id" element={<DashboardLayout />}>
+          <Route index element={< EditVendorSlider />} />
         </Route>
         <Route path="/new_booking" element={<DashboardLayout />}>
           <Route index element={<NewBooking />} />

@@ -191,7 +191,7 @@ const RestaurantDashboard = () => {
       value: orderCounts.ready_for_pickup,
       icon: <FaCheckCircle />,
       type: "success",
-      path: "/restaurant/orders/ready_for-pickup",
+      path: "/restaurant/orders/ready_for_pickup",
     },
     {
       title: "Picked Up Orders",
@@ -322,77 +322,95 @@ const RestaurantDashboard = () => {
     };
   }, [salesChart]);
 
- 
- // --------------------------------------------------
-// SVG GRAPH CALCULATION
-// --------------------------------------------------
+  const getNiceStep = (maxValue) => {
+    if (maxValue <= 0) return 1000;
 
-const chartWidth = 1200;
-const chartHeight = 390;
+    const roughStep = maxValue / 4;
+    const magnitude = Math.pow(10, Math.floor(Math.log10(roughStep)));
 
-const chartPadding = {
-  top: 30,
-  right: 30,
-  bottom: 55,
-  left: 70,
-};
+    const normalized = roughStep / magnitude;
 
-const innerWidth =
-  chartWidth - chartPadding.left - chartPadding.right;
+    let niceNumber;
 
-const innerHeight =
-  chartHeight - chartPadding.top - chartPadding.bottom;
+    if (normalized <= 1) {
+      niceNumber = 1;
+    } else if (normalized <= 2) {
+      niceNumber = 2;
+    } else if (normalized <= 5) {
+      niceNumber = 5;
+    } else {
+      niceNumber = 10;
+    }
 
-const points = revenueData.values.map((value, index) => {
-  const totalPoints = revenueData.values.length;
-
-  const x =
-    totalPoints === 1
-      ? chartPadding.left + innerWidth / 2
-      : chartPadding.left +
-        (index / (totalPoints - 1)) * innerWidth;
-
-  const y =
-    chartPadding.top +
-    innerHeight -
-    (value / revenueData.max) * innerHeight;
-
-  return {
-    x,
-    y,
-    value,
+    return niceNumber * magnitude;
   };
-});
 
-const linePath =
-  points.length > 0
-    ? points
-        .map((point, index) => {
-          if (index === 0) {
-            return `M ${point.x} ${point.y}`;
-          }
+  const yAxisStep = getNiceStep(revenueData.max);
 
-          const previous = points[index - 1];
+  const yAxisMax = Math.ceil(revenueData.max / yAxisStep) * yAxisStep;
 
-          const controlPoint1X =
-            previous.x + (point.x - previous.x) / 2;
+  // --------------------------------------------------
+  // SVG GRAPH CALCULATION
+  // --------------------------------------------------
 
-          const controlPoint2X =
-            previous.x + (point.x - previous.x) / 2;
+  const chartWidth = 1200;
+  const chartHeight = 390;
 
-          return `
+  const chartPadding = {
+    top: 30,
+    right: 30,
+    bottom: 55,
+    left: 70,
+  };
+
+  const innerWidth = chartWidth - chartPadding.left - chartPadding.right;
+
+  const innerHeight = chartHeight - chartPadding.top - chartPadding.bottom;
+
+  const points = revenueData.values.map((value, index) => {
+    const totalPoints = revenueData.values.length;
+
+    const x =
+      totalPoints === 1
+        ? chartPadding.left + innerWidth / 2
+        : chartPadding.left + (index / (totalPoints - 1)) * innerWidth;
+
+    const y = chartPadding.top + innerHeight - (value / yAxisMax) * innerHeight;
+
+    return {
+      x,
+      y,
+      value,
+    };
+  });
+
+  const linePath =
+    points.length > 0
+      ? points
+          .map((point, index) => {
+            if (index === 0) {
+              return `M ${point.x} ${point.y}`;
+            }
+
+            const previous = points[index - 1];
+
+            const controlPoint1X = previous.x + (point.x - previous.x) / 2;
+
+            const controlPoint2X = previous.x + (point.x - previous.x) / 2;
+
+            return `
             C
             ${controlPoint1X} ${previous.y},
             ${controlPoint2X} ${point.y},
             ${point.x} ${point.y}
           `;
-        })
-        .join(" ")
-    : "";
+          })
+          .join(" ")
+      : "";
 
-const areaPath =
-  points.length > 0
-    ? `
+  const areaPath =
+    points.length > 0
+      ? `
       ${linePath}
       L ${points[points.length - 1].x}
         ${chartPadding.top + innerHeight}
@@ -400,19 +418,16 @@ const areaPath =
         ${chartPadding.top + innerHeight}
       Z
     `
-    : "";
+      : "";
 
-const gridValues = [
-  revenueData.max,
-  revenueData.max * 0.75,
-  revenueData.max * 0.5,
-  revenueData.max * 0.25,
-  0,
-];
+  const gridValues = Array.from(
+    { length: 5 },
+    (_, index) => yAxisMax - index * (yAxisMax / 4),
+  );
 
-// Skip labels on x-axis when there are too many points, to avoid overlap
-const maxLabelsToShow = 8;
-const labelStep = Math.max(1, Math.ceil(points.length / maxLabelsToShow));
+  // Skip labels on x-axis when there are too many points, to avoid overlap
+  const maxLabelsToShow = 8;
+  const labelStep = Math.max(1, Math.ceil(points.length / maxLabelsToShow));
 
   return (
     <div className="restaurant-dashboard">
@@ -501,233 +516,190 @@ const labelStep = Math.max(1, Math.ceil(points.length / maxLabelsToShow));
           REVENUE GRAPH
       ========================================= */}
 
-    {/* =========================================
+      {/* =========================================
     REVENUE GRAPH
 ========================================= */}
 
-<section className="revenue-card">
-  <div className="revenue-card-header">
-    <div>
-      <span className="revenue-label">TOTAL REVENUE</span>
-
-      <h2>$ {salesChart?.grand_total || "0.00"}</h2>
-    </div>
-
-    <div className="revenue-period-tabs">
-      {["Year", "Month", "Week"].map((period) => (
-        <button
-          key={period}
-          type="button"
-          className={revenuePeriod === period ? "active" : ""}
-          onClick={() => setRevenuePeriod(period)}
-        >
-          {period}
-        </button>
-      ))}
-    </div>
-  </div>
-
-  <div className="revenue-chart-wrapper">
-    <svg
-      viewBox={`0 0 ${chartWidth} ${chartHeight}`}
-      preserveAspectRatio="none"
-      className="revenue-chart"
-      onMouseLeave={() => setHoveredIndex(null)}
-    >
-      <defs>
-        <linearGradient id="revenueGradient" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#7063ee" stopOpacity="0.20" />
-          <stop offset="100%" stopColor="#7063ee" stopOpacity="0" />
-        </linearGradient>
-      </defs>
-
-      {/* GRID */}
-
-      {gridValues.map((value, index) => {
-        const y =
-          chartPadding.top +
-          innerHeight -
-          (value / revenueData.max) * innerHeight;
-
-        return (
-          <g key={index}>
-            <line
-              x1={chartPadding.left}
-              y1={y}
-              x2={chartWidth - chartPadding.right}
-              y2={y}
-              className="chart-grid-line"
-            />
-
-            <text
-              x={chartPadding.left - 15}
-              y={y + 5}
-              textAnchor="end"
-              className="chart-y-label"
-            >
-              {value === 0 ? "$ 0" : `$ ${(value / 1000).toFixed(1)}k`}
-            </text>
-          </g>
-        );
-      })}
-
-      {/* AREA */}
-
-      <path d={areaPath} fill="url(#revenueGradient)" className="chart-area" />
-
-      {/* LINE */}
-
-      <path d={linePath} fill="none" className="chart-line" />
-
-      {/* HOVER GUIDE LINE + DOT */}
-
-      {hoveredIndex !== null && points[hoveredIndex] && (
-        <g className="chart-hover-guide">
-          <line
-            x1={points[hoveredIndex].x}
-            y1={chartPadding.top}
-            x2={points[hoveredIndex].x}
-            y2={chartPadding.top + innerHeight}
-            className="chart-hover-line"
-          />
-
-          <circle
-            cx={points[hoveredIndex].x}
-            cy={points[hoveredIndex].y}
-            r="6"
-            className="chart-hover-dot"
-          />
-        </g>
-      )}
-
-      {/* HOVER HIT AREAS (invisible) */}
-
-      {points.map((point, index) => (
-        <rect
-          key={`hit-${index}`}
-          x={
-            index === 0
-              ? chartPadding.left
-              : (points[index - 1].x + point.x) / 2
-          }
-          y={chartPadding.top}
-          width={
-            points.length === 1
-              ? innerWidth
-              : index === 0
-              ? (points[1].x - point.x) / 2 +
-                (point.x - chartPadding.left)
-              : index === points.length - 1
-              ? chartWidth -
-                chartPadding.right -
-                (points[index - 1].x + point.x) / 2
-              : (points[index + 1].x - points[index - 1].x) / 2
-          }
-          height={innerHeight}
-          fill="transparent"
-          onMouseEnter={() => setHoveredIndex(index)}
-          style={{ cursor: "pointer" }}
-        />
-      ))}
-
-      {/* X AXIS LABELS */}
-
-      {points.map((point, index) => {
-        const isLast = index === points.length - 1;
-        const shouldShow = index % labelStep === 0 || isLast;
-
-        if (!shouldShow) return null;
-
-        return (
-          <text
-            key={index}
-            x={point.x}
-            y={chartHeight - 18}
-            textAnchor="middle"
-            className={`chart-x-label ${
-              hoveredIndex === index ? "chart-x-label--active" : ""
-            }`}
-          >
-            {revenueData.labels[index]}
-          </text>
-        );
-      })}
-    </svg>
-
-    {/* TOOLTIP */}
-
-    {hoveredIndex !== null && points[hoveredIndex] && (
-      <div
-        className="chart-tooltip chart-tooltip--below"
-        style={{
-          left: `${(points[hoveredIndex].x / chartWidth) * 100}%`,
-          top: `${(points[hoveredIndex].y / chartHeight) * 100}%`,
-        }}
-      >
-        <span className="chart-tooltip-label">
-          {revenueData.labels[hoveredIndex]}
-        </span>
-
-        <span className="chart-tooltip-value">
-          ${" "}
-          {Number(points[hoveredIndex].value).toLocaleString("en-US", {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          })}
-        </span>
-      </div>
-    )}
-  </div>
-</section>
-
-
-      {/* =========================================
-    TODAY'S SUMMARY
-========================================= */}
-
-      <section className="today-summary-section">
-        <div className="today-summary-header">
+      <section className="revenue-card">
+        <div className="revenue-card-header">
           <div>
-            <span className="today-summary-label">TODAY'S SUMMARY</span>
+            <span className="revenue-label">TOTAL REVENUE</span>
 
-            <h2>{selectedSummary.title}</h2>
+            <h2>$ {salesChart?.grand_total || "0.00"}</h2>
           </div>
 
-          <div className="today-summary-date">
-            <FaCalendarDay />
-
-            <select
-              value={summaryDay}
-              onChange={(e) => setSummaryDay(e.target.value)}
-              className="today-summary-select"
-            >
-              <option value="today">Today</option>
-              <option value="yesterday">Yesterday</option>
-              <option value="twoDaysAgo">2 Days Ago</option>
-            </select>
+          <div className="revenue-period-tabs">
+            {["Year", "Month", "Week"].map((period) => (
+              <button
+                key={period}
+                type="button"
+                className={revenuePeriod === period ? "active" : ""}
+                onClick={() => setRevenuePeriod(period)}
+              >
+                {period}
+              </button>
+            ))}
           </div>
         </div>
 
-        <div className="today-summary-grid">
-          {todaysSummary.map((item, index) => (
-            <div className="today-summary-card" key={index}>
-              <div className="today-summary-icon">{item.icon}</div>
+        <div className="revenue-chart-wrapper">
+          <svg
+            viewBox={`0 0 ${chartWidth} ${chartHeight}`}
+            preserveAspectRatio="none"
+            className="revenue-chart"
+            onMouseLeave={() => setHoveredIndex(null)}
+          >
+            <defs>
+              <linearGradient id="revenueGradient" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="#7063ee" stopOpacity="0.20" />
+                <stop offset="100%" stopColor="#7063ee" stopOpacity="0" />
+              </linearGradient>
+            </defs>
 
-              <div className="today-summary-content">
-                <span>{item.title}</span>
+            {/* GRID */}
 
-                <strong>{item.value}</strong>
+            {gridValues.map((value, index) => {
+              const y =
+                chartPadding.top +
+                innerHeight -
+                (value / revenueData.max) * innerHeight;
 
-                <div className={`today-summary-change ${item.type}`}>
-                  {item.type === "up" ? <FaArrowUp /> : <FaArrowDown />}
+              return (
+                <g key={index}>
+                  <line
+                    x1={chartPadding.left}
+                    y1={y}
+                    x2={chartWidth - chartPadding.right}
+                    y2={y}
+                    className="chart-grid-line"
+                  />
 
-                  {item.change}
+                  <text
+                    x={chartPadding.left - 15}
+                    y={y + 5}
+                    textAnchor="end"
+                    className="chart-y-label"
+                  >
+                    {value === 0
+                      ? "$ 0"
+                      : `$ ${Number(value / 1000).toLocaleString("en-US", {
+                          maximumFractionDigits: 2,
+                        })}k`}
+                  </text>
+                </g>
+              );
+            })}
 
-                  <small> vs previous day</small>
-                </div>
-              </div>
+            {/* AREA */}
+
+            <path
+              d={areaPath}
+              fill="url(#revenueGradient)"
+              className="chart-area"
+            />
+
+            {/* LINE */}
+
+            <path d={linePath} fill="none" className="chart-line" />
+
+            {/* HOVER GUIDE LINE + DOT */}
+
+            {hoveredIndex !== null && points[hoveredIndex] && (
+              <g className="chart-hover-guide">
+                <line
+                  x1={points[hoveredIndex].x}
+                  y1={chartPadding.top}
+                  x2={points[hoveredIndex].x}
+                  y2={chartPadding.top + innerHeight}
+                  className="chart-hover-line"
+                />
+
+                <circle
+                  cx={points[hoveredIndex].x}
+                  cy={points[hoveredIndex].y}
+                  r="6"
+                  className="chart-hover-dot"
+                />
+              </g>
+            )}
+
+            {/* HOVER HIT AREAS (invisible) */}
+
+            {points.map((point, index) => (
+              <rect
+                key={`hit-${index}`}
+                x={
+                  index === 0
+                    ? chartPadding.left
+                    : (points[index - 1].x + point.x) / 2
+                }
+                y={chartPadding.top}
+                width={
+                  points.length === 1
+                    ? innerWidth
+                    : index === 0
+                      ? (points[1].x - point.x) / 2 +
+                        (point.x - chartPadding.left)
+                      : index === points.length - 1
+                        ? chartWidth -
+                          chartPadding.right -
+                          (points[index - 1].x + point.x) / 2
+                        : (points[index + 1].x - points[index - 1].x) / 2
+                }
+                height={innerHeight}
+                fill="transparent"
+                onMouseEnter={() => setHoveredIndex(index)}
+                style={{ cursor: "pointer" }}
+              />
+            ))}
+
+            {/* X AXIS LABELS */}
+
+            {points.map((point, index) => {
+              const isLast = index === points.length - 1;
+              const shouldShow = index % labelStep === 0 || isLast;
+
+              if (!shouldShow) return null;
+
+              return (
+                <text
+                  key={index}
+                  x={point.x}
+                  y={chartHeight - 18}
+                  textAnchor="middle"
+                  className={`chart-x-label ${
+                    hoveredIndex === index ? "chart-x-label--active" : ""
+                  }`}
+                >
+                  {revenueData.labels[index]}
+                </text>
+              );
+            })}
+          </svg>
+
+          {/* TOOLTIP */}
+
+          {hoveredIndex !== null && points[hoveredIndex] && (
+            <div
+              className="chart-tooltip chart-tooltip--below"
+              style={{
+                left: `${(points[hoveredIndex].x / chartWidth) * 100}%`,
+                top: `${(points[hoveredIndex].y / chartHeight) * 100}%`,
+              }}
+            >
+              <span className="chart-tooltip-label">
+                {revenueData.labels[hoveredIndex]}
+              </span>
+
+              <span className="chart-tooltip-value">
+                ${" "}
+                {Number(points[hoveredIndex].value).toLocaleString("en-US", {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}
+              </span>
             </div>
-          ))}
+          )}
         </div>
       </section>
     </div>

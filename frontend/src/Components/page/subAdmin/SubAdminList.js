@@ -1,125 +1,183 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import api from "../../../config/api";
 
-import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { FaPlus, FaEdit, FaTrash, FaEye } from "react-icons/fa";
-import { IoIosArrowForward } from "react-icons/io";
-import { FaEllipsisH } from "react-icons/fa";
-import { FaCopy, FaFileExcel, FaFileCsv, FaFilePdf } from "react-icons/fa";
+import {
+  FaPlus,
+  FaEdit,
+  FaTrash,
+  FaEye,
+  FaEyeSlash,
+  FaCopy,
+  FaFileExcel,
+  FaFileCsv,
+  FaFilePdf,
+  FaRedo,
+  FaCheckCircle,
+  FaTimesCircle,
+} from "react-icons/fa";
 
 import DataTable from "../../common/DataTable";
+import ServiceBreadcrumbs from "../../common/ServiceBreadcrumbs";
 import "./subAdminList.css";
-import useOutsideClick from "../../../hooks/UseOutsideClick";
+import ServiceSuccessModal from "../../common/modal/serviceModal/ServiceSuccessModal";
+import ServiceConfirmModal from "../../common/modal/serviceModal/ServiceConfirmModal";
+
+/* =========================================
+   API SERVICE FUNCTIONS
+   (kept inline; move to a service file later
+   by cutting everything in this block)
+========================================= */
+
+const getErrorMessage = (error, fallback) =>
+  error?.response?.data?.message || error?.message || fallback;
+
+const mapSubAdmin = (admin) => ({
+  id: admin.admin_id,
+  name: admin.admin_name,
+  email: admin.admin_email,
+  role: admin.role_name || admin.role_id || "-",
+  employeeSince: admin.employee_since || "-",
+  password: admin.admin_password || "",
+  status: String(admin.admin_status) === "1" ? "Active" : "Inactive",
+  permissions: admin.permission || "-",
+});
+
+const fetchSubAdminsRequest = async () => {
+  const { data } = await api.get("/admin/subadmins");
+
+  if (!data.success) {
+    throw new Error(data.message || "Failed to fetch sub admins.");
+  }
+
+  return data.data.map(mapSubAdmin);
+};
+
+const deleteSubAdminRequest = async (id) => {
+  const { data } = await api.delete(`/admin/subadmins/${id}`);
+
+  if (!data.success) {
+    throw new Error(data.message || "Failed to delete sub admin.");
+  }
+
+  return data; // { success, message }
+};
+
+const toggleSubAdminStatusRequest = async (id) => {
+  const { data } = await api.put(`/admin/subadmins/${id}/status`);
+
+  if (!data.success) {
+    throw new Error(data.message || "Failed to update admin status.");
+  }
+
+  return data; // { success, message, status }
+};
+
+/* =========================================
+   COMPONENT
+========================================= */
+
+const MAX_VISIBLE_PERMISSIONS = 3;
 
 const SubAdminList = () => {
   const navigate = useNavigate();
-  const [openActionId, setOpenActionId] = useState(null);
-  const [statusAdmin, setStatusAdmin] = useState(null);
-  const [visiblePasswordId, setVisiblePasswordId] = useState(null);
+
   const [subAdminData, setSubAdminData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  useOutsideClick(".subadmin-action-menu", () => {
-    setOpenActionId(null);
-  });
+  const [visiblePasswordId, setVisiblePasswordId] = useState(null);
+  const [expandedPermissionIds, setExpandedPermissionIds] = useState([]);
 
-  useEffect(() => {
-    fetchSubAdmins();
-  }, []);
+  // dialog: { kind: "delete" | "status", admin } | null
+  // dialog: { kind: "delete" | "status", admin } | null
+  const [dialog, setDialog] = useState(null);
+  const [successInfo, setSuccessInfo] = useState(null);
 
-  const fetchSubAdmins = async () => {
+  const [toast, setToast] = useState(null);
+
+  /* ---------- load ---------- */
+
+  const loadSubAdmins = useCallback(async () => {
     try {
       setLoading(true);
       setError("");
-
-      const response = await api.get("/admin/subadmins");
-
-      if (response.data.success) {
-        const formattedData = response.data.data.map((admin) => ({
-          id: admin.admin_id,
-          name: admin.admin_name,
-          email: admin.admin_email,
-          role: admin.role_name || admin.role_id || "-",
-          employeeSince: admin.employee_since || "-",
-          password: admin.admin_password || "",
-          status: String(admin.admin_status) === "1" ? "Active" : "Inactive",
-          permissions: admin.permission || "-",
-        }));
-
-        console.log("Formatted Sub Admin Data:", formattedData);
-
-        setSubAdminData(formattedData);
-      } else {
-        setError(response.data.message || "Failed to fetch sub admins.");
-      }
-    } catch (error) {
-      console.error("Fetch sub admins error:", error);
-
-      setError(error.response?.data?.message || "Unable to fetch sub admins.");
+      setSubAdminData(await fetchSubAdminsRequest());
+    } catch (err) {
+      console.error("Fetch sub admins error:", err);
+      setError(getErrorMessage(err, "Unable to fetch sub admins."));
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  // -----------------------------------------
-  // DELETE
-  // -----------------------------------------
+  useEffect(() => {
+    loadSubAdmins();
+  }, [loadSubAdmins]);
 
- const handleDelete = async (id) => {
-  const confirmed = window.confirm(
-    "Are you sure you want to delete this Sub Admin?"
-  );
+  /* ---------- toast auto-hide ---------- */
 
-  if (!confirmed) return;
+  useEffect(() => {
+    if (!toast) return undefined;
+    const timer = setTimeout(() => setToast(null), 3500);
+    return () => clearTimeout(timer);
+  }, [toast]);
 
-  try {
-    const response = await api.delete(`/admin/subadmins/${id}`);
+  
 
-    if (response.data.success) {
-      // Remove deleted admin from table immediately
-      setSubAdminData((prevData) =>
-        prevData.filter((admin) => admin.id !== id)
-      );
+  /* ---------- confirm (delete + status share one dialog) ---------- */
 
-      setOpenActionId(null);
+  const handleConfirm = async () => {
+    if (!dialog) return;
 
-      alert(response.data.message);
-    } else {
-      alert(response.data.message || "Failed to delete Sub Admin.");
+    const { kind, admin } = dialog;
+
+    try {
+      if (kind === "delete") {
+        const result = await deleteSubAdminRequest(admin.id);
+
+        setSubAdminData((prev) => prev.filter((item) => item.id !== admin.id));
+        setSuccessInfo({
+          title: "Sub admin deleted",
+          message: result.message || `${admin.name} has been removed.`,
+        });
+      } else {
+        const result = await toggleSubAdminStatusRequest(admin.id);
+        const isActive = Number(result.status) === 1;
+
+        setSubAdminData((prev) =>
+          prev.map((item) =>
+            item.id === admin.id
+              ? { ...item, status: isActive ? "Active" : "Inactive" }
+              : item,
+          ),
+        );
+        setSuccessInfo({
+          title: isActive ? "Admin activated" : "Admin deactivated",
+          message: result.message || "Status updated successfully.",
+        });
+      }
+    } catch (err) {
+      console.error(`${kind} sub admin error:`, err);
+      setToast({
+        type: "error",
+        message: getErrorMessage(
+          err,
+          "Something went wrong. Please try again.",
+        ),
+      });
+    } finally {
+      setDialog(null);
     }
-  } catch (error) {
-    console.error("Delete Sub Admin error:", error);
-
-    alert(
-      error.response?.data?.message ||
-        "Failed to delete Sub Admin. Please try again."
-    );
-  }
-};
-
-  // -----------------------------------------
-  // VIEW
-  // -----------------------------------------
-
-  const handleView = (id) => {
-    console.log("View Sub Admin:", id);
-
-    // Later route
-    // navigate(`/subadmin/view/${id}`);
   };
 
-  // -----------------------------------------
-  // EDIT
-  // -----------------------------------------
+  // useCallback keeps the success auto-close timer from restarting on re-render
+  const handleSuccessClose = useCallback(() => setSuccessInfo(null), []);
 
-  const handleEdit = (id) => {
-    navigate(`/subadmin/edit/${id}`);
-  };
+  /* ---------- export ---------- */
 
-  const getExportData = () => {
-    return subAdminData.map((item, index) => ({
+  const getExportData = () =>
+    subAdminData.map((item, index) => ({
       No: index + 1,
       Name: item.name,
       Email: item.email,
@@ -129,21 +187,18 @@ const SubAdminList = () => {
       Status: item.status,
       Permissions: item.permissions,
     }));
-  };
 
   const handleCopy = async () => {
-    const data = getExportData();
-
-    const text = data
-      .map(
-        (item) =>
-          `${item.No}\t${item.Name}\t${item.Email}\t${item.Role}\t${item["Employee Since"]}\t${item.Password}\t${item.Status}\t${item.Permissions}`,
-      )
+    const text = getExportData()
+      .map((item) => Object.values(item).join("\t"))
       .join("\n");
 
-    await navigator.clipboard.writeText(text);
-
-    alert("Sub Admin data copied!");
+    try {
+      await navigator.clipboard.writeText(text);
+      setToast({ type: "success", message: "Sub admin data copied." });
+    } catch (err) {
+      setToast({ type: "error", message: "Couldn't copy to clipboard." });
+    }
   };
 
   const handleExcel = async () => {
@@ -153,7 +208,6 @@ const SubAdminList = () => {
     const workbook = XLSX.utils.book_new();
 
     XLSX.utils.book_append_sheet(workbook, worksheet, "Sub Admin");
-
     XLSX.writeFile(workbook, "sub-admin-list.xlsx");
   };
 
@@ -161,13 +215,9 @@ const SubAdminList = () => {
     const XLSX = await import("xlsx");
 
     const worksheet = XLSX.utils.json_to_sheet(getExportData());
-
     const csv = XLSX.utils.sheet_to_csv(worksheet);
 
-    const blob = new Blob([csv], {
-      type: "text/csv;charset=utf-8;",
-    });
-
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
 
     const link = document.createElement("a");
@@ -188,7 +238,6 @@ const SubAdminList = () => {
 
     autoTable(doc, {
       startY: 22,
-
       head: [
         [
           "No.",
@@ -201,25 +250,55 @@ const SubAdminList = () => {
           "Permissions",
         ],
       ],
-
-      body: getExportData().map((item) => [
-        item.No,
-        item.Name,
-        item.Email,
-        item.Role,
-        item["Employee Since"],
-        item.Password,
-        item.Status,
-        item.Permissions,
-      ]),
+      body: getExportData().map((item) => Object.values(item)),
     });
 
     doc.save("sub-admin-list.pdf");
   };
 
-  // -----------------------------------------
-  // TABLE COLUMNS
-  // -----------------------------------------
+  const togglePermissions = (id) =>
+    setExpandedPermissionIds((prev) =>
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id],
+    );
+
+  /* ---------- derived ---------- */
+
+  const stats = useMemo(() => {
+    const active = subAdminData.filter((a) => a.status === "Active").length;
+    return {
+      total: subAdminData.length,
+      active,
+      inactive: subAdminData.length - active,
+    };
+  }, [subAdminData]);
+
+  const dialogContent = useMemo(() => {
+    if (!dialog) return null;
+
+    const { kind, admin } = dialog;
+
+    if (kind === "delete") {
+      return {
+        variant: "danger",
+        title: "Delete sub admin?",
+        text: `${admin.name} will lose access and this can't be undone.`,
+        confirmLabel: "Yes, delete",
+      };
+    }
+
+    const deactivating = admin.status === "Active";
+
+    return {
+      variant: "primary",
+      title: deactivating ? "Deactivate this admin?" : "Activate this admin?",
+      text: deactivating
+        ? `You want to deactivate ${admin.name}.`
+        : `You want to activate ${admin.name}.`,
+      confirmLabel: deactivating ? "Yes, deactivate" : "Yes, activate",
+    };
+  }, [dialog]);
+
+  /* ---------- table columns ---------- */
 
   const columns = useMemo(
     () => [
@@ -228,69 +307,83 @@ const SubAdminList = () => {
         label: "No.",
         width: "70px",
         sortable: false,
-
         render: (_, row, rowIndex) => rowIndex + 1,
       },
 
       {
         key: "name",
         label: "Name",
-        width: "180px",
+        width: "210px",
         sortable: true,
+        render: (value) => (
+          <div className="subadmin-name-cell">
+            <span className="subadmin-avatar" aria-hidden="true">
+              {String(value || "?")
+                .trim()
+                .charAt(0)
+                .toUpperCase()}
+            </span>
+            <span className="subadmin-name-text">{value}</span>
+          </div>
+        ),
       },
 
       {
         key: "email",
         label: "Email",
-        width: "230px",
+        width: "240px",
         sortable: true,
+        render: (value) => <span className="subadmin-email">{value}</span>,
       },
 
       {
         key: "role",
         label: "Role",
-        width: "130px",
+        width: "140px",
         sortable: true,
+        render: (value) => <span className="subadmin-role">{value}</span>,
       },
 
       {
         key: "employeeSince",
         label: "Employee Since",
-        width: "160px",
+        width: "150px",
         sortable: true,
       },
 
       {
         key: "password",
         label: "Password",
-        width: "150px",
+        width: "170px",
         sortable: false,
+        render: (value, row) => {
+          const visible = visiblePasswordId === row.id;
 
-        render: (value, row) => (
-          <div className="password-cell">
-            <span>{visiblePasswordId === row.id ? value : "••••••••"}</span>
+          return (
+            <div className="password-cell">
+              <span className="password-text">
+                {visible ? value : "••••••••"}
+              </span>
 
-            <button
-              type="button"
-              className="password-toggle-btn"
-              onClick={() =>
-                setVisiblePasswordId(
-                  visiblePasswordId === row.id ? null : row.id,
-                )
-              }
-            >
-              {visiblePasswordId === row.id ? "Hide" : "Show"}
-            </button>
-          </div>
-        ),
+              <button
+                type="button"
+                className="password-toggle-btn"
+                aria-label={visible ? "Hide password" : "Show password"}
+                title={visible ? "Hide password" : "Show password"}
+                onClick={() => setVisiblePasswordId(visible ? null : row.id)}
+              >
+                {visible ? <FaEyeSlash /> : <FaEye />}
+              </button>
+            </div>
+          );
+        },
       },
 
       {
         key: "status",
         label: "Status",
-        width: "110px",
+        width: "130px",
         sortable: true,
-
         render: (value, row) => (
           <button
             type="button"
@@ -299,8 +392,12 @@ const SubAdminList = () => {
                 ? "subadmin-status-active"
                 : "subadmin-status-inactive"
             }`}
-            onClick={() => setStatusAdmin(row)}
+            title={
+              value === "Active" ? "Click to deactivate" : "Click to activate"
+            }
+            onClick={() => setDialog({ kind: "status", admin: row })}
           >
+            <span className="subadmin-status-dot" />
             {value}
           </button>
         ),
@@ -309,218 +406,229 @@ const SubAdminList = () => {
       {
         key: "permissions",
         label: "Permissions",
-        width: "200px",
+        width: "240px",
         sortable: true,
-        render: (value) => (
-          <div className="permissions-cell">{value || "-"}</div>
-        ),
+        render: (value, row) => {
+          const list =
+            !value || value === "-"
+              ? []
+              : String(value)
+                  .split(",")
+                  .map((item) => item.trim())
+                  .filter(Boolean);
+
+          if (list.length === 0)
+            return <span className="subadmin-muted">-</span>;
+
+          const expanded = expandedPermissionIds.includes(row.id);
+          const extra = list.length - MAX_VISIBLE_PERMISSIONS;
+          const shown = expanded
+            ? list
+            : list.slice(0, MAX_VISIBLE_PERMISSIONS);
+
+          return (
+            <div className="permissions-cell">
+              {shown.map((item) => (
+                <span key={item} className="permission-chip">
+                  {item}
+                </span>
+              ))}
+
+              {extra > 0 && (
+                <button
+                  type="button"
+                  className="permission-chip permission-chip-more"
+                  aria-expanded={expanded}
+                  title={
+                    expanded ? "Show fewer permissions" : "Show all permissions"
+                  }
+                  onClick={() => togglePermissions(row.id)}
+                >
+                  {expanded ? "Show less" : `+${extra}`}
+                </button>
+              )}
+            </div>
+          );
+        },
       },
 
       {
         key: "actions",
         label: "Actions",
-        width: "100px",
+        width: "110px",
         sortable: false,
-
         render: (_, row) => (
-          <div className="subadmin-action-menu">
-            {/* THREE DOT */}
+          <div className="subadmin-row-actions">
             <button
               type="button"
-              className="three-dot-btn"
-              onClick={(event) => {
-                event.stopPropagation();
-
-                setOpenActionId(openActionId === row.id ? null : row.id);
-              }}
+              className="row-action-btn"
+              aria-label={`Edit ${row.name}`}
+              title="Edit"
+              onClick={() => navigate(`/subadmin/edit/${row.id}`)}
             >
-              <FaEllipsisH />
+              <FaEdit />
             </button>
 
-            {/* DROPDOWN */}
-            {openActionId === row.id && (
-              <div className="action-dropdown">
-                {/* EDIT */}
-                <button
-                  type="button"
-                  onClick={() => {
-                    setOpenActionId(null);
-                    handleEdit(row.id);
-                  }}
-                >
-                  <FaEdit />
-                  <span>Edit</span>
-                </button>
-
-                {/* DELETE */}
-                <button
-                  type="button"
-                  className="delete-action"
-                  onClick={() => {
-                    setOpenActionId(null);
-                    handleDelete(row.id);
-                  }}
-                >
-                  <FaTrash />
-                  <span>Delete</span>
-                </button>
-              </div>
-            )}
+            <button
+              type="button"
+              className="row-action-btn row-action-danger"
+              aria-label={`Delete ${row.name}`}
+              title="Delete"
+              onClick={() => setDialog({ kind: "delete", admin: row })}
+            >
+              <FaTrash />
+            </button>
           </div>
         ),
       },
     ],
-    [openActionId, visiblePasswordId],
+    [visiblePasswordId, expandedPermissionIds, navigate],
   );
+
+  /* ---------- render ---------- */
 
   return (
     <div className="subadmin-page">
-      {/* =========================================
-          PAGE HEADER
-      ========================================= */}
-
+      {/* PAGE HEADER */}
       <div className="subadmin-page-header">
         <div>
           <h2 className="subadmin-page-title">Sub Admin</h2>
 
-          <div className="breadcrumb-wrapper">
-            <Link to="/home">Home</Link>
-
-            <span className="breadcrumb-active">
-              <IoIosArrowForward />
-            </span>
-
-            <span className="breadcrumb-active">All Subadmin</span>
-          </div>
+          <ServiceBreadcrumbs items={[{ label: "All Subadmin" }]} />
         </div>
       </div>
 
-      {/* =========================================
-          CONTENT CARD
-      ========================================= */}
-
+      {/* CONTENT CARD */}
       <div className="subadmin-card">
         <div className="subadmin-card-header">
-          <h3>Sub Admin Management</h3>
-          <div className="subadmin-header-actions">
-            <div className="subadmin-export-buttons">
-              <button type="button" onClick={handleCopy} title="Copy">
-                <FaCopy />
-                Copy
-              </button>
+          <h3 className="subadmin-card-title">Sub Admin Management</h3>
 
-              <button type="button" onClick={handleExcel} title="Export Excel">
-                <FaFileExcel />
-                Excel
-              </button>
+          <button
+            type="button"
+            className="subadmin-add-btn"
+            onClick={() => navigate("/subadmin/add")}
+          >
+            <FaPlus />
+            <span>Add admin</span>
+          </button>
 
-              <button type="button" onClick={handleCSV} title="Export CSV">
-                <FaFileCsv />
-                CSV
-              </button>
+          <div className="subadmin-stats">
+            {!loading && !error && (
+              <>
+                <span className="subadmin-stat">{stats.total} total</span>
+                <span className="subadmin-stat subadmin-stat-active">
+                  {stats.active} active
+                </span>
+                <span className="subadmin-stat subadmin-stat-inactive">
+                  {stats.inactive} inactive
+                </span>
+              </>
+            )}
+          </div>
 
-              <button type="button" onClick={handlePDF} title="Export PDF">
-                <FaFilePdf />
-                PDF
-              </button>
-            </div>
+          <div
+            className="subadmin-export-buttons"
+            role="group"
+            aria-label="Export options"
+          >
             <button
               type="button"
-              className="subadmin-add-btn"
-              onClick={() => navigate("/subadmin/add")}
+              onClick={handleCopy}
+              disabled={!subAdminData.length}
             >
-              <FaPlus />
-              <span> Admin</span>
+              <FaCopy />
+              <span>Copy</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={handleExcel}
+              disabled={!subAdminData.length}
+            >
+              <FaFileExcel />
+              <span>Excel</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={handleCSV}
+              disabled={!subAdminData.length}
+            >
+              <FaFileCsv />
+              <span>CSV</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={handlePDF}
+              disabled={!subAdminData.length}
+            >
+              <FaFilePdf />
+              <span>PDF</span>
             </button>
           </div>
         </div>
 
-        {/* =========================================
-            DATATABLE
-        ========================================= */}
-
+        {/* DATATABLE / STATES */}
         {loading ? (
-          <div className="text-center py-4">Loading sub admins...</div>
+          <div className="subadmin-state" role="status">
+            <span className="subadmin-spinner" />
+            <p>Loading sub admins...</p>
+          </div>
         ) : error ? (
-          <div className="text-center py-4 text-danger">{error}</div>
+          <div className="subadmin-state subadmin-state-error" role="alert">
+            <FaTimesCircle className="subadmin-state-icon" />
+            <p>{error}</p>
+            <button
+              type="button"
+              className="subadmin-retry-btn"
+              onClick={loadSubAdmins}
+            >
+              <FaRedo />
+              <span>Try again</span>
+            </button>
+          </div>
         ) : (
-          <DataTable
-            columns={columns}
-            data={subAdminData}
-            entriesPerPageOptions={[10, 25, 50, 100]}
-            defaultEntriesPerPage={10}
-            searchable={true}
-            sortable={true}
-          />
+          <div className="subadmin-table-wrapper">
+            <DataTable
+              columns={columns}
+              data={subAdminData}
+              entriesPerPageOptions={[10, 25, 50, 100]}
+              defaultEntriesPerPage={10}
+              searchable={true}
+              sortable={true}
+            />
+          </div>
         )}
       </div>
-      {statusAdmin && (
-        <div className="status-modal-overlay">
-          <div className="status-modal">
-            <div className="status-modal-icon">!</div>
 
-            <h3>Are you sure?</h3>
+      {/* CONFIRM + SUCCESS MODALS */}
+      <ServiceConfirmModal
+        isOpen={Boolean(dialog)}
+        variant={dialogContent?.variant}
+        title={dialogContent?.title}
+        message={dialogContent?.text}
+        confirmText={dialogContent?.confirmLabel}
+        onConfirm={handleConfirm}
+        onCancel={() => setDialog(null)}
+      />
 
-            <p>
-              You want to{" "}
-              {statusAdmin.status === "Active" ? "deactivate" : "activate"} this
-              admin!
-            </p>
+      <ServiceSuccessModal
+        isOpen={Boolean(successInfo)}
+        title={successInfo?.title}
+        message={successInfo?.message}
+        onClose={handleSuccessClose}
+      />
 
-            <div className="status-modal-actions">
-              <button
-                type="button"
-                className="status-confirm-btn"
-                onClick={async () => {
-                  try {
-                    const response = await api.put(
-                      `/admin/subadmins/${statusAdmin.id}/status`,
-                    );
-
-                    if (response.data.success) {
-                      // Update the row immediately
-                      setSubAdminData((prevData) =>
-                        prevData.map((admin) =>
-                          admin.id === statusAdmin.id
-                            ? {
-                                ...admin,
-                                status:
-                                  Number(response.data.status) === 1
-                                    ? "Active"
-                                    : "Inactive",
-                              }
-                            : admin,
-                        ),
-                      );
-
-                      alert(response.data.message);
-                    }
-                  } catch (error) {
-                    console.error("Change status error:", error);
-
-                    alert(
-                      error.response?.data?.message ||
-                        "Failed to update admin status.",
-                    );
-                  } finally {
-                    setStatusAdmin(null);
-                  }
-                }}
-              >
-                Yes,{" "}
-                {statusAdmin.status === "Active" ? "deactivate" : "activate"}{" "}
-                it!
-              </button>
-
-              <button
-                type="button"
-                className="status-cancel-btn"
-                onClick={() => setStatusAdmin(null)}
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
+      {/* TOAST */}
+      {toast && (
+        <div
+          className={`subadmin-toast subadmin-toast-${toast.type}`}
+          role="status"
+          aria-live="polite"
+        >
+          {toast.type === "success" ? <FaCheckCircle /> : <FaTimesCircle />}
+          <span>{toast.message}</span>
         </div>
       )}
     </div>

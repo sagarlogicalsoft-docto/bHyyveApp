@@ -52,6 +52,10 @@ const STATUS_BADGES = {
     text: "Processing",
     className: "badge-status badge-status--processing",
   },
+  ready_for_pickup: {
+  text: "Ready for Pickup",
+  className: "badge-status badge-status--ready-for-pickup",
+},
   on_the_way: {
     text: "On The Way",
     className: "badge-status badge-status--on-the-way",

@@ -6,69 +6,24 @@
   width: 100%;
   min-height: 100%;
   box-sizing: border-box;
+  margin: 16px 10px 48px;
 }
-
 
 /* =========================================================
    PAGE HEADER
 ========================================================= */
 
 .manage-cities-header {
-  width: 100%;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
-
 
 .manage-cities-title {
-  margin: 0 0 8px;
-
-  font-size: 27px;
-  font-weight: 600;
-
+  margin: 0 0 6px;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
   color: #111827;
 }
-
-
-/* =========================================================
-   BREADCRUMB
-========================================================= */
-
-.manage-cities-breadcrumb {
-  display: flex;
-  align-items: center;
-
-  gap: 7px;
-
-  font-size: 14px;
-
-  color: #6b7280;
-}
-
-
-.manage-cities-breadcrumb a {
-  color: #073b74;
-
-  text-decoration: none;
-}
-
-
-.manage-cities-breadcrumb a:hover {
-  color: #052d59;
-
-  text-decoration: underline;
-}
-
-
-.manage-cities-breadcrumb span {
-  display: flex;
-  align-items: center;
-}
-
-
-.manage-cities-breadcrumb-active {
-  color: #6b7280;
-}
-
 
 /* =========================================================
    MAIN CARD
@@ -76,412 +31,728 @@
 
 .manage-cities-card {
   width: 100%;
-
-  background: #ffffff;
-
-  border-radius: 6px;
-
-  padding: 28px 30px 30px;
-
   box-sizing: border-box;
-
-  box-shadow:
-    0 2px 10px rgba(0, 0, 0, 0.06);
-
+  background: #ffffff;
+  border: 1px solid #e3e9f1;
+  border-radius: 10px;
+  padding: 18px 16px 20px;
+  box-shadow: 0 4px 18px rgba(6, 47, 92, 0.08);
   overflow: hidden;
 }
 
-
 /* =========================================================
-   IMPORT SECTION
+   TOOLBAR
 ========================================================= */
 
-.manage-cities-import-section {
-  width: 100%;
-
-  margin-bottom: 22px;
-}
-
-
-/* =========================================================
-   FILE ROW
-========================================================= */
-
-.manage-cities-file-row {
+.manage-cities-toolbar {
   display: flex;
   align-items: center;
-
+  justify-content: space-between;
   flex-wrap: wrap;
-
-  gap: 8px;
-
-  margin-bottom: 10px;
+  gap: 12px;
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #eaeff5;
 }
 
-
-/* =========================================================
-   FILE BUTTON
-========================================================= */
-
-.manage-cities-file-label {
-  display: inline-flex;
+.manage-cities-toolbar-info {
+  display: flex;
   align-items: center;
+  gap: 12px;
+}
 
-  padding: 9px 14px;
+.manage-cities-toolbar-icon {
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: #e8eef6;
+  color: #062f5c;
+  font-size: 23px;
+}
 
-  border-radius: 4px;
+.manage-cities-toolbar-info h3 {
+  margin: 0 0 2px;
+  font-size: 17px;
+  font-weight: 600;
+  color: #062f5c;
+}
 
-  background: #087ff5;
-
-  color: #ffffff;
-
+.manage-cities-toolbar-info p {
+  margin: 0;
   font-size: 13px;
-  font-weight: 500;
-
-  cursor: pointer;
-
-  transition: background-color 0.2s ease;
+  color: #6b7a90;
 }
 
-
-.manage-cities-file-label:hover {
-  background: #066ed4;
+.manage-cities-toolbar-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
 }
-
 
 /* =========================================================
-   HIDDEN FILE INPUT
+   IMPORT BUTTON (single: select file + import)
 ========================================================= */
 
 .manage-cities-file-input {
   display: none;
 }
 
-
-/* =========================================================
-   FILE NAME
-========================================================= */
-
-.manage-cities-file-name {
-  max-width: 400px;
-
-  overflow: hidden;
-
-  text-overflow: ellipsis;
-
-  white-space: nowrap;
-
-  color: #4b5563;
-
-  font-size: 14px;
-}
-
-
-/* =========================================================
-   IMPORT BUTTON
-========================================================= */
-
 .manage-cities-import-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  height: 40px;
+  padding: 0 18px;
   border: none;
-
-  border-radius: 4px;
-
-  padding: 8px 16px;
-
-  background: #198754;
-
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
   color: #ffffff;
-
-  font-size: 13px;
-  font-weight: 500;
-
   cursor: pointer;
-
   transition:
     background-color 0.2s ease,
+    box-shadow 0.2s ease,
     transform 0.15s ease;
 }
 
+.manage-cities-import-btn svg {
+  font-size: 19px;
+}
 
-.manage-cities-import-btn:hover {
-  background: #157347;
+.manage-cities-import-btn {
+  background: #062f5c;
+}
 
+.manage-cities-import-btn:hover:not(:disabled) {
+  background: #041f3d;
+  box-shadow: 0 4px 10px rgba(6, 47, 92, 0.28);
   transform: translateY(-1px);
 }
 
+.manage-cities-import-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
 
 /* =========================================================
-   TABLE WRAPPER
+   SELECTED ACTION BAR (floating)
+========================================================= */
+
+.manage-cities-selected-actions {
+  position: sticky;
+  bottom: 18px;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  width: fit-content;
+  min-width: 340px;
+  max-width: 100%;
+  margin: 16px auto 0;
+  padding: 10px 12px 10px 18px;
+  box-sizing: border-box;
+  border-radius: 12px;
+  background: #062f5c;
+  box-shadow: 0 12px 30px rgba(6, 47, 92, 0.35);
+  animation: manage-cities-bar-in 0.25s ease;
+}
+
+@keyframes manage-cities-bar-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.manage-cities-selected-count {
+  color: #e6efff;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.manage-cities-selected-buttons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.manage-cities-selected-cancel-btn {
+  height: 34px;
+  padding: 0 14px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 8px;
+  background: transparent;
+  color: #ffffff;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.manage-cities-selected-cancel-btn:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.manage-cities-selected-cancel-btn:focus-visible {
+  outline: 3px solid rgba(255, 255, 255, 0.45);
+  outline-offset: 2px;
+}
+
+.manage-cities-selected-delete-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 34px;
+  padding: 0 14px;
+  border: none;
+  border-radius: 8px;
+  background: #e5384a;
+  color: #ffffff;
+  font-size: 12.5px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.manage-cities-selected-delete-btn svg {
+  font-size: 17px;
+}
+
+.manage-cities-selected-delete-btn:hover {
+  background: #cf2a3c;
+  transform: translateY(-1px);
+}
+
+.manage-cities-selected-delete-btn:active {
+  transform: translateY(0);
+}
+
+.manage-cities-selected-delete-btn:focus-visible {
+  outline: 3px solid rgba(255, 255, 255, 0.45);
+  outline-offset: 2px;
+}
+
+/* =========================================================
+   API ERROR
+========================================================= */
+
+.manage-cities-api-error {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 14px;
+  padding: 10px 14px;
+  border-left: 3px solid #dc3545;
+  border-radius: 6px;
+  background: #fdecee;
+  color: #b02a37;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.manage-cities-api-error-close {
+  display: flex;
+  padding: 2px;
+  border: none;
+  background: transparent;
+  color: inherit;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+/* =========================================================
+   LOADING + SPINNER
+========================================================= */
+
+.manage-cities-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 0;
+  padding: 40px 0;
+  color: #6b7a90;
+  font-size: 14px;
+}
+
+.manage-cities-spinner {
+  width: 15px;
+  height: 15px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: manage-cities-spin 0.7s linear infinite;
+}
+
+.manage-cities-spinner--dark {
+  width: 18px;
+  height: 18px;
+  border-color: rgba(6, 47, 92, 0.2);
+  border-top-color: #062f5c;
+}
+
+@keyframes manage-cities-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* =========================================================
+   TABLE
 ========================================================= */
 
 .manage-cities-table-wrapper {
   width: 100%;
 }
 
-
-/* =========================================================
-   SELECT HEADER
-========================================================= */
-
 .manage-cities-select-header {
   display: flex;
-
   align-items: center;
-
   gap: 7px;
-
   white-space: nowrap;
 }
-
-
-/* =========================================================
-   CHECKBOX
-========================================================= */
 
 .manage-cities-checkbox {
   width: 16px;
   height: 16px;
-
   margin: 0;
-
   cursor: pointer;
-
-  accent-color: #073b74;
+  accent-color: #062f5c;
 }
-
-
-/* =========================================================
-   CITY NAME
-========================================================= */
 
 .manage-cities-city-name {
   display: inline-block;
-
-  color: #666666;
-
-  font-size: 16px;
-
+  color: #2b3648;
+  font-size: 15px;
+  font-weight: 500;
   line-height: 1.4;
-
   white-space: normal;
-
   overflow-wrap: anywhere;
 }
 
-
-/* =========================================================
-   ACTIONS
-========================================================= */
+/* ROW ACTIONS */
 
 .manage-cities-actions {
   display: inline-flex;
-
   align-items: center;
-
   gap: 6px;
-
   white-space: nowrap;
 }
 
+.manage-cities-edit-btn,
+.manage-cities-delete-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 7px 13px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.15s ease;
+}
 
-/* =========================================================
-   EDIT BUTTON
-========================================================= */
+.manage-cities-edit-btn svg,
+.manage-cities-delete-btn svg {
+  font-size: 16px;
+}
 
 .manage-cities-edit-btn {
-  border: none;
-
-  border-radius: 4px;
-
-  padding: 9px 15px;
-
-  background: #087ff5;
-
-  color: #ffffff;
-
-  font-size: 13px;
-  font-weight: 500;
-
-  cursor: pointer;
-
-  transition:
-    background-color 0.2s ease,
-    transform 0.15s ease;
+  border: 1px solid #062f5c;
+  background: #ffffff;
+  color: #062f5c;
 }
-
 
 .manage-cities-edit-btn:hover {
-  background: #066ed4;
-
+  background: #062f5c;
+  color: #ffffff;
   transform: translateY(-1px);
 }
-
-
-/* =========================================================
-   DELETE BUTTON
-========================================================= */
 
 .manage-cities-delete-btn {
-  border: none;
-
-  border-radius: 4px;
-
-  padding: 9px 15px;
-
-  background: #dc3545;
-
-  color: #ffffff;
-
-  font-size: 13px;
-  font-weight: 500;
-
-  cursor: pointer;
-
-  transition:
-    background-color 0.2s ease,
-    transform 0.15s ease;
+  border: 1px solid #dc3545;
+  background: #ffffff;
+  color: #dc3545;
 }
-
 
 .manage-cities-delete-btn:hover {
-  background: #bb2d3b;
-
-  transform: translateY(-1px);
-}
-
-
-/* =========================================================
-   BOTTOM ACTIONS
-========================================================= */
-
-.manage-cities-bottom-actions {
-  display: flex;
-
-  justify-content: flex-end;
-
-  align-items: center;
-
-  margin-top: 18px;
-
-  padding-top: 15px;
-
-  border-top: 1px solid #eeeeee;
-}
-
-
-/* =========================================================
-   DELETE SELECTED BUTTON
-========================================================= */
-
-.manage-cities-delete-selected-btn {
-  border: none;
-
-  border-radius: 4px;
-
-  padding: 10px 18px;
-
   background: #dc3545;
-
   color: #ffffff;
-
-  font-size: 13px;
-  font-weight: 500;
-
-  cursor: pointer;
-
-  transition:
-    background-color 0.2s ease,
-    transform 0.15s ease;
-}
-
-
-.manage-cities-delete-selected-btn:hover {
-  background: #bb2d3b;
-
   transform: translateY(-1px);
 }
 
-
-/* =========================================================
-   DATATABLE SPACING
-   Scoped ONLY to Manage Cities
-========================================================= */
+/* DATATABLE SPACING (scoped to Manage Cities) */
 
 .manage-cities-table-wrapper .datatable-table {
   min-width: 0 !important;
-
   width: 100% !important;
 }
-
 
 .manage-cities-table-wrapper .datatable-table th,
 .manage-cities-table-wrapper .datatable-table td {
   padding-left: 10px !important;
-
   padding-right: 10px !important;
 }
-
-
-/* =========================================================
-   ACTION COLUMN
-========================================================= */
 
 .manage-cities-table-wrapper .datatable-table th:last-child,
 .manage-cities-table-wrapper .datatable-table td:last-child {
   white-space: nowrap !important;
 }
 
+/* =========================================================
+   EDIT POPUP
+========================================================= */
+
+.manage-cities-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(4, 22, 44, 0.55);
+  backdrop-filter: blur(2px);
+  animation: manage-cities-fade 0.18s ease;
+}
+
+.manage-cities-modal {
+  width: 100%;
+  max-width: 460px;
+  box-sizing: border-box;
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(4, 22, 44, 0.35);
+  animation: manage-cities-pop 0.22s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+}
+
+@keyframes manage-cities-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes manage-cities-pop {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* EDIT POPUP HEADER */
+
+.manage-cities-modal-head {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 52px 16px 18px;
+  background: linear-gradient(135deg, #062f5c 0%, #0b4a8c 100%);
+  color: #ffffff;
+}
+
+.manage-cities-modal-badge {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.16);
+  font-size: 21px;
+}
+
+.manage-cities-modal-head h3 {
+  margin: 0 0 2px;
+  font-size: 18px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.manage-cities-modal-head p {
+  margin: 0;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.manage-cities-modal-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  font-size: 19px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.manage-cities-modal-close:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.26);
+}
+
+/* EDIT POPUP BODY */
+
+.manage-cities-modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 20px 18px 6px;
+}
+
+.manage-cities-modal-body label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1f2a3c;
+}
+
+.manage-cities-modal-body label span {
+  margin-left: 3px;
+  color: #dc3545;
+}
+
+.manage-cities-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.manage-cities-input-icon {
+  position: absolute;
+  left: 13px;
+  font-size: 19px;
+  color: #7b8da6;
+  pointer-events: none;
+  transition: color 0.2s ease;
+}
+
+.manage-cities-input-wrap:focus-within .manage-cities-input-icon {
+  color: #062f5c;
+}
+
+.manage-cities-input-wrap input {
+  width: 100%;
+  height: 46px;
+  padding: 0 14px 0 42px;
+  box-sizing: border-box;
+  border: 1px solid #cdd6e2;
+  border-radius: 8px;
+  background: #f8fafc;
+  color: #1f2a3c;
+  font-size: 15px;
+  outline: none;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.manage-cities-input-wrap input:hover {
+  border-color: #8ea2bd;
+}
+
+.manage-cities-input-wrap input:focus {
+  background: #ffffff;
+  border-color: #062f5c;
+  box-shadow: 0 0 0 3px rgba(6, 47, 92, 0.14);
+}
+
+.manage-cities-input-wrap input:disabled {
+  background: #eef1f5;
+  cursor: not-allowed;
+}
+
+.manage-cities-input-wrap--error input {
+  border-color: #dc3545;
+  background: #fff8f8;
+}
+
+.manage-cities-input-wrap--error input:focus {
+  border-color: #dc3545;
+  box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.14);
+}
+
+.manage-cities-modal-error {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.4;
+  color: #c62d3b;
+}
+
+/* EDIT POPUP FOOTER */
+
+.manage-cities-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 14px;
+  padding: 14px 18px 18px;
+}
+
+/* =========================================================
+   POPUP BUTTONS
+========================================================= */
+
+.manage-cities-btn-primary,
+.manage-cities-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 120px;
+  height: 42px;
+  padding: 0 22px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.15s ease;
+}
+
+/* PRIMARY (Save Changes) */
+
+.manage-cities-btn-primary {
+  border: 1px solid transparent;
+  background: linear-gradient(135deg, #0b4a8c 0%, #062f5c 100%);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(6, 47, 92, 0.28);
+}
+
+.manage-cities-btn-primary:hover:not(:disabled) {
+  background: linear-gradient(135deg, #0d58a3 0%, #073a73 100%);
+  box-shadow: 0 6px 16px rgba(6, 47, 92, 0.36);
+  transform: translateY(-1px);
+}
+
+.manage-cities-btn-primary:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(6, 47, 92, 0.3);
+}
+
+/* SECONDARY (Cancel) */
+
+.manage-cities-btn-secondary {
+  border: 1px solid #cdd6e2;
+  background: #ffffff;
+  color: #4b5a70;
+}
+
+.manage-cities-btn-secondary:hover:not(:disabled) {
+  border-color: #9fb0c7;
+  background: #f3f6fa;
+  color: #062f5c;
+}
+
+.manage-cities-btn-secondary:active:not(:disabled) {
+  background: #e8eef6;
+}
+
+/* FOCUS + DISABLED */
+
+.manage-cities-btn-primary:focus-visible,
+.manage-cities-btn-secondary:focus-visible {
+  outline: 3px solid rgba(6, 47, 92, 0.3);
+  outline-offset: 2px;
+}
+
+.manage-cities-btn-primary:disabled {
+  background: #6f8aa8;
+  box-shadow: none;
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.manage-cities-btn-secondary:disabled,
+.manage-cities-modal-close:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
 
 /* =========================================================
    RESPONSIVE
 ========================================================= */
 
-@media (max-width: 992px) {
-
-  .manage-cities-card {
-    padding: 24px;
-  }
-
-}
-
-
 @media (max-width: 768px) {
-
   .manage-cities-title {
-    font-size: 24px;
+    font-size: 23px;
   }
-
-  .manage-cities-card {
-    padding: 20px;
-  }
-
-  .manage-cities-file-row {
-    align-items: flex-start;
-
-    flex-direction: column;
-  }
-
-  .manage-cities-file-name {
-    max-width: 100%;
-  }
-
 }
-
 
 @media (max-width: 480px) {
-
   .manage-cities-title {
-    font-size: 22px;
-  }
-
-  .manage-cities-breadcrumb {
-    font-size: 13px;
-
-    gap: 5px;
+    font-size: 21px;
   }
 
   .manage-cities-card {
-    padding: 16px;
+    padding: 14px 10px 16px;
+  }
+
+  .manage-cities-toolbar-actions {
+    width: 100%;
+  }
+
+  .manage-cities-selected-actions {
+    width: 100%;
+    min-width: 0;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 12px;
+    text-align: center;
+  }
+
+  .manage-cities-selected-buttons {
+    width: 100%;
+  }
+
+  .manage-cities-selected-cancel-btn,
+  .manage-cities-selected-delete-btn {
+    flex: 1;
+    justify-content: center;
+    height: 38px;
+  }
+
+  .manage-cities-import-btn {
+    flex: 1;
   }
 
   .manage-cities-actions {
@@ -490,15 +761,15 @@
 
   .manage-cities-edit-btn,
   .manage-cities-delete-btn {
-    padding: 8px 11px;
+    padding: 7px 10px;
   }
 
-  .manage-cities-bottom-actions {
-    justify-content: stretch;
+  .manage-cities-modal-footer {
+    flex-direction: column-reverse;
   }
 
-  .manage-cities-delete-selected-btn {
+  .manage-cities-btn-primary,
+  .manage-cities-btn-secondary {
     width: 100%;
   }
-
 }

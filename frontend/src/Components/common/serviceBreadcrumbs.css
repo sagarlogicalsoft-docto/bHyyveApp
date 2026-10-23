@@ -1,0 +1,104 @@
+/* =========================================
+   BREADCRUMBS (shared across all pages)
+========================================= */
+
+.app-breadcrumb {
+  font-size: 14px;
+  line-height: 1;
+}
+
+.app-breadcrumb-list {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px 8px;
+
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.app-breadcrumb-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  margin: 0;
+  padding: 0;
+  line-height: 20px;
+}
+
+/* Every crumb gets the same box, size and font so link, text and current page
+   line up. Selectors are doubled-up (.app-breadcrumb .app-breadcrumb-item)
+   so global a / span rules from the app theme can't override them. */
+.app-breadcrumb .app-breadcrumb-item > a,
+.app-breadcrumb .app-breadcrumb-item > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  height: 20px;
+  margin: 0;
+  padding: 0;
+
+  position: static;
+  top: auto;
+  transform: none;
+
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 20px;
+  vertical-align: middle;
+}
+
+.app-breadcrumb .app-breadcrumb-home {
+  display: block;
+  flex: 0 0 auto;
+  width: 14px;
+  height: 14px;
+  /* margin-top: 2px; */
+}
+
+.app-breadcrumb-link {
+  color: #073b74;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.app-breadcrumb-link:hover {
+  color: #052d59;
+  text-decoration: none;
+}
+
+.app-breadcrumb-link:focus-visible {
+  outline: 2px solid #073b74;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.app-breadcrumb-text {
+  color: #5b6678;
+}
+
+.app-breadcrumb .app-breadcrumb-item > .app-breadcrumb-current {
+  color: #1ba784;
+  font-weight: 600;
+  transform: translateY(-3px);
+}
+
+
+
+.app-breadcrumb-sep {
+  margin-top: 0px;
+  display: block;
+  flex: 0 0 auto;
+  color: #8a94a6;
+  font-size: 14px;
+}
+
+@media (max-width: 767px) {
+  .app-breadcrumb .app-breadcrumb-item > a,
+  .app-breadcrumb .app-breadcrumb-item > span {
+    font-size: 13px;
+  }
+}

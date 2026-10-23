@@ -7,11 +7,715 @@ const imagesPath = path.join(__dirname, "../assets/images");
 const login = async (email, password) => {
   return await AdminModel.login(email, password);
 };
+
 // =====================================================
 // SERVICE SERVICES
 // =====================================================
 
-//..................
+// -----------------------------------------
+// SUB ADMIN MANAGEMENT
+// -----------------------------------------
+const getSubAdmins = async () => {
+  return await AdminModel.getSubAdmins();
+};
+
+const changeSubAdminStatus = async (id) => {
+  return await AdminModel.changeSubAdminStatus(id);
+};
+
+const saveSubAdmin = async (data) => {
+  return await AdminModel.saveSubAdmin(data);
+};
+
+const getSubAdminById = async (id) => {
+  return await AdminModel.getSubAdminById(id);
+};
+
+const updateSubAdmin = async (id, data) => {
+  return await AdminModel.updateSubAdmin(id, data);
+};
+
+const deleteSubAdmin = async (adminId) => {
+  return await AdminModel.deleteSubAdmin(adminId);
+};
+
+// -----------------------------------------
+// ROLE MANAGEMENT
+// -----------------------------------------
+const getRoles = async () => {
+  return await AdminModel.getRoles();
+};
+
+const addRole = async (data) => {
+  return await AdminModel.addRole(data);
+};
+
+const updateRoleStatus = async (id, status) => {
+  return await AdminModel.updateRoleStatus(id, status);
+};
+
+const updateRole = async (id, data) => {
+  return await AdminModel.updateRole(id, data);
+};
+
+const deleteRole = async (id) => {
+  return await AdminModel.deleteRole(id);
+};
+
+// -----------------------------------------
+// VENDOR MANAGEMENT
+// -----------------------------------------
+
+const getVendorList = async () => {
+  const vendors = await AdminModel.getVendorList();
+  return vendors;
+};
+
+const getVendorCategories = async () => {
+  const categories = await AdminModel.getVendorCategories();
+  return categories;
+};
+
+const getVendorCities = async () => {
+  const cities = await AdminModel.getVendorCities();
+  return cities;
+};
+
+const addVendor = async (vendorData, addressData) => {
+  const vendorId = await AdminModel.addVendor(vendorData, addressData);
+  return vendorId;
+};
+
+const uploadVendorDocuments = async (vendorId, files) => {
+  const result = await AdminModel.uploadVendorDocuments(vendorId, files);
+  return result;
+};
+
+const changeKycStatus = async (vendorId) => {
+  const result = await AdminModel.changeKycStatus(vendorId);
+  return result;
+};
+
+const deleteSelectedVendors = async (vendorIds) => {
+  const result = await AdminModel.deleteSelectedVendors(vendorIds);
+  return result;
+};
+
+const deleteVendor = async (vendorId) => {
+  const result = await AdminModel.deleteVendor(vendorId);
+  return result;
+};
+
+const getVendorById = async (vendorId) => {
+  return await AdminModel.getVendorById(vendorId);
+};
+
+const getAllCities = async () => {
+  return await AdminModel.getAllCities();
+};
+
+const getServiceVendorShopDetails = async (vendorId) => {
+  const vendorDetail = await AdminModel.getServiceVendorShopDetails(vendorId);
+
+  if (!vendorDetail) {
+    return null;
+  }
+
+  const [pending_booking, categoryKeywords, vendorKeywordIds] =
+    await Promise.all([
+      AdminModel.getServiceVendorPendingBookings(vendorId),
+      AdminModel.getServiceVendorKeywordsByCategory(vendorDetail.cat_id),
+      AdminModel.getServiceVendorKeywordIds(vendorId),
+    ]);
+
+  return {
+    vendorDetail,
+    vendor_id: vendorId,
+    pending_booking,
+    categoryKeywords,
+    vendorKeywordIds,
+  };
+};
+
+const updateServiceVendorDetails = async (data) => {
+  const vendorId = data.vid;
+
+  if (!vendorId) {
+    return false;
+  }
+
+  return AdminModel.updateServiceVendorDetails(vendorId, data);
+};
+
+const getServiceVendorAddresses = async (vendorId) => {
+    return AdminModel.getServiceVendorAddresses(vendorId);
+  };
+
+const saveServiceVendorAddress = async (data) => {
+    return AdminModel.saveServiceVendorAddress(data);
+  };
+
+const deleteServiceVendorAddress = async (vendorId, addressId) => {
+    return AdminModel.deleteServiceVendorAddress(vendorId, addressId);
+  };
+
+const getServiceVendorKeywords = async (vendorId, categoryId) => {
+  const [categoryKeywords, vendorKeywordIds] = await Promise.all([
+    AdminModel.getServiceVendorKeywordsByCategory(categoryId),
+    AdminModel.getServiceVendorKeywordIds(vendorId),
+  ]);
+
+  return {
+    categoryKeywords,
+    vendorKeywordIds,
+  };
+};
+
+const saveServiceVendorKeywords = async (vendorId, keywordIds) => {
+  return AdminModel.saveServiceVendorKeywords(vendorId, keywordIds);
+};
+
+//Nearby km
+const getVendorRadius = async () => {
+  return await AdminModel.getVendorRadius();
+};
+
+const saveVendorRadius = async (data) => {
+  return await AdminModel.saveVendorRadius(data);
+};
+
+// -----------------------------------------
+// USER MANAGEMENT
+// -----------------------------------------
+// ALL USERS
+const getUsers = async () => {
+  return await AdminModel.getUsers();
+};
+
+// ==================== ALL USERS: WALLET ====================
+
+const addWalletAmount = async (userId, amount) => {
+  const user = await AdminModel.addWalletAmount(userId, amount);
+
+  // Match the PHP condition: notify only when fcm_id exists.
+  if (user?.fcm_id) {
+    try {
+      const messaging = require("../config/firebase");
+
+      await messaging.send({
+        notification: {
+          title: "Wallet Credited",
+          body: `$${amount} credited to your wallet`,
+        },
+        data: {
+          type: "wallet_credit",
+        },
+        token: user.fcm_id,
+      });
+    } catch (error) {
+      // The wallet has already been credited.
+      // Do not report the credit as failed only because
+      // Firebase notification delivery failed.
+      console.error("Wallet Firebase Notification Error:", error.message);
+    }
+  }
+
+  return true;
+};
+
+// ==================== ALL USERS: SINGLE DELETE ====================
+
+const deleteCustomer = async (id) => {
+  return await AdminModel.deleteCustomer(id);
+};
+
+// ==================== ALL USERS: BULK DELETE ====================
+
+const deleteSelectedUsers = async (ids) => {
+  return await AdminModel.deleteSelectedUsers(ids);
+};
+
+const getUserPageDetails = async (userId) => {
+  const user = await AdminModel.getUserDetail(userId);
+  if (!user) {
+    return null;
+  }
+  const addresses = await AdminModel.getUserAddresses(userId);
+  const bookings = await AdminModel.getUserBookingDetails(userId);
+  const result = {
+    pending: [],
+    completed: [],
+  };
+  for (const booking of bookings) {
+    let cart = [];
+    try {
+      cart =
+        typeof booking.cart_meta_data === "string"
+          ? JSON.parse(booking.cart_meta_data || "[]")
+          : booking.cart_meta_data || [];
+    } catch {
+      cart = [];
+    }
+    if (!Array.isArray(cart)) cart = [];
+    let totalAmount = 0;
+    let discountPercent = 0;
+    let itemCount = 0;
+    const productList = [];
+    for (const value of cart) {
+      itemCount++;
+      if (value.coupon_applied == 1 && value.coupon_id) {
+        const coupon = await AdminModel.getCouponById(value.coupon_id);
+        if (coupon) {
+          discountPercent = Number(coupon.cupon_price) || 0;
+        }
+      }
+      totalAmount += Number(value.final_amount) || 0;
+      const product = {
+        product_id: value.product_id,
+        name: value.name,
+        image: value.image,
+        quantity: value.quantity,
+        final_amount: value.final_amount,
+      };
+      const addonIds = value.addon ?? "";
+      if (addonIds !== "" && addonIds !== null) {
+        // Preserve the original PHP behavior: addon contains comma-separated IDs.
+        const safeAddonIds = String(addonIds)
+          .split(",")
+          .map((id) => id.trim());
+        if (safeAddonIds.every((id) => /^\d+$/.test(id))) {
+          product.addons = await AdminModel.getAddonProducts(
+            safeAddonIds.join(","),
+          );
+        } else {
+          product.addons = [];
+        }
+      } else {
+        product.addons = [];
+      }
+      product.addon_price = value.addon_price ?? 0;
+      productList.push(product);
+    }
+    const discountAmount = (totalAmount * discountPercent) / 100;
+    const amountAfterDiscount = totalAmount - discountAmount;
+    const hstAmount = (amountAfterDiscount * 13) / 100;
+    const grandTotal = amountAfterDiscount + hstAmount;
+    booking.item_count = itemCount;
+    booking.total_amount = totalAmount;
+    booking.discount_percent = discountPercent;
+    booking.discount_amount = Number(discountAmount.toFixed(2));
+    booking.hst_amount = Number(hstAmount.toFixed(2));
+    booking.grand_total = Number(grandTotal.toFixed(2));
+    booking.product_list = productList;
+    if (Number(booking.current_status) === 0) {
+      result.pending.push(booking);
+    } else if (Number(booking.current_status) === 2) {
+      result.completed.push(booking);
+    }
+  }
+  return {
+    userDetail: user,
+    user_id: userId,
+    pending_booking: result.pending,
+    completed_booking: result.completed,
+    user_addresses: addresses,
+  };
+};
+
+const updateUserPageDetails = async (userId, body) => {
+  const postData = {};
+  for (const field of ["fname", "lname", "email", "mobile", "address"]) {
+    if (
+      body[field] !== undefined &&
+      body[field] !== null &&
+      body[field] !== ""
+    ) {
+      postData[field] = body[field];
+    }
+  }
+  if (Object.keys(postData).length === 0 || !userId) {
+    return { invalid: true };
+  }
+  let duplicateContact = false;
+  // The original PHP checks the submitted email/mobile against other users.
+  if (body.email && body.mobile) {
+    const duplicates = await AdminModel.checkUserEmailOrMobile(
+      body.email,
+      body.mobile,
+      userId,
+    );
+    if (duplicates.length > 0) {
+      delete postData.email;
+      delete postData.mobile;
+      duplicateContact = true;
+    }
+  }
+  await AdminModel.updateUserDetail(userId, postData);
+  return {
+    success: true,
+    duplicateContact,
+  };
+};
+
+const updateUserAddress = async (addressId, address) => {
+  return AdminModel.updateUserAddress(addressId, address);
+};
+
+const deleteUserAddress = async (addressId, userId) => {
+  return AdminModel.deleteUserAddress(addressId, userId);
+};
+
+// ==================== EXPERTS MANAGEMENT ====================
+
+const getExperts = async () => {
+  return await AdminModel.getExperts();
+};
+
+const saveNewExpert = async (expertData) => {
+  return await AdminModel.saveNewExpert(expertData);
+};
+
+const fetchExpertFormData = async () => {
+  return await AdminModel.getExpertFormData();
+};
+
+const getExpertDetails = async (id) => {
+  return await AdminModel.getExpertDetails(id);
+};
+
+const updateExpertBasisDetail = async (id, expertData) => {
+  return await AdminModel.updateExpertBasisDetail(id, expertData);
+};
+
+// ==================== APP REVIEWS ====================
+
+const getAppReviews = async () => {
+  return await AdminModel.getAppReviews();
+};
+
+const markAppReviewAsTestimonial = async (id) => {
+  return await AdminModel.markAppReviewAsTestimonial(id);
+};
+
+const removeAppReviewTestimonial = async (id) => {
+  return await AdminModel.removeAppReviewTestimonial(id);
+};
+
+const deleteAppReview = async (id) => {
+  return await AdminModel.deleteAppReview(id);
+};
+
+// ==================== CATEGORY MANAGEMENT ====================
+
+// ==================== CATEGORY ====================
+
+const getCategoriesService = async () => await AdminModel.getCategories();
+
+const updateCategoryOrderService = async (orderIds) => {
+  return await AdminModel.updateCategoryOrder(orderIds);
+};
+
+
+const updateCategoryStatusService = async (id, status) =>
+  await AdminModel.updateCategoryStatus(id, status);
+
+const getCategoryByIdService = async (id) =>
+  await AdminModel.getCategoryById(id);
+
+const updateCategoryService = async (id, data) =>
+  await AdminModel.updateCategory(id, data);
+
+const updateCategoryImageService = async (id, image) =>
+  await AdminModel.updateCategoryImage(id, image);
+
+const deleteCategoryService = async (id) => await AdminModel.deleteCategory(id);
+
+const deleteSelectedCategoriesService = async (ids) =>
+  await AdminModel.deleteSelectedCategories(ids);
+
+const importCategoriesService = async (categories) =>
+  await AdminModel.importCategories(categories);
+
+const addCategoryService = async (data) => await AdminModel.addCategory(data);
+
+// CATEGORY KEYWORDS MANAGEMENT
+// =====================================================
+
+const getCategoryKeywordListService = async () => {
+  return await AdminModel.getCategoryKeywordList();
+};
+
+const addCategoryKeywordsService = async (categoryId, keywords) => {
+  const category = await AdminModel.getCategoryKeywordCategory(categoryId);
+
+  if (!category) {
+    return {
+      status: "error",
+      message: "Invalid category selected",
+    };
+  }
+
+  const insertedKeywords = [];
+  let skipped = 0;
+
+  for (const rawKeyword of keywords.split(",")) {
+    const keyword = rawKeyword
+      .trim()
+      .replace(/^[\s"'`]+|[\s"'`]+$/g, "");
+
+    if (!keyword) continue;
+
+    const exists = await AdminModel.categoryKeywordExists(
+      categoryId,
+      keyword,
+    );
+
+    if (exists) {
+      skipped++;
+      continue;
+    }
+
+    const inserted = await AdminModel.insertCategoryKeyword(
+      categoryId,
+      keyword,
+    );
+
+    insertedKeywords.push(inserted);
+  }
+
+  if (insertedKeywords.length === 0) {
+    return {
+      status: "error",
+      message:
+        skipped > 0
+          ? "All keywords already exist for this category"
+          : "No valid keywords provided",
+    };
+  }
+
+  let message = `${insertedKeywords.length} keyword(s) added successfully`;
+
+  if (skipped > 0) {
+    message += `, ${skipped} duplicate(s) skipped`;
+  }
+
+  return {
+    status: "success",
+    inserted: insertedKeywords.length,
+    skipped,
+    category_id: Number(category.id),
+    category_name: category.category_name,
+    category_image: category.category_image,
+    keywords: insertedKeywords,
+    message,
+  };
+};
+
+const importCategoryKeywordsService = async (fileBuffer) => {
+  const { Readable } = require("stream");
+  const csv = require("csv-parser");
+
+  const rows = await new Promise((resolve, reject) => {
+    const parsedRows = [];
+
+    Readable.from([fileBuffer])
+      .pipe(csv({ headers: false, skipLines: 1 }))
+      .on("data", (row) => parsedRows.push(row))
+      .on("end", () => resolve(parsedRows))
+      .on("error", reject);
+  });
+
+  let inserted = 0;
+  let skipped = 0;
+  const categoriesSeen = new Set();
+
+  for (const row of rows) {
+    const categoryValue = String(row[0] ?? "").trim();
+    const keywordBlob = String(row[2] ?? "").trim();
+
+    if (!categoryValue || !keywordBlob) continue;
+
+    const categoryId = Number.parseInt(categoryValue, 10);
+
+    const category = Number.isInteger(categoryId)
+      ? await AdminModel.getCategoryKeywordCategory(categoryId)
+      : null;
+
+    if (!category) {
+      skipped++;
+      continue;
+    }
+
+    categoriesSeen.add(categoryId);
+
+    for (const rawKeyword of keywordBlob.split(",")) {
+      const keyword = rawKeyword
+        .trim()
+        .replace(/^[\s"'`]+|[\s"'`]+$/g, "");
+
+      if (!keyword) continue;
+
+      const exists = await AdminModel.categoryKeywordExists(
+        categoryId,
+        keyword,
+      );
+
+      if (exists) {
+        skipped++;
+        continue;
+      }
+
+      await AdminModel.insertCategoryKeyword(categoryId, keyword);
+      inserted++;
+    }
+  }
+
+  return {
+    status: "success",
+    inserted,
+    skipped,
+    categories_seen: categoriesSeen.size,
+    message: `${inserted} keyword(s) imported successfully, ${skipped} skipped.`,
+  };
+};
+
+const deleteCategoryKeywordService = async (id) => {
+  return await AdminModel.deleteCategoryKeyword(id);
+};
+
+const deleteCategoryKeywordsByCategoryService = async (categoryId) => {
+  return await AdminModel.deleteCategoryKeywordsByCategory(categoryId);
+};
+
+// ==================== SUBCATEGORY ====================
+
+const getSubCategoriesService = async () => await AdminModel.getSubCategories();
+
+const updateSubCategoryOrderService = async (orderIds) =>
+  await AdminModel.updateSubCategoryOrder(orderIds);
+
+const addSubCategoryService = async (data) =>
+  await AdminModel.addSubCategory(data);
+
+const getSubCategoryByIdService = async (id) =>
+  await AdminModel.getSubCategoryByIdService(id);
+
+const updateSubCategoryService = async (id, data) =>
+  await AdminModel.updateSubCategory(id, data);
+
+const deleteSubCategoryService = async (id) =>
+  await AdminModel.deleteSubCategory(id);
+
+const deleteSelectedSubCategoriesService = async (ids) =>
+  await AdminModel.deleteSelectedSubCategories(ids);
+
+const changeSubCategoryStatusService = async (id) => {
+  const subCategory = await AdminModel.getSubCategoryById(id);
+
+  if (!subCategory) return null;
+
+  const currentStatus = Number(subCategory.status);
+  let newStatus = 0;
+
+  if (currentStatus === 0) newStatus = 1;
+  if (currentStatus === 1) newStatus = 0;
+
+  await AdminModel.changeSubCategoryStatus(id, newStatus);
+
+  return { id, status: newStatus };
+};
+
+// =========================================================
+// VENDOR IMAGE SLIDER
+// =========================================================
+
+const getAllVendorImagesService = () => AdminModel.getAllVendorImages();
+
+const getVendorImageByIdService = (id) => AdminModel.getVendorImageById(id);
+
+const getVendorImageFormDataService = () => AdminModel.getVendorImageFormData();
+
+const addVendorImageService = (data) => AdminModel.addVendorImage(data);
+
+const updateVendorImageService = (id, data) =>
+  AdminModel.updateVendorImage(id, data);
+
+const deleteVendorImageService = (id) => AdminModel.deleteVendorImage(id);
+
+const deleteSelectedVendorImagesService = (ids) =>
+  AdminModel.deleteSelectedVendorImages(ids);
+
+// ==================== CITIES ====================
+
+const importServiceSideCities = async (fileBuffer) => {
+  const XLSX = require("xlsx");
+
+  const workbook = XLSX.read(fileBuffer, { type: "buffer" });
+  const sheet = workbook.Sheets[workbook.SheetNames[0]];
+
+  const rows = XLSX.utils.sheet_to_json(sheet, {
+    header: 1,
+    defval: "",
+  });
+
+  let importedCount = 0;
+  let headerSkipped = false;
+
+  for (const row of rows) {
+    if (!headerSkipped) {
+      headerSkipped = true;
+      continue;
+    }
+
+    const cityName = String(row[0] ?? "").trim();
+
+    if (cityName !== "") {
+      try {
+        await AdminModel.addServiceSideCity(cityName);
+        importedCount++;
+      } catch (error) {
+        console.error("City import row error:", error);
+      }
+    }
+  }
+
+  return importedCount;
+};
+
+const getServiceSideCities = async () => {
+  return await AdminModel.getServiceSideCities();
+};
+
+const getServiceSideCityById = async (id) => {
+  return await AdminModel.getServiceSideCityById(id);
+};
+
+const addServiceSideCity = async (cityName) => {
+  const trimmedCityName = cityName.trim();
+
+  const existingCity =
+    await AdminModel.getServiceSideCityByName(trimmedCityName);
+
+  if (existingCity) {
+    const error = new Error("City already exists");
+    error.statusCode = 409;
+    throw error;
+  }
+
+  return await AdminModel.addServiceSideCity(trimmedCityName);
+};
+
+const updateServiceSideCity = async (id, cityName) => {
+  return await AdminModel.updateServiceSideCity(id, cityName);
+};
+
+const deleteServiceSideCity = async (id) => {
+  return await AdminModel.deleteServiceSideCity(id);
+};
+
+const deleteSelectedServiceSideCities = async (cityIds) => {
+  return await AdminModel.deleteSelectedServiceSideCities(cityIds);
+};
 
 // =====================================================
 // RESTAURANT SERVICES
@@ -388,14 +1092,17 @@ const normalizeStatus = (status) => {
     case "accepted":
       return "accepted";
 
+    case "cancelled":
+      return "cancelled";
+
     case "preparing":
-      return "processing";
+      return "preparing";
 
     case "ready_for_pickup":
-      return "processing";
+      return "ready_for_pickup";
 
     case "picked_up":
-      return "on_the_way";
+      return "picked_up";
 
     case "on_the_way":
       return "on_the_way";
@@ -403,17 +1110,8 @@ const normalizeStatus = (status) => {
     case "delivered":
       return "delivered";
 
-    case "cancelled":
-      return "cancelled";
-
     case "rejected":
-      return "cancelled";
-
-    case "missed":
-      return "cancelled";
-
-    case "scheduled":
-      return "scheduled";
+      return "rejected";
 
     default:
       return value;
@@ -822,8 +1520,6 @@ const getOrderDetails = async (orderId) => {
     }
   }
 
-  // SAME FALLBACK AS PHP
-
   if (!order.coupon_discount && order.discount) {
     order.coupon_discount = Number(order.discount || 0);
   }
@@ -1035,12 +1731,14 @@ const getAllRestaurantOrders = async () => {
     const counts = {
       all: preparedOrders.length,
       pending: 0,
-      scheduled: 0,
       accepted: 0,
-      processing: 0,
+      cancelled: 0,
+      preparing: 0,
+      ready_for_pickup: 0,
+      picked_up: 0,
       on_the_way: 0,
       delivered: 0,
-      cancelled: 0,
+      rejected: 0,
     };
 
     preparedOrders.forEach((order) => {
@@ -2971,12 +3669,118 @@ const saveRestaurantVendorKeywords = async (vendorId, keywordIds) => {
 
 module.exports = {
   login,
+  //SERVICE SIDE
+  //sub admin management
+  getSubAdmins,
+  changeSubAdminStatus,
+  saveSubAdmin,
+  getSubAdminById,
+  updateSubAdmin,
+  deleteSubAdmin,
+  getRoles,
+  addRole,
+  updateRoleStatus,
+  updateRole,
+  deleteRole,
+
+  //vendor management
+  getVendorList,
+  getVendorCategories,
+  getVendorCities,
+  addVendor,
+  uploadVendorDocuments,
+  changeKycStatus,
+  deleteVendor,
+  deleteSelectedVendors,
+  getVendorById,
+  getAllCities,
+  getServiceVendorShopDetails,
+  getServiceVendorAddresses,
+  saveServiceVendorAddress,
+  deleteServiceVendorAddress,
+  updateServiceVendorDetails,
+  getServiceVendorKeywords,
+  saveServiceVendorKeywords,
+
+  getVendorRadius,
+  saveVendorRadius,
+
+  //user management
+  getUsers,
+  addWalletAmount,
+  deleteCustomer,
+  deleteSelectedUsers,
+  getUserPageDetails,
+  updateUserPageDetails,
+  updateUserAddress,
+  deleteUserAddress,
+
+  // Expert Management
+  getExperts,
+  saveNewExpert,
+  fetchExpertFormData,
+  getExpertDetails,
+  updateExpertBasisDetail,
+
+  //app reviews management
+  getAppReviews,
+  markAppReviewAsTestimonial,
+  removeAppReviewTestimonial,
+  deleteAppReview,
+
+  //category management
+  getCategoriesService,
+  updateCategoryOrderService,
+  updateCategoryStatusService,
+  getCategoryByIdService,
+  updateCategoryService,
+  updateCategoryImageService,
+  deleteCategoryService,
+  deleteSelectedCategoriesService,
+  importCategoriesService,
+  addCategoryService,
+
+  //keywords
+  getCategoryKeywordListService,
+  addCategoryKeywordsService,
+  importCategoryKeywordsService,
+  deleteCategoryKeywordService,
+  deleteCategoryKeywordsByCategoryService,
+
+  getSubCategoriesService,
+  updateSubCategoryOrderService,
+  addSubCategoryService,
+  getSubCategoryByIdService,
+  updateSubCategoryService,
+  deleteSubCategoryService,
+  deleteSelectedSubCategoriesService,
+  changeSubCategoryStatusService,
+
+  //Vendor slider images management
+  getAllVendorImagesService,
+  getVendorImageByIdService,
+  getVendorImageFormDataService,
+  addVendorImageService,
+  updateVendorImageService,
+  deleteVendorImageService,
+  deleteSelectedVendorImagesService,
+
+  //cities management
+  importServiceSideCities,
+  getServiceSideCities,
+  getServiceSideCityById,
+  addServiceSideCity,
+  updateServiceSideCity,
+  deleteServiceSideCity,
+  deleteSelectedServiceSideCities,
+
+  //RESTAURANT SIDE
   //dashboard
   getDashboardData,
   getOrderStats,
   getSalesChartData,
 
-  //store management and orders
+  //store management and orders restaurant
   getPendingStores,
   getAddStoreCities,
   addStore,
@@ -3000,13 +3804,13 @@ module.exports = {
   getNearbyKm,
   updateNearbyKm,
 
-  //keywords
+  //keywords restaurant
   getRestaurantStoreById,
   getRestaurantKeywordsByCategory,
   getRestaurantVendorKeywordIds,
   saveRestaurantVendorKeywords,
 
-  //category management
+  //category management restaurant
   getRestaurantCategories,
   updateRestaurantCategory,
   updateRestaurantCategoryStatus,
@@ -3017,7 +3821,7 @@ module.exports = {
   deleteSelectedRestaurantSubCategories,
   addRestaurantSubCategory,
 
-  //coupon management
+  //coupon management restaurant
   getAllCoupons,
   updateCouponStatus,
   getCouponById,
@@ -3033,7 +3837,7 @@ module.exports = {
   getProductsByVendorIds,
   updateCoupon,
 
-  //product management
+  //product management restaurant
   getAllMenus,
   getAddRestaurantItemData,
   createMenu,
@@ -3063,7 +3867,7 @@ module.exports = {
   updateAddon,
   deleteAddon,
 
-  //driver section
+  //driver section restaurant
   getDrivers,
   toggleDriverStatus,
   getDriverDetails,

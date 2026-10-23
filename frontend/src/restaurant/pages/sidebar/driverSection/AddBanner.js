@@ -7,8 +7,6 @@ import ConfirmModal from "../../../../Components/common/modal/ConfirmModal";
 import SuccessModal from "../../../../Components/common/modal/SuccessModal";
 
 const PAGE_SIZE = 10;
-const IMAGE_RATIO = 3 / 1;
-const RATIO_TOLERANCE = 0.06;
 const MAX_IMAGE_MB = 5;
 
 const emptyForm = {
@@ -262,6 +260,7 @@ export default function AddBanner() {
   /* ---------------------------------------------------------------------
    * Image selection / validation
    * ------------------------------------------------------------------- */
+
   const validateAndSetImage = (file) => {
     if (!file) return;
 
@@ -285,18 +284,6 @@ export default function AddBanner() {
     const img = new Image();
 
     img.onload = () => {
-      const ratio = img.width / img.height;
-
-      if (Math.abs(ratio - IMAGE_RATIO) > RATIO_TOLERANCE) {
-        setFormErrors((prev) => ({
-          ...prev,
-          image: `Image should be a 3:1 ratio (e.g. 1200×400). Yours is ${img.width}×${img.height}.`,
-        }));
-
-        URL.revokeObjectURL(objectUrl);
-        return;
-      }
-
       setFormErrors((prev) => ({
         ...prev,
         image: undefined,
@@ -641,9 +628,7 @@ export default function AddBanner() {
 
             <input
               id="ab-title"
-              className={`ab-input ${
-                formErrors.title ? "ab-input-error" : ""
-              }`}
+              className={`ab-input ${formErrors.title ? "ab-input-error" : ""}`}
               placeholder="New banner"
               value={form.title}
               onChange={(e) => setField("title", e.target.value)}
@@ -724,7 +709,7 @@ export default function AddBanner() {
             <label>
               Banner image
               <span className="ab-required">*</span>{" "}
-              <span className="ab-optional-tag">(Ratio 3:1)</span>
+              <span className="ab-optional-tag">(Recommended ratio 3:1)</span>
             </label>
 
             <div
@@ -818,7 +803,8 @@ export default function AddBanner() {
               <div className="ab-error-text">{formErrors.image}</div>
             ) : (
               <div className="ab-hint">
-                PNG or JPG, up to {MAX_IMAGE_MB}MB, 3:1 ratio (e.g. 1200×400).
+                PNG or JPG, up to {MAX_IMAGE_MB}MB. Recommended ratio: 3:1 (e.g.
+                1200×400).
               </div>
             )}
           </div>

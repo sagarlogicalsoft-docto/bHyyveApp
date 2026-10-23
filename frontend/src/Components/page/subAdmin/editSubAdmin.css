@@ -1,36 +1,95 @@
+/* =========================================
+   PAGE
+========================================= */
+
 .esa-page {
-  background: #eef0f2;
+  --esa-primary: #062f5c;
+  --esa-primary-dark: #041f3d;
+  --esa-primary-mid: #0a4a8f;
+  --esa-primary-soft: #e6eef8;
+  --esa-accent: #f5c518;
+  --esa-border: #e3e7ec;
+  --esa-muted: #667085;
+  --esa-field-bg: #f7f9fb;
+
+  background: #f4f6f8;
   min-height: 100vh;
-  padding: 32px 24px;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  padding: 20px 5px 40px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif;
   color: #1f2937;
 }
 
+
+/* =========================================
+   PAGE HEADER + BREADCRUMBS
+========================================= */
+
+.esa-page-header {
+  margin-bottom: 20px;
+}
+
+.esa-page-title {
+  margin: 0 0 8px;
+  font-size: 24px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.esa-page-header a {
+  text-decoration: none;
+  border-bottom: none;
+}
+
+
+/* =========================================
+   CARD
+========================================= */
+
 .esa-card {
-  max-width: 1200px;
-  margin: 0 auto;
+  width: 100%;
   background: #ffffff;
-  border-radius: 10px;
-  padding: 32px 36px 40px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
+  padding: 24px 20px 34px;
+  box-shadow: 0 1px 3px rgba(16, 24, 40, 0.06), 0 8px 24px rgba(16, 24, 40, 0.04);
 }
 
 .esa-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
   text-align: center;
   padding: 60px 0;
-  color: #6b7280;
+  color: var(--esa-muted);
+  font-size: 15px;
+}
+
+.esa-loading::before {
+  content: "";
+  width: 20px;
+  height: 20px;
+  border: 3px solid var(--esa-primary-soft);
+  border-top-color: var(--esa-primary);
+  border-radius: 50%;
+  animation: esa-spin 0.8s linear infinite;
 }
 
 .esa-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 28px;
+  gap: 16px;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--esa-border);
 }
 
 .esa-title {
-  font-size: 26px;
+  font-size: 19px;
   font-weight: 700;
+  /* letter-spacing: 0.04em; */
+  /* text-transform: uppercase; */
   margin: 0;
   color: #111827;
 }
@@ -39,18 +98,23 @@
   background: #fee2e2;
   color: #b91c1c;
   border: 1px solid #fecaca;
-  border-radius: 6px;
-  padding: 10px 14px;
+  border-left: 4px solid #dc2626;
+  border-radius: 8px;
+  padding: 11px 14px;
   margin-bottom: 20px;
   font-size: 14px;
+  animation: esa-rise 0.25s ease-out;
 }
 
-/* Form fields */
+
+/* =========================================
+   FORM FIELDS
+========================================= */
 
 .esa-field-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 24px 32px;
+  gap: 22px 28px;
   margin-bottom: 32px;
 }
 
@@ -60,8 +124,9 @@
 }
 
 .esa-label {
-  font-size: 15px;
-  color: #4b5563;
+  font-size: 14.5px;
+  font-weight: 500;
+  color: #475467;
   margin-bottom: 8px;
 }
 
@@ -70,88 +135,142 @@
 }
 
 .esa-input {
-  background: #eef0f2;
-  border: 1px solid transparent;
-  border-radius: 6px;
-  padding: 12px 14px;
-  font-size: 15px;
+  width: 100%;
+  height: 48px;
+  box-sizing: border-box;
+  background: var(--esa-field-bg);
+  border: 1.5px solid var(--esa-border);
+  border-radius: 8px;
+  padding: 0 14px;
+  font-size: 14.5px;
+  font-family: inherit;
   color: #1f2937;
   outline: none;
-  transition: border-color 0.15s ease, background 0.15s ease;
+  transition: border-color 0.18s ease, background 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+select.esa-input {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 40px;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none' stroke='%23667085' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M1 1.5l5 5 5-5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+}
+
+.esa-input::placeholder {
+  color: #98a2b3;
+}
+
+.esa-input:hover {
+  border-color: #cdd5df;
 }
 
 .esa-input:focus {
-  border-color: #6366f1;
-  background: #ffffff;
+  border-color: var(--esa-primary);
+  background-color: #ffffff;
+  box-shadow: 0 0 0 4px rgba(6, 47, 92, 0.12);
 }
 
 .esa-hint {
   font-size: 13px;
-  color: #9ca3af;
+  color: #98a2b3;
   margin: 6px 0 0;
 }
+
+
+/* =========================================
+   PASSWORD
+========================================= */
 
 .esa-password-wrap {
   display: flex;
   align-items: stretch;
-  background: #eef0f2;
-  border-radius: 6px;
+  background: var(--esa-field-bg);
+  border: 1.5px solid var(--esa-border);
+  border-radius: 8px;
   overflow: hidden;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease,
+    background 0.18s ease;
 }
 
-.esa-password-input {
+.esa-password-wrap:hover {
+  border-color: #cdd5df;
+}
+
+.esa-password-wrap:focus-within {
+  border-color: var(--esa-primary);
+  background: #ffffff;
+  box-shadow: 0 0 0 4px rgba(6, 47, 92, 0.12);
+}
+
+.esa-password-input,
+.esa-password-input:hover,
+.esa-password-input:focus {
   flex: 1;
+  min-width: 0;
+  border: none;
+  box-shadow: none;
   background: transparent;
   border-radius: 0;
 }
 
 .esa-show-btn {
   border: none;
-  background: #e5e7eb;
+  border-left: 1.5px solid var(--esa-border);
+  background: #eef2f6;
   color: #374151;
   font-size: 13px;
   font-weight: 600;
-  padding: 0 16px;
+  font-family: inherit;
+  padding: 0 18px;
   cursor: pointer;
   white-space: nowrap;
-  transition: background 0.15s ease;
+  transition: background 0.15s ease, color 0.15s ease;
 }
 
 .esa-show-btn:hover {
-  background: #d1d5db;
+  background: #dde5ee;
 }
 
 .esa-show-btn[aria-pressed="true"] {
-  background: #c7d2fe;
-  color: #3730a3;
+  background: var(--esa-primary-soft);
+  color: var(--esa-primary);
 }
 
-/* Permissions panel */
+
+/* =========================================
+   PERMISSIONS PANEL
+========================================= */
 
 .esa-permissions-panel {
-  background: #f7f8fa;
-  border-radius: 8px;
-  padding: 24px 24px 20px;
+  background: #fafbfc;
+  border: 1px solid var(--esa-border);
+  border-radius: 12px;
+  padding: 22px 20px 20px;
 }
 
 .esa-permissions-heading {
   display: flex;
   align-items: center;
   gap: 8px;
+  width: fit-content;
   padding-bottom: 10px;
-  border-bottom: 2px solid #f5c518;
+  border-bottom: 3px solid var(--esa-accent);
   margin-bottom: 20px;
 }
 
 .esa-lock-icon {
-  font-size: 18px;
+  font-size: 17px;
 }
 
 .esa-permissions-title {
-  font-size: 19px;
+  font-size: 18px;
   font-weight: 700;
   margin: 0;
-  color: #111827;
+  color: #34495e;
 }
 
 .esa-bulk-actions {
@@ -160,21 +279,37 @@
   margin-bottom: 24px;
 }
 
+
+/* =========================================
+   BUTTONS
+========================================= */
+
 .esa-btn {
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 14px;
   font-weight: 600;
+  font-family: inherit;
   padding: 10px 18px;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  transition: opacity 0.15s ease, transform 0.05s ease;
+  justify-content: center;
+  gap: 7px;
+  transition: filter 0.2s ease, transform 0.12s ease, box-shadow 0.2s ease;
 }
 
-.esa-btn:active {
-  transform: translateY(1px);
+.esa-btn:hover:not(:disabled) {
+  filter: brightness(1.1);
+}
+
+.esa-btn:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+.esa-btn:focus-visible {
+  outline: 3px solid rgba(31, 111, 194, 0.4);
+  outline-offset: 2px;
 }
 
 .esa-btn:disabled {
@@ -183,25 +318,44 @@
 }
 
 .esa-btn-list {
-  background: #16a34a;
+  flex-shrink: 0;
+  background: linear-gradient(135deg, var(--esa-primary-mid), var(--esa-primary));
   color: #ffffff;
-  padding: 8px 16px;
+  padding: 9px 16px;
+  font-size: 13px;
+  box-shadow: 0 4px 10px rgba(6, 47, 92, 0.28);
 }
 
 .esa-btn-select-all {
-  background: linear-gradient(135deg, #6366f1, #7c3aed);
+  background: linear-gradient(135deg, var(--esa-primary-mid), var(--esa-primary));
   color: #ffffff;
+  box-shadow: 0 4px 10px rgba(6, 47, 92, 0.28);
 }
 
 .esa-btn-deselect-all {
   background: linear-gradient(135deg, #ef4444, #dc2626);
   color: #ffffff;
+  box-shadow: 0 4px 10px rgba(220, 38, 38, 0.26);
 }
+
+.esa-spinner {
+  width: 15px;
+  height: 15px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: esa-spin 0.7s linear infinite;
+}
+
+
+/* =========================================
+   PERMISSION GROUPS
+========================================= */
 
 .esa-groups-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
+  gap: 26px 22px;
   margin-bottom: 24px;
 }
 
@@ -211,14 +365,14 @@
   gap: 8px;
   font-size: 15px;
   font-weight: 700;
-  color: #111827;
-  border-left: 3px solid #f5c518;
+  color: #34495e;
+  border-left: 3px solid var(--esa-accent);
   padding-left: 10px;
   margin: 0 0 12px;
 }
 
 .esa-folder-icon {
-  font-size: 15px;
+  font-size: 14px;
 }
 
 .esa-permission-list {
@@ -230,86 +384,246 @@
 .esa-permission-item {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   background: #ffffff;
-  border: 1px solid #e5e7eb;
-  border-radius: 6px;
+  border: 1.5px solid var(--esa-border);
+  border-radius: 9px;
   padding: 10px 12px;
-  font-size: 14.5px;
-  color: #374151;
+  min-height: 46px;
+  box-sizing: border-box;
+  font-size: 14px;
+  color: #475467;
   cursor: pointer;
+  transition: background 0.18s ease, border-color 0.18s ease,
+    transform 0.12s ease;
+}
+
+.esa-permission-item:hover {
+  background: #f8fafc;
+  border-color: #cdd5df;
+}
+
+.esa-permission-item:active {
+  transform: scale(0.99);
+}
+
+/* custom navy checkbox */
+.esa-permission-item input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 19px;
+  height: 19px;
+  margin: 0;
+  flex-shrink: 0;
+  border: 2px solid #b8c4d2;
+  border-radius: 5px;
+  background: #ffffff;
+  cursor: pointer;
+  display: grid;
+  place-content: center;
   transition: background 0.15s ease, border-color 0.15s ease;
 }
 
-.esa-permission-item input[type="checkbox"] {
-  width: 16px;
-  height: 16px;
-  accent-color: #f5c518;
-  cursor: pointer;
+.esa-permission-item input[type="checkbox"]::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  background: #ffffff;
+  transform: scale(0);
+  transition: transform 0.15s ease;
+  clip-path: polygon(14% 44%, 0 59%, 40% 100%, 100% 24%, 85% 9%, 40% 68%);
 }
 
-.esa-permission-item--checked {
-  background: #fef9e7;
-  border-color: #f5c518;
-  color: #b45309;
+.esa-permission-item input[type="checkbox"]:checked {
+  background: var(--esa-primary-mid);
+  border-color: var(--esa-primary-mid);
+}
+
+.esa-permission-item input[type="checkbox"]:checked::before {
+  transform: scale(1);
+}
+
+.esa-permission-item input[type="checkbox"]:focus-visible {
+  outline: 3px solid rgba(31, 111, 194, 0.4);
+  outline-offset: 2px;
+}
+
+.esa-permission-item--checked,
+.esa-permission-item--checked:hover {
+  background: var(--esa-primary-soft);
+  border-color: var(--esa-primary-mid);
+  color: var(--esa-primary);
   font-weight: 600;
 }
 
+
+/* =========================================
+   COUNT
+========================================= */
+
 .esa-count-banner {
-  background: #e5e7eb;
-  border-radius: 6px;
-  padding: 14px 16px;
+  background: #eef1f5;
+  border-radius: 9px;
+  padding: 14px 16px 16px;
   text-align: center;
-  font-size: 14.5px;
-  color: #374151;
+  font-size: 14px;
+  color: #667085;
 }
 
 .esa-count-number {
   font-weight: 700;
-  color: #b45309;
+  color: var(--esa-primary);
 }
 
-/* Footer */
+.esa-count-progress {
+  height: 6px;
+  margin-top: 10px;
+  border-radius: 999px;
+  background: #dde3ea;
+  overflow: hidden;
+}
+
+.esa-count-progress span {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--esa-primary), #1f6fc2);
+  transition: width 0.3s ease;
+}
+
+
+/* =========================================
+   FOOTER
+========================================= */
 
 .esa-footer-actions {
   display: flex;
   gap: 16px;
   justify-content: center;
-  margin-top: 28px;
+  margin-top: 32px;
 }
 
 .esa-btn-update {
-  background: #14b8a6;
+  background: linear-gradient(135deg, var(--esa-primary-mid), var(--esa-primary));
   color: #ffffff;
-  padding: 12px 32px;
+  min-width: 180px;
+  height: 48px;
+  padding: 0 28px;
   font-size: 15px;
+  box-shadow: 0 6px 16px rgba(6, 47, 92, 0.32);
+}
+
+.esa-btn-update:hover:not(:disabled) {
+  box-shadow: 0 8px 20px rgba(6, 47, 92, 0.42);
 }
 
 .esa-btn-cancel {
-  background: #6b7280;
+  background: #59636e;
   color: #ffffff;
-  padding: 12px 32px;
+  min-width: 140px;
+  height: 48px;
+  padding: 0 28px;
   font-size: 15px;
 }
 
-/* Responsive */
+
+/* =========================================
+   ANIMATIONS
+========================================= */
+
+@keyframes esa-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes esa-rise {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
 
 @media (max-width: 1024px) {
+  .esa-page {
+    padding: 18px 12px 36px;
+  }
+
   .esa-groups-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (max-width: 720px) {
+  .esa-page {
+    padding: 16px 8px 28px;
+  }
+
+  .esa-page-title {
+    font-size: 22px;
+  }
+
+  .esa-card {
+    padding: 18px 12px 26px;
+    border-radius: 10px;
+  }
+
   .esa-field-grid {
     grid-template-columns: 1fr;
+    gap: 20px;
   }
+
   .esa-groups-grid {
     grid-template-columns: 1fr;
   }
+
   .esa-header {
     flex-direction: column;
     align-items: flex-start;
     gap: 12px;
+  }
+
+  .esa-btn-list {
+    width: 100%;
+  }
+
+  .esa-permissions-panel {
+    padding: 18px 12px;
+  }
+
+  .esa-bulk-actions {
+    flex-wrap: wrap;
+  }
+
+  .esa-bulk-actions .esa-btn {
+    flex: 1;
+  }
+
+  .esa-footer-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .esa-btn-update,
+  .esa-btn-cancel {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .esa-count-progress span,
+  .esa-error-banner,
+  .esa-permission-item input[type="checkbox"]::before {
+    transition: none;
+    animation: none;
   }
 }

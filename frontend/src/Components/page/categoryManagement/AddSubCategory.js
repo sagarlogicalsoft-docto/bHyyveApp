@@ -1,29 +1,46 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import {
+  FaCheck,
+  FaChevronDown,
+  FaCloudUploadAlt,
+  FaImage,
+  FaPlus,
+  FaTimes,
+  FaTrash,
+} from "react-icons/fa";
+
+import ServiceBreadcrumbs from "../../common/ServiceBreadcrumbs";
+import ServiceSuccessModal from "../../../Components/common/modal/serviceModal/ServiceSuccessModal";
+import api from "../../../config/api";
+
 import "./addSubCategory.css";
 
-const BASE_URL =
-  process.env.REACT_APP_API_BASE_URL || "http://localhost:5000/api";
+// Change this if your sub category list route is different
+const SUB_CATEGORY_LIST_PATH = "/sub_category_list";
 
+/* =========================================================
+   API / SERVICE LAYER (kept inline, easy to move later)
+   Uses the shared `api` instance, so the base URL comes
+   from config/api.
+========================================================= */
 
-const fetchCategories = async () => {
-  const response = await fetch(`${BASE_URL}/admin/categories`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-
-  const result = await response.json();
-
-  console.log("CATEGORIES API RESPONSE:", result);
-
-  if (!response.ok) {
-    throw new Error(result?.message || "Failed to fetch categories");
+async function request(config) {
+  try {
+    const response = await api.request(config);
+    return response.data;
+  } catch (err) {
+    throw new Error(
+      err?.response?.data?.message ||
+        err?.message ||
+        `Request failed (${err?.response?.status || "network error"})`
+    );
   }
+}
 
-  return result;
-};
+function fetchCategories() {
+  return request({ method: "GET", url: "/admin/categories" });
+}
 
 async function createSubCategory(payload) {
   const formData = new FormData();
@@ -36,36 +53,51 @@ async function createSubCategory(payload) {
     formData.append("file", payload.image);
   }
 
-  const res = await fetch(
-  `${BASE_URL}/admin/sub-categories/add-category`,
-  {
+  const data = await request({
     method: "POST",
-    body: formData,
-  }
-);
+    url: "/admin/sub-categories/add-category",
+    data: formData,
+    headers: { "Content-Type": "multipart/form-data" },
+  });
 
-  const data = await res.json();
-
-  if (!res.ok || !data.success) {
-    throw new Error(data.message || "Failed to add sub category");
+  if (!data?.success) {
+    throw new Error(data?.message || "Failed to add sub category");
   }
 
   return data;
 }
 
+/* =========================================================
+   COMPONENT
+========================================================= */
+
 export default function AddSubCategory() {
   const navigate = useNavigate();
+
+  const fileInputRef = useRef(null);
+  const blobUrlRef = useRef(null);
+  const dropdownRef = useRef(null);
+
   const [categories, setCategories] = useState([]);
   const [category, setCategory] = useState("");
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
   const [imageFile, setImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState("");
   const [fileLabel, setFileLabel] = useState("No file chosen");
+  const [isDragging, setIsDragging] = useState(false);
+
   const [loadingCategories, setLoadingCategories] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+  // success modal: { message } | null
+  const [successInfo, setSuccessInfo] = useState(null);
+
+  /* ---------------------------------------------------------
+     LOAD CATEGORIES
+  --------------------------------------------------------- */
 
   useEffect(() => {
     let isMounted = true;
@@ -98,64 +130,132 @@ export default function AddSubCategory() {
     };
   }, []);
 
-  const handleImageChange = (e) => {
-    const file = e.target.files && e.target.files[0];
+  // free the temporary preview URL when leaving the page
+  useEffect(() => {
+    return () => {
+      if (blobUrlRef.current) URL.revokeObjectURL(blobUrlRef.current);
+    };
+  }, []);
 
-    if (!file) {
-      setFileLabel("No file chosen");
-      setImageFile(null);
-      setImagePreview("");
+  // close the category dropdown when clicking outside of it
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => document.removeEventListener("mousedown", handleOutsideClick);
+  }, []);
+
+  /* ---------------------------------------------------------
+     CATEGORY DROPDOWN
+  --------------------------------------------------------- */
+
+  const dropdownDisabled = loadingCategories || saving;
+
+  const selectedCategory = categories.find(
+    (cat) => String(cat.id) === String(category)
+  );
+
+  const toggleDropdown = () => {
+    if (!dropdownDisabled) setDropdownOpen((open) => !open);
+  };
+
+  const chooseCategory = (value) => {
+    setCategory(String(value));
+    setDropdownOpen(false);
+  };
+
+  /* ---------------------------------------------------------
+     IMAGE HANDLERS
+  --------------------------------------------------------- */
+
+  const clearImage = useCallback(() => {
+    if (blobUrlRef.current) {
+      URL.revokeObjectURL(blobUrlRef.current);
+      blobUrlRef.current = null;
+    }
+
+    setImageFile(null);
+    setImagePreview("");
+    setFileLabel("No file chosen");
+  }, []);
+
+  const selectImageFile = useCallback((file) => {
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      setError("Please choose a valid image file.");
       return;
     }
 
+    setError("");
+
+    if (blobUrlRef.current) URL.revokeObjectURL(blobUrlRef.current);
+    blobUrlRef.current = URL.createObjectURL(file);
+
     setImageFile(file);
     setFileLabel(file.name);
-    setImagePreview(URL.createObjectURL(file));
+    setImagePreview(blobUrlRef.current);
+  }, []);
+
+  const handleImageChange = (event) => {
+    selectImageFile(event.target.files?.[0]);
+    // allow choosing the same file again
+    event.target.value = "";
   };
 
-  // -------------------------------------------------------------------------
-  // Reset Form
-  // -------------------------------------------------------------------------
+  const handleDrop = (event) => {
+    event.preventDefault();
+    setIsDragging(false);
+
+    if (saving) return;
+    selectImageFile(event.dataTransfer.files?.[0]);
+  };
+
+  const openFilePicker = () => {
+    if (!saving) fileInputRef.current?.click();
+  };
+
+  /* ---------------------------------------------------------
+     RESET / CANCEL
+  --------------------------------------------------------- */
+
   const resetForm = () => {
     setCategory("");
     setName("");
     setDescription("");
-    setImageFile(null);
-    setImagePreview("");
-    setFileLabel("No file chosen");
+    setDropdownOpen(false);
+    clearImage();
   };
 
-  // -------------------------------------------------------------------------
-  // Cancel
-  // -------------------------------------------------------------------------
   const handleCancel = () => {
     navigate(-1);
   };
 
-  // -------------------------------------------------------------------------
-  // Submit
-  // -------------------------------------------------------------------------
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  /* ---------------------------------------------------------
+     SUBMIT
+  --------------------------------------------------------- */
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
     setError("");
-    setSuccess("");
 
-    // Validate category
     if (!category) {
-      setError("Please Select Category");
+      setError("Please select a category.");
       return;
     }
 
-    // Validate name
     if (!name.trim()) {
-      setError("Please Enter Sub Category Name");
+      setError("Please enter the sub category name.");
       return;
     }
 
-    // Validate image
     if (!imageFile) {
-      setError("Please Select File");
+      setError("Please select an image.");
       return;
     }
 
@@ -169,153 +269,270 @@ export default function AddSubCategory() {
         image: imageFile,
       });
 
-      setSuccess(response.message || "Sub category Added Successfully");
+      setSuccessInfo({
+        message:
+          response.message || "The sub category has been added successfully.",
+      });
 
       resetForm();
     } catch (err) {
+      console.error("Add sub category error:", err);
       setError(err.message || "Failed to add sub category");
     } finally {
       setSaving(false);
     }
   };
 
+  
+const closeSuccess = useCallback(() => {
+  setSuccessInfo(null);
+  navigate(SUB_CATEGORY_LIST_PATH);
+}, [navigate]);
+
+
+  /* ---------------------------------------------------------
+     RENDER
+  --------------------------------------------------------- */
+
   return (
-    <div className="asc-page">
-      <h1 className="asc-page-title">Admin Dashboard</h1>
-
-      <div className="asc-breadcrumb">
-        <span className="asc-crumb asc-crumb-muted">Home</span>
-
-        <span className="asc-crumb-sep">&gt;</span>
-
-        <span className="asc-crumb">Admin</span>
-
-        <span className="asc-crumb-sep">&gt;</span>
-
-        <span className="asc-crumb">Admin</span>
+    <div className="adsc-page">
+      {/* PAGE HEADER */}
+      <div className="adsc-page-header">
+        <h2 className="adsc-page-title">Add Sub Category</h2>
+        <ServiceBreadcrumbs
+          items={[
+            { label: "Sub Category List", to: SUB_CATEGORY_LIST_PATH },
+            { label: "Add Sub Category" },
+          ]}
+        />
       </div>
 
-      <div className="asc-card">
-        <h2 className="asc-card-title">Add New Sub Category</h2>
+      {/* MAIN CARD */}
+      <form className="adsc-card" onSubmit={handleSubmit}>
+        <div className="adsc-card-header">
+          <h3>New Sub Category</h3>
+          <p>Choose a category and fill in the details to add a sub category.</p>
+        </div>
 
-        <form className="asc-form" onSubmit={handleSubmit}>
-          <div className="asc-form-body">
-            {/* Error */}
-            {error && <div className="asc-error">{error}</div>}
+        <div className="adsc-card-body">
+          {error && (
+            <div className="adsc-alert" role="alert">
+              <span>{error}</span>
+              <button
+                type="button"
+                className="adsc-alert-close"
+                aria-label="Dismiss"
+                onClick={() => setError("")}
+              >
+                <FaTimes />
+              </button>
+            </div>
+          )}
 
-            {/* Success */}
-            {success && <div className="asc-success">{success}</div>}
-
-            <div className="asc-row">
-              {/* Sub Category Name */}
-              <div className="asc-field">
-                <label className="asc-label" htmlFor="asc-name">
-                  Sub Category Name
+          <div className="adsc-layout">
+            {/* LEFT: DETAILS */}
+            <div className="adsc-details">
+              {/* CATEGORY DROPDOWN */}
+              <div className="adsc-field">
+                <label id="adsc-category-label">
+                  Category <span className="adsc-required">*</span>
                 </label>
 
+                <div className="adsc-dropdown" ref={dropdownRef}>
+                  <button
+                    type="button"
+                    className={`adsc-dropdown-box ${
+                      dropdownOpen ? "adsc-dropdown-box-open" : ""
+                    }`}
+                    onClick={toggleDropdown}
+                    onKeyDown={(event) => {
+                      if (event.key === "Escape") setDropdownOpen(false);
+                    }}
+                    disabled={dropdownDisabled}
+                    aria-haspopup="listbox"
+                    aria-expanded={dropdownOpen}
+                    aria-labelledby="adsc-category-label"
+                  >
+                    <span
+                      className={
+                        selectedCategory ? "" : "adsc-dropdown-placeholder"
+                      }
+                    >
+                      {selectedCategory
+                        ? selectedCategory.category_name
+                        : loadingCategories
+                        ? "Loading categories..."
+                        : ".. Select Category Name .."}
+                    </span>
+                    <FaChevronDown className="adsc-dropdown-arrow" />
+                  </button>
+
+                  {dropdownOpen && (
+                    <ul
+                      className="adsc-dropdown-list"
+                      role="listbox"
+                      aria-labelledby="adsc-category-label"
+                    >
+                      {categories.length === 0 && (
+                        <li className="adsc-dropdown-empty">
+                          No categories found
+                        </li>
+                      )}
+
+                      {categories.map((cat) => {
+                        const isSelected = String(cat.id) === String(category);
+
+                        return (
+                          <li
+                            key={cat.id}
+                            role="option"
+                            aria-selected={isSelected}
+                            className={`adsc-dropdown-item ${
+                              isSelected ? "adsc-dropdown-item-active" : ""
+                            }`}
+                            onClick={() => chooseCategory(cat.id)}
+                          >
+                            <span>{cat.category_name}</span>
+                            {isSelected && <FaCheck />}
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  )}
+                </div>
+              </div>
+
+              <div className="adsc-field">
+                <label htmlFor="adsc-name">
+                  Sub Category Name <span className="adsc-required">*</span>
+                </label>
                 <input
-                  id="asc-name"
+                  id="adsc-name"
                   type="text"
-                  className="asc-input"
-                  placeholder="Enter Sub category name"
+                  placeholder="Enter sub category name"
                   value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  onChange={(event) => setName(event.target.value)}
+                  disabled={saving}
                 />
               </div>
 
-              {/* Category Dropdown */}
-              <div className="asc-field">
-                <label className="asc-label" htmlFor="asc-category">
-                  .. Select Category Name ..
-                </label>
-
-                <select
-                  id="asc-category"
-                  className="asc-select"
-                  value={category}
-                  onChange={(e) => setCategory(e.target.value)}
-                  disabled={loadingCategories}
-                >
-                  <option value="">.. Select Category Name ..</option>
-
-                  {categories.map((cat) => (
-                    <option key={cat.id} value={cat.id}>
-                      {cat.category_name}
-                    </option>
-                  ))}
-                </select>
+              <div className="adsc-field">
+                <label htmlFor="adsc-description">Sort Description</label>
+                <textarea
+                  id="adsc-description"
+                  placeholder="Enter sort description"
+                  value={description}
+                  onChange={(event) => setDescription(event.target.value)}
+                  disabled={saving}
+                  rows={4}
+                />
               </div>
             </div>
 
-            {/* Description */}
-            <div className="asc-field asc-field-full">
-              <label className="asc-label" htmlFor="asc-description">
-                Sort Description
-              </label>
+            {/* RIGHT: IMAGE */}
+            <div className="adsc-image-panel">
+              <span className="adsc-image-label">
+                Sub Category Image <span className="adsc-required">*</span>
+              </span>
 
-              <textarea
-                id="asc-description"
-                className="asc-textarea"
-                placeholder="Enter sort description"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
+              <div className="adsc-preview">
+                {imagePreview ? (
+                  <>
+                    <img src={imagePreview} alt="Sub category preview" />
+                    <span className="adsc-preview-badge">Selected image</span>
+                  </>
+                ) : (
+                  <div className="adsc-preview-empty">
+                    <FaImage />
+                    <span>Image preview will appear here</span>
+                  </div>
+                )}
+              </div>
+
+              <div
+                className={`adsc-dropzone ${
+                  isDragging ? "adsc-dropzone-active" : ""
+                }`}
+                role="button"
+                tabIndex={0}
+                onClick={openFilePicker}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    openFilePicker();
+                  }
+                }}
+                onDragOver={(event) => {
+                  event.preventDefault();
+                  setIsDragging(true);
+                }}
+                onDragLeave={() => setIsDragging(false)}
+                onDrop={handleDrop}
+              >
+                <FaCloudUploadAlt className="adsc-dropzone-icon" />
+                <strong>Click to choose</strong>
+                <span>or drag and drop an image here</span>
+              </div>
+
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+                className="adsc-hidden-file"
               />
-            </div>
 
-            {/* Image */}
-            <div className="asc-row asc-row-image">
-              <div className="asc-field">
-                <label className="asc-label" htmlFor="asc-image">
-                  Sub Category Image
-                </label>
+              <div className="adsc-file-row">
+                <span className="adsc-file-name" title={fileLabel}>
+                  {fileLabel}
+                </span>
 
-                <div className="asc-file-row">
-                  <label htmlFor="asc-image" className="asc-file-btn">
-                    Choose File
-                  </label>
-
-                  <span className="asc-file-name">{fileLabel}</span>
-
-                  <input
-                    id="asc-image"
-                    type="file"
-                    accept="image/*"
-                    className="asc-file-input"
-                    onChange={handleImageChange}
-                  />
-                </div>
+                {imageFile && (
+                  <button
+                    type="button"
+                    className="adsc-remove-btn"
+                    onClick={clearImage}
+                    disabled={saving}
+                  >
+                    <FaTrash />
+                    Remove
+                  </button>
+                )}
               </div>
-
-              {/* Image Preview */}
-              {imagePreview && (
-                <div className="asc-field">
-                  <img
-                    src={imagePreview}
-                    alt="Sub category preview"
-                    className="asc-image-preview"
-                  />
-                </div>
-              )}
             </div>
           </div>
+        </div>
 
-          {/* Buttons */}
-          <div className="asc-form-footer">
-            <button
-              type="button"
-              className="asc-cancel-btn"
-              onClick={handleCancel}
-              disabled={saving}
-            >
-              Cancel
-            </button>
+        {/* FOOTER */}
+        <div className="adsc-card-footer">
+          <button
+            type="button"
+            className="adsc-cancel-btn"
+            onClick={handleCancel}
+            disabled={saving}
+          >
+            <FaTimes />
+            Cancel
+          </button>
 
-            <button type="submit" className="asc-add-btn" disabled={saving}>
-              {saving ? "Adding..." : "Add"}
-            </button>
-          </div>
-        </form>
-      </div>
+          <button type="submit" className="adsc-add-btn" disabled={saving}>
+            {saving ? (
+              <span className="adsc-btn-spinner" aria-hidden="true" />
+            ) : (
+              <FaPlus />
+            )}
+            {saving ? "Adding..." : "Add Sub Category"}
+          </button>
+        </div>
+      </form>
+
+      {/* SUCCESS MODAL */}
+      <ServiceSuccessModal
+        isOpen={Boolean(successInfo)}
+        title="Sub Category Added"
+        message={successInfo?.message}
+        onClose={closeSuccess}
+      />
     </div>
   );
 }

@@ -1,137 +1,156 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, {
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+import { useNavigate } from "react-router-dom";
 import {
   FaPlus,
-  FaEdit,
-  FaTrash,
-  FaEllipsisH,
   FaCopy,
   FaFileExcel,
   FaFileCsv,
   FaFilePdf,
+  FaEye,
+  FaUserTie,
 } from "react-icons/fa";
-import { IoIosArrowForward } from "react-icons/io";
-import { getImage } from "../../utils/images";
-import { FaEye } from "react-icons/fa";
+import toast, { Toaster } from "react-hot-toast";
 
 import DataTable from "../../common/DataTable";
-import "./viewExpert.css";
-import useOutsideClick from "../../../hooks/UseOutsideClick";
+import ServiceBreadcrumbs from "../../../Components/common/ServiceBreadcrumbs";
+import { getImage } from "../../utils/images";
 import api from "../../../config/api";
+import "./viewExpert.css";
+
+/* =========================================================
+   CONFIG
+========================================================= */
+
+const ROUTES = {
+  addExpert: "/add_new_expert",
+  expertDetails: (id) => `/expert_details/${id}`,
+};
+
+/* =========================================================
+   API SERVICE LAYER (swap endpoints here only)
+========================================================= */
+
+const expertService = {
+  getAll: () => api.get("/admin/experts"),
+};
+
+/* =========================================================
+   EXPERIENCE CELL (clamped to 4 lines, expands on click)
+   Kept as a component because it needs its own state + measuring.
+========================================================= */
+
+const ExperienceCell = ({ value }) => {
+  const textRef = useRef(null);
+  const [expanded, setExpanded] = useState(false);
+  const [overflowing, setOverflowing] = useState(false);
+
+  useLayoutEffect(() => {
+    const measure = () => {
+      const element = textRef.current;
+
+      // only measure while clamped; expanded text always overflows the clamp
+      if (!element || expanded) return;
+
+      setOverflowing(element.scrollHeight > element.clientHeight + 1);
+    };
+
+    measure();
+    window.addEventListener("resize", measure);
+
+    return () => window.removeEventListener("resize", measure);
+  }, [value, expanded]);
+
+  if (!value) return "-";
+
+  return (
+    <div className="expert-experience">
+      <p
+        ref={textRef}
+        className={`expert-experience-text ${expanded ? "is-expanded" : ""}`}
+      >
+        {value}
+      </p>
+
+      {(overflowing || expanded) && (
+        <button
+          type="button"
+          className="expert-experience-toggle"
+          aria-expanded={expanded}
+          onClick={() => setExpanded((previous) => !previous)}
+        >
+          {expanded ? "View less" : "View more"}
+        </button>
+      )}
+    </div>
+  );
+};
+
+/* =========================================================
+   COMPONENT
+========================================================= */
 
 const ViewExpert = () => {
   const navigate = useNavigate();
 
   const [experts, setExperts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [openActionId, setOpenActionId] = useState(null);
-  const [statusExpert, setStatusExpert] = useState(null);
 
-  // =========================================================
-  // CLOSE ACTION DROPDOWN WHEN CLICKING OUTSIDE
-  // =========================================================
-
-  useOutsideClick(".expert-action-menu", () => {
-    setOpenActionId(null);
-  });
-
-  // =========================================================
-  // GET EXPERTS
-  // =========================================================
-
-  const fetchExperts = async () => {
-    try {
-      setLoading(true);
-
-      const response = await api.get("/expert/experts");
-
-      console.log("Experts API Response:", response.data);
-
-      if (response.data.success) {
-        setExperts(response.data.data || []);
-      } else {
-        setExperts([]);
-
-        console.error(response.data.message || "Failed to fetch experts");
-      }
-    } catch (error) {
-      console.error("Get experts error:", error);
-
-      setExperts([]);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // =========================================================
-  // FETCH EXPERTS ON PAGE LOAD
-  // =========================================================
+  /* ---------- fetch experts ---------- */
 
   useEffect(() => {
+    const fetchExperts = async () => {
+      try {
+        setLoading(true);
+
+        const response = await expertService.getAll();
+
+        if (response.data.success) {
+          setExperts(response.data.data || []);
+        } else {
+          setExperts([]);
+          toast.error(response.data.message || "Failed to fetch experts");
+        }
+      } catch (error) {
+        setExperts([]);
+        toast.error(error.response?.data?.message || "Failed to fetch experts");
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchExperts();
   }, []);
 
-  // =========================================================
-  // DELETE EXPERT
-  // =========================================================
+  /* ---------- map API data to table data ---------- */
 
-  const handleDelete = (id) => {
-    const confirmed = window.confirm(
-      "Are you sure you want to delete this Expert?",
-    );
+  const tableData = useMemo(
+    () =>
+      experts.map((item) => ({
+        ...item,
+        photo: item.image || "",
+        vendorName: item.vendor_name || "",
+        categoryName: item.category_name || "",
+        subCategoryName: item.sub_category_name || "",
+        name: item.name || "",
+        experience: item.experience || "",
+        // API status: 1 = Active, 0 = Inactive
+        currentStatus: Number(item.status) === 1 ? "Active" : "Inactive",
+      })),
+    [experts],
+  );
 
-    if (!confirmed) return;
+  /* =========================================================
+     EXPORT
+  ========================================================= */
 
-    console.log("Delete Expert:", id);
-
-    // Delete API will be integrated later
-  };
-
-  // =========================================================
-  // EDIT EXPERT
-  // =========================================================
-
-  const handleEdit = (id) => {
-    navigate(`/expert/edit/${id}`);
-  };
-
-  // =========================================================
-  // MAP API DATA TO TABLE DATA
-  // =========================================================
-
-  const tableData = useMemo(() => {
-    return experts.map((item) => ({
-      ...item,
-
-      // API image field
-      photo: item.image || "",
-
-      // API vendor field
-      vendorName: item.vendor_name || "",
-
-      // API category field
-      categoryName: item.category_name || "",
-
-      // API sub-category field
-      subCategoryName: item.sub_category_name || "",
-
-      // Expert name
-      name: item.name || "",
-
-      // Experience
-      experience: item.experience || "",
-
-      // API status: 1 = Active, 0 = Inactive
-      currentStatus: Number(item.status) === 1 ? "Active" : "Inactive",
-    }));
-  }, [experts]);
-
-  // =========================================================
-  // EXPORT DATA
-  // =========================================================
-
-  const getExportData = () => {
-    return tableData.map((item, index) => ({
+  const getExportData = () =>
+    tableData.map((item, index) => ({
       No: index + 1,
       Photo: item.photo,
       "Vendor Name": item.vendorName,
@@ -141,90 +160,58 @@ const ViewExpert = () => {
       Experience: item.experience,
       "Current Status": item.currentStatus,
     }));
-  };
-
-  // =========================================================
-  // COPY
-  // =========================================================
 
   const handleCopy = async () => {
     try {
-      const data = getExportData();
-
-      const text = data
-        .map(
-          (item) =>
-            `${item.No}\t${item.Photo}\t${item["Vendor Name"]}\t${item["Category Name"]}\t${item["Sub Category Name"]}\t${item.Name}\t${item.Experience}\t${item["Current Status"]}`,
-        )
+      const text = getExportData()
+        .map((item) => Object.values(item).join("\t"))
         .join("\n");
 
       await navigator.clipboard.writeText(text);
 
-      alert("Expert data copied!");
+      toast.success("Expert data copied");
     } catch (error) {
-      console.error("Copy expert data error:", error);
-      alert("Failed to copy expert data.");
+      toast.error("Failed to copy expert data");
     }
   };
-
-  // =========================================================
-  // EXCEL
-  // =========================================================
 
   const handleExcel = async () => {
     try {
       const XLSX = await import("xlsx");
 
       const worksheet = XLSX.utils.json_to_sheet(getExportData());
-
       const workbook = XLSX.utils.book_new();
 
       XLSX.utils.book_append_sheet(workbook, worksheet, "Expert List");
-
       XLSX.writeFile(workbook, "expert-list.xlsx");
     } catch (error) {
-      console.error("Excel export error:", error);
+      toast.error("Excel export failed");
     }
   };
-
-  // =========================================================
-  // CSV
-  // =========================================================
 
   const handleCSV = async () => {
     try {
       const XLSX = await import("xlsx");
 
       const worksheet = XLSX.utils.json_to_sheet(getExportData());
-
       const csv = XLSX.utils.sheet_to_csv(worksheet);
 
-      const blob = new Blob([csv], {
-        type: "text/csv;charset=utf-8;",
-      });
-
+      const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
       const url = URL.createObjectURL(blob);
-
       const link = document.createElement("a");
 
       link.href = url;
       link.download = "expert-list.csv";
 
       document.body.appendChild(link);
-
       link.click();
-
       document.body.removeChild(link);
 
       URL.revokeObjectURL(url);
     } catch (error) {
-      console.error("CSV export error:", error);
+      toast.error("CSV export failed");
     }
   };
-
-  // =========================================================
-  // PDF
-  // =========================================================
 
   const handlePDF = async () => {
     try {
@@ -237,7 +224,6 @@ const ViewExpert = () => {
 
       autoTable(doc, {
         startY: 22,
-
         head: [
           [
             "No.",
@@ -249,7 +235,6 @@ const ViewExpert = () => {
             "Current Status",
           ],
         ],
-
         body: getExportData().map((item) => [
           item.No,
           item["Vendor Name"],
@@ -263,264 +248,188 @@ const ViewExpert = () => {
 
       doc.save("expert-list.pdf");
     } catch (error) {
-      console.error("PDF export error:", error);
+      toast.error("PDF export failed");
     }
   };
 
-  // =========================================================
-  // TABLE COLUMNS
-  // =========================================================
+  /* =========================================================
+     TABLE COLUMNS
+  ========================================================= */
 
   const columns = useMemo(
     () => [
-      // =====================================================
-      // PHOTO
-      // =====================================================
-
       {
         key: "photo",
         label: "Photo",
-        width: "110px",
+        width: "90px",
         sortable: false,
-
         render: (value, row) => {
           const imageSrc = getImage(value);
 
-          return (
-            <div className="expert-photo-wrapper">
-              {imageSrc ? (
-                <img
-                  src={imageSrc}
-                  alt={row.name || "Expert"}
-                  className="expert-photo"
-                />
-              ) : (
-                <div className="expert-photo">No Image</div>
-              )}
+          return imageSrc ? (
+            <img
+              src={imageSrc}
+              alt={row.name || "Expert"}
+              className="expert-photo"
+            />
+          ) : (
+            <div className="expert-photo expert-photo-empty">
+              <FaUserTie />
             </div>
           );
         },
       },
-
-      // =====================================================
-      // VENDOR NAME
-      // =====================================================
-
+      {
+        key: "name",
+        label: "Name",
+        width: "170px",
+        sortable: true,
+        render: (value) => <span className="expert-name">{value || "-"}</span>,
+      },
       {
         key: "vendorName",
         label: "Vendor Name",
         width: "150px",
         sortable: true,
       },
-
-      // =====================================================
-      // CATEGORY
-      // =====================================================
-
       {
         key: "categoryName",
         label: "Category Name",
         width: "150px",
         sortable: true,
       },
-
-      // =====================================================
-      // SUB CATEGORY
-      // =====================================================
-
       {
         key: "subCategoryName",
         label: "Sub Category Name",
-        width: "150px",
+        width: "160px",
         sortable: true,
       },
-
-      // =====================================================
-      // NAME
-      // =====================================================
-
-      {
-        key: "name",
-        label: "Name",
-        width: "100px",
-        sortable: true,
-      },
-
-      // =====================================================
-      // EXPERIENCE
-      // =====================================================
-
       {
         key: "experience",
         label: "Experience",
-        width: "250px",
+        width: "260px",
         sortable: true,
-
-        render: (value) => (
-          <div className="expert-experience">{value || "-"}</div>
-        ),
+        render: (value) => <ExperienceCell value={value} />,
       },
-
-      // =====================================================
-      // CURRENT STATUS
-      // =====================================================
-
       {
         key: "currentStatus",
         label: "Current Status",
-        width: "100px",
+        width: "130px",
         sortable: true,
-
-        render: (value, row) => (
-          <button
-            type="button"
+        render: (value) => (
+          <span
             className={`expert-status ${
               value === "Active"
                 ? "expert-status-active"
                 : "expert-status-inactive"
             }`}
-            onClick={() => setStatusExpert(row)}
           >
             {value}
-          </button>
+          </span>
         ),
       },
-
-      // =====================================================
-      // ACTION
-      // =====================================================
-
       {
         key: "actions",
         label: "Actions",
+        width: "140px",
         sortable: false,
-        width: "120px",
-
         render: (value, row) => (
           <button
             type="button"
             className="expert-view-btn"
-            onClick={() => navigate(`/expert_details/${row.id}`)}
+            onClick={() => navigate(ROUTES.expertDetails(row.id))}
           >
             <FaEye />
-            View Details
+            <span>View Details</span>
           </button>
         ),
       },
     ],
-    [openActionId],
+    [navigate],
   );
 
-  // =========================================================
-  // PAGE
-  // =========================================================
+  /* =========================================================
+     RENDER
+  ========================================================= */
 
   return (
     <div className="expert-page">
-      {/* =====================================================
-          PAGE HEADER
-      ===================================================== */}
+      <Toaster position="top-right" />
 
-      <div className="expert-page-header">
-        <div>
-          <h2 className="expert-page-title">Expert Management</h2>
+      {/* ---------- PAGE HEADER ---------- */}
 
-          <div className="expert-breadcrumb">
-            <Link to="/home">Home</Link>
+      <header className="expert-page-header">
+        <h2 className="expert-page-title">Expert Management</h2>
 
-            <span>
-              <IoIosArrowForward />
-            </span>
+        <ServiceBreadcrumbs
+          items={[{ label: "Expert Management" }, { label: "View Expert" }]}
+        />
+      </header>
 
-            <span className="expert-breadcrumb-active">View Expert</span>
-          </div>
-        </div>
-      </div>
-
-      {/* =====================================================
-          CONTENT CARD
-      ===================================================== */}
+      {/* ---------- CONTENT CARD ---------- */}
 
       <div className="expert-card">
         <div className="expert-card-header">
-          <h3>Expert Management</h3>
+          <div className="expert-card-title">
+            <h3>All experts</h3>
+            {!loading && <span className="expert-count">{tableData.length}</span>}
+          </div>
 
           <div className="expert-header-actions">
-            {/* =================================================
-                EXPORT BUTTONS
-            ================================================= */}
-
             <div className="expert-export-buttons">
               <button
                 type="button"
                 onClick={handleCopy}
-                title="Copy"
-                disabled={loading}
+                disabled={loading || !tableData.length}
               >
                 <FaCopy />
-                Copy
+                <span>Copy</span>
               </button>
 
               <button
                 type="button"
                 onClick={handleExcel}
-                title="Export Excel"
-                disabled={loading}
+                disabled={loading || !tableData.length}
               >
                 <FaFileExcel />
-                Excel
+                <span>Excel</span>
               </button>
 
               <button
                 type="button"
                 onClick={handleCSV}
-                title="Export CSV"
-                disabled={loading}
+                disabled={loading || !tableData.length}
               >
                 <FaFileCsv />
-                CSV
+                <span>CSV</span>
               </button>
 
               <button
                 type="button"
                 onClick={handlePDF}
-                title="Export PDF"
-                disabled={loading}
+                disabled={loading || !tableData.length}
               >
                 <FaFilePdf />
-                PDF
+                <span>PDF</span>
               </button>
             </div>
-
-            {/* =================================================
-                ADD EXPERT
-            ================================================= */}
 
             <button
               type="button"
               className="expert-add-btn"
-              onClick={() => navigate("/add_new_expert")}
+              onClick={() => navigate(ROUTES.addExpert)}
             >
               <FaPlus />
-
               <span>Add Expert</span>
             </button>
           </div>
         </div>
 
-        {/* =====================================================
-            DATATABLE
-        ===================================================== */}
-
         <div className="expert-table-wrapper">
           {loading ? (
-            <div
-              style={{
-                padding: "20px",
-                textAlign: "center",
-              }}
-            >
-              Loading experts...
+            <div className="expert-loading">
+              <i className="expert-spinner" aria-hidden="true" />
+              <span>Loading experts…</span>
             </div>
           ) : (
             <DataTable
@@ -534,55 +443,6 @@ const ViewExpert = () => {
           )}
         </div>
       </div>
-
-      {/* =====================================================
-          STATUS MODAL
-      ===================================================== */}
-
-      {statusExpert && (
-        <div className="expert-status-modal-overlay">
-          <div className="expert-status-modal">
-            <div className="expert-status-modal-icon">!</div>
-
-            <h3>Are you sure?</h3>
-
-            <p>
-              You want to{" "}
-              {statusExpert.currentStatus === "Active"
-                ? "deactivate"
-                : "activate"}{" "}
-              this expert!
-            </p>
-
-            <div className="expert-status-modal-actions">
-              <button
-                type="button"
-                className="expert-status-confirm-btn"
-                onClick={() => {
-                  console.log("Change Expert Status:", statusExpert.id);
-
-                  // Status API will be integrated later
-
-                  setStatusExpert(null);
-                }}
-              >
-                Yes,{" "}
-                {statusExpert.currentStatus === "Active"
-                  ? "deactivate"
-                  : "activate"}{" "}
-                it!
-              </button>
-              <button
-                type="button"
-                className="expert-status-cancel-btn"
-                onClick={() => setStatusExpert(null)}
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

@@ -1,27 +1,102 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { IoIosArrowForward } from "react-icons/io";
-import { FaLock, FaFolder } from "react-icons/fa";
+import React, { useCallback, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { FaLock, FaFolder, FaCheck, FaTimes } from "react-icons/fa";
 import { toast, Toaster } from "react-hot-toast";
 
 import api from "../../../config/api";
+import ServiceBreadcrumbs from "../../common/ServiceBreadcrumbs";
+import ServiceSuccessModal from "../../common/modal/serviceModal/ServiceSuccessModal";
 
 import "./addSubAdmin.css";
+
+/* =========================================
+   API SERVICE FUNCTIONS
+   (kept inline; move to a service file later
+   by cutting everything in this block)
+========================================= */
+
+const saveSubAdminRequest = async (payload) => {
+  const response = await api.post("/admin/save_subadmin", payload);
+
+  return response.data; // { success, message }
+};
+
+/* =========================================
+   STATIC DATA
+========================================= */
+
+const ROLES = [
+  "Marketing Manager",
+  "Finance Associate",
+  "Customer",
+  "Employee",
+  "Vendor",
+];
+
+const PERMISSION_GROUPS = [
+  {
+    title: "Core Management",
+    permissions: ["Dashboard", "Sub Admin"],
+  },
+  {
+    title: "User Management",
+    permissions: ["Vendor Management", "User Management", "Expert Management"],
+  },
+  {
+    title: "Content Management",
+    permissions: [
+      "Reviews",
+      "Category Management",
+      "Vendor Images Slider Images",
+      "Home Sliders",
+    ],
+  },
+  {
+    title: "Business Operations",
+    permissions: ["Booking", "Services", "Estimates", "Order Notification"],
+  },
+  {
+    title: "System Settings",
+    permissions: ["Settings", "Configuration"],
+  },
+  {
+    title: "Marketing & Support",
+    permissions: ["Offers", "Support"],
+  },
+];
+
+const ALL_PERMISSIONS = PERMISSION_GROUPS.flatMap((group) => group.permissions);
+
+const TOTAL_PERMISSIONS = ALL_PERMISSIONS.length;
+
+const EMPTY_FORM = {
+  role: "",
+  name: "",
+  email: "",
+  password: "",
+  employeeSince: "",
+};
+
+/* =========================================
+   COMPONENT
+========================================= */
 
 const AddSubAdmin = () => {
   const navigate = useNavigate();
 
-  const [formData, setFormData] = useState({
-    role: "",
-    name: "",
-    email: "",
-    password: "",
-    employeeSince: "",
-  });
+  const [formData, setFormData] = useState(EMPTY_FORM);
 
   const [selectedPermissions, setSelectedPermissions] = useState([]);
 
   const [loading, setLoading] = useState(false);
+
+  const [showSuccess, setShowSuccess] = useState(false);
+
+  const [successMessage, setSuccessMessage] = useState("");
+
+  const selectedPercent = Math.round(
+    (selectedPermissions.length / TOTAL_PERMISSIONS) * 100,
+  );
 
   // =========================================
   // HANDLE INPUT CHANGE
@@ -55,32 +130,7 @@ const AddSubAdmin = () => {
   // =========================================
 
   const handleSelectAll = () => {
-    const allPermissions = [
-      "Dashboard",
-      "Sub Admin",
-
-      "Vendor Management",
-      "User Management",
-      "Expert Management",
-
-      "Reviews",
-      "Category Management",
-      "Vendor Images Slider Images",
-      "Home Sliders",
-
-      "Booking",
-      "Services",
-      "Estimates",
-      "Order Notification",
-
-      "Settings",
-      "Configuration",
-
-      "Offers",
-      "Support",
-    ];
-
-    setSelectedPermissions(allPermissions);
+    setSelectedPermissions(ALL_PERMISSIONS);
   };
 
   // =========================================
@@ -88,16 +138,21 @@ const AddSubAdmin = () => {
   // =========================================
 
   const handleReset = () => {
-    setFormData({
-      role: "",
-      name: "",
-      email: "",
-      password: "",
-      employeeSince: "",
-    });
+    setFormData(EMPTY_FORM);
 
     setSelectedPermissions([]);
   };
+
+  // =========================================
+  // SUCCESS MODAL CLOSE -> GO TO LIST
+  // (useCallback keeps the auto-close timer from restarting on re-render)
+  // =========================================
+
+  const handleSuccessClose = useCallback(() => {
+    setShowSuccess(false);
+
+    navigate("/subadmin_list");
+  }, [navigate]);
 
   // =========================================
   // SUBMIT
@@ -142,7 +197,7 @@ const AddSubAdmin = () => {
       // API REQUEST
       // -----------------------------------------
 
-      const response = await api.post("/admin/save_subadmin", {
+      const result = await saveSubAdminRequest({
         admin_name: formData.name.trim(),
         admin_email: formData.email.trim(),
         admin_password: formData.password,
@@ -155,16 +210,14 @@ const AddSubAdmin = () => {
       // SUCCESS
       // -----------------------------------------
 
-      if (response.data.success) {
-        toast.success(response.data.message || "Sub Admin added successfully.");
+      if (result.success) {
+        setSuccessMessage(result.message || "Sub Admin added successfully.");
 
         handleReset();
 
-        setTimeout(() => {
-          navigate("/subadmin_list");
-        }, 1000);
+        setShowSuccess(true);
       } else {
-        toast.error(response.data.message || "Failed to add Sub Admin.");
+        toast.error(result.message || "Failed to add Sub Admin.");
       }
     } catch (error) {
       console.error("Add Sub Admin error:", error);
@@ -186,21 +239,12 @@ const AddSubAdmin = () => {
       <div className="add-subadmin-page-header">
         <h2>Add Subadmin</h2>
 
-        <div className="breadcrumb-wrapper">
-          <Link to="/home">Home</Link>
-
-          <span className="breadcrumb-active">
-            <IoIosArrowForward />
-          </span>
-
-          <Link to="/subadmin_list">All Subadmin</Link>
-
-          <span className="breadcrumb-active">
-            <IoIosArrowForward />
-          </span>
-
-          <span className="breadcrumb-current">Add New Admin</span>
-        </div>
+        <ServiceBreadcrumbs
+          items={[
+            { label: "Sub Admin List", to: "/subadmin_list" },
+            { label: "Add New Admin" },
+          ]}
+        />
       </div>
 
       {/* =========================================
@@ -209,110 +253,119 @@ const AddSubAdmin = () => {
 
       <div className="add-subadmin-card">
         <div className="add-subadmin-card-header">
-          <h3>Add New Subadmin</h3>
+          <div>
+            <h3>Add New Subadmin</h3>
+
+            
+          </div>
 
           <button type="button" onClick={() => navigate("/subadmin_list")}>
-            List Sub Admin
+            Sub Admin List
           </button>
         </div>
 
         <form onSubmit={handleSubmit}>
           {/* =========================================
-              ROLE
+              BASIC FIELDS
           ========================================= */}
 
-          <div className="form-group">
-            <label>
-              Roles <span>*</span>
-            </label>
+          <div className="form-grid">
+            {/* ROLE */}
 
-            <select
-              name="role"
-              value={formData.role}
-              onChange={handleChange}
-              required
-            >
-              <option value="">.. Select Role ..</option>
-              <option value="Marketing Manager">Marketing Manager</option>
-              <option value="Finance Associate">Finance Associate</option>
-              <option value="Customer">Customer</option>
-              <option value="Employee">Employee</option>
-              <option value="Vendor">Vendor</option>
-            </select>
-          </div>
+            <div className="form-group">
+              <label htmlFor="asa-role">
+                Roles <span>*</span>
+              </label>
 
-          {/* =========================================
-              NAME
-          ========================================= */}
+              <select
+                id="asa-role"
+                name="role"
+                value={formData.role}
+                onChange={handleChange}
+                required
+              >
+                <option value="">.. Select Role ..</option>
 
-          <div className="form-group">
-            <label>
-              Sub Admin Name <span>*</span>
-            </label>
+                {ROLES.map((role) => (
+                  <option key={role} value={role}>
+                    {role}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-            <input
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              placeholder="Enter Name"
-              required
-            />
-          </div>
+            {/* NAME */}
 
-          {/* =========================================
-              EMAIL
-          ========================================= */}
+            <div className="form-group">
+              <label htmlFor="asa-name">
+                Sub Admin Name <span>*</span>
+              </label>
 
-          <div className="form-group">
-            <label>
-              Email <span>*</span>
-            </label>
+              <input
+                id="asa-name"
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                placeholder="Enter Name"
+                required
+              />
+            </div>
 
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="Enter Email"
-              required
-            />
-          </div>
+            {/* EMAIL */}
 
-          {/* =========================================
-              PASSWORD
-          ========================================= */}
+            <div className="form-group">
+              <label htmlFor="asa-email">
+                Email <span>*</span>
+              </label>
 
-          <div className="form-group">
-            <label>
-              Password <span>*</span>
-            </label>
+              <input
+                id="asa-email"
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="Enter Email"
+                required
+              />
+            </div>
 
-            <input
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              placeholder="Enter Password"
-              required
-            />
-          </div>
+            {/* PASSWORD */}
 
-          {/* =========================================
-              EMPLOYEE SINCE
-          ========================================= */}
+            <div className="form-group">
+              <label htmlFor="asa-password">
+                Password <span>*</span>
+              </label>
 
-          <div className="form-group">
-            <label>Employee Since (Full Date)</label>
+              <input
+                id="asa-password"
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                placeholder="Enter Password"
+                autoComplete="new-password"
+                required
+              />
+            </div>
 
-            <input
-              type="date"
-              name="employeeSince"
-              value={formData.employeeSince}
-              onChange={handleChange}
-            />
+            {/* EMPLOYEE SINCE */}
 
-            <small>Select the exact date when employee joined</small>
+            <div className="form-group">
+              <label htmlFor="asa-employee-since">
+                Employee Since (Full Date)
+              </label>
+
+              <input
+                id="asa-employee-since"
+                type="date"
+                name="employeeSince"
+                value={formData.employeeSince}
+                onChange={handleChange}
+              />
+
+              <small>Select the exact date when employee joined</small>
+            </div>
           </div>
 
           {/* =========================================
@@ -327,87 +380,44 @@ const AddSubAdmin = () => {
             </div>
 
             <div className="permission-actions">
-              <button type="button" onClick={handleSelectAll}>
-                ✓ Select All
+              <button
+                type="button"
+                className="permission-select-all"
+                onClick={handleSelectAll}
+              >
+                <FaCheck /> Select All
               </button>
 
-              <button type="button" onClick={() => setSelectedPermissions([])}>
-                ✕ Deselect All
+              <button
+                type="button"
+                className="permission-deselect-all"
+                onClick={() => setSelectedPermissions([])}
+              >
+                <FaTimes /> Deselect All
               </button>
             </div>
 
             <div className="permissions-grid">
-              {/* CORE */}
-
-              <PermissionGroup
-                title="Core Management"
-                permissions={["Dashboard", "Sub Admin"]}
-                selectedPermissions={selectedPermissions}
-                onPermissionChange={handlePermissionChange}
-              />
-
-              {/* USER */}
-
-              <PermissionGroup
-                title="User Management"
-                permissions={[
-                  "Vendor Management",
-                  "User Management",
-                  "Expert Management",
-                ]}
-                selectedPermissions={selectedPermissions}
-                onPermissionChange={handlePermissionChange}
-              />
-
-              {/* CONTENT */}
-
-              <PermissionGroup
-                title="Content Management"
-                permissions={[
-                  "Reviews",
-                  "Category Management",
-                  "Vendor Images Slider Images",
-                  "Home Sliders",
-                ]}
-                selectedPermissions={selectedPermissions}
-                onPermissionChange={handlePermissionChange}
-              />
-
-              {/* BUSINESS */}
-
-              <PermissionGroup
-                title="Business Operations"
-                permissions={[
-                  "Booking",
-                  "Services",
-                  "Estimates",
-                  "Order Notification",
-                ]}
-                selectedPermissions={selectedPermissions}
-                onPermissionChange={handlePermissionChange}
-              />
-
-              {/* SYSTEM */}
-
-              <PermissionGroup
-                title="System Settings"
-                permissions={["Settings", "Configuration"]}
-                selectedPermissions={selectedPermissions}
-                onPermissionChange={handlePermissionChange}
-              />
-
-              {/* MARKETING */}
-
-              <PermissionGroup
-                title="Marketing & Support"
-                permissions={["Offers", "Support"]}
-                selectedPermissions={selectedPermissions}
-                onPermissionChange={handlePermissionChange}
-              />
+              {PERMISSION_GROUPS.map((group) => (
+                <PermissionGroup
+                  key={group.title}
+                  title={group.title}
+                  permissions={group.permissions}
+                  selectedPermissions={selectedPermissions}
+                  onPermissionChange={handlePermissionChange}
+                />
+              ))}
             </div>
 
             <div className="permission-count">
-              {selectedPermissions.length} permissions selected
+              <div className="permission-count-text">
+                <strong>{selectedPermissions.length}</strong> out of{" "}
+                <strong>{TOTAL_PERMISSIONS}</strong> permissions selected
+              </div>
+
+              <div className="permission-progress" aria-hidden="true">
+                <span style={{ width: `${selectedPercent}%` }} />
+              </div>
             </div>
           </div>
 
@@ -421,6 +431,7 @@ const AddSubAdmin = () => {
               className="save-subadmin-btn"
               disabled={loading}
             >
+              {loading && <span className="save-spinner" aria-hidden="true" />}
               {loading ? "Saving..." : "Save Sub Admin"}
             </button>
 
@@ -435,6 +446,17 @@ const AddSubAdmin = () => {
           </div>
         </form>
       </div>
+
+      {/* =========================================
+          SUCCESS MODAL
+      ========================================= */}
+
+      <ServiceSuccessModal
+        isOpen={showSuccess}
+        title="Sub admin added"
+        message={successMessage}
+        onClose={handleSuccessClose}
+      />
     </div>
   );
 };
@@ -456,17 +478,26 @@ const PermissionGroup = ({
         {title}
       </h4>
 
-      {permissions.map((permission) => (
-        <label key={permission} className="permission-item">
-          <input
-            type="checkbox"
-            checked={selectedPermissions.includes(permission)}
-            onChange={() => onPermissionChange(permission)}
-          />
+      {permissions.map((permission) => {
+        const isChecked = selectedPermissions.includes(permission);
 
-          <span>{permission}</span>
-        </label>
-      ))}
+        return (
+          <label
+            key={permission}
+            className={`permission-item${
+              isChecked ? " permission-item--checked" : ""
+            }`}
+          >
+            <input
+              type="checkbox"
+              checked={isChecked}
+              onChange={() => onPermissionChange(permission)}
+            />
+
+            <span>{permission}</span>
+          </label>
+        );
+      })}
     </div>
   );
 };

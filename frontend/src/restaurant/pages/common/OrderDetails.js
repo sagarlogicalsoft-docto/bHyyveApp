@@ -37,35 +37,50 @@ const STATUS_META = {
 
 function normalizeStatus(status) {
   if (!status) return "pending";
+
   const value = String(status).trim().toLowerCase();
 
   switch (value) {
     case "pending":
       return "pending";
+
     case "accepted":
       return "accepted";
+
+    case "cancelled":
+      return "cancelled";
+
     case "preparing":
-      return "processing";
+      return "preparing";
+
     case "ready_for_pickup":
-      return "processing";
+      return "ready-for-pickup";
+
     case "picked_up":
-      return "on-the-way";
+      return "picked-up";
+
     case "on_the_way":
       return "on-the-way";
+
     case "delivered":
       return "delivered";
-    case "cancelled":
+
     case "rejected":
-    case "missed":
-      return "cancelled";
+      return "driver-rejected";
+
     default:
-      return value.replace(/\_/g, "-");
+      return value.replace(/_/g, "-");
   }
 }
 
 function formatMoney(value) {
   const num = Number(value);
-  return Number.isFinite(num) ? num.toFixed(2) : "0.00";
+  return Number.isFinite(num)
+    ? num.toLocaleString("en-US", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      })
+    : "0.00";
 }
 
 function formatDate(value) {
@@ -395,7 +410,8 @@ const orderApi = {
 export default function OrderDetails({ onBack }) {
   const navigate = useNavigate();
   const { orderId } = useParams();
-  const handleBack = onBack || (() => navigate(`/restaurant/store/orders/${order.vendorId}`));
+  const handleBack =
+    onBack || (() => navigate(`/restaurant/store/orders/${order.vendorId}`));
 
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -506,6 +522,10 @@ export default function OrderDetails({ onBack }) {
   const isDisrupted =
     order.status === "cancelled" || order.status === "driver-rejected";
   const currentStepIndex = PROGRESS_STEPS.indexOf(order.status);
+  const addonsTotal = order.items.reduce(
+    (sum, item) => sum + Number(item.addonPrice || 0),
+    0,
+  );
 
   return (
     <div className="order-details-page">
@@ -732,12 +752,12 @@ export default function OrderDetails({ onBack }) {
             <thead>
               <tr>
                 <th>#</th>
-                <th>Item Details</th>
-                <th className="align-right">Qty</th>
-                <th className="align-right">Unit Price</th>
-                <th className="align-right">Addon Price</th>
-                <th className="align-right">Discount</th>
-                <th className="align-right">Line Total</th>
+                <th>ITEM DETAILS</th>
+                <th className="align-right">QTY</th>
+                <th className="align-right">UNIT PRICE</th>
+                <th className="align-right">ADDON PRICE</th>
+                <th className="align-right">DISCOUNT</th>
+                <th className="align-right">LINE TOTAL</th>
               </tr>
             </thead>
 
@@ -769,6 +789,7 @@ export default function OrderDetails({ onBack }) {
 
                       <span>
                         <span className="item-details-cell__name">
+                          <VegIcon type={item.itemType} />
                           {item.name}
                         </span>
 
@@ -827,6 +848,15 @@ export default function OrderDetails({ onBack }) {
             <span>Items Subtotal</span>
             <span className="mono-value">$ {formatMoney(order.subtotal)}</span>
           </div>
+
+          {addonsTotal > 0 && (
+            <div className="pricing-row">
+              <span>Add-ons Total</span>
+              <span className="mono-value pricing-row__addon">
+                + $ {formatMoney(addonsTotal)}
+              </span>
+            </div>
+          )}
 
           {order.couponDiscount > 0 && (
             <div className="pricing-row">
@@ -1251,6 +1281,16 @@ function MoneyOrDash({ value }) {
   }
 
   return <span>$ {formatMoney(value)}</span>;
+}
+
+function VegIcon({ type }) {
+  const value = String(type || "")
+    .toLowerCase()
+    .replace(/[_\s]/g, "-");
+  if (value === "veg") return <span className="veg-icon" title="Veg" />;
+  if (value === "non-veg" || value === "nonveg")
+    return <span className="nveg-icon" title="Non-Veg" />;
+  return null;
 }
 
 function ProgressStepIcon({ step, isDone }) {

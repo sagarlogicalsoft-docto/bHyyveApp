@@ -307,7 +307,7 @@ export default function AddCoupon({
 
   const handleSuccessClose = () => {
     setShowSuccessModal(false);
-    onSaved();
+    navigate("/restaurant/coupons");
   };
 
   const handleReset = () => {

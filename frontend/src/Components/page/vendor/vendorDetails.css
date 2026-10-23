@@ -1,891 +1,1193 @@
 /* =========================================
+   TOKENS
+========================================= */
+
+.vendet-vendor-details-page {
+  --navy: #062f5c;
+  --navy-dark: #04243f;
+  --navy-light: #0a4a8f;
+  --navy-tint: #eaf1f9;
+  --heading: #111827;
+  --text: #1e293b;
+  --text-label: #3d5068;
+  --text-muted: #64748b;
+  --border: #dbe2ea;
+  --danger: #dc2626;
+  --success: #16a34a;
+}
+
+/* =========================================
    PAGE
 ========================================= */
 
-.vendor-details-page {
+.vendet-vendor-details-page {
   width: 100%;
   min-height: 100vh;
-  padding: 18px 14px;
-  background: #f5f6f8;
-  color: #4a5d78;
+  padding: 16px 10px 40px;
+  background: #f3f5f8;
+  color: var(--text);
   box-sizing: border-box;
 }
 
-.vendor-details-card {
-  width: 100%;
-  max-width: 1500px;
-  margin: 0 auto;
-  background: #ffffff;
-  border-radius: 6px;
-  padding: 0px 38px 35px;
+.vendet-vendor-details-page *,
+.vendet-vendor-details-page *::before,
+.vendet-vendor-details-page *::after {
   box-sizing: border-box;
 }
 
-/* =========================================
-   BREADCRUMB
-========================================= */
-
-.vendor-breadcrumb {
-  width: 100%;
-  max-width: 1500px;
-  margin: 0 auto 14px;
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  padding: 10px 2px;
-  box-sizing: border-box;
+.vendet-vd-page-title {
+  margin: 0 0 6px;
+  color: var(--heading);
+  font-size: 24px;
+  font-weight: 700;
 }
 
-.vendor-breadcrumb-link {
-  color: #52657a;
-  text-decoration: none;
-  font-size: 14px;
-  font-weight: 400;
-  transition: color 0.2s ease;
-}
-
-.vendor-breadcrumb-link:hover {
-  color: #087ff5;
-}
-
-.vendor-breadcrumb-icon {
-  color: #94a3b8;
-  width: 13px;
-  height: 13px;
-  flex-shrink: 0;
-}
-
-.vendor-breadcrumb-active {
-  color: #087ff5;
-  font-size: 14px;
-  font-weight: 400;
-}
-
-/* =========================================
-   HEADER
-========================================= */
-
-.vendor-top-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 18px;
+/* breadcrumb spacing only - styles live in ServiceBreadcrumbs */
+.vendet-vd-breadcrumb {
   margin-bottom: 14px;
 }
 
-.vendor-detail-name {
-  color: #52657a;
-  font-size: 18px;
-  font-weight: 400;
+.vendet-vendor-details-page button,
+.vendet-vendor-details-page input,
+.vendet-vendor-details-page select,
+.vendet-vendor-details-page textarea {
+  font-family: inherit;
 }
 
-.vendor-detail-name strong {
-  color: #4b5f74;
-  font-weight: 500;
+.vendet-vd-card {
+  width: 100%;
+  margin-bottom: 14px;
+  background: #ffffff;
+  border: 1px solid #e6eaf0;
+  border-radius: 8px;
+  box-shadow: 0 4px 18px rgba(6, 47, 92, 0.06);
 }
 
-.vendor-account-actions {
+.vendet-vd-loading {
   display: flex;
   align-items: center;
-  gap: 5px;
-}
-
-.vendor-account-label {
-  color: #52657a;
-  font-size: 15px;
-  margin-right: 2px;
+  justify-content: center;
+  gap: 12px;
+  padding: 50px 20px;
+  color: var(--text-muted);
+  font-size: 14px;
 }
 
 /* =========================================
-   ACCOUNT BUTTON
+   ALERT
 ========================================= */
 
-.vendor-status-button,
-.vendor-upload-button {
-  height: 32px;
-  border-radius: 4px;
-  padding: 5px 9px;
-  font-size: 12px;
+.vendet-vd-alert {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+  padding: 10px 12px;
+  border: 1px solid #fecaca;
+  border-radius: 6px;
+  background: #fef2f2;
+  color: #991b1b;
+  font-size: 14px;
+}
+
+.vendet-vd-alert span {
+  flex: 1;
+}
+
+.vendet-vd-alert svg {
+  flex-shrink: 0;
+}
+
+.vendet-vd-alert-close,
+.vendet-vd-link-button {
+  border: none;
+  background: transparent;
+  color: inherit;
   cursor: pointer;
 }
 
-.vendor-status-button {
-  color: #ffffff;
-  border: 1px solid #087ff5;
-  background: #087ff5;
+.vendet-vd-alert-close {
+  display: inline-flex;
+  padding: 4px;
 }
 
-.vendor-status-button:hover {
-  background: #066fd8;
-  border-color: #066fd8;
+.vendet-vd-link-button {
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: underline;
 }
 
-.vendor-status-button.inactive {
-  background: #6c757d;
-  border-color: #6c757d;
+/* =========================================
+   SUMMARY
+========================================= */
+
+.vendet-vd-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 50px;
+  padding: 18px 22px;
 }
 
-.vendor-upload-button {
+.vendet-vd-summary-info {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-width: 0;
+}
+
+.vendet-vd-avatar {
+  flex-shrink: 0;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #e2e8f0;
+}
+
+.vendet-vd-avatar-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--navy-tint);
+  color: var(--navy);
+  font-size: 26px;
+}
+
+.vendet-vd-summary-name {
+  margin: 0;
+  color: var(--heading);
+  font-size: 20px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.vendet-vd-summary-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-top: 6px;
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+.vendet-vd-status-badge {
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.vendet-vd-status-badge.vendet-active {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.vendet-vd-status-badge.vendet-inactive {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.vendet-vd-summary-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+/* =========================================
+   BUTTONS
+========================================= */
+
+.vendet-vendor-details-page .vendet-vd-status-button,
+.vendet-vendor-details-page .vendet-vd-secondary-button,
+.vendet-vendor-details-page .vendet-vd-primary-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 7px;
-  background: #f1f3f5;
-  border: 1px solid #e0e4e8;
-  color: #0068ed;
+  gap: 8px;
+  min-height: 40px;
+  padding: 0 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-.vendor-upload-button:hover {
-  background: #e7ebef;
+.vendet-vendor-details-page .vendet-vd-primary-button {
+  min-width: 140px;
+  border: 1px solid var(--navy);
+  background-color: var(--navy);
+  background-image: none;
+  color: #ffffff;
+}
+
+.vendet-vendor-details-page .vendet-vd-primary-button svg {
+  color: inherit;
+}
+
+.vendet-vendor-details-page .vendet-vd-primary-button:hover:not(:disabled) {
+  background-color: var(--navy-dark);
+  border-color: var(--navy-dark);
+  color: #ffffff;
+}
+
+.vendet-vendor-details-page .vendet-vd-secondary-button {
+  border: 1px solid var(--navy);
+  background-color: #ffffff;
+  color: var(--navy);
+}
+
+.vendet-vendor-details-page .vendet-vd-secondary-button:hover {
+  background-color: var(--navy-tint);
+}
+
+.vendet-vendor-details-page .vendet-vd-status-button {
+  border: 1px solid transparent;
+  color: #ffffff;
+}
+
+.vendet-vendor-details-page .vendet-vd-status-button.vendet-deactivate {
+  background-color: var(--danger);
+  border-color: var(--danger);
+}
+
+.vendet-vendor-details-page .vendet-vd-status-button.vendet-deactivate:hover {
+  background-color: #b91c1c;
+}
+
+.vendet-vendor-details-page .vendet-vd-status-button.vendet-activate {
+  background-color: var(--success);
+  border-color: var(--success);
+}
+
+.vendet-vendor-details-page .vendet-vd-status-button.vendet-activate:hover {
+  background-color: #15803d;
+}
+
+.vendet-vd-spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: vendet-vd-spin 0.7s linear infinite;
+}
+
+.vendet-vd-spinner-dark {
+  width: 18px;
+  height: 18px;
+  border-color: #cbd5e1;
+  border-top-color: var(--navy);
+}
+
+@keyframes vendet-vd-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.vendet-vd-status-button:focus-visible,
+.vendet-vd-secondary-button:focus-visible,
+.vendet-vd-primary-button:focus-visible,
+.vendet-vd-tab:focus-visible,
+.vendet-vd-icon-button:focus-visible,
+.vendet-vd-password-toggle:focus-visible,
+.vendet-vd-document-button:focus-visible,
+.vendet-vd-pagination-buttons button:focus-visible {
+  outline: 2px solid var(--navy-light);
+  outline-offset: 2px;
 }
 
 /* =========================================
    TABS
 ========================================= */
 
-.vendor-tabs-wrapper {
-  border-bottom: 1px solid #d7dce1;
-  overflow-x: auto;
-  margin-top: 44px;
+.vendet-vd-main {
+  overflow: hidden;
 }
 
-.vendor-tabs {
+.vendet-vd-tabs-wrapper {
+  overflow-x: auto;
+  padding: 0 10px;
+  border-bottom: 1px solid #dfe5ec;
+  background: #ffffff;
+  scrollbar-width: thin;
+}
+
+.vendet-vd-tabs {
   display: flex;
-  align-items: stretch;
+  gap: 4px;
   min-width: max-content;
 }
 
-.vendor-tab {
+.vendet-vendor-details-page .vendet-vd-tab {
+  position: relative;
   display: inline-flex;
   align-items: center;
-  border: 0;
-  border-bottom: 1px solid transparent;
+  gap: 8px;
+  padding: 16px 12px 14px;
+  border: none;
+  border-bottom: 3px solid transparent;
   background: transparent;
- 
-  padding: 11px 13px;
-  margin-bottom: -1px;
-  font-size: 16px;
-  font-weight: 400;
+  color: #475569;
+  font-size: 14.5px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.1px;
   white-space: nowrap;
   cursor: pointer;
-  transition: 0.2s ease;
+  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
 }
 
-.vendor-tab:hover {
-  color: #0054c7;
-  background: #f8fafc;
+.vendet-vendor-details-page .vendet-vd-tab svg {
+  font-size: 11px;
+  opacity: 0.7;
 }
 
-.vendor-tab.active {
-  color: #52657a;
-  background: #ffffff;
-  border: 1px solid #d7dce1;
-  border-bottom-color: #ffffff;
-  border-radius: 4px 4px 0 0;
+.vendet-vendor-details-page .vendet-vd-tab:hover {
+  color: var(--navy);
+  border-bottom-color: #b9c9dc;
+  background: transparent;
 }
 
-/* =========================================
-   CONTENT
-========================================= */
-
-.vendor-content {
-  width: 100%;
+.vendet-vendor-details-page .vendet-vd-tab.vendet-active {
+  color: var(--navy);
+  border-bottom-color: var(--navy);
 }
 
-.vendor-tab-content {
-  padding-top: 18px;
+.vendet-vd-tab-count {
+  min-width: 22px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #e8edf3;
+  color: #475569;
+  font-size: 11.5px;
+  font-weight: 700;
+  line-height: 1.3;
+  text-align: center;
 }
 
-/* =========================================
-   LOGO
-========================================= */
-
-.vendor-logo-wrapper {
-  display: flex;
-  justify-content: center;
-  padding: 8px 0 12px;
-}
-
-.vendor-logo-image,
-.vendor-logo-placeholder {
-  width: 140px;
-  height: 140px;
-  border-radius: 50%;
-}
-
-.vendor-logo-image {
-  object-fit: cover;
-  border: 1px solid #eeeeee;
-}
-
-.vendor-logo-placeholder {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #fbf4e9;
-  border: 1px solid #f3e7d5;
-  color: #c46a25;
-  font-size: 42px;
-}
-
-/* =========================================
-   SECTION
-========================================= */
-
-.vendor-section {
-  width: 100%;
-  margin-top: 8px;
-}
-
-.vendor-section-title {
-  margin-bottom: 7px;
-}
-
-.vendor-section-title h3 {
-  margin: 0;
-  color: #52657a;
-  font-size: 17px;
-  font-weight: 400;
-}
-
-.vendor-section-body {
-  width: 100%;
-  padding: 12px 20px 15px;
-  background: #eeeeee;
-  border-radius: 6px;
-  box-sizing: border-box;
-}
-
-/* =========================================
-   LABEL
-========================================= */
-
-.vendor-label {
-  display: block;
-  margin-bottom: 6px;
-  color: #52657a;
-  font-size: 14px;
-  font-weight: 400;
-}
-
-.vendor-label span {
-  color: #ef4444;
-}
-
-/* =========================================
-   INPUT
-========================================= */
-
-.vendor-input {
-  min-height: 46px;
-  height: 46px;
-  border: 1px solid #dce3eb !important;
-  border-radius: 5px !important;
-  background: #ffffff !important;
-  color: #111827 !important;
-  font-size: 14px !important;
-  padding: 8px 13px !important;
-  box-shadow: none !important;
-}
-
-.vendor-input:focus {
-  border-color: #9fc3e8 !important;
-  box-shadow: 0 0 0 2px rgba(0, 105, 255, 0.06) !important;
-}
-
-.vendor-textarea {
-  min-height: 80px;
-  height: 80px;
-  resize: vertical;
-}
-
-/* =========================================
-   PASSWORD
-========================================= */
-
-.vendor-password-wrapper {
-  position: relative;
-}
-
-.vendor-password-wrapper .vendor-input {
-  padding-right: 48px !important;
-}
-
-.vendor-password-button {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 46px;
-  height: 46px;
-  border: 1px solid #d0d7de;
-  border-radius: 0 5px 5px 0;
-  background: #edf0f3;
-  color: #52657a;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-}
-
-.vendor-password-button:hover {
-  background: #e2e6ea;
-}
-
-/* =========================================
-   UPDATE BUTTON
-========================================= */
-
-.vendor-update-wrapper,
-.shop-save-wrapper {
-  display: flex;
-  justify-content: center;
-  padding-top: 15px;
-}
-
-.vendor-update-button {
-  min-width: 120px;
-  padding: 8px 15px;
-  background: #073b74;
-  border: 1px solid #073b74;
+.vendet-vd-tab.vendet-active .vendet-vd-tab-count {
+  background: var(--navy);
   color: #ffffff;
-  border-radius: 4px;
-  font-size: 14px;
-  cursor: pointer;
 }
 
-.vendor-update-button:hover {
-  background: #066fd8;
+.vendet-vd-content {
+  padding: 24px;
 }
 
 /* =========================================
-   TAB HEADING
+   PANEL + SECTIONS
 ========================================= */
 
-.vendor-content-heading {
+.vendet-vd-panel-heading {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 15px;
-  margin-bottom: 15px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid #e5e7eb;
+  gap: 16px;
+  margin-bottom: 20px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #e8edf3;
 }
 
-.vendor-content-heading h3 {
-  margin: 0 0 3px;
-  color: #52657a;
-  font-size: 18px;
-  font-weight: 500;
+.vendet-vd-panel-heading h3 {
+  margin: 0 0 4px;
+  color: var(--heading);
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1.3;
 }
 
-.vendor-content-heading p {
+.vendet-vd-panel-heading p {
   margin: 0;
-  color: #8190a1;
-  font-size: 13px;
+  color: var(--text-muted);
+  font-size: 13.5px;
+  line-height: 1.4;
 }
 
-.vendor-content-heading > svg {
-  color: #087ff5;
-  font-size: 21px;
+.vendet-vd-panel-heading > svg {
+  color: var(--navy);
+  font-size: 20px;
+}
+
+.vendet-vd-section {
+  margin-bottom: 26px;
+  padding: 20px;
+  border: 1px solid #e3e9f0;
+  border-radius: 8px;
+  background: #fafbfd;
+}
+
+.vendet-vd-section-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 18px;
+  color: var(--heading);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.vendet-vd-section-title::before {
+  content: "";
+  width: 4px;
+  height: 18px;
+  border-radius: 2px;
+  background: var(--navy);
 }
 
 /* =========================================
-   SHOP FORM
+   FORM
 ========================================= */
 
-.vendor-form-card {
-  background: #eeeeee;
-  border-radius: 6px;
-  padding: 18px 20px;
+.vendet-vd-form-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px 22px;
 }
 
-.shop-save-wrapper {
-  justify-content: flex-end;
+.vendet-vd-field {
+  min-width: 0;
+}
+
+.vendet-vd-field-full {
+  grid-column: 1 / -1;
+}
+
+.vendet-vd-field label {
+  display: block;
+  margin-bottom: 7px;
+  color: #1f2a3d;
+  font-size: 13.5px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.vendet-vd-field label span {
+  color: #dc2626;
+  margin-left: 3px;
+}
+
+.vendet-vendor-details-page .vendet-vd-input {
+  display: block;
+  width: 100%;
+  height: 46px;
+  padding: 0 14px;
+  border: 1.5px solid #b8c4d3;
+  border-radius: 7px;
+  background-color: #ffffff;
+  color: #111827;
+  font-size: 14.5px;
+  font-weight: 500;
+  line-height: 1.4;
+  outline: none;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.vendet-vendor-details-page .vendet-vd-input::placeholder {
+  color: #94a3b8;
+  font-weight: 400;
+}
+
+.vendet-vendor-details-page .vendet-vd-input:hover {
+  border-color: #8fa2b8;
+}
+
+.vendet-vendor-details-page .vendet-vd-input:focus {
+  border-color: var(--navy);
+  box-shadow: 0 0 0 3px rgba(6, 47, 92, 0.16);
+}
+
+.vendet-vendor-details-page .vendet-vd-input.vendet-has-error {
+  border-color: var(--danger);
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+}
+
+.vendet-vendor-details-page select.vendet-vd-input {
+  padding-right: 40px;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%23062f5c' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+}
+
+.vendet-vendor-details-page .vendet-vd-textarea {
+  height: 100px;
+  padding: 12px 14px;
+  line-height: 1.5;
+  resize: vertical;
+}
+
+.vendet-vd-error {
+  display: block;
+  margin-top: 6px;
+  color: var(--danger);
+  font-size: 12.5px;
+  font-weight: 500;
+}
+
+.vendet-vd-password-wrapper {
+  position: relative;
+}
+
+.vendet-vendor-details-page .vendet-vd-password-wrapper .vendet-vd-input {
+  padding-right: 54px;
+}
+
+.vendet-vd-password-toggle {
+  position: absolute;
+  top: 1.5px;
+  right: 1.5px;
+  width: 44px;
+  height: 43px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-left: 1px solid #d5dde8;
+  border-radius: 0 6px 6px 0;
+  background: #f1f5f9;
+  color: var(--navy);
+  cursor: pointer;
+}
+
+.vendet-vd-password-toggle:hover {
+  background: var(--navy-tint);
+}
+
+/* bottom update bar - every tab */
+
+.vendet-vd-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 8px;
+  padding-top: 20px;
+  border-top: 1px solid #e8edf3;
 }
 
 /* =========================================
    BOOKINGS TABLE
 ========================================= */
 
-.vendor-table-wrapper {
+.vendet-vd-table-search,
+.vendet-vd-keyword-search {
+  position: relative;
+}
+
+.vendet-vd-table-search {
+  width: 260px;
+  flex-shrink: 0;
+}
+
+.vendet-vd-table-search > svg,
+.vendet-vd-keyword-search > svg {
+  position: absolute;
+  left: 13px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #94a3b8;
+  font-size: 13px;
+  pointer-events: none;
+}
+
+.vendet-vd-table-search input,
+.vendet-vd-keyword-search input {
+  width: 100%;
+  height: 42px;
+  padding: 0 14px 0 36px;
+  border: 1.5px solid #b8c4d3;
+  border-radius: 7px;
+  background: #ffffff;
+  color: #111827;
+  font-size: 14px;
+  outline: none;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
+  transition: all 0.2s ease;
+}
+
+.vendet-vd-table-search input:focus,
+.vendet-vd-keyword-search input:focus {
+  border-color: var(--navy);
+  box-shadow: 0 0 0 3px rgba(6, 47, 92, 0.16);
+}
+
+.vendet-vd-table-wrapper {
   width: 100%;
   overflow-x: auto;
   border: 1px solid #e1e6eb;
-  border-radius: 5px;
+  border-radius: 6px;
 }
 
-.vendor-table {
+.vendet-vd-table {
   width: 100%;
-  min-width: 1050px;
+  min-width: 1000px;
   border-collapse: collapse;
   background: #ffffff;
 }
 
-.vendor-table thead th {
-  padding: 12px 10px;
-  background: #f4f6f8;
+.vendet-vd-table thead th {
+  padding: 12px 12px;
+  background: #f1f5f9;
   border-bottom: 1px solid #dfe4e8;
-  color: #52657a;
+  color: var(--navy);
   font-size: 13px;
-  font-weight: 500;
+  font-weight: 600;
   text-align: left;
   white-space: nowrap;
 }
 
-.vendor-table tbody td {
-  padding: 12px 10px;
+.vendet-vd-table tbody td {
+  padding: 12px;
   border-bottom: 1px solid #edf0f2;
-  color: #52657a;
+  color: var(--text);
   font-size: 13px;
   vertical-align: middle;
-  white-space: nowrap;
 }
 
-.vendor-table tbody tr:hover {
+.vendet-vd-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.vendet-vd-table tbody tr:hover {
   background: #fafbfc;
 }
 
-/* =========================================
-   BOOKING STATUS
-========================================= */
+.vendet-vd-empty-row {
+  padding: 28px 12px !important;
+  color: var(--text-muted) !important;
+  font-size: 14px;
+  text-align: center;
+}
 
-.booking-status {
+.vendet-vd-booking-status {
   display: inline-flex;
-  align-items: center;
-  padding: 4px 8px;
-  border-radius: 20px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #e2e8f0;
+  color: var(--text-label);
   font-size: 12px;
-  font-weight: 500;
+  font-weight: 600;
+  white-space: nowrap;
 }
 
-.booking-status.confirmed {
-  background: #e8f7ef;
-  color: #198754;
+.vendet-vd-booking-status.vendet-completed {
+  background: #dcfce7;
+  color: #166534;
 }
 
-.booking-status.pending {
-  background: #fff5dc;
-  color: #b7791f;
+.vendet-vd-booking-status.vendet-pending,
+.vendet-vd-booking-status.vendet-in-process,
+.vendet-vd-booking-status.vendet-inprocess {
+  background: #fef3c7;
+  color: #92400e;
 }
 
-.booking-status.completed {
-  background: #e7f3ff;
-  color: #087ff5;
-}
-
-/* =========================================
-   BOOKING ACTION
-========================================= */
-
-.vendor-action-button {
-  width: 32px;
-  height: 32px;
-  border: 1px solid #087f8a;
-  border-radius: 4px;
-  background: #ffffff;
-  color: #087f8a;
+.vendet-vd-icon-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--navy);
+  border-radius: 5px;
+  background: #ffffff;
+  color: var(--navy);
   cursor: pointer;
 }
 
-.vendor-action-button:hover {
-  background: #087f8a;
+.vendet-vd-icon-button:hover {
+  background: var(--navy);
   color: #ffffff;
+}
+
+.vendet-vd-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 14px;
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+.vendet-vd-pagination-buttons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.vendet-vd-pagination-buttons button {
+  height: 34px;
+  padding: 0 14px;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  background: #ffffff;
+  color: var(--navy);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.vendet-vd-pagination-buttons button:hover:not(:disabled) {
+  background: var(--navy-tint);
+}
+
+.vendet-vd-pagination-buttons button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.vendet-vd-page-indicator {
+  min-width: 52px;
+  text-align: center;
 }
 
 /* =========================================
    DOCUMENTS
 ========================================= */
 
-.documents-card {
-  width: 100%;
+.vendet-vd-documents {
   border: 1px solid #e1e6eb;
   border-radius: 6px;
-  background: #ffffff;
   overflow: hidden;
 }
 
-.document-row {
+.vendet-vd-document-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 20px;
-  min-height: 54px;
-  padding: 8px 15px;
+  gap: 16px;
+  min-height: 56px;
+  padding: 8px 16px;
   border-bottom: 1px solid #edf0f2;
 }
 
-.document-row:last-child {
-  border-bottom: 0;
+.vendet-vd-document-row:last-child {
+  border-bottom: none;
 }
 
-.document-name {
+.vendet-vd-document-row:hover {
+  background: #fafbfc;
+}
+
+.vendet-vd-document-name {
   display: flex;
   align-items: center;
-  gap: 9px;
-  color: #52657a;
+  gap: 10px;
+  color: var(--text);
   font-size: 14px;
+  font-weight: 500;
 }
 
-.document-name svg {
-  color: #087ff5;
-  font-size: 14px;
+.vendet-vd-document-name svg {
+  color: var(--navy);
 }
 
-.document-status {
-  min-width: 130px;
+.vendet-vd-document-actions {
   display: flex;
-  justify-content: flex-end;
+  gap: 8px;
 }
 
-.document-view-button {
+.vendet-vd-document-button {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 6px 10px;
-  border: 1px solid #087ff5;
-  border-radius: 4px;
-  background: #ffffff;
-  color: #087ff5;
+  padding: 6px 12px;
+  border: 1px solid var(--navy);
+  border-radius: 5px;
+  background: var(--navy);
+  color: #ffffff;
   font-size: 13px;
-  cursor: pointer;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.2s ease;
 }
 
-.document-view-button:hover {
-  background: #087ff5;
+.vendet-vd-document-button:hover {
+  background: var(--navy-light);
+  border-color: var(--navy-light);
   color: #ffffff;
 }
 
-.document-not-submitted {
-  display: inline-block;
-  padding: 5px 9px;
-  border-radius: 4px;
-  background: #f8eaea;
-  color: #c0392b;
-  font-size: 12px;
+.vendet-vd-document-button-outline {
+  background: #ffffff;
+  color: var(--navy);
 }
 
-.documents-bottom-action {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 12px;
+.vendet-vd-document-button-outline:hover {
+  background: var(--navy-tint);
+  border-color: var(--navy);
+  color: var(--navy);
+}
+
+.vendet-vd-not-submitted {
+  padding: 5px 10px;
+  border-radius: 5px;
+  background: #fee2e2;
+  color: #b91c1c;
+  font-size: 12px;
+  font-weight: 600;
 }
 
 /* =========================================
-   SERVICES
+   KEYWORDS
 ========================================= */
 
-.services-card {
-  min-height: 250px;
+.vendet-vd-count-badge {
+  flex-shrink: 0;
+  padding: 4px 14px;
+  border-radius: 999px;
+  background: var(--navy);
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.vendet-vd-keyword-search input {
+  padding-right: 40px;
+}
+
+.vendet-vd-keyword-clear {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 40px;
+  height: 42px;
+  border: none;
+  background: transparent;
+  color: #94a3b8;
+  cursor: pointer;
+}
+
+.vendet-vd-keyword-clear:hover {
+  color: var(--danger);
+}
+
+.vendet-vd-keyword-meta {
+  margin: 10px 2px 8px;
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+.vendet-vd-keyword-list {
+  max-height: 380px;
+  overflow-y: auto;
   border: 1px solid #e1e6eb;
   border-radius: 6px;
   background: #ffffff;
+}
+
+.vendet-vd-keyword-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 16px;
+  border-bottom: 1px solid #f0f2f5;
+  color: var(--text);
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.vendet-vd-keyword-row:last-child {
+  border-bottom: none;
+}
+
+.vendet-vd-keyword-row:hover {
+  background: #f8fafc;
+}
+
+.vendet-vd-keyword-row.vendet-checked {
+  background: var(--navy-tint);
+}
+
+.vendet-vd-keyword-row input {
+  width: 17px;
+  height: 17px;
+  margin: 0;
+  accent-color: var(--navy);
+  cursor: pointer;
+}
+
+.vendet-vd-keyword-row mark {
+  padding: 0 2px;
+  border-radius: 2px;
+  background: #fff3b0;
+}
+
+.vendet-vd-keyword-list .vendet-vd-empty-row {
+  padding: 28px 12px;
+}
+
+.vendet-vd-keyword-list + .vendet-vd-actions {
+  margin-top: 18px;
+}
+
+/* =========================================
+   SHOP TAB - VENDOR ADDRESSES
+========================================= */
+
+.vendet-vd-title-badge {
+  margin-left: auto;
+}
+
+.vendet-vd-address-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
+  gap: 22px;
+  align-items: stretch;
+}
+
+.vendet-vd-address-form {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 25px;
+  gap: 16px;
+  min-width: 0;
 }
 
-.services-icon {
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  background: #eef6ff;
-  color: #087ff5;
+.vendet-vendor-details-page .vendet-vd-address-textarea {
+  height: 92px;
+}
+
+.vendet-vendor-details-page .vendet-vd-input[readonly] {
+  background-color: #f1f5f9;
+  color: var(--text-label);
+  cursor: default;
+}
+
+.vendet-vd-coordinates {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.vendet-vd-address-submit {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 12px;
 }
 
-.services-icon svg {
-  font-size: 22px;
-}
-
-.services-card h4 {
-  margin: 0 0 5px;
-  color: #52657a;
-  font-size: 16px;
-  font-weight: 500;
-}
-
-.services-card p {
-  margin: 0 0 15px;
-  color: #8996a5;
+.vendet-vd-address-tip {
+  margin: 0;
+  padding: 10px 12px;
+  border-left: 3px solid var(--navy);
+  border-radius: 0 6px 6px 0;
+  background: var(--navy-tint);
+  color: var(--text-label);
   font-size: 13px;
+  line-height: 1.55;
 }
 
-.services-page-button {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  border: 1px solid #087ff5;
-  background: #087ff5;
-  color: #ffffff;
-  border-radius: 4px;
-  padding: 8px 13px;
-  font-size: 13px;
-  cursor: pointer;
-}
-
-.services-page-button:hover {
-  background: #066fd8;
-}
-
-/* =========================================
-   MODAL OVERLAY
-========================================= */
-
-.vendor-modal-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  background: rgba(15, 23, 42, 0.45);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 15px;
-}
-
-/* =========================================
-   CONFIRM MODAL
-========================================= */
-
-.vendor-confirm-modal {
+.vendet-vd-map-wrapper {
   position: relative;
-  width: 100%;
-  max-width: 390px;
-  background: #ffffff;
-  border-radius: 7px;
-  padding: 25px;
-  text-align: center;
-  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+  min-height: 360px;
+  overflow: hidden;
+  border: 1px solid #d5dde8;
+  border-radius: 8px;
+  background: #e8edf3;
 }
 
-.vendor-modal-close {
+.vendet-vd-map {
   position: absolute;
-  top: 10px;
-  right: 10px;
-  width: 30px;
-  height: 30px;
-  border: 0;
-  background: transparent;
-  color: #8b98a7;
-  cursor: pointer;
+  inset: 0;
+  width: 100%;
+  height: 100%;
 }
 
-.vendor-modal-close:hover {
-  color: #334155;
-}
-
-.vendor-modal-icon {
-  width: 48px;
-  height: 48px;
-  margin: 0 auto 12px;
-  border-radius: 50%;
-  background: #eef5ff;
-  color: #087ff5;
+.vendet-vd-map-message {
+  position: absolute;
+  inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 10px;
+  padding: 20px;
+  background: rgba(243, 245, 248, 0.92);
+  color: var(--text-muted);
+  font-size: 14px;
+  text-align: center;
 }
 
-.vendor-modal-icon svg {
-  font-size: 19px;
+.vendet-vd-map-message svg {
+  flex-shrink: 0;
+  color: var(--danger);
 }
 
-.vendor-confirm-modal h3 {
-  margin: 0 0 7px;
-  color: #52657a;
-  font-size: 18px;
-  font-weight: 500;
-}
-
-.vendor-confirm-modal p {
-  margin: 0 auto;
-  max-width: 300px;
-  color: #7b8794;
-  font-size: 13px;
-  line-height: 1.5;
-}
-
-.vendor-modal-actions {
-  display: flex;
-  justify-content: center;
-  gap: 8px;
+.vendet-vd-address-table-wrapper {
   margin-top: 20px;
 }
 
-.vendor-cancel-button,
-.vendor-confirm-button {
-  min-width: 105px;
-  padding: 8px 12px;
-  border-radius: 4px;
-  font-size: 13px;
-  cursor: pointer;
+.vendet-vd-table.vendet-vd-address-table {
+  min-width: 640px;
 }
 
-.vendor-cancel-button {
-  border: 1px solid #d7dce1;
+.vendet-vd-address-table thead th:first-child,
+.vendet-vd-address-table tbody td:first-child {
+  width: 56px;
+}
+
+.vendet-vd-address-cell {
+  min-width: 240px;
+  line-height: 1.45;
+}
+
+.vendet-vd-row-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.vendet-vd-icon-button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.vendet-vd-icon-button:disabled:hover {
   background: #ffffff;
-  color: #52657a;
+  color: var(--navy);
 }
 
-.vendor-cancel-button:hover {
-  background: #f5f6f8;
+.vendet-vd-icon-button.vendet-vd-icon-button-danger {
+  border-color: var(--danger);
+  color: var(--danger);
 }
 
-.vendor-confirm-button {
+.vendet-vd-icon-button.vendet-vd-icon-button-danger:hover {
+  background: var(--danger);
   color: #ffffff;
-  border: 1px solid transparent;
 }
 
-.vendor-confirm-button.deactivate {
-  background: #dc3545;
-  border-color: #dc3545;
+/* Google Places dropdown is rendered on <body> */
+.pac-container {
+  z-index: 10000;
 }
 
-.vendor-confirm-button.deactivate:hover {
-  background: #bb2d3b;
-}
-
-.vendor-confirm-button.activate {
-  background: #198754;
-  border-color: #198754;
-}
-
-.vendor-confirm-button.activate:hover {
-  background: #157347;
+@media (prefers-reduced-motion: reduce) {
+  .vendet-vd-spinner {
+    animation: none;
+  }
 }
 
 /* =========================================
-   EMPTY
+   TABLET
 ========================================= */
-
-.vendor-empty-row {
-  text-align: center !important;
-  padding: 30px !important;
-  color: #8996a5 !important;
-}
-
-/* =========================================
-   RESPONSIVE
-========================================= */
-/* =========================================
-   BREADCRUMB RESPONSIVE
-========================================= */
-
-@media (max-width: 767px) {
-  .vendor-breadcrumb {
-    margin-bottom: 10px;
-    gap: 5px;
-  }
-
-  .vendor-breadcrumb-link,
-  .vendor-breadcrumb-active {
-    font-size: 13px;
-  }
-
-  .vendor-breadcrumb-icon {
-    width: 11px;
-    height: 11px;
-  }
-}
 
 @media (max-width: 992px) {
-  .vendor-details-card {
-    padding: 20px;
+  .vendet-vd-form-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .vendor-top-header {
-    align-items: flex-start;
+  .vendet-vd-summary {
     flex-direction: column;
+    align-items: flex-start;
   }
 
-  .vendor-account-actions {
-    width: 100%;
-    justify-content: flex-end;
+  .vendet-vd-address-layout {
+    grid-template-columns: 1fr;
   }
 
-  .vendor-logo-image,
-  .vendor-logo-placeholder {
-    width: 125px;
-    height: 125px;
+  .vendet-vd-map-wrapper {
+    min-height: 320px;
   }
 }
 
+/* =========================================
+   MOBILE
+========================================= */
+
 @media (max-width: 767px) {
-  .vendor-details-page {
-    padding: 10px;
+  .vendet-vendor-details-page {
+    padding: 10px 8px 28px;
   }
 
-  .vendor-details-card {
-    padding: 16px 13px 25px;
+  .vendet-vd-page-title {
+    font-size: 21px;
   }
 
-  .vendor-detail-name {
-    font-size: 16px;
+  .vendet-vd-summary {
+    padding: 16px 14px;
   }
 
-  .vendor-account-actions {
-    justify-content: flex-start;
-    flex-wrap: wrap;
+  .vendet-vd-avatar {
+    width: 60px;
+    height: 60px;
   }
 
-  .vendor-status-button,
-  .vendor-upload-button {
-    font-size: 13px;
+  .vendet-vd-summary-name {
+    font-size: 18px;
   }
 
-  .vendor-section-body,
-  .vendor-form-card {
-    padding: 12px;
-  }
-
-  .vendor-input {
-    min-height: 44px;
-    height: 44px;
-    font-size: 13px !important;
-  }
-
-  .vendor-password-button {
-    height: 44px;
-  }
-
-  .vendor-label {
-    font-size: 14px;
-  }
-
-  .vendor-tab {
-    font-size: 14px;
-    padding: 9px 10px;
-  }
-
-  .document-row {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 8px;
-    padding: 12px;
-  }
-
-  .document-status {
-    justify-content: flex-start;
-  }
-
-  .documents-bottom-action {
-    justify-content: flex-start;
-  }
-
-  .vendor-modal-actions {
-    flex-direction: column;
-  }
-
-  .vendor-cancel-button,
-  .vendor-confirm-button {
+  .vendet-vd-summary-actions {
     width: 100%;
+  }
+
+  .vendet-vd-summary-actions > button {
+    flex: 1;
+  }
+
+  .vendet-vd-content {
+    padding: 16px 12px;
+  }
+
+  .vendet-vd-section {
+    padding: 14px 12px;
+  }
+
+  .vendet-vd-panel-heading {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .vendet-vd-panel-heading > svg {
+    display: none;
+  }
+
+  .vendet-vd-table-search {
+    width: 100%;
+  }
+
+  .vendet-vd-form-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .vendet-vd-actions .vendet-vd-primary-button {
+    width: 100%;
+  }
+
+  .vendet-vd-pagination {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .vendet-vd-document-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 12px 14px;
+  }
+
+  .vendet-vendor-details-page .vendet-vd-tab {
+    padding: 14px 12px 12px;
+    font-size: 13.5px;
+  }
+
+  .vendet-vd-coordinates {
+    grid-template-columns: 1fr;
+  }
+
+  .vendet-vd-address-submit .vendet-vd-primary-button {
+    width: 100%;
+  }
+
+  .vendet-vd-map-wrapper {
+    min-height: 280px;
   }
 }

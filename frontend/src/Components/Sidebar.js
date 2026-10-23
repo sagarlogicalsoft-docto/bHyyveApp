@@ -101,6 +101,7 @@ const Sidebarr = ({ sidebarOpen, setSidebarOpen }) => {
       children: [
         { label: "Category List", path: "/category_list" },
         { label: "Add Category", path: "/add_category" },
+        { label: "Category Keywords", path: "/manage_category_keywords" },
         { label: "Sub Category List", path: "/sub_category_list" },
         { label: "Add Sub Category", path: "/add_sub_category" },
       ],
@@ -110,7 +111,7 @@ const Sidebarr = ({ sidebarOpen, setSidebarOpen }) => {
       path: "/add_banner",
       icon: FaImages,
       children: [
-        { label: "Add Images", path: "/add_vendor_images" },
+        { label: "Add Images", path: "/add_vendor_image" },
         { label: "Manage Slider", path: "/all_ven_images" },
       ],
     },

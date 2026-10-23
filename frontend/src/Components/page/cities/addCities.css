@@ -6,64 +6,24 @@
   width: 100%;
   min-height: 100%;
   box-sizing: border-box;
+  
 }
-
 
 /* =========================================================
    PAGE HEADER
 ========================================================= */
 
 .add-cities-header {
-  width: 100%;
-  margin-bottom: 20px;
+  margin: 16px 0px;
 }
-
 
 .add-cities-title {
-  margin: 0 0 8px;
-
-  font-size: 27px;
-  font-weight: 600;
-
+  margin: 0 0 6px;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
   color: #111827;
 }
-
-
-/* =========================================================
-   BREADCRUMB
-========================================================= */
-
-.add-cities-breadcrumb {
-  display: flex;
-  align-items: center;
-
-  gap: 7px;
-
-  color: #6b7280;
-
-  font-size: 14px;
-}
-
-
-.add-cities-breadcrumb svg {
-  font-size: 16px;
-  color: #073b74;
-}
-
-
-.add-cities-breadcrumb a {
-  color: #073b74;
-
-  text-decoration: none;
-
-  transition: color 0.2s ease;
-}
-
-
-.add-cities-breadcrumb a:hover {
-  color: #052d59;
-}
-
 
 /* =========================================================
    MAIN CARD
@@ -71,139 +31,154 @@
 
 .add-cities-card {
   width: 100%;
-  max-width: 900px;
-
-  background: #ffffff;
-
-  border-radius: 6px;
-
-  padding: 30px 32px;
-
+  max-width: 760px;
   box-sizing: border-box;
-
-  box-shadow:
-    0 2px 10px rgba(0, 0, 0, 0.06);
+  background: #ffffff;
+  border: 1px solid #e3e9f1;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 18px rgba(6, 47, 92, 0.08);
 }
-
 
 /* =========================================================
    CARD HEADER
 ========================================================= */
 
 .add-cities-card-header {
-  padding-bottom: 20px;
-
-  margin-bottom: 25px;
-
-  border-bottom: 1px solid #eeeeee;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 20px;
+  background: linear-gradient(135deg, #062f5c 0%, #0b4a8c 100%);
+  color: #ffffff;
 }
 
+.add-cities-card-icon {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.16);
+  font-size: 24px;
+}
 
 .add-cities-card-header h3 {
-  margin: 0 0 6px;
-
-  font-size: 21px;
+  margin: 0 0 3px;
+  font-size: 19px;
   font-weight: 600;
-
-  color: #1f2937;
+  color: rgba(255, 255, 255, 0.82);
 }
-
 
 .add-cities-card-header p {
   margin: 0;
-
-  font-size: 14px;
-
-  line-height: 1.5;
-
-  color: #6b7280;
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.82);
 }
-
 
 /* =========================================================
    FORM
 ========================================================= */
 
 .add-cities-form {
-  width: 100%;
+  padding: 22px 20px 24px;
 }
-
-
-/* =========================================================
-   CITY NAME FIELD
-========================================================= */
 
 .add-cities-field {
-  width: 100%;
-  max-width: 620px;
-
   display: flex;
   flex-direction: column;
-
-  gap: 9px;
+  gap: 8px;
 }
-
 
 .add-cities-field label {
-  display: block;
-
-  font-size: 15px;
-  font-weight: 500;
-
-  color: #374151;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1f2a3c;
 }
-
 
 .add-cities-field label span {
   margin-left: 3px;
-
   color: #dc3545;
 }
 
+/* INPUT WITH ICON */
 
-.add-cities-field input {
+.add-cities-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.add-cities-input-icon {
+  position: absolute;
+  left: 13px;
+  font-size: 19px;
+  color: #7b8da6;
+  pointer-events: none;
+  transition: color 0.2s ease;
+}
+
+.add-cities-input-wrap:focus-within .add-cities-input-icon {
+  color: #062f5c;
+}
+
+.add-cities-input-wrap input {
   width: 100%;
-  height: 46px;
-
-  padding: 0 14px;
-
+  height: 48px;
+  padding: 0 14px 0 42px;
   box-sizing: border-box;
-
-  border: 1px solid #d1d5db;
-
-  border-radius: 5px;
-
-  background: #ffffff;
-
-  color: #374151;
-
-  font-size: 14px;
-
+  border: 1px solid #cdd6e2;
+  border-radius: 8px;
+  background: #f8fafc;
+  color: #1f2a3c;
+  font-size: 15px;
   outline: none;
-
   transition:
     border-color 0.2s ease,
-    box-shadow 0.2s ease;
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
 }
 
-
-.add-cities-field input::placeholder {
-  color: #9ca3af;
+.add-cities-input-wrap input::placeholder {
+  color: #9aa7b8;
 }
 
-
-.add-cities-field input:hover {
-  border-color: #9ca3af;
+.add-cities-input-wrap input:hover {
+  border-color: #8ea2bd;
 }
 
-
-.add-cities-field input:focus {
-  border-color: #073b74;
-
-  box-shadow:
-    0 0 0 3px rgba(7, 59, 116, 0.10);
+.add-cities-input-wrap input:focus {
+  background: #ffffff;
+  border-color: #062f5c;
+  box-shadow: 0 0 0 3px rgba(6, 47, 92, 0.14);
 }
 
+.add-cities-input-wrap input:disabled {
+  background: #eef1f5;
+  cursor: not-allowed;
+}
+
+.add-cities-input-wrap--error input {
+  border-color: #dc3545;
+  background: #fff8f8;
+}
+
+.add-cities-input-wrap--error input:focus {
+  border-color: #dc3545;
+  box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.14);
+}
+
+/* INLINE ERROR */
+
+.add-cities-error {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.4;
+  color: #c62d3b;
+}
 
 /* =========================================================
    ACTIONS
@@ -212,112 +187,114 @@
 .add-cities-actions {
   display: flex;
   align-items: center;
-
-  margin-top: 25px;
+  gap: 10px;
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid #eaeff5;
 }
 
-
-/* =========================================================
-   ADD CITY BUTTON
-========================================================= */
-
-.add-cities-add-button {
+.add-cities-add-button,
+.add-cities-clear-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   min-width: 110px;
-
-  padding: 10px 20px;
-
-  border: none;
-  border-radius: 5px;
-
-  background: #073b74;
-
-  color: #ffffff;
-
+  height: 42px;
+  padding: 0 20px;
+  border-radius: 8px;
   font-size: 14px;
-  font-weight: 500;
-
+  font-weight: 600;
   cursor: pointer;
-
   transition:
     background-color 0.2s ease,
+    border-color 0.2s ease,
     transform 0.15s ease,
     box-shadow 0.2s ease;
 }
 
+.add-cities-add-button {
+  border: none;
+  background: #062f5c;
+  color: #ffffff;
+}
 
-.add-cities-add-button:hover {
-  background: #052d59;
-
-  box-shadow:
-    0 3px 8px rgba(7, 59, 116, 0.20);
-
+.add-cities-add-button:hover:not(:disabled) {
+  background: #041f3d;
+  box-shadow: 0 4px 10px rgba(6, 47, 92, 0.28);
   transform: translateY(-1px);
 }
 
-
-.add-cities-add-button:active {
+.add-cities-add-button:active:not(:disabled) {
   transform: translateY(0);
-
   box-shadow: none;
 }
 
+.add-cities-clear-button {
+  border: 1px solid #cdd6e2;
+  background: #ffffff;
+  color: #062f5c;
+}
+
+.add-cities-clear-button:hover:not(:disabled) {
+  background: #f0f4f9;
+  border-color: #062f5c;
+}
+
+.add-cities-add-button:disabled,
+.add-cities-clear-button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* BUTTON SPINNER */
+
+.add-cities-spinner {
+  width: 15px;
+  height: 15px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: add-cities-spin 0.7s linear infinite;
+}
+
+@keyframes add-cities-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
 
 /* =========================================================
    RESPONSIVE
 ========================================================= */
 
 @media (max-width: 992px) {
-
   .add-cities-card {
     max-width: 100%;
   }
-
 }
-
 
 @media (max-width: 768px) {
-
   .add-cities-title {
-    font-size: 24px;
+    font-size: 23px;
   }
-
-  .add-cities-card {
-    padding: 24px;
-  }
-
-  .add-cities-card-header h3 {
-    font-size: 20px;
-  }
-
-  .add-cities-field {
-    max-width: 100%;
-  }
-
 }
 
-
 @media (max-width: 480px) {
-
   .add-cities-title {
-    font-size: 22px;
-  }
-
-  .add-cities-breadcrumb {
-    font-size: 13px;
-
-    gap: 5px;
-  }
-
-  .add-cities-card {
-    padding: 20px 16px;
+    font-size: 21px;
   }
 
   .add-cities-card-header {
-    margin-bottom: 20px;
+    padding: 14px 12px;
   }
 
-  .add-cities-add-button {
-    width: 100%;
+  .add-cities-form {
+    padding: 18px 12px 20px;
   }
 
+  .add-cities-actions {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
 }

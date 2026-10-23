@@ -9,13 +9,19 @@ router.post("/admin/login", adminController.login);
 // =====================================================
 // SERVICE SIDE
 // =====================================================
-
-//
-
-// =====================================================
-// RESTAURANT SIDE
-// =====================================================
 const {
+  //SERVICE SIDE
+  uploadVendorDocuments,
+  uploadVendorFiles,
+  uploadExpertImage,
+  uploadCategoryImage,
+  uploadSubCategoryImage,
+  uploadCategoryImport,
+  uploadCategoryKeywordsImport,
+  uploadVendorSliderImage,
+  uploadServiceSideCitiesExcel,
+
+  //RESTAURANT SIDE
   uploadRestaurantFiles,
   productUploadMiddleware,
   uploadDriverFiles,
@@ -23,6 +29,257 @@ const {
   uploadRestaurantCategory,
   uploadRestaurantSubCategory,
 } = require("../middleware/adminMiddleware");
+
+// SUB ADMIN MANAGEMENT
+adminRouter.get("/subadmins", adminController.getSubAdmins);
+adminRouter.get("/subadmins/:id", adminController.getSubAdmin);
+adminRouter.put("/subadmins/:id/status", adminController.changeSubAdminStatus);
+adminRouter.post("/save_subadmin", adminController.saveSubAdmin);
+adminRouter.put("/subadmins/:id", adminController.updateSubAdmin);
+adminRouter.delete("/subadmins/:id", adminController.deleteSubAdmin);
+
+// ROLE MANAGEMENT
+adminRouter.get("/roles", adminController.getRoles);
+adminRouter.post("/roles", adminController.addRole);
+adminRouter.put("/roles/:id/status", adminController.updateRoleStatus);
+adminRouter.put("/roles/:id", adminController.updateRole);
+adminRouter.delete("/roles/:id/delete", adminController.deleteRole);
+
+// VENDOR MANAGEMENT
+adminRouter.get("/vendors", adminController.getVendors);
+adminRouter.get("/vendors-categories", adminController.getVendorCategories);
+adminRouter.get("/cities", adminController.getVendorCities);
+adminRouter.post("/vendors", uploadVendorFiles, adminController.createVendor);
+adminRouter.post(
+  "/vendors/documents/:id",
+  uploadVendorDocuments,
+  adminController.uploadVendorDocuments,
+);
+adminRouter.patch("/vendors/:id/kyc-status", adminController.changeKycStatus);
+adminRouter.delete("/vendors/selected", adminController.deleteSelectedVendors);
+adminRouter.delete("/vendors/:id", adminController.deleteVendor);
+adminRouter.get("/vendors/:id", adminController.getVendorById);
+adminRouter.get("/cities", adminController.getAllCities);
+adminRouter.get(
+  "/vendors/:id/shop-details",
+  adminController.getServiceVendorShopDetails,
+);
+
+adminRouter.post(
+  "/vendors/update-details",
+  adminController.updateServiceVendorDetails,
+);
+
+adminRouter.get(
+  "/vendors/:id/addresses",
+  adminController.getServiceVendorAddresses,
+);
+
+adminRouter.post(
+  "/vendors/addresses",
+  adminController.saveServiceVendorAddress,
+);
+
+adminRouter.delete(
+  "/vendors/addresses/:addressId",
+  adminController.deleteServiceVendorAddress,
+);
+
+adminRouter.get(
+  "/vendors/:id/keywords",
+  adminController.getServiceVendorKeywords,
+);
+
+adminRouter.post(
+  "/vendors/keywords",
+  adminController.saveServiceVendorKeywords,
+);
+
+adminRouter.get("/vendor-radius", adminController.getVendorRadius);
+adminRouter.post("/vendor-radius", adminController.saveVendorRadius);
+
+// USER MANAGEMENT
+adminRouter.get("/users", adminController.getUsers);
+adminRouter.post("/users/:id/wallet", adminController.addWalletAmount);
+adminRouter.delete("/users/:id", adminController.deleteCustomer);
+adminRouter.post("/users/bulk-delete", adminController.deleteSelectedUsers);
+adminRouter.get("/users/:id/details", adminController.getUserPageDetails);
+adminRouter.put("/users/:id/details", adminController.updateUserPageDetails);
+adminRouter.put(
+  "/users/:id/addresses/:addressId",
+  adminController.updateUserAddress,
+);
+adminRouter.delete(
+  "/users/:id/addresses/:addressId",
+  adminController.deleteUserAddress,
+);
+
+// =====================================================
+// EXPERT MANAGEMENT
+// =====================================================
+
+adminRouter.get("/experts", adminController.getExperts);
+adminRouter.get("/experts/form-data", adminController.getExpertFormData);
+adminRouter.get("/expert_details/:id", adminController.getExpertDetails);
+adminRouter.post(
+  "/save_expert",
+  uploadExpertImage,
+  adminController.saveNewExpert,
+);
+adminRouter.put(
+  "/update_expert/:id",
+  adminController.updateExpertBasisDetailController,
+);
+
+// ==================== APP REVIEWS ====================
+
+adminRouter.get("/app_reviews", adminController.getAppReviews);
+adminRouter.patch(
+  "/app_reviews/:id/mark_testimonial",
+  adminController.markAppReviewAsTestimonial,
+);
+adminRouter.patch(
+  "/app_reviews/:id/remove_testimonial",
+  adminController.removeAppReviewTestimonial,
+);
+adminRouter.delete("/app_reviews/:id", adminController.deleteAppReview);
+
+// ==================== CATEGORY ROUTES ====================
+
+adminRouter.get("/categories", adminController.getCategories);
+adminRouter.put("/categories/order", adminController.updateCategoryOrder);
+adminRouter.put("/categories/:id/status", adminController.updateCategoryStatus);
+adminRouter.get("/categories/:id", adminController.getCategoryById);
+adminRouter.put(
+  "/categories/:id",
+  uploadCategoryImage,
+  adminController.updateCategory,
+);
+adminRouter.delete(
+  "/categories/selected",
+  adminController.deleteSelectedCategories,
+);
+adminRouter.delete("/categories/:id", adminController.deleteCategory);
+adminRouter.post(
+  "/categories/import",
+  uploadCategoryImport,
+  adminController.importCategories,
+);
+adminRouter.post(
+  "/categories",
+  uploadCategoryImage,
+  adminController.addCategory,
+);
+
+// ==================== CATEGORY KEYWORDS ROUTES ====================
+
+adminRouter.get("/category-keywords", adminController.getCategoryKeywordList);
+adminRouter.post("/category-keywords", adminController.addCategoryKeywords);
+adminRouter.post(
+  "/category-keywords/import",
+  uploadCategoryKeywordsImport,
+  adminController.importCategoryKeywords,
+);
+
+adminRouter.delete(
+  "/category-keywords/:id",
+  adminController.deleteCategoryKeyword,
+);
+
+adminRouter.delete(
+  "/category-keywords/category/:categoryId",
+  adminController.deleteCategoryKeywordsByCategory,
+);
+
+// ==================== SUBCATEGORY ROUTES ====================
+
+adminRouter.get("/sub-categories", adminController.getSubCategories);
+adminRouter.put(
+  "/sub-categories/order",
+  adminController.updateSubCategoryOrder,
+);
+adminRouter.post(
+  "/sub-categories/add-category",
+  uploadSubCategoryImage,
+  adminController.addSubCategory,
+);
+adminRouter.get("/sub-categories/:id", adminController.getSubCategoryEditData);
+adminRouter.put(
+  "/sub-categories/:id",
+  uploadSubCategoryImage,
+  adminController.updateSubCategory,
+);
+adminRouter.delete(
+  "/sub-categories/selected",
+  adminController.deleteSelectedSubCategories,
+);
+
+adminRouter.delete("/sub-categories/:id", adminController.deleteSubCategory);
+adminRouter.put(
+  "/sub-categories/:id/status",
+  adminController.changeSubCategoryStatus,
+);
+
+// ====================  VENDOR IMAGE SLIDER  ===========================
+
+adminRouter.get("/vendor-images", adminController.getAllVendorImages);
+adminRouter.get(
+  "/vendor-images/form-data",
+  adminController.getVendorImageFormData,
+);
+
+adminRouter.get("/vendor-images/:id", adminController.getVendorImageById);
+
+adminRouter.post(
+  "/vendor-images",
+  uploadVendorSliderImage,
+  adminController.addVendorImage,
+);
+
+adminRouter.put(
+  "/vendor-images/:id",
+  uploadVendorSliderImage,
+  adminController.updateVendorImage,
+);
+
+adminRouter.delete(
+  "/vendor-images/selected",
+  adminController.deleteSelectedVendorImages,
+);
+adminRouter.delete("/vendor-images/:id", adminController.deleteVendorImage);
+
+// ==================== SERVICE SIDE CITIES ====================
+
+adminRouter.get("/service_side_cities", adminController.getServiceSideCities);
+adminRouter.get(
+  "/service_side_cities/:id",
+  adminController.getServiceSideCityById,
+);
+adminRouter.post(
+  "/service_side_cities/add",
+  adminController.addServiceSideCity,
+);
+adminRouter.post(
+  "/service_side_cities/:id/edit",
+  adminController.updateServiceSideCity,
+);
+adminRouter.post(
+  "/service_side_cities/delete_selected",
+  adminController.deleteSelectedServiceSideCities,
+);
+adminRouter.delete(
+  "/service_side_cities/:id",
+  adminController.deleteServiceSideCity,
+);
+adminRouter.post(
+  "/service_side_cities/import",
+  uploadServiceSideCitiesExcel,
+  adminController.importServiceSideCities,
+);
+
+// =====================================================
+// RESTAURANT SIDE
+// =====================================================
 
 //DASHBOARD ROUTES
 restaurantRouter.get("/dashboard", adminController.getDashboardData);
